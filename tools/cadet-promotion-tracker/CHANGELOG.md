@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1 - 2026-10-31
+- Requirements column set apart with equal space on both sides; tiles stay
+  on one line. Extra space between Progress and Eligible.
+
 ## 0.6.0 - 2026-10-31
 - Tiles limited to L A D F C P ORL WRT. S (Welcome Course, encampment,
   leadership academy) removed; those are not tracked.

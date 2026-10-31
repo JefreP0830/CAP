@@ -68,11 +68,17 @@ td.grade { white-space: nowrap; }
 td.grade .to { color: var(--cap-ultramarine); font-weight: 700; }
 td.pct { font-weight: 700; color: var(--cap-black); font-variant-numeric: tabular-nums; text-align: center; }
 th.c { text-align: center; }
+/* Requirements sits alone: equal air on both sides; narrow columns shrink to fit,
+   the cadet name column takes any slack. */
+th.req, td.req { padding-left: 40px; padding-right: 40px; width: 1%; }
+td.achv, td.pct, th.c { width: 1%; }
+td.pct, th.c { padding-right: 28px; }
+td.name { width: auto; }
 td.achv { font-size: 9pt; white-space: nowrap; letter-spacing: .3px; }
 td.pct.done { color: var(--cap-ultramarine); }
 td.card button { padding: 3px 8px; font-size: 9pt; }
 
-.tiles { display: flex; flex-wrap: wrap; gap: 3px; }
+.tiles { display: flex; flex-wrap: nowrap; gap: 3px; }
 .tile { display: inline-block; min-width: 30px; text-align: center; font-size: 9pt; font-weight: 700; padding: 4px 4px;
   border-radius: 3px; border: 1px solid var(--cap-silver); background: var(--tile-off-bg); color: var(--tile-off-fg); }
 .tile.on { background: var(--cap-ultramarine); border-color: var(--cap-ultramarine); color: #FFFFFF; }
@@ -403,13 +409,13 @@ function tilesHtml(c) {
 }
 function rosterTable(list) {
   if (!list.length) return '<p class="none">No cadets in this view.</p>';
-  return `<table><thead><tr><th>CAPID</th><th>Cadet</th><th>Next grade</th><th>Achv</th><th>Requirements</th><th class="c">Progress</th><th>Eligible</th></tr></thead><tbody>${
+  return `<table><thead><tr><th>CAPID</th><th>Cadet</th><th>Next grade</th><th>Achv</th><th class="req">Requirements</th><th class="c">Progress</th><th>Eligible</th></tr></thead><tbody>${
     list.map(c => `<tr>
       <td class="capid">${esc(c.capid)}</td>
       <td class="name">${esc(c.name)}</td>
       <td class="grade"><span class="to">${esc(c.next || c.achv)}</span></td>
       <td class="achv">${esc(c.code || '')}</td>
-      <td>${tilesHtml(c)}</td>
+      <td class="req">${tilesHtml(c)}</td>
       <td class="pct ${c.reqsDone ? 'done' : ''}">${c.pct}%</td>
       <td>${eligHtml(c)}</td>
     </tr>`).join('')}</tbody></table>`;
