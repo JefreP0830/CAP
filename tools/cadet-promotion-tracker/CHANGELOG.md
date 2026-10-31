@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.6 - 2026-10-31
+- Printed roster opens with the six KPI tiles under the title (first page only).
+
 ## 0.6.5 - 2026-10-31
 - Print margin 0.1 in, plus a 0.1 in side inset that holds even when the
   print dialog is set to Margins: None.

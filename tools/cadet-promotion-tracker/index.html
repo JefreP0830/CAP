@@ -117,6 +117,11 @@ td.card button { padding: 3px 8px; font-size: 9pt; }
 .report p.note { font-size: 9pt; margin: 4px 0 8px; }
 .report .none { padding: 12px 0; font-style: italic; }
 .report .legend { padding: 8px 0 0; font-size: 8.5pt; }
+.kpis-print { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin: 6px 0 10px; }
+.kpi-p { border: 1px solid var(--cap-silver); border-radius: 4px; padding: 6px 10px; }
+.kpi-p .num { display: block; font-family: var(--font-title); font-size: 22pt; font-weight: 700; line-height: 1; color: var(--cap-black); }
+.kpi-p .lbl { display: block; font-size: 8pt; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; margin-top: 2px; }
+.kpi-p.alert .num { color: var(--cap-scarlet); }
 
 /* report card */
 .cardhead { display: grid; grid-template-columns: repeat(4, auto); gap: 6px 28px; margin: 10px 0 16px; justify-content: start; }
@@ -435,7 +440,7 @@ function simpleTable(cols, list) {
 }
 const REPORTS = {
   roster: list => head('Promotion Roster', 'Find your name. Blue tiles are complete; grey tiles are still needed. The box beside the eligible date counts down the days to eligibility, or turns red and counts days past it.') +
-    rosterTable(list || cadets) + `<p class="legend">${legendText(list || cadets)}</p>`,
+    kpiStrip() + rosterTable(list || cadets) + `<p class="legend">${legendText(list || cadets)}</p>`,
   pin: () => {
     if (!previous) return head('To Be Pinned') + '<p class="none">Load last week\'s export alongside this one to build this list.</p>';
     const gap = daysBetween(previous.asOf, current.asOf);
@@ -450,6 +455,12 @@ const REPORTS = {
   ready: () => head('Ready to Promote', 'Every requirement is complete in eServices and the eligible date has been reached. Commander approval in eServices.') +
     simpleTable([['CAPID', c => esc(c.capid)], ['Cadet', c => `<strong>${esc(c.name)}</strong>`], ['Achievement', c => esc(c.achv)], ['New grade', c => esc(c.next)], ['Eligible', c => fmt(c.eligible)], ['Approved', () => '']], cadets.filter(c => c.ready))
 };
+function kpiStrip() {
+  return `<div class="kpis-print">${FILTERS.map(([k, label, fn, alertOn]) => {
+    const n = cadets.filter(fn).length;
+    return `<div class="kpi-p ${alertOn && n ? 'alert' : ''}"><span class="num">${n}</span><span class="lbl">${label}</span></div>`;
+  }).join('')}</div>`;
+}
 function reportCard(c) {
   const eligLine = !c.eligible ? '—' : c.days > 0 ? `${fmt(c.eligible)} (${c.days} days ago)` : c.days === 0 ? `${fmt(c.eligible)} (today)` : `${fmt(c.eligible)} (in ${-c.days} days)`;
   const needed = c.tiles.filter(t => !t.on);
