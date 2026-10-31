@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.4 - 2026-10-31
+- Print: letter landscape (11 x 8.5 in), 0.25 in margins. Only the column
+  header row repeats on each new page; rows never split across pages.
+
 ## 0.6.3 - 2026-10-31
 - "Next grade" header renamed "Next"; grade set at the Achv size (bold, blue).
 
