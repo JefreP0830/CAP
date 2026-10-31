@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.5.0 - 2026-10-31
+- Every cadet shows the same tile block, left to right:
+  L A D F C P ORL WRT S. Tiles not required for the cadet's achievement are
+  dark grey and excluded from progress.
+- SVC, ESY and SPH removed: ORL covers SDA presentation or speech, WRT covers
+  SDA writing or essay (both stand in for staff service).
+- S = special: Welcome Course (Ach 1), encampment (Mitchell), leadership
+  academy (Eaker). W tile removed; C covers the Wingman Course at Ach 1.
+- Report card moved to one control at the top: pick a cadet, or all cadets
+  in the current view (one page each).
+- "Done" renamed "Progress".
+
 ## 0.4.0 - 2026-10-31
 Layout and print refinements.
 - KPI tiles (cadets, ready, to be pinned, proctored, drill, stalled) replace

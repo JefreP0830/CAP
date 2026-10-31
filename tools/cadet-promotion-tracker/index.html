@@ -21,6 +21,7 @@
   --tile-off-bg: #F2F3F3;
   --tile-off-fg: #6B6E6E;
   --rule: #D9DBDB;
+  --tile-na: #4D4D4D;
   --font-title: 'Rajdhani', Arial, sans-serif;
   --font-body: Arial, Helvetica, sans-serif;
 }
@@ -35,7 +36,8 @@ header.bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; jus
 button { font-family: var(--font-body); font-size: 10.5pt; font-weight: 700; cursor: pointer; border-radius: 4px; padding: 8px 14px; }
 .btn-primary { background: var(--cap-ultramarine); color: #FFFFFF; border: 1px solid var(--cap-ultramarine); }
 .btn-secondary { background: #FFFFFF; color: var(--cap-ultramarine); border: 1px solid var(--cap-ultramarine); }
-button:disabled { opacity: .4; cursor: not-allowed; }
+button:disabled, select:disabled { opacity: .4; cursor: not-allowed; }
+select { font-family: var(--font-body); font-size: 10.5pt; padding: 7px 8px; border: 1px solid var(--cap-ultramarine); border-radius: 4px; color: var(--cap-black); max-width: 260px; }
 button:focus-visible { outline: 3px solid var(--cap-yellow); outline-offset: 2px; }
 
 /* KPI tiles double as filters */
@@ -69,9 +71,10 @@ td.pct.done { color: var(--cap-ultramarine); }
 td.card button { padding: 3px 8px; font-size: 9pt; }
 
 .tiles { display: flex; flex-wrap: wrap; gap: 3px; }
-.tile { display: inline-block; min-width: 26px; text-align: center; font-size: 9pt; font-weight: 700; padding: 4px 4px;
+.tile { display: inline-block; min-width: 30px; text-align: center; font-size: 9pt; font-weight: 700; padding: 4px 4px;
   border-radius: 3px; border: 1px solid var(--cap-silver); background: var(--tile-off-bg); color: var(--tile-off-fg); }
 .tile.on { background: var(--cap-ultramarine); border-color: var(--cap-ultramarine); color: #FFFFFF; }
+.tile.na { background: var(--tile-na); border-color: var(--tile-na); color: var(--tile-na); }
 
 .elig { white-space: nowrap; font-variant-numeric: tabular-nums; }
 .days { display: inline-block; min-width: 46px; text-align: center; font-size: 9pt; font-weight: 700; padding: 3px 6px; border-radius: 3px; margin-left: 6px; }
@@ -127,6 +130,8 @@ td.card button { padding: 3px 8px; font-size: 9pt; }
     <button class="btn-primary" onclick="document.getElementById('file').click()">Load eServices exports</button>
     <button class="btn-secondary" id="btnPrintView" onclick="printCurrent()" disabled>Print this view</button>
     <button class="btn-secondary" id="btnPacket" onclick="printPacket()" disabled>Print weekly packet</button>
+    <select id="cardPick" aria-label="Report card for" disabled></select>
+    <button class="btn-secondary" id="btnCard" onclick="printCardPick()" disabled>Print report card</button>
     <input type="file" id="file" accept=".csv,.xlsx,.xls" multiple hidden>
   </div>
 </header>
@@ -168,27 +173,26 @@ const TILES = {
          done: r => has(r.AEDateP) || has(r.AEInteractiveDate) || num(r.AEScore) >= 80 || (has(r.AEModuleOrTest) && String(r.AEModuleOrTest).trim() !== '0') },
   D:   { name: 'Drill test', cols: ['DrillDate'], done: r => has(r.DrillDate) || num(r.DrillScore) > 0 },
   F:   { name: 'Fitness test (CPFT)', cols: ['PhyFitTest'], done: r => has(r.PhyFitTest) },
-  C:   { name: 'Character', cols: ['CharacterDevelopment'], done: r => has(r.CharacterDevelopment) },
-  W:   { name: 'Wingman & Welcome courses', cols: ['WelcomeCourseDate','CharacterDevelopment'],
-         done: r => has(r.WelcomeCourseDate) && has(r.CharacterDevelopment) },
+  C:   { name: 'Character (Wingman Course at Ach 1)', cols: ['CharacterDevelopment'], done: r => has(r.CharacterDevelopment) },
   P:   { name: 'Participation & inspection (participation, oath, expectations, uniform)', cols: ['LeadershipExpectationsDate','ActiveParticipationDate'],
          done: (r, a) => truthy(r.ActivePart) && truthy(r.CadetOath) && has(r.LeadershipExpectationsDate) && (a === 'Achievement 1' || has(r.UniformDate)) },
-  SVC: { name: 'SDA staff service', cols: ['StaffServiceDate'], done: r => has(r.StaffServiceDate) },
-  WRT: { name: 'SDA written', cols: ['TechnicalWritingAssignmentDate'], done: r => has(r.TechnicalWritingAssignmentDate) },
-  ORL: { name: 'SDA oral', cols: ['OralPresentationDate'], done: r => has(r.OralPresentationDate) },
-  ESY: { name: 'Essay', cols: ['EssayDate'], done: r => has(r.EssayDate) },
-  SPH: { name: 'Speech', cols: ['SpeechDate'], done: r => has(r.SpeechDate) },
-  ENC: { name: 'Encampment', cols: ['SpecialActivityDate'], done: r => has(r.SpecialActivityDate) },
-  ACD: { name: 'Leadership academy', cols: ['SpecialActivityDate'], done: r => has(r.SpecialActivityDate) }
+  // SDA oral presentation covers staff service; at Ach 8 / Eaker the speech is the oral item.
+  ORL: { name: 'Oral: SDA presentation or speech', cols: ['OralPresentationDate','SpeechDate'], done: r => has(r.OralPresentationDate) || has(r.SpeechDate) },
+  // SDA technical writing covers staff service; at Ach 8 / Eaker / Spaatz the essay is the written item.
+  WRT: { name: 'Written: SDA writing or essay', cols: ['TechnicalWritingAssignmentDate','EssayDate'], done: r => has(r.TechnicalWritingAssignmentDate) || has(r.EssayDate) },
+  S:   { name: 'Special: Welcome Course (Ach 1), encampment (Mitchell), leadership academy (Eaker)', cols: ['WelcomeCourseDate','SpecialActivityDate'],
+         done: (r, a) => a === 'Achievement 1' ? has(r.WelcomeCourseDate) : has(r.SpecialActivityDate) }
 };
+// Every cadet shows this same block, left to right. Tiles an achievement does not require are blacked out.
+const TILE_ORDER = ['L','A','D','F','C','P','ORL','WRT','S'];
 
 // One row per achievement, in program order. grade = grade earned on completion.
 // tiles = what this achievement requires. proctored = closed-book milestone exam tiles.
 // Time in grade is not a tile: it shows as the eligible date (CAPR 60-1 5.6.2).
 const PHASE1_2 = ['L','A','D','F','C','P'];
-const PHASE3_4 = ['L','A','F','C','SVC','WRT','ORL','P'];
+const PHASE3_4 = ['L','A','F','C','P','ORL','WRT'];
 const RULES = [
-  { a: 'Achievement 1',   code: 'ACH 1',   grade: 'C/Amn',    tiles: ['L','D','F','W','P'] },
+  { a: 'Achievement 1',   code: 'ACH 1',   grade: 'C/Amn',    tiles: ['L','D','F','C','P','S'] },
   { a: 'Achievement 2',   code: 'ACH 2',   grade: 'C/A1C',    tiles: PHASE1_2 },
   { a: 'Achievement 3',   code: 'ACH 3',   grade: 'C/SrA',    tiles: PHASE1_2 },
   { a: 'Wright Brothers', code: 'WRIGHT',  grade: 'C/SSgt',   tiles: ['L','D','F','P'], proctored: ['L'] },
@@ -196,19 +200,19 @@ const RULES = [
   { a: 'Achievement 5',   code: 'ACH 5',   grade: 'C/MSgt',   tiles: PHASE1_2 },
   { a: 'Achievement 6',   code: 'ACH 6',   grade: 'C/SMSgt',  tiles: PHASE1_2 },
   { a: 'Achievement 7',   code: 'ACH 7',   grade: 'C/CMSgt',  tiles: PHASE1_2 },
-  { a: 'Achievement 8',   code: 'ACH 8',   grade: 'C/CMSgt',  tiles: ['L','A','D','F','C','ESY','SPH','P'] },
-  { a: 'Mitchell Award',  code: 'MITCHELL',grade: 'C/2d Lt',  tiles: ['L','A','F','ENC','P'], proctored: ['L','A'] },
+  { a: 'Achievement 8',   code: 'ACH 8',   grade: 'C/CMSgt',  tiles: ['L','A','D','F','C','P','ORL','WRT'] },
+  { a: 'Mitchell Award',  code: 'MITCHELL',grade: 'C/2d Lt',  tiles: ['L','A','F','P','S'], proctored: ['L','A'] },
   { a: 'Achievement 9',   code: 'ACH 9',   grade: 'C/2d Lt',  tiles: PHASE3_4 },
   { a: 'Achievement 10',  code: 'ACH 10',  grade: 'C/1st Lt', tiles: PHASE3_4 },
   { a: 'Achievement 11',  code: 'ACH 11',  grade: 'C/1st Lt', tiles: PHASE3_4 },
   { a: 'Earhart Award',   code: 'EARHART', grade: 'C/Capt',   tiles: ['L','F','P'], proctored: ['L'] },
-  { a: 'Achievement 12',  code: 'ACH 12',  grade: 'C/Capt',   tiles: ['L','F','C','SVC','WRT','ORL','P'] },
-  { a: 'Achievement 13',  code: 'ACH 13',  grade: 'C/Capt',   tiles: ['L','F','C','SVC','WRT','ORL','P'] },
+  { a: 'Achievement 12',  code: 'ACH 12',  grade: 'C/Capt',   tiles: ['L','F','C','P','ORL','WRT'] },
+  { a: 'Achievement 13',  code: 'ACH 13',  grade: 'C/Capt',   tiles: ['L','F','C','P','ORL','WRT'] },
   { a: 'Achievement 14',  code: 'ACH 14',  grade: 'C/Maj',    tiles: PHASE3_4 },
   { a: 'Achievement 15',  code: 'ACH 15',  grade: 'C/Maj',    tiles: PHASE3_4 },
   { a: 'Achievement 16',  code: 'ACH 16',  grade: 'C/Maj',    tiles: PHASE3_4 },
-  { a: 'Eaker Award',     code: 'EAKER',   grade: 'C/Lt Col', tiles: ['ESY','SPH','F','ACD','P'] },
-  { a: 'Spaatz Award',    code: 'SPAATZ',  grade: 'C/Col',    tiles: ['L','A','F','ESY'], proctored: ['L','A','F','ESY'] }
+  { a: 'Eaker Award',     code: 'EAKER',   grade: 'C/Lt Col', tiles: ['F','P','ORL','WRT','S'] },
+  { a: 'Spaatz Award',    code: 'SPAATZ',  grade: 'C/Col',    tiles: ['L','A','F','WRT'], proctored: ['L','A','F','WRT'] }
 ];
 const RULE_BY_NAME = Object.fromEntries(RULES.map((r, i) => [r.a, { ...r, idx: i }]));
 const STALLED_DAYS = 56;     // not ready and 8+ weeks past eligible date
@@ -349,6 +353,11 @@ function build() {
   document.getElementById('app').hidden = false;
   document.getElementById('btnPrintView').disabled = false;
   document.getElementById('btnPacket').disabled = false;
+  const pick = document.getElementById('cardPick');
+  pick.innerHTML = '<option value="">Report card for...</option><option value="*">All cadets in this view</option>' +
+    cadets.map(c => `<option value="${esc(c.capid)}">${esc(c.name)} (${esc(c.capid)})</option>`).join('');
+  pick.disabled = false;
+  pick.onchange = () => { document.getElementById('btnCard').disabled = !pick.value; };
   const unknown = cadets.filter(c => c.unknown);
   if (unknown.length) alert(`${unknown.length} row(s) have an achievement name this tracker does not recognize. Check the export.`);
   render();
@@ -364,8 +373,7 @@ const FILTERS = [
   ['stalled', 'Stalled 8+ weeks',  c => c.stalled, true]
 ];
 function legendText(list) {
-  const used = new Set(list.flatMap(c => c.tiles.map(t => t.code)));
-  return Object.keys(TILES).filter(k => used.has(k)).map(k => `<b>${k}</b> ${esc(TILES[k].name)}`).join(' &nbsp;·&nbsp; ');
+  return TILE_ORDER.map(k => `<b>${k}</b> ${esc(TILES[k].name)}`).join(' &nbsp;·&nbsp; ') + ' &nbsp;·&nbsp; Dark tile: not required for this achievement';
 }
 function render() {
   document.getElementById('kpis').innerHTML = FILTERS.map(([k, label, fn, alert]) => {
@@ -373,7 +381,7 @@ function render() {
     return `<button class="kpi ${k === filter ? 'active' : ''} ${alert && n ? 'alert' : ''}" onclick="setFilter('${k}')"><span class="num">${n}</span><span class="lbl">${label}</span></button>`;
   }).join('');
   document.getElementById('legend').innerHTML = legendText(cadets);
-  document.getElementById('screen').innerHTML = rosterTable(visible(), true);
+  document.getElementById('screen').innerHTML = rosterTable(visible());
 }
 function setFilter(k) { filter = k; render(); }
 function visible() { return cadets.filter(FILTERS.find(f => f[0] === filter)[2]); }
@@ -387,11 +395,15 @@ function eligHtml(c) {
   return `<span class="elig">${fmt(c.eligible)}${box}</span>`;
 }
 function tilesHtml(c) {
-  return `<div class="tiles">${c.tiles.map(t => `<span class="tile ${t.on ? 'on' : ''}" title="${esc(t.name)}: ${t.on ? 'complete' : 'needed'}">${t.code}</span>`).join('')}</div>`;
+  return `<div class="tiles">${TILE_ORDER.map(code => {
+    const t = c.tiles.find(x => x.code === code);
+    if (!t) return `<span class="tile na" title="${esc(TILES[code].name)}: not required">${code}</span>`;
+    return `<span class="tile ${t.on ? 'on' : ''}" title="${esc(t.name)}: ${t.on ? 'complete' : 'needed'}">${code}</span>`;
+  }).join('')}</div>`;
 }
-function rosterTable(list, withCard) {
+function rosterTable(list) {
   if (!list.length) return '<p class="none">No cadets in this view.</p>';
-  return `<table><thead><tr><th>CAPID</th><th>Cadet</th><th>Grade</th><th>Next</th><th>Requirements</th><th style="text-align:right">Done</th><th>Eligible</th>${withCard ? '<th class="card"></th>' : ''}</tr></thead><tbody>${
+  return `<table><thead><tr><th>CAPID</th><th>Cadet</th><th>Grade</th><th>Next</th><th>Requirements</th><th style="text-align:right">Progress</th><th>Eligible</th></tr></thead><tbody>${
     list.map(c => `<tr>
       <td class="capid">${esc(c.capid)}</td>
       <td class="name">${esc(c.name)}</td>
@@ -400,7 +412,6 @@ function rosterTable(list, withCard) {
       <td>${tilesHtml(c)}</td>
       <td class="pct ${c.reqsDone ? 'done' : ''}">${c.pct}%</td>
       <td>${eligHtml(c)}</td>
-      ${withCard ? `<td class="card"><button class="btn-secondary" onclick="printCard('${esc(c.capid)}')">Report card</button></td>` : ''}
     </tr>`).join('')}</tbody></table>`;
 }
 
@@ -414,7 +425,7 @@ function simpleTable(cols, list) {
 }
 const REPORTS = {
   roster: list => head('Promotion Roster', 'Find your name. Blue tiles are complete; grey tiles are still needed. The box beside the eligible date counts down the days to eligibility, or turns red and counts days past it.') +
-    rosterTable(list || cadets, false) + `<p class="legend">${legendText(list || cadets)}</p>`,
+    rosterTable(list || cadets) + `<p class="legend">${legendText(list || cadets)}</p>`,
   pin: () => {
     if (!previous) return head('To Be Pinned') + '<p class="none">Load last week\'s export alongside this one to build this list.</p>';
     const gap = daysBetween(previous.asOf, current.asOf);
@@ -440,7 +451,7 @@ function reportCard(c) {
       <span class="v big">${c.pct}%</span><span class="v">${eligLine}</span><span></span><span></span>
     </div>
     <table><thead><tr><th>Requirement</th><th>Status</th><th>Date recorded</th></tr></thead><tbody>
-      ${c.tiles.map(t => `<tr><td>${esc(t.name)}</td><td class="${t.on ? 'status-done' : 'status-need'}">${t.on ? 'Complete' : 'Still needed'}</td><td>${t.date ? fmt(t.date) : ''}</td></tr>`).join('')}
+      ${TILE_ORDER.map(k => c.tiles.find(t => t.code === k)).filter(Boolean).map(t => `<tr><td>${esc(t.name)}</td><td class="${t.on ? 'status-done' : 'status-need'}">${t.on ? 'Complete' : 'Still needed'}</td><td>${t.date ? fmt(t.date) : ''}</td></tr>`).join('')}
     </tbody></table>
     <div class="cardfoot">
       <p>${needed.length ? `<strong>Next steps:</strong> ${needed.map(t => esc(t.name)).join('; ')}.` : (c.ready ? '<strong>All requirements are complete.</strong> Promotion is awaiting commander approval.' : '<strong>All requirements are complete.</strong> Promotion is possible once the eligible date is reached.')}</p>
@@ -456,10 +467,15 @@ const section = (html, cls = '') => `<section class="report ${cls}">${html}</sec
 function printPacket() { printReports(['roster','pin','proctor','drill','ready'].map(k => section(REPORTS[k]()))); }
 function printCurrent() {
   const map = { all: () => REPORTS.roster(), ready: REPORTS.ready, pin: REPORTS.pin, proctor: REPORTS.proctor, drill: REPORTS.drill,
-    stalled: () => head('Stalled', `Requirements not complete and ${STALLED_DAYS}+ days past eligible date.`) + rosterTable(cadets.filter(c => c.stalled), false) };
+    stalled: () => head('Stalled', `Requirements not complete and ${STALLED_DAYS}+ days past eligible date.`) + rosterTable(cadets.filter(c => c.stalled)) };
   printReports([section(map[filter]())]);
 }
-function printCard(capid) { printReports([section(reportCard(cadets.find(c => c.capid === capid)), 'card')]); }
+function printCardPick() {
+  const v = document.getElementById('cardPick').value;
+  if (!v) return;
+  const list = v === '*' ? visible() : cadets.filter(c => c.capid === v);
+  printReports(list.map(c => section(reportCard(c), 'card')));
+}
 </script>
 </body>
 </html>

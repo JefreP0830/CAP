@@ -21,22 +21,24 @@ Each cadet shows only the tiles their next achievement requires. A tile fills
 in when eServices has a date or value for it. Rules live in the `RULES` and
 `TILES` tables at the top of the script, with their sources.
 
+Every cadet shows the same tiles in the same order. Dark tiles are not
+required for that cadet's achievement.
+
 | Tile | Meaning | Export column(s) |
 |---|---|---|
 | L | Leadership test / milestone exam | LeadLabDateP, LeadershipInteractiveDate, LeadLabScore >= 80 |
 | A | Aerospace test / milestone exam | AEDateP, AEInteractiveDate, AEScore >= 80, AEModuleOrTest |
 | D | Drill test | DrillDate, DrillScore |
 | F | Fitness test (CPFT) | PhyFitTest |
-| C | Character | CharacterDevelopment |
-| W | Wingman & Welcome courses (Ach 1) | CharacterDevelopment, WelcomeCourseDate |
+| C | Character (Wingman Course at Ach 1) | CharacterDevelopment |
 | P | Participation & inspection | ActivePart, CadetOath, LeadershipExpectationsDate, UniformDate |
-| SVC / WRT / ORL | SDA service, written, oral | StaffServiceDate, TechnicalWritingAssignmentDate, OralPresentationDate |
-| ESY / SPH | Essay / speech (Ach 8, Eaker) | EssayDate, SpeechDate |
-| ENC / ACD | Encampment (Mitchell) / leadership academy (Eaker) | SpecialActivityDate |
+| ORL | SDA oral presentation, or speech (Ach 8, Eaker) | OralPresentationDate, SpeechDate |
+| WRT | SDA technical writing, or essay (Ach 8, Eaker, Spaatz) | TechnicalWritingAssignmentDate, EssayDate |
+| S | Welcome Course (Ach 1), encampment (Mitchell), leadership academy (Eaker) | WelcomeCourseDate, SpecialActivityDate |
 
 The Eligible column shows NextApprovalDate: a plain box counts down the days,
 a red box counts days past it, and Ready means every tile is complete and the
-date has been reached. Each cadet has a **Report card** button that prints a
-one-page progress report for parents.
+date has been reached. Use **Print report card** at the top to print a one-page progress report
+for one cadet, or for every cadet in the current view.
 
 Status is evaluated as of the export date, not the day you print.
