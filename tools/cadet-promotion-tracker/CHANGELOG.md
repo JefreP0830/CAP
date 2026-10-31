@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.2 - 2026-10-31
+- Progress and Eligible tightened; the freed width goes to the Cadet column.
+
 ## 0.6.1 - 2026-10-31
 - Requirements column set apart with equal space on both sides; tiles stay
   on one line. Extra space between Progress and Eligible.

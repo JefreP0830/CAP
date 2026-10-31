@@ -71,8 +71,7 @@ th.c { text-align: center; }
 /* Requirements sits alone: equal air on both sides; narrow columns shrink to fit,
    the cadet name column takes any slack. */
 th.req, td.req { padding-left: 40px; padding-right: 40px; width: 1%; }
-td.achv, td.pct, th.c { width: 1%; }
-td.pct, th.c { padding-right: 28px; }
+td.achv, td.pct, th.c, td.grade, td.elig-cell { width: 1%; }
 td.name { width: auto; }
 td.achv { font-size: 9pt; white-space: nowrap; letter-spacing: .3px; }
 td.pct.done { color: var(--cap-ultramarine); }
@@ -417,7 +416,7 @@ function rosterTable(list) {
       <td class="achv">${esc(c.code || '')}</td>
       <td class="req">${tilesHtml(c)}</td>
       <td class="pct ${c.reqsDone ? 'done' : ''}">${c.pct}%</td>
-      <td>${eligHtml(c)}</td>
+      <td class="elig-cell">${eligHtml(c)}</td>
     </tr>`).join('')}</tbody></table>`;
 }
 
