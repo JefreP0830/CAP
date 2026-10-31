@@ -183,7 +183,7 @@ export default function App() {
         <main className="wrap">
           <div className="tabs" role="tablist">
             <button role="tab" aria-selected={activeTab === 'Promotion'} onClick={() => setActiveTab('Promotion')}>Drill Test</button>
-            <button role="tab" aria-selected={activeTab === 'Advanced'} onClick={() => setActiveTab('Advanced')}>Advanced Training</button>
+            <button role="tab" aria-selected={activeTab === 'Advanced'} onClick={() => setActiveTab('Advanced')}>Practice Guides</button>
           </div>
           {activeTab === 'Promotion' ? (
           <ol className="tests">
@@ -199,7 +199,7 @@ export default function App() {
           </ol>
           ) : (
           <>
-            <p className="hint">Practice guides for ceremonies and formations. Not promotion tests: no CAPIDs, no scores.</p>
+            <p className="hint">Ceremonies and formations to rehearse. Not promotion tests: no CAPIDs, no scores.</p>
             <ol className="tests">
               {GUIDES.map((g) => (
                 <li key={g.id}>
