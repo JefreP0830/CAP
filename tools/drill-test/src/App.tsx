@@ -402,12 +402,12 @@ export default function App() {
           ))}
 
           <h3 className="sec">Sequence and rehearsal checklist</h3>
-          <p className="hint">Tap each step as it is done correctly in rehearsal. Nothing is saved or scored.</p>
+          <p className="hint">Tap a step's box when it is done correctly in rehearsal. Nothing is saved or scored.</p>
           <ol className="steps">
             {guide.steps.map((st, i) => (
               <React.Fragment key={i}>
               {st.panel && (
-                <li className="panelfig">
+                <li className={cn('panelfig', st.panel.small && 'small')}>
                   <figure>
                     <button className="keyimg" onClick={() => setZoomKey(st.panel!)} aria-label={`Enlarge: ${st.panel.caption}`}>
                       <img src={st.panel.src} alt={st.panel.caption} />
@@ -425,7 +425,7 @@ export default function App() {
                     <span className="txt">{st.text}</span>
                     <span className="cite">{st.ref}</span>
                   </span>
-                  <span className="tick">{doneSteps[i] ? 'Done' : ''}</span>
+                  <span className="check"><span className="box" aria-hidden="true" /><span className="lbl">{doneSteps[i] ? 'Done' : 'Tap when done'}</span></span>
                 </button>
               </li>
               </React.Fragment>

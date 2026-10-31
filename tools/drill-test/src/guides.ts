@@ -15,7 +15,7 @@ import sqFig52 from './assets/guides/sq-figure-5-2.png';
 import symbols from './assets/guides/symbols-figure-1-1.png';
 
 // panel: a figure panel shown just above this step, so positions appear where they are needed.
-export interface GuideStep { text: string; who?: string; say?: string; ref: string; panel?: { src: string; caption: string } }
+export interface GuideStep { text: string; who?: string; say?: string; ref: string; panel?: { src: string; caption: string; small?: boolean } }
 export interface Guide {
   id: string;
   title: string;
@@ -99,14 +99,14 @@ export const GUIDES: Guide[] = [
       },
     ],
     steps: [
-      { panel: { src: cocP1, caption: 'Figure 6.5, panel 1 of 4: form up, Officers CENTER (audience at the top)' }, text: 'Form up abreast, left to right as seen from the audience: presiding officer (senior commander), outgoing commander, incoming commander. The flag/guidon bearer stands behind and between the presiding officer and the outgoing commander.', who: 'All four', ref: 'CAPP 60-33 ¶6.16.2.1' },
+      { panel: { src: cocP1, caption: 'Figure 6.5, panel 1 of 4: form up, Officers CENTER (audience at the top)', small: true }, text: 'Form up abreast, left to right as seen from the audience: presiding officer (senior commander), outgoing commander, incoming commander. The flag/guidon bearer stands behind and between the presiding officer and the outgoing commander.', who: 'All four', ref: 'CAPP 60-33 ¶6.16.2.1' },
       { text: 'Quiet command. The senior commander executes a left face; the incoming and outgoing commanders execute a right face.', who: 'Flag/guidon bearer', say: 'Officers, CENTER', ref: 'CAPP 60-33 ¶6.16.2.2' },
-      { panel: { src: cocP2, caption: 'Figure 6.5, panel 2 of 4: relinquish command, flag to senior, change places (audience at the top)' }, text: 'Outgoing commander salutes the senior commander. The senior commander returns the salute.', who: 'Outgoing commander', say: 'Sir/Ma\'am, I relinquish command.', ref: 'CAPP 60-33 ¶6.16.2.3' },
+      { panel: { src: cocP2, caption: 'Figure 6.5, panel 2 of 4: relinquish command, flag to senior, change places (audience at the top)', small: true }, text: 'Outgoing commander salutes the senior commander. The senior commander returns the salute.', who: 'Outgoing commander', say: 'Sir/Ma\'am, I relinquish command.', ref: 'CAPP 60-33 ¶6.16.2.3' },
       { text: 'Outgoing commander takes the flag/guidon from the bearer, top angled toward the bearer\'s head, left hand below the right, and presents it to the senior commander, whose hands go above the outgoing commander\'s hands.', who: 'Outgoing commander', ref: 'CAPP 60-33 ¶6.16.2.3' },
       { text: 'Outgoing commander takes one step to the right, two steps back and one step to the left. At the same time the incoming commander takes two steps forward into the outgoing commander\'s place.', who: 'Outgoing and incoming commanders', ref: 'CAPP 60-33 ¶6.16.2.3' },
-      { panel: { src: cocP3, caption: 'Figure 6.5, panel 3 of 4: flag to incoming, assume command (audience at the top)' }, text: 'Senior commander presents the flag/guidon to the incoming commander, who receives it firmly (left hand below the right) and passes it to the flag/guidon bearer.', who: 'Senior and incoming commanders', ref: 'CAPP 60-33 ¶6.16.2.3' },
+      { panel: { src: cocP3, caption: 'Figure 6.5, panel 3 of 4: flag to incoming, assume command (audience at the top)', small: true }, text: 'Senior commander presents the flag/guidon to the incoming commander, who receives it firmly (left hand below the right) and passes it to the flag/guidon bearer.', who: 'Senior and incoming commanders', ref: 'CAPP 60-33 ¶6.16.2.3' },
       { text: 'Incoming commander salutes the senior commander. The senior commander returns the salute.', who: 'Incoming commander', say: 'Sir/Ma\'am, I assume command.', ref: 'CAPP 60-33 ¶6.16.2.3' },
-      { panel: { src: cocP4, caption: 'Figure 6.5, panel 4 of 4: Officers POST (audience at the top)' }, text: 'Quiet command. All three officers face toward the audience.', who: 'Flag/guidon bearer', say: 'Officers, POST', ref: 'CAPP 60-33 ¶6.16.2.3' },
+      { panel: { src: cocP4, caption: 'Figure 6.5, panel 4 of 4: Officers POST (audience at the top)', small: true }, text: 'Quiet command. All three officers face toward the audience.', who: 'Flag/guidon bearer', say: 'Officers, POST', ref: 'CAPP 60-33 ¶6.16.2.3' },
     ],
     watch: [
       { text: 'Both "Officers, CENTER" and "Officers, POST" are quiet commands from the bearer, not loud drill commands.', ref: 'CAPP 60-33 ¶6.16.2.2–6.16.2.3' },
