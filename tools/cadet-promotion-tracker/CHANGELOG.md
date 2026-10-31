@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.0 - 2026-10-31
+Rebuilt from scratch on a cited rules table (D-002).
+- Requirement tiles per achievement: grey until eServices shows a date or
+  value, then filled. Percent complete per cadet.
+- Rules from CAPR 60-1 (18 Aug 2025) and CAPVA 60-101a/b; Achievements 15-16
+  added; drill stops after Achievement 8 / Wright Brothers.
+- DC tile = Deputy Commander sign-off (participation, oath, leadership
+  expectations, uniform).
+- Stalled (56+ days past eligible, not ready) shown on the roster.
+- To be pinned: load last week's export with this week's; promotions between
+  them are listed. Pinned column removed.
+- Reports: roster, to be pinned, proctored tests, drill tests, ready to
+  promote; "Print weekly packet" prints all five.
+- Reads CSV or Excel. CAP official palette.
+
 ## 0.2.0 - 2026-10-31
 Removed fields eServices does not export (D-002, D-003).
 - Removed Flight, Duty Position, Encampment toggle, Mentorship tab and Notes.
