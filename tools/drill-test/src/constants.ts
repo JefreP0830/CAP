@@ -401,7 +401,7 @@ export const FALLBACK_ACHIEVEMENTS: Achievement[] = [
     passingScore: 16,
     topic: "Squadron Formations",
     conditions: "Problem #1 is completed on paper. No reference materials are permitted. 3 cadets in addition to the cadet being tested are needed to role play for Problem #2: Capt Curry (outgoing commander), Capt Arnold (incoming commander), Col Mitchell (wing commander). The tested cadet is the flag bearer, with the unit flag or a prop.",
-    note: "Passing Score: 80%. Must earn at least 16 of 20 possible points (Problem #1: 10, Problem #2: 10). If Arnold, Curry or Mitchell do a step incorrectly but the cadet immediately corrects them, the cadet receives the point for the step. A 2-point step can earn 1 point when only part of it is correct.",
+    note: "Passing Score: 80%. Must earn at least 16 of 20 possible points (Problem #1: 10, Problem #2: 10). If Arnold, Curry or Mitchell do a step incorrectly but the cadet immediately corrects them, the cadet receives the point for the step. CAPP 60-34 p.19: \"Grade each step and put the number of points where indicated.\" This app reads that as allowing 1 of 2 points on a 2-point step.",
     rubric: {
       title: "Problems #1 and #2",
       subtitle: "Diagram the Squadron in Line; Change of Command Ceremony",
@@ -515,103 +515,86 @@ export const FALLBACK_ACHIEVEMENTS: Achievement[] = [
         command: "AT EASE", 
         standards: "Gives combined command properly (no pause, no supplementary command)",
         score: null,
-        points: 1 
       },
       { 
         command: "Squadron, ATTENTION", 
         standards: "1. Command is clear and snaps. 2. Pauses after preparatory command for flight sergeants to give supplementary command",
         score: null,
-        points: 1 
       },
       { 
         command: "Right, FACE", 
         standards: "1. Command is clear and snaps. 2. Pauses after preparatory command for flight sergeants to give supplementary command",
         score: null,
-        points: 1 
       },
       { 
         command: "Forward, MARCH", 
         standards: "1. Command is clear and snaps. 2. Pauses after preparatory command for flight sergeants to give supplementary command",
         score: null,
-        points: 1 
       },
       { 
         command: "Column Left, MARCH", 
         standards: "1. Command is clear and snaps. 2. Pauses after preparatory command for flight sergeants to give supplementary commands. 3. Preparatory: left foot Execution: left foot. 4. Not graded: 2nd Flight Sergeant gives subsequent command of Column Left, MARCH",
         score: null,
-        points: 1 
       },
       { 
         command: "Forward, MARCH", 
         standards: "1. Waits for 2nd flight to complete column movement. 2. Given on left foot. 3. Pauses after preparatory command for flight sergeants to give supplementary command",
         score: null,
-        points: 1 
       },
       { 
         command: "Column Right, MARCH", 
         standards: "1. Command is clear and snaps. 2. Pauses after preparatory command for flight sergeants to give supplementary commands. 3. Preparatory: right foot Execution: right foot. 4. Not graded: 2nd Flight Sergeant gives subsequent command of Column Right, MARCH",
         score: null,
-        points: 1 
       },
       { 
         command: "Forward, MARCH", 
         standards: "1. Waits for 2nd flight to complete column movement. 2. Given on left foot. 3. Pauses after preparatory command for flight sergeants to give supplementary command",
         score: null,
-        points: 1 
       },
       { 
         command: "Right Flank, MARCH", 
         standards: "1. Command is clear and snaps. 2. Pauses after preparatory command for flight sergeants to give supplementary command. 3. Preparatory: right foot Execution: right foot",
         score: null,
-        points: 1 
       },
       { 
         command: "Left Flank, MARCH", 
         standards: "1. Command is clear and snaps. 2. Pauses after preparatory command for flight sergeants to give supplementary command. 3. Preparatory: left foot Execution: left foot",
         score: null,
-        points: 1 
       },
       { 
         command: "To the Rear, MARCH", 
         standards: "1. Command is clear and snaps. 2. Pauses after preparatory command for flight sergeants to give supplementary command. 3. Preparatory: right foot Execution: right foot",
         score: null,
-        points: 1 
       },
       { 
         command: "To the Rear, MARCH", 
         standards: "1. Command is clear and snaps. 2. Pauses after preparatory command for flight sergeants to give supplementary command. 3. Preparatory: right foot Execution: right foot",
         score: null,
-        points: 1 
       },
       { 
         command: "Eyes, RIGHT", 
         standards: "1. Command is clear and snaps. 2. Pauses after preparatory command for flight sergeants to give supplementary command. 3. Preparatory: right foot Execution: right foot",
         score: null,
-        points: 1 
       },
       { 
         command: "Ready, FRONT", 
         standards: "1. Command is clear and snaps. 2. Pauses after preparatory command for flight sergeants to give supplementary command. 3. Preparatory: left foot Execution: left foot",
         score: null,
-        points: 1 
       },
       { 
         command: "Squadron, HALT", 
         standards: "1. Command is clear and snaps. 2. Pauses after preparatory command for flight sergeants to give supplementary command",
         score: null,
-        points: 1 
       },
       { 
         command: "Left, FACE", 
         standards: "1. Command is clear and snaps. 2. Pauses after preparatory command for flight sergeants to give supplementary command",
         score: null,
-        points: 1 
       },
       { 
         command: "DISMISSED", 
         standards: "Gives combined command properly (no pause, no supplementary command)",
         score: null,
-        points: 1 
       },
     ]
   },
