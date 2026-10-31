@@ -35,7 +35,8 @@ export interface DrillTestSubmission {
   proctorCAPID: string;
   date: string;
   scores: Record<number, 'Pass' | 'Partial' | 'Fail'>;
-  hotwash: string;
+  sustain: string;  // hotwash: what went well (proctor's words)
+  improve: string;  // hotwash: one coaching point (proctor's words)
   category: 'Promotion' | 'Advanced';
 }
 
@@ -56,6 +57,18 @@ export const pointsFor = (m: DrillMovement, s?: 'Pass' | 'Partial' | 'Fail') =>
   m.isNonGraded ? 0 : s === 'Pass' ? (m.points || 1) : s === 'Partial' ? 1 : 0;
 
 // Official CAP palette (CAP Brand Portal / CAPR 900-2); mirrors shared/brand/cap-brand.css.
+// Hotwash quality floor: each line needs a real sentence, not "good job".
+export const MIN_FEEDBACK_WORDS = 5;
+export const wordCount = (t: string) => (t.trim().match(/\S+/g) || []).length;
+
+// Commands to retrain = graded commands not fully earned (U, or 1 of 2 points),
+// with their CAPP 60-34 standards. Built from the scores, so it cannot be skipped.
+export const retrainList = (a: Achievement, scores: Record<number, 'Pass' | 'Partial' | 'Fail'>) =>
+  a.movements
+    .map((m, i) => ({ m, s: scores[i] }))
+    .filter(({ m, s }) => !m.isNonGraded && (s === 'Fail' || s === 'Partial'))
+    .map(({ m, s }) => ({ command: m.command, standards: m.standards || m.description || '', partial: s === 'Partial' }));
+
 export const CAP_COLORS = {
   blue: '#001489',   // Ultramarine Blue
   red: '#BA0C2F',    // Scarlet Red

@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { DrillTestSubmission, Achievement, CAP_COLORS, achTitle, pointsFor } from '../constants';
+import { DrillTestSubmission, Achievement, CAP_COLORS, achTitle, pointsFor, retrainList } from '../constants';
 
 export const generateDrillTestPDF = (submission: DrillTestSubmission, achievement: Achievement) => {
   const doc = new jsPDF();
@@ -102,22 +102,33 @@ export const generateDrillTestPDF = (submission: DrillTestSubmission, achievemen
     }
   });
 
-  // Hotwash Section
-  const finalTableY = (doc as any).lastAutoTable.finalY + 10;
-  doc.setTextColor(0, 0, 0);
-  doc.setFontSize(12);
-  doc.setFont('helvetica', 'bold');
-  doc.text('Hotwash (AAR):', 20, finalTableY);
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(10);
-  const splitComments = doc.splitTextToSize(submission.hotwash || 'No comments provided.', 170);
-  doc.text(splitComments, 20, finalTableY + 7);
+  // Hotwash (AAR): commands to retrain (from the scores), then Sustain / Improve (proctor's words)
+  let y = (doc as any).lastAutoTable.finalY + 10;
+  const room = (h: number) => { if (y + h > 275) { doc.addPage(); y = 20; } };
+  const heading = (t: string) => {
+    room(12); doc.setTextColor(CAP_COLORS.blue); doc.setFont('helvetica', 'bold'); doc.setFontSize(12);
+    doc.text(t, 20, y); y += 6; doc.setTextColor(0, 0, 0); doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
+  };
+  const para = (t: string, x = 20, w = 170) => {
+    const lines = doc.splitTextToSize(t, w); room(lines.length * 5 + 2); doc.text(lines, x, y); y += lines.length * 5 + 2;
+  };
+  heading('Hotwash (AAR)');
+  const retrain = retrainList(achievement, submission.scores);
+  doc.setFont('helvetica', 'bold'); para('Commands to retrain'); doc.setFont('helvetica', 'normal');
+  if (!retrain.length) para('None. Every graded command was rated Satisfactory.', 25, 165);
+  retrain.forEach(r => {
+    doc.setFont('helvetica', 'bold'); para(`${r.command}${r.partial ? ' (1 of 2 points)' : ''}`, 25, 165);
+    doc.setFont('helvetica', 'normal'); if (r.standards) para(r.standards, 30, 160);
+  });
+  y += 2;
+  doc.setFont('helvetica', 'bold'); para('Sustain (what went well)'); doc.setFont('helvetica', 'normal'); para(submission.sustain, 25, 165);
+  doc.setFont('helvetica', 'bold'); para('Improve (coaching point)'); doc.setFont('helvetica', 'normal'); para(submission.improve, 25, 165);
 
   // Footer
-  const finalY = finalTableY + 7 + (splitComments.length * 5) + 15;
+  room(20); y += 8;
   doc.setFontSize(10);
-  doc.text('__________________________', 20, finalY);
-  doc.text('Proctor Signature (Digital)', 20, finalY + 5);
+  doc.text('__________________________', 20, y);
+  doc.text(`Proctor CAPID ${submission.proctorCAPID}`, 20, y + 5);
   
   doc.text(`CAP Drill Test`, 105, 285, { align: 'center' });
 

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Achievement, FALLBACK_ACHIEVEMENTS, DrillTestSubmission, achLabel, achTitle, pointsFor } from './constants';
+import React, { useState, useRef } from 'react';
+import { Achievement, FALLBACK_ACHIEVEMENTS, DrillTestSubmission, achLabel, achTitle, pointsFor, retrainList, wordCount, MIN_FEEDBACK_WORDS } from './constants';
 import { generateDrillTestPDF } from './utils/pdfGenerator';
 import { clsx, type ClassValue } from 'clsx';
 
@@ -12,7 +12,9 @@ export default function App() {
   const [selectedAchievement, setSelectedAchievement] = useState<Achievement | null>(null);
   const [cadetCAPID, setCadetCAPID] = useState('');
   const [proctorCAPID, setProctorCAPID] = useState('');
-  const [hotwash, setHotwash] = useState('');
+  const [sustain, setSustain] = useState('');
+  const [improve, setImprove] = useState('');
+  const lastPdf = useRef<{ blob: Blob; name: string; title: string; text: string } | null>(null);
   const [scores, setScores] = useState<Record<number, 'Pass' | 'Partial' | 'Fail'>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [activeTab, setActiveTab] = useState<'Promotion' | 'Advanced'>('Promotion');
@@ -24,7 +26,7 @@ export default function App() {
   const handleSelectAchievement = (ach: Achievement) => {
     setSelectedAchievement(ach);
     setScores({});
-    setHotwash('');
+    setSustain(''); setImprove('');
     setShowValidationErrors(false);
     setFormError('');
     setStep('form');
@@ -52,8 +54,8 @@ export default function App() {
       return;
     }
 
-    if (!hotwash.trim()) {
-      setFormError('Enter the hotwash (AAR) feedback.');
+    if (wordCount(sustain) < MIN_FEEDBACK_WORDS || wordCount(improve) < MIN_FEEDBACK_WORDS) {
+      setFormError(`Write at least ${MIN_FEEDBACK_WORDS} words for Sustain and for Improve. Name the specific command or movement.`);
       return;
     }
     setFormError('');
@@ -66,7 +68,8 @@ export default function App() {
       proctorCAPID,
       date: new Date().toLocaleDateString(),
       scores,
-      hotwash,
+      sustain: sustain.trim(),
+      improve: improve.trim(),
       category: selectedAchievement.category
     };
 
@@ -77,6 +80,9 @@ export default function App() {
       // Generate the PDF as a Blob
       const pdfBlob = doc.output('blob');
       const file = new File([pdfBlob], fileName, { type: 'application/pdf' });
+      lastPdf.current = { blob: pdfBlob, name: fileName,
+        title: `${selectedAchievement.category}: ${selectedAchievement.name || selectedAchievement.number} - ${cadetCAPID}`,
+        text: `Completed ${selectedAchievement.category} Drill for Candidate ${cadetCAPID}. Proctored by ${proctorCAPID}.` };
 
       // Check if the browser supports the Share API (most modern mobile browsers do)
       if (navigator.share && navigator.canShare({ files: [file] })) {
@@ -112,7 +118,8 @@ export default function App() {
     setSelectedAchievement(null);
     setCadetCAPID('');
     setProctorCAPID('');
-    setHotwash('');
+    setSustain(''); setImprove('');
+    lastPdf.current = null;
     setScores({});
     setShowValidationErrors(false);
     setFormError('');
@@ -129,6 +136,21 @@ export default function App() {
   const isPassing = selectedAchievement ? passCount >= selectedAchievement.passingScore : false;
 
   const filteredAchievements = FALLBACK_ACHIEVEMENTS.filter(a => a.category === activeTab);
+
+  const canShare = typeof navigator !== 'undefined' && !!navigator.share;
+  const savePdf = () => {
+    const p = lastPdf.current; if (!p) return;
+    const a = document.createElement('a'); a.href = URL.createObjectURL(p.blob); a.download = p.name;
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    setShareNote('PDF saved to this device\'s downloads.');
+  };
+  const shareAgain = async () => {
+    const p = lastPdf.current; if (!p) return;
+    try {
+      await navigator.share({ files: [new File([p.blob], p.name, { type: 'application/pdf' })], title: p.title, text: p.text });
+      setShareNote('The PDF was handed to your share menu. Confirm the email went out in your mail app.');
+    } catch { setShareNote('Share closed. Use Save PDF if no mail app works.'); }
+  };
 
   const totalPossible = selectedAchievement
     ? selectedAchievement.movements.filter(m => !m.isNonGraded).reduce((t, m) => t + (m.points || 1), 0)
@@ -269,11 +291,26 @@ export default function App() {
             </ol>
 
             <h3 className="sec">Hotwash (AAR)</h3>
-            <label className="full">What went well and what to work on
-              <textarea rows={4} value={hotwash} onChange={(e) => setHotwash(e.target.value)}
-                className={showValidationErrors && !hotwash.trim() ? 'bad' : ''} />
+            <p className="label">Commands to retrain</p>
+            {(() => {
+              const r = retrainList(selectedAchievement, scores);
+              return r.length
+                ? <ul className="retrain">{r.map((x, i) => <li key={i}><b>{x.command}</b>{x.partial ? ' (1 of 2 points)' : ''}</li>)}</ul>
+                : <p className="hint">None yet. Commands you rate U appear here and in the PDF, with their standards.</p>;
+            })()}
+            <label className="full fb">Sustain: what went well
+              <textarea rows={3} value={sustain} onChange={(e) => { setSustain(e.target.value); setFormError(''); }}
+                placeholder="Name a command the cadet did well and why."
+                className={showValidationErrors && wordCount(sustain) < MIN_FEEDBACK_WORDS ? 'bad' : ''} />
+              <span className="count">{wordCount(sustain) >= MIN_FEEDBACK_WORDS ? `${wordCount(sustain)} words` : `${wordCount(sustain)} of ${MIN_FEEDBACK_WORDS} words minimum`}</span>
             </label>
-            <p className="hint">Included in the PDF.</p>
+            <label className="full fb">Improve: one coaching point
+              <textarea rows={3} value={improve} onChange={(e) => { setImprove(e.target.value); setFormError(''); }}
+                placeholder="Name one command to fix and how to practice it."
+                className={showValidationErrors && wordCount(improve) < MIN_FEEDBACK_WORDS ? 'bad' : ''} />
+              <span className="count">{wordCount(improve) >= MIN_FEEDBACK_WORDS ? `${wordCount(improve)} words` : `${wordCount(improve)} of ${MIN_FEEDBACK_WORDS} words minimum`}</span>
+            </label>
+            <p className="hint">All three go in the PDF.</p>
 
             {formError && <p className="err">{formError}</p>}
             <button className="btn-primary" onClick={handleSubmit} disabled={isSubmitting}>
@@ -291,6 +328,11 @@ export default function App() {
             <p>{passCount} of {totalPossible} {usesPoints && selectedAchievement.number === 7 ? 'points' : 'Satisfactory'}. Pass needs {selectedAchievement.passingScore}.</p>
           </div>
           <p className="hint">{shareNote}</p>
+          <div className="btnrow two">
+            <button className="btn-secondary" onClick={savePdf}>Save PDF</button>
+            {canShare && <button className="btn-secondary" onClick={shareAgain}>Share again</button>}
+          </div>
+          <p className="hint">If no mail app opened, save the PDF and email it as an attachment.</p>
           <div className="btnrow">
             <button className="btn-primary" onClick={reset}>Start a new test</button>
           </div>

@@ -94,3 +94,12 @@ ol.card { list-style: none; }
 .big.pass { color: var(--cap-ultramarine); }
 .big.fail { color: var(--cap-scarlet); }
 .btnrow { margin-top: 8px; }
+
+/* Hotwash */
+.label { font-size: 9.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: var(--cap-black); }
+ul.retrain { margin: 4px 0 10px 20px; font-size: 10pt; }
+ul.retrain b { color: var(--cap-black); }
+label.fb { margin-top: 12px; }
+.count { display: block; margin-top: 3px; font-size: 9pt; font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--cap-body); }
+.btn-secondary { flex: 1; padding: 12px 16px; background: #FFFFFF; color: var(--cap-ultramarine); border: 1px solid var(--cap-ultramarine); }
+.btnrow.two { display: flex; gap: 10px; margin-top: 14px; }
