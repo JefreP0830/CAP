@@ -145,7 +145,7 @@ export const generateDrillTestPDF = (submission: DrillTestSubmission, achievemen
   doc.text('__________________________', 20, y);
   doc.text(`Proctor CAPID ${submission.proctorCAPID}`, 20, y + 5);
   
-  doc.text('Civil Air Patrol | NCO Drill Evaluation', 105, 285, { align: 'center' });
+  doc.text('Civil Air Patrol | Drill Evaluator', 105, 285, { align: 'center' });
 
   return doc;
 };

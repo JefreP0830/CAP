@@ -1,4 +1,4 @@
-# NCO Drill Evaluation changelog (tools/drill-test)
+# Drill Evaluator changelog (tools/drill-test)
 
 ## 2026.10.31 (branch `drill-test/import`)
 

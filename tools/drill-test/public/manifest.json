@@ -1,6 +1,6 @@
 {
-  "name": "NCO Drill Evaluation",
-  "short_name": "NCO Drill",
+  "name": "Drill Evaluator",
+  "short_name": "Drill Evaluator",
   "description": "Paperless drill testing for Civil Air Patrol.",
   "start_url": "/",
   "display": "standalone",
