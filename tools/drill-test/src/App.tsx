@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   ClipboardCheck, 
@@ -27,8 +27,6 @@ export default function App() {
   const [selectedAchievement, setSelectedAchievement] = useState<Achievement | null>(null);
   const [cadetCAPID, setCadetCAPID] = useState('');
   const [proctorCAPID, setProctorCAPID] = useState('');
-  const [squadronID, setSquadronID] = useState(() => localStorage.getItem('cap_squadron_id') || '');
-  const [alternateEmail, setAlternateEmail] = useState(() => localStorage.getItem('cap_alternate_email') || '');
   const [hotwash, setHotwash] = useState('');
   const [scores, setScores] = useState<Record<number, 'Pass' | 'Fail'>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -36,14 +34,6 @@ export default function App() {
   const [showValidationErrors, setShowValidationErrors] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
-  // Persist squadron and email
-  useEffect(() => {
-    localStorage.setItem('cap_squadron_id', squadronID);
-  }, [squadronID]);
-
-  useEffect(() => {
-    localStorage.setItem('cap_alternate_email', alternateEmail);
-  }, [alternateEmail]);
 
   const handleSelectAchievement = (ach: Achievement) => {
     setSelectedAchievement(ach);
@@ -87,8 +77,6 @@ export default function App() {
       proctorCAPID,
       date: new Date().toLocaleDateString(),
       scores,
-      squadron: squadronID,
-      alternateEmail: alternateEmail.trim() || undefined,
       hotwash,
       category: selectedAchievement.category
     };
@@ -104,9 +92,6 @@ export default function App() {
       // Check if the browser supports the Share API (most modern mobile browsers do)
       if (navigator.share && navigator.canShare({ files: [file] })) {
         let shareText = `Completed ${selectedAchievement.category} Drill for Candidate ${cadetCAPID}. Proctored by ${proctorCAPID}.`;
-        if (submission.alternateEmail) {
-          shareText += `\n\nIntended for: ${submission.alternateEmail}`;
-        }
 
         await navigator.share({
           files: [file],
@@ -136,7 +121,6 @@ export default function App() {
     setSelectedAchievement(null);
     setCadetCAPID('');
     setProctorCAPID('');
-    // Squadron and Email are retained as per user preference
     setHotwash('');
     setScores({});
     setShowValidationErrors(false);
@@ -402,7 +386,7 @@ export default function App() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Candidate CAPID</label>
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Cadet CAPID</label>
                     <div className="relative">
                       <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                       <input
@@ -435,37 +419,6 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Unit ID</label>
-                    <div className="relative">
-                      <Menu className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                      <input
-                        type="text"
-                        placeholder="e.g. PCR-CA-116"
-                        value={squadronID}
-                        onChange={(e) => setSquadronID(e.target.value.toUpperCase())}
-                        className={cn(
-                          "w-full bg-slate-50 border-2 py-3 pl-11 pr-4 rounded-xl font-bold text-slate-900 focus:bg-white transition-all outline-none",
-                          showValidationErrors && !squadronID.trim() ? "border-rose-200 focus:border-rose-400" : "border-slate-100 focus:border-cap-blue"
-                        )}
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Alternate Results Email (Optional)</label>
-                    <div className="relative">
-                      <FileText className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                      <input
-                        type="email"
-                        placeholder="e.g. commander@cap.gov"
-                        value={alternateEmail}
-                        onChange={(e) => setAlternateEmail(e.target.value)}
-                        className="w-full bg-slate-50 border-2 py-3 pl-11 pr-4 rounded-xl font-bold text-slate-900 border-slate-100 focus:border-cap-blue focus:bg-white transition-all outline-none"
-                      />
-                    </div>
-                  </div>
-                </div>
               </div>
 
               <div className="space-y-3">

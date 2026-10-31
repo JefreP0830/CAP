@@ -15,21 +15,17 @@ export const generateDrillTestPDF = (submission: DrillTestSubmission, achievemen
   doc.setFontSize(16);
   doc.text(`DRILL TEST: ${achTitle(achievement).toUpperCase()}`, 105, 25, { align: 'center' });
   doc.setFontSize(12);
-  doc.text(`${submission.squadron ? 'Unit ' + submission.squadron : 'CAP'} - Paperless System`, 105, 33, { align: 'center' });
+  doc.text('CAPP 60-34 Drill & Ceremonies Practical Test', 105, 33, { align: 'center' });
 
   // Info Section
   doc.setTextColor(0, 0, 0);
   doc.setFontSize(12);
-  doc.text(`CAPID: ${submission.cadetCAPID}`, 20, 50);
+  doc.text(`Cadet CAPID: ${submission.cadetCAPID}`, 20, 50);
   doc.text(`Proctor CAPID: ${submission.proctorCAPID}`, 20, 60);
-  if (submission.alternateEmail) {
-    doc.text(`Alt Email: ${submission.alternateEmail}`, 20, 67);
-  }
   doc.text(`Date: ${submission.date}`, 140, 50);
-  doc.text(`Unit: ${submission.squadron || 'N/A'}`, 140, 60);
 
   // Topic & Conditions
-  let currentY = submission.alternateEmail ? 75 : 70;
+  let currentY = 70;
   if (achievement.topic) {
     doc.setFont('helvetica', 'bold');
     doc.text('Topic:', 20, currentY);

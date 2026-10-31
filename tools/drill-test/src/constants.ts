@@ -35,8 +35,6 @@ export interface DrillTestSubmission {
   proctorCAPID: string;
   date: string;
   scores: Record<number, 'Pass' | 'Fail'>;
-  squadron: string;
-  alternateEmail?: string;
   hotwash: string;
   category: 'Promotion' | 'Advanced';
 }
