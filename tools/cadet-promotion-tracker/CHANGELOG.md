@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.8.2 - 2026-10-31
+Report card.
+- Fixed requirement table overlapping the info block in print.
+- More space between the info block and the requirement list.
+- Eligible date shown alone; new "Past due" field (days, or NA).
+- Signature and date lines removed.
+
 ## 0.8.1 - 2026-10-31
 Weekly report styling.
 - Section titles and column labels medium grey; data rows black.
