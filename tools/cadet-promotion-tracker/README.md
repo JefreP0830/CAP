@@ -11,7 +11,9 @@ the source of truth (docs/decisions.md).
 2. Open `index.html` in Chrome or Edge.
 3. Load this week's export **and last week's** (select both, or drag both).
    The newest is the roster; the older one builds the To Be Pinned list.
-4. Click **Print weekly packet**. In the print dialog keep Margins on
+4. Click **Print weekly report** (to be pinned, proctored tests, drill tests,
+   ready to promote). For the wall roster, select **Cadets** and click
+   **Print this view**. In the print dialog keep Margins on
    *Default* (the page sets landscape and narrow margins itself).
 
 Nothing is saved. Closing the tab clears the roster.

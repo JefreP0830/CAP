@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.8.0 - 2026-10-31
+- "Print weekly packet" is now "Print weekly report": one report with four
+  sections, each with a count: To Be Pinned (rank to be pinned), Proctored
+  Test Needed (achievement), Drill Test Needed (achievement), Ready to Promote
+  (rank to be recognized). CAPID and cadet name on every line; columns align
+  across sections. The roster prints separately (All cadets > Print this view).
+
 ## 0.7.0 - 2026-10-31
 Print fixes after a physical test print (Canon office laser).
 - Margins built into the page: 0.4 in top/bottom, 0.3 in sides, identical

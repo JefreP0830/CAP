@@ -107,7 +107,7 @@ tr.pgpad { display: none; }
   /* Pull each table up by its spacer so page 1 has no extra gap; the spacer still
      repeats at the top of every following page. */
   .report table { margin-top: -0.4in; }
-  .report .kpis-print, .report p.note, .report-head { position: relative; z-index: 1; }
+  .report .kpis-print, .report p.note, .report-head, .wsec h3 { position: relative; z-index: 1; }
   .report.card { padding: 0.2in 0.3in; }
   td { padding-top: 4px; padding-bottom: 4px; }
   .tile { padding: 2px 4px; }
@@ -131,7 +131,13 @@ tr.pgpad { display: none; }
 .report-head h2 { font-family: var(--font-title); font-size: 18pt; color: var(--cap-ultramarine); text-transform: uppercase; }
 .report-head .meta { font-size: 9pt; text-align: right; }
 .report p.note { font-size: 9pt; margin: 4px 0 8px; }
-.report .none { padding: 12px 0; font-style: italic; }
+.report .none { padding: 6px 0 12px; font-style: italic; }
+.wsec { margin: 14px 0 6px; max-width: 7.5in; break-inside: auto; }
+.wsec h3 { font-family: var(--font-title); font-size: 15pt; color: var(--cap-ultramarine); text-transform: uppercase; border-bottom: 1px solid var(--cap-silver); padding-bottom: 2px; break-after: avoid; }
+.wsec h3 .count { font-family: var(--font-body); font-size: 10pt; color: var(--cap-body); margin-left: 6px; }
+.wsec table { break-before: avoid; table-layout: fixed; }
+.wsec th:nth-child(1) { width: 1.1in; }
+.wsec th:nth-child(2) { width: 3.4in; }
 .report .legend { padding: 8px 0 0; font-size: 8.5pt; }
 .kpis-print { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin: 6px 0 10px; }
 .kpi-p { border: 1px solid var(--cap-silver); border-radius: 4px; padding: 6px 10px; }
@@ -162,7 +168,7 @@ tr.pgpad { display: none; }
   <div class="actions">
     <button class="btn-primary" onclick="document.getElementById('file').click()">Load eServices exports</button>
     <button class="btn-secondary" id="btnPrintView" onclick="printCurrent()" disabled>Print this view</button>
-    <button class="btn-secondary" id="btnPacket" onclick="printPacket()" disabled>Print weekly packet</button>
+    <button class="btn-secondary" id="btnPacket" onclick="printPacket()" disabled>Print weekly report</button>
     <select id="cardPick" aria-label="Report card for" disabled></select>
     <button class="btn-secondary" id="btnCard" onclick="printCardPick()" disabled>Print report card</button>
     <input type="file" id="file" accept=".csv,.xlsx,.xls" multiple hidden>
@@ -455,22 +461,26 @@ function simpleTable(cols, list) {
   const pad = `<tr class="pgpad"><td colspan="${cols.length}"></td></tr>`;
   return `<table><thead>${pad}<tr>${cols.map(c => `<th>${c[0]}</th>`).join('')}</tr></thead><tbody>${list.map(r => `<tr>${cols.map(c => `<td>${c[1](r)}</td>`).join('')}</tr>`).join('')}</tbody><tfoot>${pad}</tfoot></table>`;
 }
+// Weekly report sections: CAPID, name, and the one thing to act on.
+const capCol = ['CAPID', c => esc(c.capid)], nameCol = ['Cadet', c => `<strong>${esc(c.name)}</strong>`];
+function sec(title, note, cols, list) {
+  return `<section class="wsec"><h3>${title} <span class="count">${list.length}</span></h3>${note ? `<p class="note">${note}</p>` : ''}${simpleTable(cols, list)}</section>`;
+}
+const SECTIONS = {
+  pin: () => {
+    if (!previous) return sec('To Be Pinned', 'Load last week\'s export with this week\'s to build this list.', [capCol, nameCol], []);
+    const gap = daysBetween(previous.asOf, current.asOf);
+    return sec('To Be Pinned', `Promoted between the ${fmt(previous.asOf)} and ${fmt(current.asOf)} exports.${gap > PIN_MAX_GAP_DAYS ? ` Exports are ${gap} days apart; some may already be pinned.` : ''}`,
+      [capCol, nameCol, ['Rank to be pinned', c => `<strong>${esc(c.newGrade)}</strong>`]], pins);
+  },
+  proctor: () => sec('Proctored Test Needed', '', [capCol, nameCol, ['Test needed', c => `<strong>${esc(c.code)}</strong>${c.rule.proctored.length > 1 ? ' ' + esc(c.rule.proctored.filter(k => !c.tiles.find(t => t.code === k).on).map(k => TILES[k].name.replace(' test','')).join(', ')) : ''}`]], cadets.filter(c => c.needsProctor)),
+  drill: () => sec('Drill Test Needed', '', [capCol, nameCol, ['Test needed', c => `<strong>${esc(c.code)}</strong>`]], cadets.filter(c => c.needsDrill)),
+  ready: () => sec('Ready to Promote', 'All requirements complete in eServices and eligible date reached.', [capCol, nameCol, ['Rank to be recognized', c => `<strong>${esc(c.next)}</strong>`]], cadets.filter(c => c.ready))
+};
 const REPORTS = {
   roster: list => head('Cadet Promotion Tracker', 'Find your name. Blue tiles are complete; grey tiles are still needed. The box beside the eligible date counts down the days to eligibility, or turns red and counts days past it.') +
     kpiStrip() + rosterTable(list || cadets, legendText(list || cadets)),
-  pin: () => {
-    if (!previous) return head('To Be Pinned') + '<p class="none">Load last week\'s export alongside this one to build this list.</p>';
-    const gap = daysBetween(previous.asOf, current.asOf);
-    const warn = gap > PIN_MAX_GAP_DAYS ? ` Exports are ${gap} days apart; some cadets may already have been pinned.` : '';
-    return head('To Be Pinned', `Promoted between the ${fmt(previous.asOf)} and ${fmt(current.asOf)} exports. Present grade insignia and ribbon at the next meeting.${warn}`) +
-      simpleTable([['CAPID', c => esc(c.capid)], ['Cadet', c => `<strong>${esc(c.name)}</strong>`], ['New grade', c => `<strong>${esc(c.newGrade)}</strong>`], ['Completed', c => esc(c.completed)], ['Presented (initials)', () => '']], pins);
-  },
-  proctor: () => head('Proctored Tests Needed', 'Closed-book milestone exams. Schedule a proctor.') +
-    simpleTable([['CAPID', c => esc(c.capid)], ['Cadet', c => `<strong>${esc(c.name)}</strong>`], ['Award', c => esc(c.achv)], ['Exam(s) needed', c => esc(c.rule.proctored.filter(k => !c.tiles.find(t => t.code === k).on).map(k => TILES[k].name).join(', '))], ['Scheduled', () => '']], cadets.filter(c => c.needsProctor)),
-  drill: () => head('Drill Tests Needed', 'Drill and ceremonies performance test (Achievements 1-8; comprehensive for Wright Brothers).') +
-    simpleTable([['CAPID', c => esc(c.capid)], ['Cadet', c => `<strong>${esc(c.name)}</strong>`], ['Working on', c => esc(c.achv)], ['Evaluator', () => ''], ['Date', () => '']], cadets.filter(c => c.needsDrill)),
-  ready: () => head('Ready to Promote', 'Every requirement is complete in eServices and the eligible date has been reached. Commander approval in eServices.') +
-    simpleTable([['CAPID', c => esc(c.capid)], ['Cadet', c => `<strong>${esc(c.name)}</strong>`], ['Achievement', c => esc(c.achv)], ['New grade', c => esc(c.next)], ['Eligible', c => fmt(c.eligible)], ['Approved', () => '']], cadets.filter(c => c.ready))
+  weekly: () => head('Weekly Report') + Object.values(SECTIONS).map(f => f()).join('')
 };
 function kpiStrip() {
   return `<div class="kpis-print">${FILTERS.map(([k, label, fn, alertOn]) => {
@@ -502,9 +512,9 @@ function printReports(sections) {
   window.print();
 }
 const section = (html, cls = '') => `<section class="report ${cls}">${html}</section>`;
-function printPacket() { printReports(['roster','pin','proctor','drill','ready'].map(k => section(REPORTS[k]()))); }
+function printPacket() { printReports([section(REPORTS.weekly())]); }
 function printCurrent() {
-  const map = { all: () => REPORTS.roster(), ready: REPORTS.ready, pin: REPORTS.pin, proctor: REPORTS.proctor, drill: REPORTS.drill,
+  const map = { all: () => REPORTS.roster(), ready: () => head('Weekly Report') + SECTIONS.ready(), pin: () => head('Weekly Report') + SECTIONS.pin(), proctor: () => head('Weekly Report') + SECTIONS.proctor(), drill: () => head('Weekly Report') + SECTIONS.drill(),
     stalled: () => head('Stalled', `Requirements not complete and ${STALLED_DAYS}+ days past eligible date.`) + rosterTable(cadets.filter(c => c.stalled)) };
   printReports([section(map[filter]())]);
 }
