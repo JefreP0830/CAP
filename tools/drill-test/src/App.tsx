@@ -288,7 +288,7 @@ export default function App() {
                       <div>
                         <h3 className="font-bold text-lg text-slate-800 group-hover:text-cap-blue transition-colors">{ach.name || ach.topic}</h3>
                         <p className="text-xs font-medium text-slate-400">
-                          {achLabel(ach)} • Pass: {ach.passingScore}/{ach.movements.filter(m => !m.isNonGraded).length}
+                          {achLabel(ach)} • Pass: {ach.passingScore}/{ach.movements.filter(m => !m.isNonGraded).reduce((t, m) => t + (m.points || 1), 0)}
                         </p>
                       </div>
                     </div>
@@ -497,7 +497,7 @@ export default function App() {
                   let gradedCount = 0;
                   return selectedAchievement.movements.map((move, idx) => {
                     if (!move.isNonGraded) gradedCount++;
-                    const displayNum = (move.isNonGraded || selectedAchievement.number === "7.1" || selectedAchievement.number === "7.2") ? "" : `${gradedCount}. `;
+                    const displayNum = (move.isNonGraded || selectedAchievement.number === 7) ? "" : `${gradedCount}. `;
                     
                     return (
                       <div 
@@ -578,7 +578,7 @@ export default function App() {
                 {selectedAchievement && selectedAchievement.movements.some(m => m.points) && selectedAchievement.number !== 8 && (
                   <div className="mt-6 p-6 rounded-2xl bg-[#003366] text-white shadow-xl shadow-[#003366]/20 flex items-center justify-between border-4 border-white/10">
                     <div className="space-y-1">
-                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/60">Formation Subtotal Points</p>
+                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/60">Total Points</p>
                       <div className="flex items-baseline gap-2">
                         <span className="text-4xl font-black tabular-nums">{Number(passCount.toFixed(2))}</span>
                         <span className="text-xl font-bold text-white/40">/ {Number(selectedAchievement.movements.reduce((acc, m) => acc + (m.points || 0), 0).toFixed(2))}</span>

@@ -714,30 +714,33 @@ export const FALLBACK_ACHIEVEMENTS: Achievement[] = [
     ]
   },
   {
-    number: "7.1",
-    name: "Goddard (Part 1)",
+    number: 7,
+    name: "Goddard",
     category: 'Promotion',
-    passingScore: 8,
+    passingScore: 16,
     topic: "Squadron Formations",
-    conditions: "Problem #1 is completed on paper. No reference materials are permitted. 3 cadets in addition to the cadet being tested are needed to role play for Problem #2",
-    note: "Passing Score: 80%. Must perform at 21 out of 26 possible points (Combined with Part 2).",
+    conditions: "Problem #1 is completed on paper. No reference materials are permitted. 3 cadets in addition to the cadet being tested are needed to role play for Problem #2: Capt Curry (outgoing commander), Capt Arnold (incoming commander), Col Mitchell (wing commander). The tested cadet is the flag bearer, with the unit flag or a prop.",
+    note: "Passing Score: 80%. Must earn at least 16 of 20 possible points (Problem #1: 10, Problem #2: 10). If Arnold, Curry or Mitchell do a step incorrectly but the cadet immediately corrects them, the cadet receives the point for the step. Mark a 2-point step Pass only when the whole step is correct.",
     rubric: {
-      title: "Problem #1",
-      subtitle: "Diagram the Squadron in Line",
+      title: "Problems #1 and #2",
+      subtitle: "Diagram the Squadron in Line; Change of Command Ceremony",
       items: [
         {
-          text: "1. Diagram how the Squadron should be formed in Line with three Flights in Line (5 points).",
+          text: "Problem #1. Diagram how the Squadron should be formed in Line with three Flights in Line (5 points).",
           subItems: [
             "a. Your flights each have three elements with a total of 16 cadets plus Flight Commanders and Flight Sergeants.",
             "b. Include Guides and a Guidon Bearer.",
             "c. Officers are part of your formation."
           ]
         },
+        { text: "Label the number of paces between each unit and their leaders. (3 points)" },
+        { text: "Use proper drill symbols in your diagram. (2 points)" },
         {
-          text: "2. Label the number of paces between each unit and their leaders. (3 points)"
-        },
-        {
-          text: "3. Use proper drill symbols in your diagram. (2 points)"
+          text: "Problem #2. Your Squadron Commander, Capt Curry, is relinquishing command to Capt Arnold. The Wing Commander, Col Mitchell, will preside over a formal Change of Command Ceremony. As the squadron's Cadet First Sergeant, instruct them on how the ceremony should proceed.",
+          subItems: [
+            "Position the four participants for the start of the ceremony. (2 points)",
+            "Instruct the participants what maneuvers they'll execute: what each says and when, how the unit's flag comes into play, when salutes are rendered, and what drill movements are required. (8 points)"
+          ]
         }
       ]
     },
@@ -802,57 +805,14 @@ export const FALLBACK_ACHIEVEMENTS: Achievement[] = [
         score: null,
         points: 1 
       },
-    ]
-  },
-  {
-    number: "7.2",
-    name: "Goddard (Part 2)",
-    category: 'Promotion',
-    passingScore: 13,
-    topic: "Squadron Formations",
-    conditions: "Problem #1 is completed on paper. No reference materials are permitted. 3 cadets in addition to the cadet being tested are needed to role play for Problem #2",
-    note: "Passing Score: 80%. Must perform at 21 out of 26 possible points (Combined with Part 1).",
-    rubric: {
-      title: "Problem #2",
-      subtitle: "Change of Command Ceremony",
-      items: [
-        {
-          text: "Your Squadron Commander, Capt Curry, is relinquishing command to Capt Arnold. The Wing Commander, Col Mitchell, will preside over a formal Change of Command Ceremony. As the squadron's Cadet First Sergeant, they've asked you to instruct them on how the ceremony should proceed. For the purposes of this test, you'll need your unit flag (or some kind of prop you can pretend is a flag), plus three people to assist you by playing the following roles:",
-          subItems: [
-            "Capt Curry - Outgoing Commander",
-            "Capt Arnold - Incoming Commander",
-            "Col Mitchell - Wing Commander",
-            "Yourself - Flag Bearer"
-          ]
-        },
-        {
-          text: "For this exercise, your tasks are as follows:"
-        },
-        {
-          text: "1. Position the four participants listed above for the start of the Change of Command Ceremony. (2 points)"
-        },
-        {
-          text: "2. Instruct the participants what maneuvers they'll execute. What does each say and when? How does the unit's flag come into play? When are salutes rendered and what drill movements are required? (8 points)"
-        }
-      ]
-    },
-    movements: [
-      { command: "1.a", standards: "Participants form as shown facing audience", score: null, points: 1 },
-      { command: "1.b", standards: "Flag Bearer commands 'Officers, CENTER'", score: null, points: 1 },
-      { command: "1.c", standards: "Arnold & Curry face right", score: null, points: 1 },
-      { command: "1.d", standards: "Mitchell faces left", score: null, points: 1 },
-      { command: "2.a", standards: "Curry salutes Mitchell", score: null, points: 1 },
-      { command: "2.b", standards: "Curry states 'Sir/Ma'am, I relinquish command'", score: null, points: 1 },
-      { command: "2.c", standards: "Mitchell returns salute", score: null, points: 1 },
-      { command: "2.d", standards: "Curry takes flag from Flag Bearer and presents it to Mitchell", score: null, points: 1 },
-      { command: "2.e", standards: "Curry takes 1 step to right, 2 steps back, and 1 step to left", score: null, points: 1 },
-      { command: "2.f", standards: "Simultaneously, Arnold takes 2 steps forward", score: null, points: 1 },
-      { command: "3.a", standards: "Mitchell presents flag to Arnold, who passes it to Flag Bearer", score: null, points: 1 },
-      { command: "3.b", standards: "Arnold salutes Mitchell", score: null, points: 1 },
-      { command: "3.c", standards: "Arnold states 'Sir/Ma'am, I assume command'", score: null, points: 1 },
-      { command: "3.d", standards: "Mitchell returns salute", score: null, points: 1 },
-      { command: "4.a", standards: "Flag Bearer commands 'Officers, POST'", score: null, points: 1 },
-      { command: "4.b", standards: "All 3 officers face forward", score: null, points: 1 },
+      { command: "2.1 Position participants", standards: "Participants form as shown, facing the audience: Arnold, Curry, Mitchell in a row; flag bearer behind them (CAPP 60-34 p.19).", score: null, points: 2 },
+      { command: "2.2 Officers, CENTER", standards: "Flag bearer commands 'Officers, CENTER'. Arnold and Curry face right; Mitchell faces left.", score: null, points: 2 },
+      { command: "2.3 Curry relinquishes command", standards: "Curry salutes Mitchell. Curry states 'Sir/Ma'am, I relinquish command.' Mitchell returns salute.", score: null, points: 1 },
+      { command: "2.4 Flag to Mitchell", standards: "Curry takes flag from flag bearer and presents it to Mitchell.", score: null, points: 1 },
+      { command: "2.5 Change places", standards: "Curry takes 1 step to right, 2 steps back, and 1 step to left. Simultaneously, Arnold takes 2 steps forward.", score: null, points: 1 },
+      { command: "2.6 Flag to Arnold", standards: "Mitchell presents flag to Arnold, who passes it to flag bearer.", score: null, points: 1 },
+      { command: "2.7 Arnold assumes command", standards: "Arnold salutes Mitchell. Arnold states 'Sir/Ma'am, I assume command.' Mitchell returns salute.", score: null, points: 1 },
+      { command: "2.8 Officers, POST", standards: "Flag bearer commands 'Officers, POST'. All 3 officers face forward.", score: null, points: 1 },
     ]
   },
   {
