@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { DrillTestSubmission, Achievement, CAP_COLORS } from '../constants';
+import { DrillTestSubmission, Achievement, CAP_COLORS, achTitle } from '../constants';
 
 export const generateDrillTestPDF = (submission: DrillTestSubmission, achievement: Achievement) => {
   const doc = new jsPDF();
@@ -13,7 +13,7 @@ export const generateDrillTestPDF = (submission: DrillTestSubmission, achievemen
   doc.setFontSize(22);
   doc.text('CIVIL AIR PATROL', 105, 15, { align: 'center' });
   doc.setFontSize(16);
-  doc.text(`DRILL TEST: ACHIEVEMENT ${achievement.number} - ${achievement.name}`, 105, 25, { align: 'center' });
+  doc.text(`DRILL TEST: ${achTitle(achievement).toUpperCase()}`, 105, 25, { align: 'center' });
   doc.setFontSize(12);
   doc.text(`${submission.squadron ? 'Unit ' + submission.squadron : 'CAP'} - Paperless System`, 105, 33, { align: 'center' });
 

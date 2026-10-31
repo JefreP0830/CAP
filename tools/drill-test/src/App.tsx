@@ -13,7 +13,7 @@ import {
   Menu,
   LogOut
 } from 'lucide-react';
-import { Achievement, FALLBACK_ACHIEVEMENTS, CAP_COLORS, DrillTestSubmission } from './constants';
+import { Achievement, FALLBACK_ACHIEVEMENTS, CAP_COLORS, DrillTestSubmission, achLabel, achTitle } from './constants';
 import { generateDrillTestPDF } from './utils/pdfGenerator';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -95,7 +95,7 @@ export default function App() {
 
     try {
       const doc = generateDrillTestPDF(submission, selectedAchievement);
-      const fileName = `${selectedAchievement.category}_${selectedAchievement.name}_${cadetCAPID}.pdf`;
+      const fileName = `${selectedAchievement.category}_${selectedAchievement.name || selectedAchievement.number}_${cadetCAPID}.pdf`;
       
       // Generate the PDF as a Blob
       const pdfBlob = doc.output('blob');
@@ -110,7 +110,7 @@ export default function App() {
 
         await navigator.share({
           files: [file],
-          title: `${selectedAchievement.category}: ${selectedAchievement.name} - ${cadetCAPID}`,
+          title: `${selectedAchievement.category}: ${selectedAchievement.name || selectedAchievement.number} - ${cadetCAPID}`,
           text: shareText,
         });
       } else {
@@ -124,7 +124,7 @@ export default function App() {
       console.error("Sharing failed", error);
       // If sharing is cancelled or fails, we still allow them to download
       const doc = generateDrillTestPDF(submission, selectedAchievement);
-      doc.save(`${selectedAchievement.category}_${selectedAchievement.name}_${cadetCAPID}.pdf`);
+      doc.save(`${selectedAchievement.category}_${selectedAchievement.name || selectedAchievement.number}_${cadetCAPID}.pdf`);
       setStep('success');
     } finally {
       setIsSubmitting(false);
@@ -286,9 +286,9 @@ export default function App() {
                         {ach.number}
                       </div>
                       <div>
-                        <h3 className="font-bold text-lg text-slate-800 group-hover:text-cap-blue transition-colors">{ach.name}</h3>
+                        <h3 className="font-bold text-lg text-slate-800 group-hover:text-cap-blue transition-colors">{ach.name || ach.topic}</h3>
                         <p className="text-xs font-medium text-slate-400">
-                          {ach.category === 'Promotion' ? `Achievement ${ach.number}` : 'Advanced Training'} • Pass: {ach.passingScore}/{ach.movements.filter(m => !m.isNonGraded).length}
+                          {achLabel(ach)} • Pass: {ach.passingScore}/{ach.movements.filter(m => !m.isNonGraded).length}
                         </p>
                       </div>
                     </div>
@@ -319,9 +319,7 @@ export default function App() {
                 <div className="flex justify-between items-start gap-4">
                   <div>
                     <h2 className="font-title font-bold text-3xl tracking-tight text-slate-900 leading-tight">
-                      {selectedAchievement.category === 'Promotion' 
-                        ? `Ach ${selectedAchievement.number}: ${selectedAchievement.name}` 
-                        : selectedAchievement.name}
+                      {achTitle(selectedAchievement)}
                     </h2>
                     <p className="text-slate-500 text-sm font-medium mt-1">{selectedAchievement.category === 'Promotion' ? 'Drill Performance Test' : 'Advanced Training Evaluation'}</p>
                     <div className="flex items-center gap-2 mt-3">

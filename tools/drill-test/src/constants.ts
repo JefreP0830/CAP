@@ -41,6 +41,17 @@ export interface DrillTestSubmission {
   category: 'Promotion' | 'Advanced';
 }
 
+// Display helpers. Drill tests follow CAPP 60-34 numbering: Achievements 1-8,
+// plus the Wright Brothers Award (milestone) between Achievements 3 and 4.
+// Achievement 5 currently carries no honoree name (CAPipedia, Cadet achievements).
+export const achLabel = (a: Achievement) =>
+  a.category !== 'Promotion' ? 'Advanced Training'
+  : a.number === 'WB' ? 'Wright Brothers Award' : `Achievement ${a.number}`;
+export const achTitle = (a: Achievement) =>
+  a.category !== 'Promotion' ? a.name
+  : a.number === 'WB' ? 'Wright Brothers Award'
+  : a.name ? `Ach ${a.number}: ${a.name}` : `Achievement ${a.number}`;
+
 export const CAP_COLORS = {
   blue: '#003366',
   red: '#CC0000',
@@ -383,62 +394,11 @@ export const FALLBACK_ACHIEVEMENTS: Achievement[] = [
     ]
   },
   {
-    number: 4.1,
-    name: "Wright Brothers - Part 1",
-    category: 'Promotion',
-    passingScore: 4,
-    topic: "Drill of the Element as an Element Leader (not in ranks)",
-    conditions: "Provide the cadet with a list of the commands shown below and allow the cadet to refer to them during the course of the test. Instruct the cadet to lead the element in drill, completing all commands in sequence. The element should consist of at least 3 cadets. Assign to the element cadets who are proficient in basic drill.",
-    note: "The element's ability to perform the commands is NOT relevant to this test, only the cadet's ability to call commands properly is being evaluated.",
-    commandSequence: [
-      "1. FALL IN",
-      "2. Dress Right, DRESS (check alignment)",
-      "3. Ready, FRONT",
-      "4. Right, FACE",
-      "5. Left, FACE",
-      "6. About, FACE",
-      "7. Left, FACE",
-      "8. Forward, MARCH",
-      "9. Left Flank, MARCH",
-      "10. Right Flank, MARCH",
-      "11. To the Rear, MARCH",
-      "12. Element, HALT",
-      "13. FALL OUT"
-    ],
-    movements: [
-      { 
-        command: "Knowledge", 
-        standards: "Calls commands on the correct foot (when the foot corresponding to the direction of movement strikes the ground)",
-        score: null 
-      },
-      { 
-        command: "Timing", 
-        standards: "Calls commands of execution two steps after calling the preparatory commands",
-        score: null 
-      },
-      { 
-        command: "Voice", 
-        standards: "1. Calls commands loud enough for the element to hear them. 2. Calls commands clear enough for the element to understand them. 3. Proper inflection (raising) used.",
-        score: null 
-      },
-      { 
-        command: "Bearing", 
-        standards: "1. Calls commands decisively, with snap and a sense of \"Go!\". 2. Maintains good military bearing.",
-        score: null 
-      },
-      { 
-        command: "Overall Leadership", 
-        standards: "1. Calls cadence or halts and restarts the element, if the cadets fall out of step or lose alignment. 2. Completes all assigned commands.",
-        score: null 
-      },
-    ]
-  },
-  {
-    number: 4.2,
-    name: "Wright Brothers - Part 2",
+    number: "WB",
+    name: "Wright Brothers",
     category: 'Promotion',
     passingScore: 16,
-    topic: "Advanced Drill as an Element Leader. This is the second part of the Wright Brothers Exam.",
+    topic: "Part 2: Advanced Drill as an Element Leader. Given after the cadet passes Part 1, the Comprehensive Leadership Test.",
     conditions: "Form at least 6 cadets into a flight of 2 elements. Graded cadet will be 1st element leader.",
     movements: [
       { 
@@ -544,8 +504,59 @@ export const FALLBACK_ACHIEVEMENTS: Achievement[] = [
     ]
   },
   {
-    number: 5,
+    number: 4,
     name: "Rickenbacker",
+    category: 'Promotion',
+    passingScore: 4,
+    topic: "Drill of the Element as an Element Leader (not in ranks)",
+    conditions: "Provide the cadet with a list of the commands shown below and allow the cadet to refer to them during the course of the test. Instruct the cadet to lead the element in drill, completing all commands in sequence. The element should consist of at least 3 cadets. Assign to the element cadets who are proficient in basic drill.",
+    note: "The element's ability to perform the commands is NOT relevant to this test, only the cadet's ability to call commands properly is being evaluated.",
+    commandSequence: [
+      "1. FALL IN",
+      "2. Dress Right, DRESS (check alignment)",
+      "3. Ready, FRONT",
+      "4. Right, FACE",
+      "5. Left, FACE",
+      "6. About, FACE",
+      "7. Left, FACE",
+      "8. Forward, MARCH",
+      "9. Left Flank, MARCH",
+      "10. Right Flank, MARCH",
+      "11. To the Rear, MARCH",
+      "12. Element, HALT",
+      "13. FALL OUT"
+    ],
+    movements: [
+      { 
+        command: "Knowledge", 
+        standards: "Calls commands on the correct foot (when the foot corresponding to the direction of movement strikes the ground)",
+        score: null 
+      },
+      { 
+        command: "Timing", 
+        standards: "Calls commands of execution two steps after calling the preparatory commands",
+        score: null 
+      },
+      { 
+        command: "Voice", 
+        standards: "1. Calls commands loud enough for the element to hear them. 2. Calls commands clear enough for the element to understand them. 3. Proper inflection (raising) used.",
+        score: null 
+      },
+      { 
+        command: "Bearing", 
+        standards: "1. Calls commands decisively, with snap and a sense of \"Go!\". 2. Maintains good military bearing.",
+        score: null 
+      },
+      { 
+        command: "Overall Leadership", 
+        standards: "1. Calls cadence or halts and restarts the element, if the cadets fall out of step or lose alignment. 2. Completes all assigned commands.",
+        score: null 
+      },
+    ]
+  },
+  {
+    number: 5,
+    name: "",
     category: 'Promotion',
     passingScore: 16,
     topic: "Drill of the Flight as a Flight Sergeant",
@@ -667,7 +678,7 @@ export const FALLBACK_ACHIEVEMENTS: Achievement[] = [
   },
   {
     number: 6,
-    name: "Lindbergh",
+    name: "Doolittle",
     category: 'Promotion',
     passingScore: 4,
     topic: "Squadron Formations",
