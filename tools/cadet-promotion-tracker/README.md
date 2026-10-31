@@ -19,6 +19,4 @@ share is the only copy of the data.
 - Requirement rules are not yet verified against current CAP publications
   (e.g. drill shown where an achievement doesn't require it).
 - Colors are not yet the official CAP palette.
-- Columns for flight, duty position, pinned status and mentors come from the
-  old hand-maintained file. eServices does not export them, so they are blank
-  after import and will be removed or replaced.
+- Pinned status is hand-set and not in the eServices export; to be decided.

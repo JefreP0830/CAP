@@ -412,7 +412,7 @@
       border-color: #047857;
     }
 
-    /* Done / Passed (Blue for Welcome W and Encampment E) */
+    /* Done / Passed (Blue for Welcome W) */
     .lb-done-blue {
       background-color: #0284C7;
       color: #FFFFFF;
@@ -446,14 +446,6 @@
       background-color: #E2E8F0;
       color: #64748B;
       border-color: #CBD5E1;
-    }
-
-    /* Encampment Missing for Mitchell */
-    .lb-encamp-need {
-      background-color: #DC2626;
-      color: #FFFFFF;
-      border-color: #B91C1C;
-      font-weight: 900;
     }
 
     /* N/A to this achievement */
@@ -513,32 +505,6 @@
     }
     .editable-input:focus {
       border-color: var(--cap-navy);
-    }
-
-    .duty-input {
-      font-family: Arial, sans-serif;
-      font-size: 8.5pt;
-      width: 100px;
-      padding: 2px 5px;
-      border: 1px solid transparent;
-      border-radius: 3px;
-      background-color: transparent;
-      outline: none;
-      transition: border-color 0.15s, background-color 0.15s, color 0.15s, opacity 0.15s;
-    }
-    .duty-input:hover, .duty-input:focus {
-      border-color: #CBD5E1;
-      background-color: #FFFFFF;
-    }
-    .duty-input.active {
-      color: #0F172A;
-      font-weight: bold;
-      opacity: 1;
-    }
-    .duty-input.empty {
-      color: #94A3B8;
-      font-weight: normal;
-      opacity: 0.45;
     }
 
     /* DRAG & DROP OVERLAY */
@@ -781,29 +747,6 @@
         padding: 0 !important;
         font-size: 7.5pt !important;
       }
-      .duty-input {
-        border: none !important;
-        background: transparent !important;
-        padding: 0 !important;
-        font-size: 7.5pt !important;
-      }
-      .duty-input.active {
-        color: #000000 !important;
-        font-weight: bold !important;
-        opacity: 1 !important;
-      }
-      .duty-input.empty {
-        color: #94A3B8 !important;
-        opacity: 0.4 !important;
-      }
-      .col-duty,
-      .col-notes,
-      table.tracker-table th:nth-child(11),
-      table.tracker-table td:nth-child(11),
-      table.tracker-table th:nth-child(12),
-      table.tracker-table td:nth-child(12) {
-        display: none !important;
-      }
     }
   </style>
 </head>
@@ -905,7 +848,6 @@
       <span class="legend-item"><span class="legend-box">C</span> Character</span>
       <span class="legend-item"><span class="legend-box">F</span> Fitness</span>
       <span class="legend-item"><span class="legend-box">W</span> Welcome</span>
-      <span class="legend-item"><span class="legend-box">E</span> Encampment</span>
       <span class="legend-item"><span class="legend-box">W</span> Writing</span>
       <span class="legend-item"><span class="legend-box">P</span> Presentation</span>
     </div>
@@ -917,30 +859,6 @@
       <!-- Injected by JavaScript -->
     </div>
   </main>
-
-  <!-- NOTE MODAL -->
-  <div class="modal-overlay" id="noteModal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3 id="noteModalTitle">Cadet Note</h3>
-        <button class="modal-close" onclick="closeNoteModal()">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label>Notes for <span id="noteCadetName"></span>:</label>
-          <textarea id="noteInput" placeholder="Enter notes or updates here..."></textarea>
-        </div>
-        <div style="display:flex; gap:8px;">
-          <button class="btn btn-secondary btn-sm" onclick="insertNoteTimestamp()">+ Insert Timestamp</button>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" onclick="closeNoteModal()">Cancel</button>
-        <button class="btn btn-primary" onclick="saveNoteModal()">Save Note</button>
-      </div>
-    </div>
-  </div>
-
   <!-- INGESTION SUMMARY MODAL -->
   <div class="modal-overlay" id="summaryModal">
     <div class="modal-card">
@@ -1168,7 +1086,7 @@
         if (!req.leadership?.complete) missing.push("Leadership Milestone Exam");
         if (!req.aerospace?.complete) missing.push("Aerospace Milestone Exam");
         if (!req.fitness?.complete) missing.push("Physical Fitness");
-        if (!cadet.encampment) missing.push("Encampment Graduate");
+        missing.push("Encampment (not in eServices export; verify)");
       } else if (target === "Earhart Award") {
         if (!req.leadership?.complete) missing.push("Leadership Milestone Exam");
         if (!req.aerospace?.complete) missing.push("Aerospace Milestone Exam");
@@ -1216,11 +1134,7 @@
     // =========================================================
     function render() {
       updateKPIs();
-      if (currentTab === 'mentorship') {
-        renderMentorshipTable();
-      } else {
-        renderMasterTable();
-      }
+      renderMasterTable();
     }
 
     function updateKPIs() {
@@ -1257,22 +1171,17 @@
         }
 
         const evalRes = evaluateCadetStatus(c);
-        if (currentTab === 'cmd' && c.flight !== 'CMD') return false;
-        if (currentTab === 'alpha' && c.flight !== 'A') return false;
-        if (currentTab === 'bravo' && c.flight !== 'B') return false;
         if (currentTab === 'ready' && !evalRes.isReady) return false;
         if (currentTab === 'pastdue' && (evalRes.daysPastDue === null || evalRes.daysPastDue <= 0)) return false;
         if (currentTab === 'drill' && !evalRes.needsDrill) return false;
         if (currentTab === 'milestone' && !evalRes.spec.hasMilestoneExam) return false;
-        if (currentTab === 'mentorship' && c.targetAchievement !== 'Achievement 1') return false;
 
         if (searchQuery) {
           const q = searchQuery.toLowerCase();
           const matchName = (c.name || '').toLowerCase().includes(q);
           const matchCapid = String(c.capid).includes(q);
           const matchRank = (c.currentRank || '').toLowerCase().includes(q);
-          const matchDuty = (c.dutyPosition || '').toLowerCase().includes(q);
-          if (!matchName && !matchCapid && !matchRank && !matchDuty) {
+          if (!matchName && !matchCapid && !matchRank) {
             return false;
           }
         }
@@ -1307,10 +1216,8 @@
               <th style="width: 140px;">Promotion Eligible</th>
               <th style="width: 85px; text-align:center;">Status</th>
               <th style="width: 48px; text-align:center;" title="TEST: Flags bold red 'T' only if an incomplete milestone exam is pending">TEST</th>
-              <th style="width: 175px;" title="REQUIRED: L=Leadership, A=Aerospace, D=Drill, C=Character, F=Fitness, W=Welcome (Blue), E=Encampment (Blue)">REQUIRED</th>
+              <th style="width: 175px;" title="REQUIRED: L=Leadership, A=Aerospace, D=Drill, C=Character, F=Fitness, W=Welcome (Blue)">REQUIRED</th>
               <th style="width: 65px; text-align:center;" title="SDA (Officers): W=Technical Writing, P=Oral Presentation">SDA</th>
-              <th class="col-duty" style="width: 110px;">Duty Position</th>
-              <th class="col-notes" style="min-width: 160px;">Notes</th>
             </tr>
           </thead>
           <tbody>
@@ -1395,19 +1302,6 @@
           wTitle = 'Cadet Welcome Course: Completed';
         }
 
-        let eClass = 'lb-na';
-        let eTitle = '';
-        if (c.encampment) {
-          eClass = 'lb-done-blue';
-          eTitle = 'Encampment: Graduate (Click to toggle)';
-        } else if (c.targetAchievement === 'Mitchell Award') {
-          eClass = 'lb-encamp-need';
-          eTitle = 'Encampment: REQUIRED for Mitchell Award (Click to toggle)';
-        } else {
-          eClass = 'lb-missing';
-          eTitle = 'Encampment: Not Yet Attended (Click to toggle)';
-        }
-
         const requiredHtml = `
           <div class="letter-box-group">
             <span class="letter-box ${lClass}" title="${lTitle}">L</span>
@@ -1416,7 +1310,6 @@
             <span class="letter-box ${cClass}" title="${cTitle}">C</span>
             <span class="letter-box ${fClass}" title="${fTitle}">F</span>
             <span class="letter-box ${wClass}" title="${wTitle}">W</span>
-            <span class="letter-box ${eClass} lb-clickable" onclick="toggleCadetEncampment(${c.capid})" title="${eTitle}">E</span>
           </div>
         `;
 
@@ -1440,13 +1333,7 @@
         } else {
           sdaHtml = `<span style="color: #94A3B8;">&mdash;</span>`;
         }
-
-        const noteDisplay = c.notes ? escapeHtml(c.notes) : 'Add note...';
-        const noteClass = c.notes ? 'note-cell' : 'note-cell empty';
         const cleanAchvCode = formatTargetCode(c.targetAchievement);
-        const hasDuty = Boolean(c.dutyPosition && c.dutyPosition.trim() !== '' && c.dutyPosition.trim().toUpperCase() !== 'NA' && c.dutyPosition.trim() !== '-');
-        const dutyClass = hasDuty ? 'duty-input active' : 'duty-input empty';
-        const dutyVal = c.dutyPosition ? escapeHtml(c.dutyPosition) : 'NA';
 
         html += `
           <tr>
@@ -1471,133 +1358,6 @@
             <td style="text-align: center;">${testBoxHtml}</td>
             <td>${requiredHtml}</td>
             <td style="text-align: center;">${sdaHtml}</td>
-            <td class="col-duty">
-              <input type="text" class="${dutyClass}" value="${dutyVal}" 
-                placeholder="NA"
-                oninput="this.className = (this.value && this.value.trim() !== '' && this.value.trim().toUpperCase() !== 'NA' && this.value.trim() !== '-') ? 'duty-input active' : 'duty-input empty'" 
-                onchange="updateCadetField(${c.capid}, 'dutyPosition', this.value)">
-            </td>
-            <td class="col-notes">
-              <div class="${noteClass}" onclick="openNoteModal(${c.capid})">${noteDisplay}</div>
-            </td>
-          </tr>
-        `;
-      });
-
-      html += `
-          </tbody>
-        </table>
-      `;
-
-      container.innerHTML = html;
-    }
-
-    function renderMentorshipTable() {
-      const recruits = cadets.filter(c => c.active && c.targetAchievement === 'Achievement 1');
-      const container = document.getElementById('tableContainer');
-
-      if (recruits.length === 0) {
-        container.innerHTML = `
-          <div style="padding: 32px; text-align: center; color: #64748B;">
-            <p style="font-size: 13pt; font-weight: bold; margin-bottom: 6px;">No recruits currently working on Achievement 1</p>
-            <p style="font-size: 10pt;">New cadets joining the squadron will appear here automatically.</p>
-          </div>
-        `;
-        return;
-      }
-
-      let html = `
-        <table class="tracker-table">
-          <thead>
-            <tr>
-              <th style="width: 70px;">CAPID</th>
-              <th style="width: 170px;">Recruit Name</th>
-              <th style="width: 90px;">Joined</th>
-              <th style="width: 130px;">Primary Mentor</th>
-              <th style="width: 130px;">Secondary Mentor</th>
-              <th style="width: 90px;">Assigned</th>
-              <th style="width: 65px; text-align:center;">Welcome</th>
-              <th style="width: 55px; text-align:center;">Oath</th>
-              <th style="width: 65px; text-align:center;">Wingman</th>
-              <th style="width: 65px; text-align:center;">Lead Ch1</th>
-              <th style="width: 65px; text-align:center;">Baseline</th>
-              <th style="width: 55px; text-align:center;">Drill 1</th>
-              <th style="width: 60px; text-align:center;">O-Flight</th>
-              <th style="width: 60px; text-align:center;">Uniform</th>
-              <th style="width: 100px;">Status</th>
-              <th style="min-width: 140px;">Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-      `;
-
-      recruits.forEach(c => {
-        const evalRes = evaluateCadetStatus(c);
-        const req = c.requirements || {};
-        const mentor = c.mentor || {};
-
-        const statusBadge = evalRes.isReady ? '<span class="badge badge-ready">READY</span>' : '<span class="badge badge-not-ready">IN PROGRESS</span>';
-
-        html += `
-          <tr>
-            <td style="font-weight: bold; color: var(--cap-navy);">${c.capid}</td>
-            <td style="font-weight: bold;">${escapeHtml(c.name)}</td>
-            <td>${formatDisplayDate(c.joinDate)}</td>
-            <td>
-              <input type="text" class="editable-input" style="width: 120px;" value="${escapeHtml(mentor.assignedMentor || '')}" placeholder="Assign mentor..." onchange="updateMentorField(${c.capid}, 'assignedMentor', this.value)">
-            </td>
-            <td>
-              <input type="text" class="editable-input" style="width: 120px;" value="${escapeHtml(mentor.secondaryMentor || '')}" placeholder="Secondary..." onchange="updateMentorField(${c.capid}, 'secondaryMentor', this.value)">
-            </td>
-            <td>
-              <input type="date" class="editable-input" style="width: 105px;" value="${mentor.dateAssigned || ''}" onchange="updateMentorField(${c.capid}, 'dateAssigned', this.value)">
-            </td>
-            <td style="text-align:center;">
-              <span class="toggle-pill ${req.welcome?.complete ? 'toggle-yes' : 'toggle-no'}">
-                ${req.welcome?.complete ? 'Pass' : 'Pending'}
-              </span>
-            </td>
-            <td style="text-align:center;">
-              <span class="toggle-pill ${req.oath?.complete ? 'toggle-yes' : 'toggle-no'}">
-                ${req.oath?.complete ? 'Done' : 'Need'}
-              </span>
-            </td>
-            <td style="text-align:center;">
-              <span class="toggle-pill ${req.character?.complete ? 'toggle-yes' : 'toggle-no'}">
-                ${req.character?.complete ? 'Pass' : 'Need'}
-              </span>
-            </td>
-            <td style="text-align:center;">
-              <span class="toggle-pill ${req.leadership?.complete ? 'toggle-yes' : 'toggle-no'}">
-                ${req.leadership?.complete ? 'Pass' : 'Need'}
-              </span>
-            </td>
-            <td style="text-align:center;">
-              <span class="toggle-pill ${req.fitness?.complete ? 'toggle-yes' : 'toggle-no'}">
-                ${req.fitness?.complete ? 'Pass' : 'Need'}
-              </span>
-            </td>
-            <td style="text-align:center;">
-              <span class="toggle-pill ${req.drill?.complete ? 'toggle-yes' : 'toggle-no'}">
-                ${req.drill?.complete ? 'Pass' : 'Need'}
-              </span>
-            </td>
-            <td style="text-align:center;">
-              <span class="toggle-pill ${mentor.oflight ? 'toggle-yes' : 'toggle-no'}" onclick="toggleMentorOflight(${c.capid})">
-                ${mentor.oflight ? 'Flew' : 'No'}
-              </span>
-            </td>
-            <td style="text-align:center;">
-              <span class="toggle-pill ${mentor.uniform ? 'toggle-yes' : 'toggle-no'}" onclick="toggleMentorUniform(${c.capid})">
-                ${mentor.uniform ? 'Yes' : 'No'}
-              </span>
-            </td>
-            <td>${statusBadge}</td>
-            <td>
-              <div class="${c.notes ? 'note-cell' : 'note-cell empty'}" onclick="openNoteModal(${c.capid})">
-                ${c.notes ? escapeHtml(c.notes) : 'Add note...'}
-              </div>
-            </td>
           </tr>
         `;
       });
@@ -1796,16 +1556,12 @@
             email: email,
             currentRank: spec.prevRank,
             targetAchievement: achvName,
-            flight: 'Unassigned',
             pinned: 'Yes',
-            dutyPosition: 'NA',
-            encampment: false,
             joinDate: formatDateISO(parseAnyDate(joinDate)),
             lastPromotionDate: null,
             eligibleDate: formatDateISO(parseAnyDate(nextApproval)),
             nextPromotionDate: thuDate,
             active: true,
-            notes: '',
             requirements: {
               leadership: { complete: leadComplete, date: leadIntDate || leadDate || null, score: leadScore },
               aerospace: { complete: aeComplete, date: aeIntDate || aeDate || null, score: aeScore },
@@ -1817,13 +1573,6 @@
               staffService: { complete: Boolean(staffService && staffService !== 'None') },
               sdaOral: { complete: Boolean(sdaOral && sdaOral !== 'None') },
               sdaWritten: { complete: Boolean((sdaWritten && sdaWritten !== 'None') || (sdaTitle && sdaTitle !== 'None')) }
-            },
-            mentor: {
-              assignedMentor: '',
-              secondaryMentor: '',
-              dateAssigned: '',
-              oflight: false,
-              uniform: false
             }
           };
           cadets.push(newCadet);
@@ -1911,14 +1660,6 @@
       render();
     }
 
-    function toggleCadetEncampment(capid) {
-      const c = cadets.find(x => x.capid === capid);
-      if (!c) return;
-      c.encampment = !c.encampment;
-      saveCadets();
-      render();
-    }
-
     function toggleCadetSDAWritten(capid) {
       const c = cadets.find(x => x.capid === capid);
       if (!c) return;
@@ -1939,71 +1680,9 @@
       render();
     }
 
-    function updateMentorField(capid, field, value) {
-      const c = cadets.find(x => x.capid === capid);
-      if (!c) return;
-      c.mentor = c.mentor || {};
-      c.mentor[field] = value;
-      saveCadets();
-      render();
-    }
-
-    function toggleMentorOflight(capid) {
-      const c = cadets.find(x => x.capid === capid);
-      if (!c) return;
-      c.mentor = c.mentor || {};
-      c.mentor.oflight = !c.mentor.oflight;
-      saveCadets();
-      render();
-    }
-
-    function toggleMentorUniform(capid) {
-      const c = cadets.find(x => x.capid === capid);
-      if (!c) return;
-      c.mentor = c.mentor || {};
-      c.mentor.uniform = !c.mentor.uniform;
-      saveCadets();
-      render();
-    }
-
     // =========================================================
     // NOTE MODAL ACTIONS
     // =========================================================
-    function openNoteModal(capid) {
-      const c = cadets.find(x => x.capid === capid);
-      if (!c) return;
-      activeEditingCapid = capid;
-      document.getElementById('noteCadetName').innerText = `${c.name} (${c.capid})`;
-      document.getElementById('noteInput').value = c.notes || '';
-      document.getElementById('noteModal').classList.add('open');
-    }
-
-    function closeNoteModal() {
-      document.getElementById('noteModal').classList.remove('open');
-      activeEditingCapid = null;
-    }
-
-    function insertNoteTimestamp() {
-      const textarea = document.getElementById('noteInput');
-      const now = new Date();
-      const month = now.getMonth() + 1;
-      const day = now.getDate();
-      const stamp = `${month}/${day} JP - `;
-      textarea.value = (textarea.value ? textarea.value + '\n' : '') + stamp;
-      textarea.focus();
-    }
-
-    function saveNoteModal() {
-      if (!activeEditingCapid) return;
-      const c = cadets.find(x => x.capid === activeEditingCapid);
-      if (c) {
-        c.notes = document.getElementById('noteInput').value.trim();
-        saveCadets();
-        render();
-      }
-      closeNoteModal();
-    }
-
     // =========================================================
     // UI HELPERS & SELECT OPTIONS
     // =========================================================
@@ -2015,14 +1694,10 @@
 
       const tabTitles = {
         'all': 'All Cadets',
-        'cmd': 'Command Staff',
-        'alpha': 'Alpha Flight',
-        'bravo': 'Bravo Flight',
         'ready': 'Ready to Promote',
         'pastdue': 'Past Due / Eligible',
         'drill': 'Drill Test Needed',
         'milestone': 'Milestone Exams',
-        'mentorship': 'Recruits & Mentorship',
         'inactive': 'Inactive Cadets'
       };
       document.getElementById('printTabName').innerText = 'Roster: ' + (tabTitles[tabName] || tabName);
