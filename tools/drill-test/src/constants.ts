@@ -69,99 +69,24 @@ export const FALLBACK_ACHIEVEMENTS: Achievement[] = [
     topic: "Basic Drill as an Element Member",
     conditions: "Form at least 3 cadets as a single element. Test no more than 2 cadets at a time per testing officer. Tested cadets should not be on the flanks of the element.",
     movements: [
-      { 
-        command: "FALL IN", 
-        standards: "1. Automatically executes Dress Right, DRESS. 2. Adjusts position to achieve proper dress. 3. Automatically executes Ready, FRONT. 4. Stands at position of attention.",
-        score: null 
-      },
-      { 
-        command: "Parade, REST", 
-        standards: "1. Moves left foot such that heels are about 12-inches apart. 2. Legs straight but not locked. 3. Hands joined behind back, right over left, palms out.",
-        score: null 
-      },
-      { 
-        command: "Flight, ATTENTION", 
-        standards: "Restorative action to return to attention.",
-        score: null,
-        isNonGraded: true
-      },
-      { 
-        command: "Present, ARMS", 
-        standards: "1. Execute salute. 2. Hold until further command.",
-        score: null 
-      },
-      { 
-        command: "Order, ARMS", 
-        standards: "1. Return hand smartly to side.",
-        score: null 
-      },
-      { 
-        command: "About, FACE", 
-        standards: "1. 2 counts. 2. Right toe behind left heel. 3. 180° pivot on both feet.",
-        score: null 
-      },
-      { 
-        command: "About, FACE", 
-        standards: "Restorative action to return to original front.",
-        score: null,
-        isNonGraded: true
-      },
-      { 
-        command: "Dress Right, DRESS", 
-        standards: "1. Left arm horizontal, fingers extended and joined, palm down. 2. Head and eyes turned 45° to the right (except right flank). 3. Proper interval established.",
-        score: null 
-      },
-      { 
-        command: "Ready, FRONT", 
-        standards: "1. Head and eyes snapped to the front. 2. Left arm snapped to the side. 3. Position of attention maintained.",
-        score: null 
-      },
-      { 
-        command: "Right, FACE", 
-        standards: "1. 2 counts. 2. Pivot on right heel and ball of left foot. 3. 90° turn to the right.",
-        score: null 
-      },
-      { 
-        command: "COVER", 
-        standards: "1. Align in column. 2. Each member (except first) aligns on the person in front. 3. 40-inch distance maintained.",
-        score: null 
-      },
-      { 
-        command: "Left, FACE", 
-        standards: "Restorative action to return to original front.",
-        score: null,
-        isNonGraded: true
-      },
-      { 
-        command: "AT EASE", 
-        standards: "1. Right foot stays in place. 2. Silent. 3. Relaxed but no talking.",
-        score: null 
-      },
-      { 
-        command: "Flight, ATTENTION", 
-        standards: "1. Snaps to attention. 2. Heels together, feet at 45°. 3. Arms at sides, eyes front.",
-        score: null 
-      },
-      { 
-        command: "Hand, SALUTE", 
-        standards: "1. Right hand to brow. 2. Fingers straight, palm slightly inward. 3. Upper arm horizontal.",
-        score: null 
-      },
-      { 
-        command: "Eyes, RIGHT", 
-        standards: "1. Head and eyes turned 45° to the right (except right flank). 2. Alignment maintained.",
-        score: null 
-      },
-      { 
-        command: "Ready, FRONT", 
-        standards: "1. Head and eyes snapped to the front. 2. Position of attention maintained.",
-        score: null 
-      },
-      { 
-        command: "FALL OUT", 
-        standards: "1. Leave ranks. 2. Stay in immediate area.",
-        score: null 
-      },
+      { command: "FALL IN", standards: "1. Automatically executes Dress Right, DRESS. 2. Adjusts position to achieve proper dress. 3. Automatically executes Ready, FRONT. 4. Stands at position of attention.", score: null },
+      { command: "Parade, REST", standards: "1. Moves left foot such that heels are about 12 inches apart. 2. Extends arms behind body and places right hand in palm of the left hand. 3. Keeps head and eyes straight ahead; is immobile and silent.", score: null },
+      { command: "Flight, ATTENTION", standards: "Used to return to position of attention; not graded.", score: null, isNonGraded: true },
+      { command: "Present, ARMS", standards: "1. Smartly raises right hand directly to head or headdress. 2. Right hand is flat, with fingers fully extended, canted slightly down.", score: null },
+      { command: "Order, ARMS", standards: "1. Smoothly and smartly retraces path of arm. 2. Ends at the position of attention.", score: null },
+      { command: "About, FACE", standards: "1. Pivots 180 degrees clockwise on the ball of the right foot and heel of the left foot. 2. Maintains upper body in position of attention.", score: null },
+      { command: "About, FACE", standards: "Used to return to line formation; not graded, or use as a second chance to perform #5 correctly.", score: null, isNonGraded: true },
+      { command: "Dress Right, DRESS", standards: "1. Raises and extends left arm laterally from the shoulder with snap so arm is parallel with the ground, palm down, hand flat. 2. At the same time as left arm is raised, tested cadet turns head 45 degrees to the right. 3. Establishes exact shoulder-to-fingertip contact with the individual to the immediate right.", score: null },
+      { command: "Ready, FRONT", standards: "1. Arms are lowered with snap to their sides and hand is cupped when their arm is at approximately waist level. 2. As the arm is lowered, returns head to the front with snap.", score: null },
+      { command: "Right, FACE", standards: "1. Pivots 90 degrees to the right on the ball of the left foot and the heel of the right foot. 2. Maintains upper body in position of attention.", score: null },
+      { command: "COVER", standards: "Adjusts by taking small choppy steps if needed to establish cover and distance.", score: null },
+      { command: "Left, FACE", standards: "Used to return to line formation; not graded, or use as a second chance to perform the simple facing of #8 correctly.", score: null, isNonGraded: true },
+      { command: "AT EASE", standards: "1. Relaxes in standing position. 2. Keeps right foot in place. 3. Silent.", score: null },
+      { command: "Flight, ATTENTION", standards: "1. Assumes Parade Rest on preparatory command. 2. Remains immobile and silent, hands cupped.", score: null },
+      { command: "Hand, SALUTE", standards: "1. Count one: arm raised smartly. 2. Count one: fingers, palm, and forearm form a straight line. 3. Count one: upper arm parallel to ground. 4. Count one: tip of middle finger touches the front right corner of headdress (if no headdress, outside corner of eyebrow or front right edge of glasses). 5. Count one: rest of body remains at attention. 6. Count two: arm comes smoothly and smartly down. 7. Count two: retraces path used to raise the arm. 8. Count two: hand is cupped as it passes the waist. 9. Count two: ends with entire body at attention.", score: null },
+      { command: "Eyes, RIGHT", standards: "Turns their head and eyes smartly 45 degrees to the right.", score: null },
+      { command: "Ready, FRONT", standards: "On FRONT, heads and eyes are turned smartly to the front.", score: null },
+      { command: "FALL OUT", standards: "Simply breaks ranks but remains in vicinity.", score: null },
     ]
   },
   {
@@ -170,113 +95,28 @@ export const FALLBACK_ACHIEVEMENTS: Achievement[] = [
     category: 'Promotion',
     passingScore: 11,
     topic: "Basic Drill as a Flight Member",
-    conditions: "Form at least 8 cadets as a flight (two squads of four). Test no more than 4 cadets at a time. Testing should occur on a flat, level surface.",
+    conditions: "Form at least 6 cadets into a flight of 2 elements. If you lack cadets for proper elements, elements of 2 may be used for training purposes.",
     movements: [
-      { 
-        command: "FALL IN", 
-        standards: "Instruction to form the flight. Not graded.",
-        score: null,
-        isNonGraded: true
-      },
-      { 
-        command: "Right, FACE", 
-        standards: "Instruction to face into column. Not graded.",
-        score: null,
-        isNonGraded: true
-      },
-      { 
-        command: "Forward, MARCH", 
-        standards: "1. Step off with left foot. 2. 24-inch steps. 3. 100-120 bpm cadence. 4. Proper arm swing (6\" front, 3\" rear).",
-        score: null 
-      },
-      { 
-        command: "Double Time, MARCH", 
-        standards: "1. Command given on either foot. 2. Step off with left foot. 3. 30-inch steps. 4. 180 bpm cadence. 5. Arms at 90-degree angle.",
-        score: null 
-      },
-      { 
-        command: "Quick Time, MARCH", 
-        standards: "1. Command given as either foot strikes ground. 2. One more step in double time. 3. Resume 24-inch steps at 100-120 bpm. 4. Proper arm swing resumed.",
-        score: null 
-      },
-      { 
-        command: "Flight, HALT", 
-        standards: "1. Command given on either foot. 2. One more step taken. 3. Heels brought together smartly. 4. Position of attention maintained.",
-        score: null 
-      },
-      { 
-        command: "Left, FACE", 
-        standards: "Instruction to face into line. Not graded.",
-        score: null,
-        isNonGraded: true
-      },
-      { 
-        command: "Open Ranks, MARCH", 
-        standards: "1. 1st rank takes 2 paces forward. 2. 2nd rank takes 1 pace forward. 3. 3rd rank stands fast. 4. 4th rank takes 2 paces backward. 5. All automatically execute Dress Right, DRESS.",
-        score: null 
-      },
-      { 
-        command: "Ready, FRONT", 
-        standards: "1. Head and eyes snapped to the front. 2. Position of attention maintained.",
-        score: null 
-      },
-      { 
-        command: "Close Ranks, MARCH", 
-        standards: "1. 1st rank stands fast. 2. 2nd rank takes 1 pace forward. 3. 3rd rank takes 2 paces forward. 4. 4th rank takes 4 paces forward.",
-        score: null 
-      },
-      { 
-        command: "Right Step, MARCH", 
-        standards: "1. 12-inch steps. 2. Heels together between steps. 3. Upper body at attention. 4. Silent.",
-        score: null 
-      },
-      { 
-        command: "Flight, HALT", 
-        standards: "1. Command given as heels come together. 2. One more step taken. 3. Position of attention maintained.",
-        score: null 
-      },
-      { 
-        command: "Right, FACE", 
-        standards: "Instruction to face into column. Not graded.",
-        score: null,
-        isNonGraded: true
-      },
-      { 
-        command: "Forward, MARCH", 
-        standards: "1. Step off with left foot. 2. 24-inch steps. 3. 100-120 bpm cadence.",
-        score: null 
-      },
-      { 
-        command: "Right Flank, MARCH", 
-        standards: "1. Command given on right foot. 2. One more step taken. 3. Pivot 90 degrees to the right on ball of left foot. 4. Step off in new direction with right foot.",
-        score: null 
-      },
-      { 
-        command: "Left Flank, MARCH", 
-        standards: "1. Command given on left foot. 2. One more step taken. 3. Pivot 90 degrees to the left on ball of right foot. 4. Step off in new direction with left foot.",
-        score: null 
-      },
-      { 
-        command: "Count Cadence, COUNT", 
-        standards: "1. Command given as left foot strikes ground. 2. Cadence called for 8 steps (1, 2, 3, 4; 1, 2, 3, 4). 3. Cadence is sharp and loud.",
-        score: null 
-      },
-      { 
-        command: "To the Rear, MARCH", 
-        standards: "1. Command given on right foot. 2. One more step taken. 3. Pivot 180 degrees to the right on balls of both feet. 4. Step off in new direction with left foot.",
-        score: null 
-      },
-      { 
-        command: "Flight, HALT", 
-        standards: "1. Command given on either foot. 2. One more step taken. 3. Heels brought together smartly. 4. Position of attention maintained.",
-        score: null 
-      },
-      { 
-        command: "FALL OUT", 
-        standards: "Instruction to dismiss the flight. Not graded.",
-        score: null,
-        isNonGraded: true
-      },
+      { command: "FALL IN", standards: "Not graded.", score: null, isNonGraded: true },
+      { command: "Right, FACE", standards: "Not graded; used to put cadets into column formation.", score: null, isNonGraded: true },
+      { command: "Forward, MARCH", standards: "1. Steps off on left foot. 2. Does not anticipate the command of execution.", score: null },
+      { command: "Double Time, MARCH", standards: "Takes one more step in quick time and then steps off in double time.", score: null },
+      { command: "Quick Time, MARCH", standards: "1. Cadet advances two more steps in double time. 2. Resumes quick time. 3. Lowers the arms to the sides and resumes armswing.", score: null },
+      { command: "Flight, HALT", standards: "1. After the command HALT, takes one more 24-inch step. 2. Trailing foot is brought smartly alongside front foot. 3. Heels finish together, on line, with cadet at attention.", score: null },
+      { command: "Left, FACE", standards: "Not graded; used to put cadets into line formation.", score: null, isNonGraded: true },
+      { command: "Open Ranks, MARCH", standards: "1. Marches forward the correct number of steps for the element (1st = 3, 2nd = 2). 2. Automatically executes Dress Right, DRESS once halted.", score: null },
+      { command: "Ready, FRONT", standards: "1. Lowers arm with snap but without slapping leg. 2. Turns head to front with snap.", score: null },
+      { command: "Close Ranks, MARCH", standards: "1st Element stands fast. 2nd Element takes 1 step forward.", score: null },
+      { command: "Right Step, MARCH", standards: "1. The leg is kept straight, but not stiff. 2. The right foot moves 12 inches to the right. 3. The left foot (without scraping the ground) is brought smartly to a position alongside the right foot in the position of attention.", score: null },
+      { command: "Flight, HALT", standards: "On the command HALT, one more step is taken and the trailing foot is placed smartly alongside the halted foot at the position of attention.", score: null },
+      { command: "Right, FACE", standards: "Not graded; used to put cadets into column formation.", score: null, isNonGraded: true },
+      { command: "Forward, MARCH", standards: "1. Steps off on left foot. 2. Does not anticipate the command of execution.", score: null },
+      { command: "Right Flank, MARCH", standards: "1. In marching, turns 90 degrees to the right. 2. Maintains proper dress, cover, interval, and distance. 3. Maintains posture as if at attention; suspends armswing during pivot.", score: null },
+      { command: "Left Flank, MARCH", standards: "1. In marching, turns 90 degrees to the left. 2. Maintains proper dress, cover, interval, and distance. 3. Maintains posture as if at attention; suspends armswing during pivot.", score: null },
+      { command: "Count Cadence, COUNT", standards: "1. Gives the count sharply and clearly without shouting, and separates each number distinctly. 2. Counts ONE-TWO-THREE-FOUR-ONE-TWO-THREE-FOUR.", score: null },
+      { command: "To the Rear, MARCH", standards: "1. Takes a half step, pivots, another half step, then steps off with a 24-inch step. 2. Maintains posture as if at attention; suspends armswing during pivot.", score: null },
+      { command: "Flight, HALT", standards: "1. After the command HALT, takes one more 24-inch step. 2. Trailing foot is brought smartly alongside front foot. 3. Heels finish together, on line, with cadet at attention.", score: null },
+      { command: "FALL OUT", standards: "Not graded.", score: null, isNonGraded: true },
     ]
   },
   {
@@ -287,108 +127,25 @@ export const FALLBACK_ACHIEVEMENTS: Achievement[] = [
     topic: "Advanced Drill as a Flight Member",
     conditions: "Form at least 6 cadets into a flight of 2 elements. Graded cadet will be 1st element leader.",
     movements: [
-      { 
-        command: "At Close Interval, FALL IN", 
-        standards: "1. Executes Dress Right, DRESS at close interval (left hand on hip). 2. Automatically executes Ready, FRONT. 3. Proper interval established (4 inches).",
-        score: null 
-      },
-      { 
-        command: "At Close Interval, Dress Right, DRESS & Ready, FRONT", 
-        standards: "1. Left hand on hip, fingers joined and pointing down. 2. Head and eyes turned 45° to the right. 3. Snaps to front on Ready, FRONT.",
-        score: null 
-      },
-      { 
-        command: "FALL OUT", 
-        standards: "Instruction to clear the area. Not graded.",
-        score: null,
-        isNonGraded: true
-      },
-      { 
-        command: "FALL IN", 
-        standards: "Instruction to reform the flight. Not graded.",
-        score: null,
-        isNonGraded: true
-      },
-      { 
-        command: "Right, FACE", 
-        standards: "Instruction to face into column. Not graded.",
-        score: null,
-        isNonGraded: true
-      },
-      { 
-        command: "Close, MARCH (while halted)", 
-        standards: "1. Right squad stands fast. 2. Left squad takes 2 paces to the right. 3. Alignment and 4-inch interval maintained.",
-        score: null 
-      },
-      { 
-        command: "Extend, MARCH (while halted)", 
-        standards: "1. Right squad stands fast. 2. Left squad takes 2 paces to the left. 3. Alignment and normal interval maintained.",
-        score: null 
-      },
-      { 
-        command: "Column of Files from the right, Column Right, MARCH", 
-        standards: "1. Right squad leader commands Forward. 2. Left squad leader commands Stand Fast. 3. On MARCH, right squad moves out. 4. Left squad follows in trace.",
-        score: null 
-      },
-      { 
-        command: "Flight, HALT", 
-        standards: "Instruction to stop the column. Not graded.",
-        score: null,
-        isNonGraded: true
-      },
-      { 
-        command: "FALL OUT & FALL IN", 
-        standards: "Instruction to reform into standard flight formation. Not graded.",
-        score: null,
-        isNonGraded: true
-      },
-      { 
-        command: "Right, FACE", 
-        standards: "Instruction to face into column. Not graded.",
-        score: null,
-        isNonGraded: true
-      },
-      { 
-        command: "Forward, MARCH", 
-        standards: "1. Step off with left foot. 2. 24-inch steps. 3. 100-120 bpm cadence.",
-        score: null 
-      },
-      { 
-        command: "Close, MARCH & Forward, MARCH (while marching)", 
-        standards: "1. Command given on right foot. 2. Right squad takes half steps. 3. Left squad takes 45° turn to right, then 45° turn to left to close interval.",
-        score: null 
-      },
-      { 
-        command: "Extend, MARCH & Forward, MARCH (while marching)", 
-        standards: "1. Command given on left foot. 2. Right squad takes half steps. 3. Left squad takes 45° turn to left, then 45° turn to right to open interval.",
-        score: null 
-      },
-      { 
-        command: "Change Step, MARCH", 
-        standards: "1. Command given on right foot. 2. Take one more step with left foot. 3. Place ball of right foot near heel of left. 4. Step off again with left foot.",
-        score: null 
-      },
-      { 
-        command: "Column Left, MARCH & Forward, MARCH", 
-        standards: "1. Command given on left foot. 2. Pivot on ball of right foot. 3. Leading rank pivots 90°. 4. Following ranks pivot at same point.",
-        score: null 
-      },
-      { 
-        command: "Eyes, RIGHT & Ready, FRONT (while marching)", 
-        standards: "1. Command given on right foot. 2. Head/eyes turned 45° right (except right flank). 3. Ready, FRONT given on left foot.",
-        score: null 
-      },
-      { 
-        command: "Flight, HALT", 
-        standards: "1. Command given on either foot. 2. One more step taken. 3. Heels brought together smartly.",
-        score: null 
-      },
-      { 
-        command: "FALL OUT", 
-        standards: "Instruction to dismiss the flight. Not graded.",
-        score: null,
-        isNonGraded: true
-      },
+      { command: "At Close Interval, FALL IN", standards: "1. Automatically executes At Close Interval, Dress Right, DRESS. 2. Automatically executes Ready, FRONT. 3. Stands at the position of attention.", score: null },
+      { command: "At Close Interval, Dress Right, DRESS & Ready, FRONT", standards: "1. On DRESS, the left hand is placed so the heel of the hand rests on the left hip, fingertips point toward the ground, and the elbow is in line with the body. Adjusts as necessary. 2. On FRONT, returns to the position of attention.", score: null },
+      { command: "FALL OUT", standards: "Not graded.", score: null, isNonGraded: true },
+      { command: "FALL IN", standards: "Not graded; cadets in line formation at normal interval.", score: null, isNonGraded: true },
+      { command: "Right, FACE", standards: "Not graded; used to put cadets in column formation.", score: null, isNonGraded: true },
+      { command: "Close, MARCH (while halted)", standards: "The second element stands fast; the first element takes two 12-inch steps to the right.", score: null },
+      { command: "Extend, MARCH (while halted)", standards: "The second element stands fast; the first element takes two 12-inch steps to the left.", score: null },
+      { command: "Column of Files from the Right, Column Right, MARCH", standards: "1. On the preparatory command the element leaders turn their heads 45 degrees to the right. The 2nd element leader commands Column Right, and the 1st element leader commands STAND FAST. 2. On the command MARCH, the 2nd element leader executes a face in marching to the right, then continues marching in the new direction. 3. The remaining individuals in the 2nd element march forward on the command of execution, pivot in approximately the same location as their element leader, and maintain a 40-inch distance. 4. When the last cadet of the 2nd element passes, the 1st element leader commands Column Right, MARCH on the right foot, at which time all cadets perform the movement in the same manner as the base element.", score: null },
+      { command: "Flight, HALT", standards: "Not graded.", score: null, isNonGraded: true },
+      { command: "FALL OUT & FALL IN", standards: "Not graded; used to take the cadets out of a single file formation and return them to line formation.", score: null, isNonGraded: true },
+      { command: "Right, FACE", standards: "Not graded; places the cadets in column formation.", score: null, isNonGraded: true },
+      { command: "Forward, MARCH", standards: "1. Steps off on left foot. 2. Does not anticipate the command of execution.", score: null },
+      { command: "Close, MARCH & Forward, MARCH (while marching)", standards: "1. The 2nd element takes up the half step following the command of execution. 2. The 1st element obtains close interval by pivoting 45 degrees to the right on the ball of the left foot, taking one 24-inch step (with coordinated armswing) toward the 2nd element, and then pivoting 45 degrees back to the left on the ball of the right foot. 1st element takes up the half step. 3. On the command Forward, MARCH, both elements resume a 24-inch step.", score: null },
+      { command: "Extend, MARCH & Forward, MARCH (while marching)", standards: "The same procedures and steps used to obtain close interval are used, except the command is given on the left foot and the pivots are made on the right foot.", score: null },
+      { command: "Change Step, MARCH", standards: "1. On MARCH, cadets take one 24-inch step with left foot. 2. In one count, cadets place ball of right foot alongside the heel of the left foot, pin their arms, and shift the weight of the body to the right foot. 3. Cadets then step off with the left foot in a full, 24-inch step, resuming coordinated armswing.", score: null },
+      { command: "Column Left, MARCH & Forward, MARCH", standards: "1. In marching, turns 90 degrees to the left. 2. Takes up half step. 3. Resumes full 24-inch steps after Forward, MARCH.", score: null },
+      { command: "Eyes, RIGHT & Ready, FRONT (while marching)", standards: "1. On RIGHT, all cadets except those on right flank smartly turn heads 45 degrees right. 2. On FRONT, heads are turned smartly back to front.", score: null },
+      { command: "Flight, HALT", standards: "1. After the command HALT, takes one more 24-inch step. 2. Trailing foot is brought smartly alongside front foot. 3. Heels finish together, on line, with cadet at attention.", score: null },
+      { command: "FALL OUT", standards: "Not graded.", score: null, isNonGraded: true },
     ]
   },
   {
@@ -399,106 +156,27 @@ export const FALLBACK_ACHIEVEMENTS: Achievement[] = [
     topic: "Part 2: Advanced Drill as an Element Leader. Given after the cadet passes Part 1, the Comprehensive Leadership Test.",
     conditions: "Form at least 6 cadets into a flight of 2 elements. Graded cadet will be 1st element leader.",
     movements: [
-      { 
-        command: "FALL IN", 
-        standards: "1. Cadets form at normal interval. 2. Automatically execute Dress Right, DRESS and Ready, FRONT. 3. Position of attention maintained.",
-        score: null 
-      },
-      { 
-        command: "Present, ARMS & Order, ARMS", 
-        standards: "1. Smart execution of salute. 2. Hand dropped smartly to side. 3. No slapping the leg.",
-        score: null 
-      },
-      { 
-        command: "Parade, REST", 
-        standards: "1. Left foot moved 10 inches to left. 2. Hands placed behind back, right palm in left. 3. Silent and immobile.",
-        score: null 
-      },
-      { 
-        command: "Flight, ATTENTION", 
-        standards: "1. Left foot moved smartly back to right. 2. Heels together at 45°. 3. Position of attention resumed.",
-        score: null 
-      },
-      { 
-        command: "Left Step, MARCH & Flight, HALT", 
-        standards: "1. 12-inch steps to the left. 2. Heels together between steps. 3. Halt given as heels come together.",
-        score: null 
-      },
-      { 
-        command: "Left, FACE", 
-        standards: "1. Pivot 90° to the left on left heel and ball of right foot. 2. Right foot brought smartly to the left.",
-        score: null 
-      },
-      { 
-        command: "About, FACE", 
-        standards: "1. Ball of right foot placed half a foot-length behind and slightly left of left heel. 2. Pivot 180° to the right.",
-        score: null 
-      },
-      { 
-        command: "Forward, MARCH", 
-        standards: "1. Step off with left foot. 2. 24-inch steps. 3. 100-120 bpm cadence.",
-        score: null 
-      },
-      { 
-        command: "Right Flank, MARCH", 
-        standards: "1. Command given on right foot. 2. Pivot 90° right on ball of left foot. 3. Step off in new direction with right foot.",
-        score: null 
-      },
-      { 
-        command: "Left Flank, MARCH", 
-        standards: "1. Command given on left foot. 2. Pivot 90° left on ball of right foot. 3. Step off in new direction with left foot.",
-        score: null 
-      },
-      { 
-        command: "Column Right, MARCH & Forward, MARCH", 
-        standards: "1. Command given on right foot. 2. Leading rank pivots 90°. 3. Resume 24-inch steps on Forward, MARCH.",
-        score: null 
-      },
-      { 
-        command: "To the Rear, MARCH; To the Rear, MARCH", 
-        standards: "1. Command given on right foot. 2. Pivot 180° right on balls of both feet. 3. Repeat for second turn.",
-        score: null 
-      },
-      { 
-        command: "Column Left, MARCH & Forward, MARCH", 
-        standards: "1. Command given on left foot. 2. Leading rank pivots 90°. 3. Resume 24-inch steps on Forward, MARCH.",
-        score: null 
-      },
-      { 
-        command: "Change Step, MARCH", 
-        standards: "1. Command given on right foot. 2. Ball of right foot placed near heel of left. 3. Step off again with left foot.",
-        score: null 
-      },
-      { 
-        command: "Count Cadence, COUNT", 
-        standards: "1. Command given on left foot. 2. Cadence called for 8 steps. 3. Sharp and loud.",
-        score: null 
-      },
-      { 
-        command: "Flight, HALT", 
-        standards: "1. Command given on either foot. 2. One more step taken. 3. Heels brought together smartly.",
-        score: null 
-      },
-      { 
-        command: "Right, FACE", 
-        standards: "1. Pivot 90° to the right on right heel and ball of left foot. 2. Left foot brought smartly to the right.",
-        score: null 
-      },
-      { 
-        command: "Open Ranks, MARCH", 
-        standards: "1. Ranks spread to required distance. 2. Automatic Dress Right, DRESS executed.",
-        score: null 
-      },
-      { 
-        command: "Ready, FRONT", 
-        standards: "1. Head and eyes snapped to the front. 2. Position of attention maintained.",
-        score: null 
-      },
-      { 
-        command: "Close Ranks, MARCH & FALL OUT", 
-        standards: "1. Ranks close to normal interval. 2. Flight dismissed smartly on FALL OUT.",
-        score: null 
-      },
+      { command: "FALL IN", standards: "1. Assumes the position of attention. 2. Raises left arm to establish interval for the flight.", score: null },
+      { command: "Present, ARMS & Order, ARMS", standards: "1. Smartly raises right hand to right eyebrow, glasses, or bill of cap. Holds salute, slightly canted down. 2. Smoothly and smartly retraces path of arm down to position of attention.", score: null },
+      { command: "Parade, REST", standards: "1. Moves left foot such that heels are about 12 inches apart. 2. Extends arms behind body and places right hand in palm of left hand. 3. Keeps head and eyes straight ahead; is immobile and silent.", score: null },
+      { command: "Flight, ATTENTION", standards: "1. Stands and shows good posture; hands cupped on pant or skirt seam. 2. Remains immobile and silent.", score: null },
+      { command: "Left Step, MARCH & Flight, HALT", standards: "1. Steps sideways to left via a series of 12-inch steps without dragging right foot. 2. After being commanded to halt, takes another step to the left and brings feet together.", score: null },
+      { command: "Left, FACE", standards: "1. Pivots 90 degrees to the left on ball and heel. 2. Maintains upper body in position of attention.", score: null },
+      { command: "About, FACE", standards: "1. Pivots 180 degrees to the right on ball and heel in 2 counts. 2. Maintains upper body in position of attention.", score: null },
+      { command: "Forward, MARCH", standards: "1. Steps off with left foot. 2. Does not anticipate the command of execution.", score: null },
+      { command: "Right Flank, MARCH", standards: "1. While marching, turns 90 degrees to the right. 2. Maintains proper dress, cover, interval, and distance. 3. Suspends armswing during pivot.", score: null },
+      { command: "Left Flank, MARCH", standards: "1. While marching, turns 90 degrees to the left. 2. Maintains proper dress, cover, interval, and distance. 3. Suspends armswing during pivot.", score: null },
+      { command: "Column Right, MARCH & Forward, MARCH", standards: "1. While marching, turns 90 degrees to the right via two 45-degree pivots. 2. Takes up half step at correct time and maintains until Forward, MARCH is called. 3. Maintains proper dress and interval.", score: null },
+      { command: "To the Rear, MARCH", standards: "1. While marching, reverses direction smartly by pivoting 180 degrees to the right. 2. Takes half step, pivot, half step, full step; suspends armswing during pivot. 3. Maintains proper dress, cover, interval, and distance.", score: null },
+      { command: "To the Rear, MARCH", standards: "Not graded; places the cadets in column formation.", score: null, isNonGraded: true },
+      { command: "Column Left, MARCH & Forward, MARCH", standards: "1. In marching, turns 90 degrees to the left via one 90-degree pivot. 2. Takes up half step at correct time and maintains until Forward, MARCH is called. 3. Maintains proper dress and interval.", score: null },
+      { command: "Change Step, MARCH", standards: "1. In one count, places the ball of the right foot alongside the heel of the left foot, then steps off with the left foot. 2. Maintains posture as if at attention; suspends armswing during maneuver.", score: null },
+      { command: "Count Cadence, COUNT", standards: "1. Counts cadence for eight steps. 2. Does not shout; makes counts sharp and clear as heel strikes the ground.", score: null },
+      { command: "Flight, HALT", standards: "1. Comes to a full stop in two counts. 2. Maintains position of attention.", score: null },
+      { command: "Right, FACE", standards: "1. Pivots 90 degrees to the right on ball and heel. 2. Maintains upper body in position of attention. Note: CAPP 60-34 prints \"left\" here; Right, FACE pivots right, as in Achievement 1 #8.", score: null },
+      { command: "Open Ranks, MARCH", standards: "1. 1st Element takes 3 steps forward. 2. Automatically executes Dress Right, DRESS once halted.", score: null },
+      { command: "Ready, FRONT", standards: "1. Lowers arm with snap but without slapping the leg. 2. Turns head to front with snap.", score: null },
+      { command: "Close Ranks, MARCH & FALL OUT", standards: "1. 1st Element stands fast at attention. 2. Breaks ranks to fall out; no specific method of dispersal is required.", score: null },
     ]
   },
   {
