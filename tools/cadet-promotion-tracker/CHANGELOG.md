@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.8 - 2026-10-31
+- Screen title enlarged (20pt to 28pt).
+
 ## 0.6.7 - 2026-10-31
 - Print keeps a ~0.1 in gap on every edge of every page even when the print
   dialog is set to Margins: None (spacer rows repeat with the table header
