@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Achievement, FALLBACK_ACHIEVEMENTS, DrillTestSubmission, achLabel, achTitle, pointsFor, retrainList, wordCount, MIN_FEEDBACK_WORDS } from './constants';
 import { generateDrillTestPDF } from './utils/pdfGenerator';
+import { GUIDES, type Guide } from './guides';
 import { clsx, type ClassValue } from 'clsx';
 
 // Bump on every release; shown top right so a printout can be traced to a build.
@@ -11,7 +12,9 @@ function cn(...inputs: ClassValue[]) {
 }
 
 export default function App() {
-  const [step, setStep] = useState<'select' | 'form' | 'success'>('select');
+  const [step, setStep] = useState<'select' | 'form' | 'success' | 'guide'>('select');
+  const [guide, setGuide] = useState<Guide | null>(null);
+  const [doneSteps, setDoneSteps] = useState<Record<number, boolean>>({});
   const [selectedAchievement, setSelectedAchievement] = useState<Achievement | null>(null);
   const [cadetCAPID, setCadetCAPID] = useState('');
   const [proctorCAPID, setProctorCAPID] = useState('');
@@ -170,7 +173,7 @@ export default function App() {
         <div className="wrap head">
           <div>
             <h1>CAP Drill Test</h1>
-            <p className="byline">Civil Air Patrol &middot; CAPP 60-34, Drill &amp; Ceremonies Practical Tests (Sep 2024)</p>
+            <p className="byline">Civil Air Patrol &middot; Drill tests (CAPP 60-34) and practice guides (CAPP 60-33)</p>
           </div>
           <span className="ver">v{APP_VERSION}</span>
         </div>
@@ -182,17 +185,34 @@ export default function App() {
             <button role="tab" aria-selected={activeTab === 'Promotion'} onClick={() => setActiveTab('Promotion')}>Drill Test</button>
             <button role="tab" aria-selected={activeTab === 'Advanced'} onClick={() => setActiveTab('Advanced')}>Advanced Training</button>
           </div>
+          {activeTab === 'Promotion' ? (
           <ol className="tests">
             {filteredAchievements.map((ach) => (
               <li key={String(ach.number)}>
                 <button className="test" onClick={() => handleSelectAchievement(ach)}>
-                  <span className="code">{achLabel(ach) === 'Advanced Training' ? ach.number : achLabel(ach)}</span>
+                  <span className="code">{achLabel(ach)}</span>
                   <span className="topic">{ach.name && !achLabel(ach).includes(ach.name) ? `${ach.name}: ${ach.topic || ''}` : ach.topic}</span>
                   <span className="pass">Pass: {ach.passingScore} of {ach.movements.filter(m => !m.isNonGraded).reduce((t, m) => t + (m.points || 1), 0)}{ach.movements.some(m => m.points) && ach.number === 7 ? ' points' : ''}</span>
                 </button>
               </li>
             ))}
           </ol>
+          ) : (
+          <>
+            <p className="hint">Practice guides for ceremonies and formations. Not promotion tests: no CAPIDs, no scores.</p>
+            <ol className="tests">
+              {GUIDES.map((g) => (
+                <li key={g.id}>
+                  <button className="test" onClick={() => { setGuide(g); setDoneSteps({}); setStep('guide'); window.scrollTo(0, 0); }}>
+                    <span className="code">{g.title}</span>
+                    <span className="topic">{g.summary}</span>
+                    <span className="pass">{g.steps.length} steps</span>
+                  </button>
+                </li>
+              ))}
+            </ol>
+          </>
+          )}
           <p className="foot">
             Reference: <a href="https://www.gocivilairpatrol.com/programs/cadets/library/drill" target="_blank" rel="noreferrer">CAP Drill &amp; Ceremonies library</a>.
           </p>
@@ -360,6 +380,55 @@ export default function App() {
           </div>
         </main>
       )}
+      {step === 'guide' && guide && (
+        <main className="wrap guide">
+          <button className="link" onClick={() => { setStep('select'); setGuide(null); }}>Back to guides</button>
+          <h2>{guide.title}</h2>
+          <p className="sub">Practice guide. Not a promotion test.</p>
+
+          <h3 className="sec">Purpose</h3>
+          {guide.purpose.map((p, i) => <p key={i} className="para">{p.text} <span className="cite">{p.ref}</span></p>)}
+
+          <h3 className="sec">Who and where</h3>
+          <ul className="roles">{guide.roles.map((r, i) => <li key={i}>{r}</li>)}</ul>
+          {guide.figures.map((f, i) => (
+            <figure key={i}>
+              <button className="keyimg" onClick={() => setZoomKey({ src: f.src, caption: f.caption })} aria-label={`Enlarge: ${f.caption}`}>
+                <img src={f.src} alt={f.caption} />
+              </button>
+              <figcaption>{f.caption}. Tap to enlarge.</figcaption>
+              {f.note && <p className="hint">{f.note}</p>}
+            </figure>
+          ))}
+
+          <h3 className="sec">Sequence and rehearsal checklist</h3>
+          <p className="hint">Tap each step as it is done correctly in rehearsal. Nothing is saved or scored.</p>
+          <ol className="steps">
+            {guide.steps.map((st, i) => (
+              <li key={i}>
+                <button className={cn('step', doneSteps[i] && 'on')} aria-pressed={!!doneSteps[i]} onClick={() => setDoneSteps(d => ({ ...d, [i]: !d[i] }))}>
+                  <span className="n">{i + 1}</span>
+                  <span className="body">
+                    {st.who && <span className="who">{st.who}</span>}
+                    {st.say && <span className="say">&ldquo;{st.say}&rdquo;</span>}
+                    <span className="txt">{st.text}</span>
+                    <span className="cite">{st.ref}</span>
+                  </span>
+                  <span className="tick">{doneSteps[i] ? 'Done' : ''}</span>
+                </button>
+              </li>
+            ))}
+          </ol>
+          <p className="hint">{Object.values(doneSteps).filter(Boolean).length} of {guide.steps.length} steps done.</p>
+          <button className="btn-secondary wide" onClick={() => { setDoneSteps({}); window.scrollTo(0, 0); }}>Start over</button>
+
+          <h3 className="sec">Watch for</h3>
+          <ul className="watch">{guide.watch.map((w, i) => <li key={i}>{w.text} <span className="cite">{w.ref}</span></li>)}</ul>
+
+          <p className="foot">Source: {guide.source}.</p>
+        </main>
+      )}
+
       {zoomKey && (
         <div className="zoom" role="dialog" aria-label={zoomKey.caption}>
           <div className="zoombar">
