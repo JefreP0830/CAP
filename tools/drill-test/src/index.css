@@ -113,7 +113,7 @@ label.fb { margin-top: 12px; }
 details.keys { margin-top: 12px; border: 1px solid var(--cap-silver); border-radius: 4px; padding: 10px 12px; }
 details.keys summary { font-weight: 700; color: var(--cap-ultramarine); cursor: pointer; min-height: 28px; }
 details.keys figure { margin-top: 12px; }
-.keyimg { display: block; width: 100%; padding: 0; background: #FFFFFF; border: 1px solid var(--rule); min-height: 0; cursor: zoom-in; }
+.keyimg { display: block; width: 100%; padding: 0; background: #FFFFFF; border: 0; min-height: 0; cursor: zoom-in; }
 .keyimg img, .zoomarea img { display: block; width: 100%; height: auto; }
 figcaption { font-size: 9pt; margin-top: 4px; }
 .zoom { position: fixed; inset: 0; z-index: 20; background: #FFFFFF; display: flex; flex-direction: column; }

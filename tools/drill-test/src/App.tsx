@@ -432,7 +432,7 @@ export default function App() {
             ))}
           </ol>
           <p className="hint">{Object.values(doneSteps).filter(Boolean).length} of {guide.steps.length} steps done.</p>
-          <button className="btn-secondary wide" onClick={() => { setDoneSteps({}); window.scrollTo(0, 0); }}>Start over</button>
+          <button className="btn-secondary wide" disabled={!Object.values(doneSteps).some(Boolean)} onClick={() => setDoneSteps({})}>Clear checklist</button>
 
           <h3 className="sec">Watch for</h3>
           <ul className="watch">{guide.watch.map((w, i) => <li key={i}>{w.text} <span className="cite">{w.ref}</span></li>)}</ul>
