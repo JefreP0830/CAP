@@ -172,7 +172,7 @@ export default function App() {
       <header className="bar">
         <div className="wrap head">
           <div>
-            <h1>CAP Drill Test</h1>
+            <h1>NCO Drill Evaluation</h1>
             <p className="byline">Civil Air Patrol &middot; Drill tests (CAPP 60-34) and practice guides (CAPP 60-33)</p>
           </div>
           <span className="ver">v{APP_VERSION}</span>
