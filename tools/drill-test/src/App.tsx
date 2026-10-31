@@ -24,6 +24,7 @@ export default function App() {
   const [showValidationErrors, setShowValidationErrors] = useState(false);
   const [formError, setFormError] = useState('');
   const [shareNote, setShareNote] = useState('');
+  const [zoomKey, setZoomKey] = useState<{ src: string; caption: string } | null>(null);
   
 
   const handleSelectAchievement = (ach: Achievement) => {
@@ -239,6 +240,21 @@ export default function App() {
               )}
             </section>
 
+            {selectedAchievement.answerKeys && (
+              <details className="keys">
+                <summary>Show answer key</summary>
+                <p className="hint">From CAPP 60-34. Tap a diagram to enlarge it.</p>
+                {selectedAchievement.answerKeys.map((k, i) => (
+                  <figure key={i}>
+                    <button className="keyimg" onClick={() => setZoomKey(k)} aria-label={`Enlarge: ${k.caption}`}>
+                      <img src={k.src} alt={k.caption} />
+                    </button>
+                    <figcaption>{k.caption}</figcaption>
+                  </figure>
+                ))}
+              </details>
+            )}
+
             <h3 className="sec">Who is testing</h3>
             <div className="fields">
               <label>Cadet CAPID
@@ -343,6 +359,15 @@ export default function App() {
             <button className="btn-primary" onClick={reset}>Start a new test</button>
           </div>
         </main>
+      )}
+      {zoomKey && (
+        <div className="zoom" role="dialog" aria-label={zoomKey.caption}>
+          <div className="zoombar">
+            <span>{zoomKey.caption}</span>
+            <button className="btn-secondary" onClick={() => setZoomKey(null)}>Close</button>
+          </div>
+          <div className="zoomarea"><img src={zoomKey.src} alt={zoomKey.caption} /></div>
+        </div>
       )}
     </div>
   );

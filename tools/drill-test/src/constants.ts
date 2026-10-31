@@ -1,3 +1,7 @@
+import keySquadronInLine from './assets/ach7/ach7-squadron-in-line.png';
+import keyDrillSymbols from './assets/ach7/ach7-drill-symbols.png';
+import keyChangeOfCommand from './assets/ach7/ach7-change-of-command.png';
+
 export interface DrillMovement {
   command: string;
   description?: string;
@@ -27,6 +31,8 @@ export interface Achievement {
   };
   commandSequence?: string[];
   images?: { url: string; caption: string }[];
+  // Answer-key images cut from the official CAPP 60-34 PDF (not redrawn), shown to the grader on request.
+  answerKeys?: { src: string; caption: string }[];
 }
 
 export interface DrillTestSubmission {
@@ -412,10 +418,15 @@ export const FALLBACK_ACHIEVEMENTS: Achievement[] = [
   {
     number: 7,
     name: "Goddard",
+    answerKeys: [
+      { src: keySquadronInLine, caption: "Problem #1 answer key: squadron in line, three flights in line (CAPP 60-34 p.18)" },
+      { src: keyDrillSymbols, caption: "Drill symbols legend (CAPP 60-34 p.18)" },
+      { src: keyChangeOfCommand, caption: "Problem #2 answer key: Change of Command, with points per step (CAPP 60-34 p.19)" },
+    ],
     category: 'Promotion',
     passingScore: 16,
     topic: "Squadron Formations",
-    conditions: "Problem #1 is completed on paper. No reference materials are permitted. 3 cadets in addition to the cadet being tested are needed to role play for Problem #2: Capt Curry (outgoing commander), Capt Arnold (incoming commander), Col Mitchell (wing commander). The tested cadet is the flag bearer, with the unit flag or a prop.",
+    conditions: "Problem #1 is completed on paper. No reference materials are permitted. 3 cadets in addition to the cadet being tested are needed to role play for Problem #2: Capt Curry (outgoing commander), Capt Arnold (incoming commander), Col Mitchell (wing commander). The tested cadet is the flag bearer, with the unit flag or a prop. Bring blank paper and a pen for the cadet.",
     note: "Passing Score: 80%. Must earn at least 16 of 20 possible points (Problem #1: 10, Problem #2: 10). If Arnold, Curry or Mitchell do a step incorrectly but the cadet immediately corrects them, the cadet receives the point for the step. CAPP 60-34 p.19: \"Grade each step and put the number of points where indicated.\" This app reads that as allowing 1 of 2 points on a 2-point step.",
     rubric: {
       title: "Problems #1 and #2",
