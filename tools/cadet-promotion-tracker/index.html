@@ -91,17 +91,29 @@ td.card button { padding: 3px 8px; font-size: 9pt; }
 
 /* ---------- print ---------- */
 .print-only { display: none; }
+tr.legend-row td { font-size: 8.5pt; padding-top: 6px; border-bottom: 0; }
 tr.pgpad { display: none; }
-@page { size: 11in 8.5in; margin: 0.1in; }
-@page card { size: letter portrait; margin: 0.6in; }
+@page { size: 11in 8.5in; margin: 0; }
+@page card { size: letter portrait; margin: 0; }
 @media print {
   .no-print { display: none !important; }
   .print-only { display: block; }
-  /* Backup inset: keeps the sides clear even if the print dialog sets Margins to None. */
-  #printArea { padding: 0.1in 0.1in 0; }
+  /* All print margins live inside the page (page margin is 0), so output is the same
+     whatever the print dialog's Margins setting, and stays clear of the printer's
+     unprintable edge (~0.25 in on office lasers). */
+  #printArea { padding: 0.4in 0.3in 0; }
   tr.pgpad { display: table-row; }
-  tr.pgpad td { height: 0.1in; padding: 0; border: 0; }
-  .report > table:first-of-type thead tr.pgpad td, .report .kpis-print + table thead tr.pgpad td { height: 0.1in; }
+  tr.pgpad td { height: 0.4in; padding: 0; border: 0; }
+  /* Pull each table up by its spacer so page 1 has no extra gap; the spacer still
+     repeats at the top of every following page. */
+  .report table { margin-top: -0.4in; }
+  .report .kpis-print, .report p.note, .report-head { position: relative; z-index: 1; }
+  .report.card { padding: 0.2in 0.3in; }
+  td { padding-top: 4px; padding-bottom: 4px; }
+  .tile { padding: 2px 4px; }
+  td.capid { font-size: 10.5pt; }
+  td.name { font-size: 11pt; }
+  td.pct { font-size: 11pt; }
   body { font-size: 9.5pt; }
   * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   main { padding: 0; }
@@ -420,7 +432,7 @@ function tilesHtml(c) {
     return `<span class="tile ${t.on ? 'on' : ''}" title="${esc(t.name)}: ${t.on ? 'complete' : 'needed'}">${code}</span>`;
   }).join('')}</div>`;
 }
-function rosterTable(list) {
+function rosterTable(list, legend) {
   if (!list.length) return '<p class="none">No cadets in this view.</p>';
   return `<table><thead><tr class="pgpad"><td colspan="7"></td></tr><tr><th>CAPID</th><th>Cadet</th><th>Next</th><th>Achv</th><th class="req">Requirements</th><th class="c">Progress</th><th>Eligible</th></tr></thead><tbody>${
     list.map(c => `<tr>
@@ -431,7 +443,7 @@ function rosterTable(list) {
       <td class="req">${tilesHtml(c)}</td>
       <td class="pct ${c.reqsDone ? 'done' : ''}">${c.pct}%</td>
       <td class="elig-cell">${eligHtml(c)}</td>
-    </tr>`).join('')}</tbody><tfoot><tr class="pgpad"><td colspan="7"></td></tr></tfoot></table>`;
+    </tr>`).join('')}</tbody><tfoot>${legend ? `<tr class="legend-row"><td colspan="7">${legend}</td></tr>` : ''}<tr class="pgpad"><td colspan="7"></td></tr></tfoot></table>`;
 }
 
 /* ---------------- reports ---------------- */
@@ -444,8 +456,8 @@ function simpleTable(cols, list) {
   return `<table><thead>${pad}<tr>${cols.map(c => `<th>${c[0]}</th>`).join('')}</tr></thead><tbody>${list.map(r => `<tr>${cols.map(c => `<td>${c[1](r)}</td>`).join('')}</tr>`).join('')}</tbody><tfoot>${pad}</tfoot></table>`;
 }
 const REPORTS = {
-  roster: list => head('Promotion Roster', 'Find your name. Blue tiles are complete; grey tiles are still needed. The box beside the eligible date counts down the days to eligibility, or turns red and counts days past it.') +
-    kpiStrip() + rosterTable(list || cadets) + `<p class="legend">${legendText(list || cadets)}</p>`,
+  roster: list => head('Cadet Promotion Tracker', 'Find your name. Blue tiles are complete; grey tiles are still needed. The box beside the eligible date counts down the days to eligibility, or turns red and counts days past it.') +
+    kpiStrip() + rosterTable(list || cadets, legendText(list || cadets)),
   pin: () => {
     if (!previous) return head('To Be Pinned') + '<p class="none">Load last week\'s export alongside this one to build this list.</p>';
     const gap = daysBetween(previous.asOf, current.asOf);

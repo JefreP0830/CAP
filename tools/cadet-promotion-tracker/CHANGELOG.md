@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.7.0 - 2026-10-31
+Print fixes after a physical test print (Canon office laser).
+- Margins built into the page: 0.4 in top/bottom, 0.3 in sides, identical
+  whatever the print dialog's Margins setting; clears the printer's
+  unprintable edge.
+- Printed roster titled "Cadet Promotion Tracker".
+- In print, CAPID, cadet name and progress % are larger than the rest of the
+  row, matching the screen.
+- Tile legend prints at the foot of every roster page.
+
 ## 0.6.8 - 2026-10-31
 - Screen title enlarged (20pt to 28pt).
 
