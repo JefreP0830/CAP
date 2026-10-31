@@ -20,3 +20,8 @@ desktop.ini
 ~$*
 .vscode/
 node_modules/
+
+# Drill Test (Vite app imported from AI Studio): config JSON, not data
+!tools/drill-test/tsconfig.json
+!tools/drill-test/metadata.json
+!tools/drill-test/public/manifest.json

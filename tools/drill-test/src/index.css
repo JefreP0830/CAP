@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Rajdhani:wght@500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-title: "Rajdhani", sans-serif;
+  
+  /* CAP Official Colors */
+  --color-cap-blue: #003366;
+  --color-cap-red: #cc0000;
+  --color-cap-gold: #ffcc00;
+}
+
+@layer base {
+  body {
+    @apply font-sans bg-slate-50 text-slate-900 antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden;
+  }
+  
+  .btn-primary {
+    @apply bg-cap-blue text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:bg-cap-blue/90 transition-all active:scale-[0.98] flex items-center justify-center gap-2;
+  }
+  
+  .btn-secondary {
+    @apply bg-white text-cap-blue border border-slate-200 font-bold py-3 px-6 rounded-xl hover:bg-slate-50 transition-all active:scale-[0.98] flex items-center justify-center gap-2;
+  }
+}

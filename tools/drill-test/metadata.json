@@ -1,0 +1,5 @@
+{
+  "name": "CAP Drill Evaluator",
+  "description": "A paperless drill testing application for Civil Air Patrol, featuring achievement-based tests and PDF report export.",
+  "requestFramePermissions": []
+}

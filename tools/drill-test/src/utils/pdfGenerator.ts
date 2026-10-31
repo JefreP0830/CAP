@@ -1,0 +1,134 @@
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { DrillTestSubmission, Achievement, CAP_COLORS } from '../constants';
+
+export const generateDrillTestPDF = (submission: DrillTestSubmission, achievement: Achievement) => {
+  const doc = new jsPDF();
+
+  // Header
+  doc.setFillColor(CAP_COLORS.blue);
+  doc.rect(0, 0, 210, 40, 'F');
+  
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(22);
+  doc.text('CIVIL AIR PATROL', 105, 15, { align: 'center' });
+  doc.setFontSize(16);
+  doc.text(`DRILL TEST: ACHIEVEMENT ${achievement.number} - ${achievement.name}`, 105, 25, { align: 'center' });
+  doc.setFontSize(12);
+  doc.text(`${submission.squadron ? 'Unit ' + submission.squadron : 'CAP'} - Paperless System`, 105, 33, { align: 'center' });
+
+  // Info Section
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(12);
+  doc.text(`CAPID: ${submission.cadetCAPID}`, 20, 50);
+  doc.text(`Proctor CAPID: ${submission.proctorCAPID}`, 20, 60);
+  if (submission.alternateEmail) {
+    doc.text(`Alt Email: ${submission.alternateEmail}`, 20, 67);
+  }
+  doc.text(`Date: ${submission.date}`, 140, 50);
+  doc.text(`Unit: ${submission.squadron || 'N/A'}`, 140, 60);
+
+  // Topic & Conditions
+  let currentY = submission.alternateEmail ? 75 : 70;
+  if (achievement.topic) {
+    doc.setFont('helvetica', 'bold');
+    doc.text('Topic:', 20, currentY);
+    doc.setFont('helvetica', 'normal');
+    doc.text(achievement.topic, 35, currentY);
+    currentY += 7;
+  }
+  if (achievement.conditions) {
+    doc.setFont('helvetica', 'bold');
+    doc.text('Conditions:', 20, currentY);
+    doc.setFont('helvetica', 'normal');
+    const splitConditions = doc.splitTextToSize(achievement.conditions, 160);
+    doc.text(splitConditions, 45, currentY);
+    currentY += (splitConditions.length * 5) + 2;
+  }
+
+  const gradedMovements = achievement.movements.filter(m => !m.isNonGraded);
+  const totalPossible = achievement.movements.some(m => m.points) 
+    ? achievement.movements.reduce((acc, m) => acc + (m.points || 0), 0)
+    : gradedMovements.length;
+
+  const passCount = achievement.movements.reduce((acc, mov, idx) => {
+    if (!mov.isNonGraded && submission.scores[idx] === 'Pass') {
+      return acc + (mov.points || 1);
+    }
+    return acc;
+  }, 0);
+
+  const isPassed = passCount >= achievement.passingScore;
+
+  doc.setFontSize(14);
+  doc.setTextColor(isPassed ? 0 : 204, isPassed ? 102 : 0, 0); // Green if pass, Red if fail
+  doc.text(`RESULT: ${isPassed ? 'PASSED' : 'FAILED'} (${passCount}/${totalPossible})`, 105, currentY + 10, { align: 'center' });
+  doc.setFontSize(10);
+  doc.setTextColor(100, 100, 100);
+  doc.text(`Required to Pass: ${achievement.passingScore} of ${totalPossible} ${achievement.movements.some(m => m.points) ? 'points' : 'movements'}`, 105, currentY + 15, { align: 'center' });
+
+  // Table
+  let gradedCount = 0;
+  const tableData = achievement.movements.map((m, index) => {
+    if (!m.isNonGraded) gradedCount++;
+    const displayNum = m.isNonGraded ? "" : gradedCount;
+    
+    return [
+      displayNum,
+      m.isNonGraded ? `(Reset) ${m.command}` : m.command,
+      { 
+        content: m.standards || m.description || 'N/A',
+        styles: { 
+          fontSize: 7,
+          fontStyle: (m.isNonGraded ? 'italic' : 'normal') as 'italic' | 'normal',
+          textColor: (m.isNonGraded ? [120, 120, 120] : [0, 0, 0]) as [number, number, number]
+        }
+      },
+      m.isNonGraded ? '-' : (submission.scores[index] || 'N/A')
+    ];
+  });
+
+  autoTable(doc, {
+    startY: currentY + 20,
+    head: [['#', 'Command', 'Acceptable Standards', 'Score']],
+    body: tableData,
+    headStyles: { fillColor: [0, 51, 102] }, // CAP Blue
+    alternateRowStyles: { fillColor: [240, 240, 240] },
+    columnStyles: {
+      0: { cellWidth: 10 },
+      1: { cellWidth: 40 },
+      2: { cellWidth: 110 },
+      3: { cellWidth: 25 },
+    },
+    styles: { overflow: 'linebreak', cellPadding: 2 },
+    didParseCell: (data) => {
+      // If it's a non-graded row, we can apply some styling
+      const rowIndex = data.row.index;
+      if (achievement.movements[rowIndex]?.isNonGraded) {
+        data.cell.styles.fontStyle = 'italic';
+        data.cell.styles.textColor = [120, 120, 120];
+      }
+    }
+  });
+
+  // Hotwash Section
+  const finalTableY = (doc as any).lastAutoTable.finalY + 10;
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(12);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Hotwash (AAR):', 20, finalTableY);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  const splitComments = doc.splitTextToSize(submission.hotwash || 'No comments provided.', 170);
+  doc.text(splitComments, 20, finalTableY + 7);
+
+  // Footer
+  const finalY = finalTableY + 7 + (splitComments.length * 5) + 15;
+  doc.setFontSize(10);
+  doc.text('__________________________', 20, finalY);
+  doc.text('Proctor Signature (Digital)', 20, finalY + 5);
+  
+  doc.text(`Generated by CAP Drill Evaluator`, 105, 285, { align: 'center' });
+
+  return doc;
+};
