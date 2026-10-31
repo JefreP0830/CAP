@@ -412,7 +412,7 @@ export default function App() {
                     <button className="keyimg" onClick={() => setZoomKey(st.panel!)} aria-label={`Enlarge: ${st.panel.caption}`}>
                       <img src={st.panel.src} alt={st.panel.caption} />
                     </button>
-                    <figcaption>{st.panel.caption}. Diagram drawn with the audience at the top.</figcaption>
+                    <figcaption>{st.panel.caption}. Tap to enlarge.</figcaption>
                   </figure>
                 </li>
               )}
