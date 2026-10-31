@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.2 - 2026-10-31
+- Load-screen instructions reduced to one fixed weekly process (12 steps), no
+  alternatives: export in eServices, load this week's and last week's files,
+  print the weekly report, print and post the roster.
+
 ## 0.9.1 - 2026-10-31
 - Instructions: report and unit selection split into separate steps; unit
   wording generic ("your unit"); exports stay in Downloads (no file moves).
