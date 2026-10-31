@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.0 - 2026-10-31
+- Load screen shows step-by-step instructions: exporting the Cadet Promotions
+  Full Track report from eServices, and loading/printing in the tracker.
+- Exports run without "Only Show Cadet's Current Achievement" no longer
+  duplicate cadets: each cadet's furthest achievement is kept.
+- Report-card picker hidden until a roster is loaded.
+
 ## 0.8.4 - 2026-10-31
 - Report card: past-due days in red; NA in grey.
 

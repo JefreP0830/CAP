@@ -53,9 +53,15 @@ button:focus-visible { outline: 3px solid var(--cap-yellow); outline-offset: 2px
 .legend { padding: 4px 24px 10px; font-size: 9.5pt; }
 .legend b { color: var(--cap-black); }
 
-.empty { margin: 60px auto; max-width: 560px; text-align: center; border: 2px dashed var(--cap-silver); border-radius: 8px; padding: 40px 24px; }
-.empty h2 { font-size: 16pt; color: var(--cap-black); margin-bottom: 8px; }
-.empty p { margin-bottom: 6px; }
+.empty { margin: 32px auto; max-width: 980px; border: 2px dashed var(--cap-silver); border-radius: 8px; padding: 28px 32px; }
+.empty h2 { font-size: 16pt; color: var(--cap-black); margin-bottom: 6px; }
+.empty .lead { margin-bottom: 18px; }
+.howto { display: grid; grid-template-columns: 1.3fr 1fr; gap: 32px; }
+.howto h3 { font-size: 11pt; text-transform: uppercase; letter-spacing: .4px; color: var(--cap-ultramarine); margin-bottom: 8px; }
+.howto ol { padding-left: 22px; display: flex; flex-direction: column; gap: 6px; }
+.howto li { line-height: 1.35; }
+.howto strong { color: var(--cap-black); }
+@media (max-width: 760px) { .howto { grid-template-columns: 1fr; } }
 body.dragging .empty { border-color: var(--cap-ultramarine); background: #F5F6FC; }
 
 main { padding: 0 24px 32px; }
@@ -179,17 +185,40 @@ table.cardreq tr.na td { color: var(--tile-off-fg); }
     <button class="btn-primary" onclick="document.getElementById('file').click()">Load eServices exports</button>
     <button class="btn-secondary" id="btnPrintView" onclick="printCurrent()" disabled>Print this view</button>
     <button class="btn-secondary" id="btnPacket" onclick="printPacket()" disabled>Print weekly report</button>
-    <select id="cardPick" aria-label="Report card for" disabled></select>
-    <button class="btn-secondary" id="btnCard" onclick="printCardPick()" disabled>Print report card</button>
+    <select id="cardPick" aria-label="Report card for" hidden></select>
+    <button class="btn-secondary" id="btnCard" onclick="printCardPick()" disabled hidden>Print report card</button>
     <input type="file" id="file" accept=".csv,.xlsx,.xls" multiple hidden>
   </div>
 </header>
 
 <div id="emptyState" class="empty no-print">
-  <h2>Load this week's Cadet Full Track Report</h2>
-  <p>Drag the eServices export (CSV or Excel) onto this page, or use <strong>Load eServices exports</strong>.</p>
-  <p>Add last week's export too, and the tracker lists who promoted since then (To be pinned).</p>
-  <p>Nothing is saved. Closing this tab clears the roster.</p>
+  <h2>Load this week's Cadet Promotions Full Track report</h2>
+  <p class="lead">Drag the export onto this page, or use <strong>Load eServices exports</strong> above. Nothing is saved; closing this tab clears the roster.</p>
+  <div class="howto">
+    <section>
+      <h3>In eServices</h3>
+      <ol>
+        <li>Log in to eServices.</li>
+        <li>Go to <strong>Menu &gt; Cadet Programs &gt; Cadet Promotions</strong>.</li>
+        <li>Open the Cadet Promotions menu and select <strong>Reports</strong>.</li>
+        <li>Under Report, select <strong>Cadet Promotions Track Report</strong>; under Reg-Wing-Unit, select <strong>NER-VT-014</strong>.</li>
+        <li>On the Cadet Promotions Full Track page, choose <strong>Search by Organization</strong> and confirm <strong>NER-VT-014 Champlain Composite Squadron</strong> is selected.</li>
+        <li>Check <strong>Only Show Cadet's Current Achievement</strong>.</li>
+        <li>Select <strong>Export to Excel</strong>. The file downloads to your Downloads folder as <em>Cadet_Full_Track_Report-MM_DD_YYYY</em>.</li>
+        <li>Move the file to the squadron file share and keep it. Next week's To Be Pinned list is built from it.</li>
+      </ol>
+    </section>
+    <section>
+      <h3>In this tracker</h3>
+      <ol start="9">
+        <li>Select <strong>Load eServices exports</strong>.</li>
+        <li>Select this week's file and last week's file together (hold <strong>Ctrl</strong> and click both). This week's file alone also works, without the To Be Pinned list.</li>
+        <li>The roster loads. Click a summary tile to filter it.</li>
+        <li>Print: <strong>Print this view</strong> (roster for the wall), <strong>Print weekly report</strong> (pin, tests, ready), or pick a cadet and <strong>Print report card</strong>.</li>
+        <li>Each week, repeat with the new export.</li>
+      </ol>
+    </section>
+  </div>
 </div>
 
 <div id="app" class="no-print" hidden>
@@ -320,6 +349,14 @@ async function readFile(file) {
     rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '' });
   }
   rows = rows.filter(r => has(r.CAPID));
+  // If "Only Show Cadet's Current Achievement" was left unchecked, a cadet appears once per
+  // achievement. Keep the row for the furthest achievement.
+  const best = new Map();
+  for (const r of rows) {
+    const id = String(r.CAPID).trim(), idx = RULE_BY_NAME[String(r.AchvName).trim()]?.idx ?? -1;
+    if (!best.has(id) || idx > best.get(id).idx) best.set(id, { r, idx });
+  }
+  rows = [...best.values()].map(v => v.r);
   if (!rows.length || !('AchvName' in rows[0])) throw new Error(file.name + ' is not a Cadet Full Track Report (no CAPID/AchvName columns).');
   return { name: file.name, asOf, rows };
 }
@@ -403,7 +440,7 @@ function build() {
   const pick = document.getElementById('cardPick');
   pick.innerHTML = '<option value="">Report card for...</option><option value="*">All cadets in this view</option>' +
     cadets.map(c => `<option value="${esc(c.capid)}">${esc(c.name)} (${esc(c.capid)})</option>`).join('');
-  pick.disabled = false;
+  pick.disabled = false; pick.hidden = false; document.getElementById('btnCard').hidden = false;
   pick.onchange = () => { document.getElementById('btnCard').disabled = !pick.value; };
   const unknown = cadets.filter(c => c.unknown);
   if (unknown.length) alert(`${unknown.length} row(s) have an achievement name this tracker does not recognize. Check the export.`);

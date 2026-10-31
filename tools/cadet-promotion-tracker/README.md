@@ -6,15 +6,20 @@ the source of truth (docs/decisions.md).
 
 ## Weekly routine
 
-1. In eServices, export the Cadet Full Track Report (CSV or Excel) and save it
-   to the squadron file share. Keep the date eServices puts in the file name.
-2. Open `index.html` in Chrome or Edge.
-3. Load this week's export **and last week's** (select both, or drag both).
-   The newest is the roster; the older one builds the To Be Pinned list.
-4. Click **Print weekly report** (to be pinned, proctored tests, drill tests,
-   ready to promote). For the wall roster, select **Cadets** and click
-   **Print this view**. In the print dialog keep Margins on
-   *Default* (the page sets landscape and narrow margins itself).
+The same steps appear on the tracker's load screen.
+
+In eServices:
+1. Menu > Cadet Programs > Cadet Promotions > Reports.
+2. Report: Cadet Promotions Track Report; Reg-Wing-Unit: NER-VT-014.
+3. Search by Organization; confirm NER-VT-014 Champlain Composite Squadron.
+4. Check Only Show Cadet's Current Achievement (the tracker copes if missed).
+5. Export to Excel. Move the file to the squadron file share and keep it.
+
+In the tracker:
+6. Load eServices exports: select this week's and last week's files
+   together (Ctrl+click) so To Be Pinned can be built.
+7. Print this view (wall roster), Print weekly report, or Print report card.
+   Keep the print dialog's Margins on Default (output is the same either way).
 
 Nothing is saved. Closing the tab clears the roster.
 
