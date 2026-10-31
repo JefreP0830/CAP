@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.4.0 - 2026-10-31
+Layout and print refinements.
+- KPI tiles (cadets, ready, to be pinned, proctored, drill, stalled) replace
+  the filter buttons; click one to filter.
+- Single-letter tiles: L, A, D, F, C, W (Wingman + Welcome, Ach 1), P
+  (participation & inspection; replaces DC). SDA tiles SVC, WRT, ORL.
+- Time-in-grade tile removed; Eligible column shows the date with a
+  countdown box, a red +days box when past, or Ready.
+- Ready now also requires the eligible date to be reached.
+- Progress shows the percent only. Text legend. Source line and search removed.
+- Report card: one-page progress report per cadet for parents.
+
 ## 0.3.0 - 2026-10-31
 Rebuilt from scratch on a cited rules table (D-002).
 - Requirement tiles per achievement: grey until eServices shows a date or

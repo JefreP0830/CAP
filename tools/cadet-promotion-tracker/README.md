@@ -23,16 +23,20 @@ in when eServices has a date or value for it. Rules live in the `RULES` and
 
 | Tile | Meaning | Export column(s) |
 |---|---|---|
-| LDR | Leadership test / milestone exam | LeadLabDateP, LeadershipInteractiveDate, LeadLabScore >= 80 |
-| DRL | Drill test | DrillDate, DrillScore |
-| AE | Aerospace test / milestone exam | AEDateP, AEInteractiveDate, AEScore >= 80, AEModuleOrTest |
-| FIT | Fitness test (CPFT) | PhyFitTest |
-| CHR / WNG | Character / Wingman Course (Ach 1) | CharacterDevelopment |
-| WEL | Welcome Course (Ach 1) | WelcomeCourseDate |
-| DC | Deputy Commander sign-off | ActivePart, CadetOath, LeadershipExpectationsDate, UniformDate |
-| SVC / WRT / ORL | SDA service, technical writing, oral presentation | StaffServiceDate, TechnicalWritingAssignmentDate, OralPresentationDate |
+| L | Leadership test / milestone exam | LeadLabDateP, LeadershipInteractiveDate, LeadLabScore >= 80 |
+| A | Aerospace test / milestone exam | AEDateP, AEInteractiveDate, AEScore >= 80, AEModuleOrTest |
+| D | Drill test | DrillDate, DrillScore |
+| F | Fitness test (CPFT) | PhyFitTest |
+| C | Character | CharacterDevelopment |
+| W | Wingman & Welcome courses (Ach 1) | CharacterDevelopment, WelcomeCourseDate |
+| P | Participation & inspection | ActivePart, CadetOath, LeadershipExpectationsDate, UniformDate |
+| SVC / WRT / ORL | SDA service, written, oral | StaffServiceDate, TechnicalWritingAssignmentDate, OralPresentationDate |
 | ESY / SPH | Essay / speech (Ach 8, Eaker) | EssayDate, SpeechDate |
 | ENC / ACD | Encampment (Mitchell) / leadership academy (Eaker) | SpecialActivityDate |
-| TIG | Time in grade: eligible date reached | NextApprovalDate |
+
+The Eligible column shows NextApprovalDate: a plain box counts down the days,
+a red box counts days past it, and Ready means every tile is complete and the
+date has been reached. Each cadet has a **Report card** button that prints a
+one-page progress report for parents.
 
 Status is evaluated as of the export date, not the day you print.
