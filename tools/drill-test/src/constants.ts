@@ -55,12 +55,14 @@ export const achTitle = (a: Achievement) =>
 export const pointsFor = (m: DrillMovement, s?: 'Pass' | 'Partial' | 'Fail') =>
   m.isNonGraded ? 0 : s === 'Pass' ? (m.points || 1) : s === 'Partial' ? 1 : 0;
 
+// Official CAP palette (CAP Brand Portal / CAPR 900-2); mirrors shared/brand/cap-brand.css.
 export const CAP_COLORS = {
-  blue: '#003366',
-  red: '#CC0000',
+  blue: '#001489',   // Ultramarine Blue
+  red: '#BA0C2F',    // Scarlet Red
   white: '#FFFFFF',
-  silver: '#C0C0C0',
-  gold: '#FFD700',
+  silver: '#9EA2A2', // Silver Gray
+  gold: '#FFCD00',   // Air Force Yellow
+  body: '#4D4D4D',   // 70% black
 };
 
 // Fallback data in case Gemini fails or for immediate use
