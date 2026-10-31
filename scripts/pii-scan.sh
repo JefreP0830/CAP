@@ -10,6 +10,7 @@ EMAIL='[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}'
 EMAIL_OK='(example\.(com|org)|noreply@|@cap\.gov|users\.noreply\.github\.com|anthropic\.com)'
 CAPID='("?capid"?[[:space:]]*[:=][[:space:]]*"?[0-9]{6}\b|^[0-9]{6},|,[0-9]{6},)'
 BAD_EXT='\.(csv|xlsx?|xlsm|pdf)$'
+BIN_EXT='\.(png|jpe?g|gif|ico|webp|woff2?)$'   # images/fonts: not scanned as text
 
 fail=0
 check_text() { # $1 = label, $2 = text  (no pipes into this function: a
@@ -25,12 +26,14 @@ case "$mode" in
     files=$(git diff --cached --name-only --diff-filter=ACM)
     for f in $files; do
       echo "$f" | grep -qiE "$BAD_EXT" && { echo "BLOCKED: data file type staged: $f"; fail=1; continue; }
+      echo "$f" | grep -qiE "$BIN_EXT" && continue
       check_text "$f" "$(git show ":$f")"
       git show ":$f" | grep -qiE "$CAPID" && { echo "BLOCKED ($f): CAPID-like value found"; fail=1; }
     done ;;
   --all)
     for f in $(git ls-files); do
       echo "$f" | grep -qiE "$BAD_EXT" && { echo "BLOCKED: data file tracked: $f"; fail=1; continue; }
+      echo "$f" | grep -qiE "$BIN_EXT" && continue
       check_text "$f" "$(cat "$f")"
       grep -qiE "$CAPID" "$f" && { echo "BLOCKED ($f): CAPID-like value found"; fail=1; }
     done ;;
