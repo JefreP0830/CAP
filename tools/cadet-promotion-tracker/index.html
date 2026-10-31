@@ -21,6 +21,7 @@
   --tile-off-bg: #F2F3F3;
   --tile-off-fg: #6B6E6E;
   --rule: #D9DBDB;
+  --wsec-grey: #6B6E6E; /* medium grey: section titles and column labels */
   --tile-na: #D3D3D3; /* 70% black at ~25% strength */
   --font-title: 'Rajdhani', Arial, sans-serif;
   --font-body: Arial, Helvetica, sans-serif;
@@ -133,8 +134,10 @@ tr.pgpad { display: none; }
 .report p.note { font-size: 9pt; margin: 4px 0 8px; }
 .report .none { padding: 6px 0 12px; font-style: italic; }
 .wsec { margin: 14px 0 6px; max-width: 7.5in; break-inside: auto; }
-.wsec h3 { font-family: var(--font-title); font-size: 15pt; color: var(--cap-ultramarine); text-transform: uppercase; border-bottom: 1px solid var(--cap-silver); padding-bottom: 2px; break-after: avoid; }
-.wsec h3 .count { font-family: var(--font-body); font-size: 10pt; color: var(--cap-body); margin-left: 6px; }
+.wsec h3 { font-family: var(--font-title); font-size: 15pt; color: var(--wsec-grey); text-transform: uppercase; border-bottom: 1px solid var(--cap-silver); padding-bottom: 2px; break-after: avoid; }
+.wsec h3 .count { color: var(--cap-black); }
+.wsec th { color: var(--wsec-grey); }
+.wsec td, .wsec td strong { color: var(--cap-black); }
 .wsec table { break-before: avoid; table-layout: fixed; }
 .wsec th:nth-child(1) { width: 1.1in; }
 .wsec th:nth-child(2) { width: 3.4in; }
@@ -464,7 +467,8 @@ function simpleTable(cols, list) {
 // Weekly report sections: CAPID, name, and the one thing to act on.
 const capCol = ['CAPID', c => esc(c.capid)], nameCol = ['Cadet', c => `<strong>${esc(c.name)}</strong>`];
 function sec(title, note, cols, list) {
-  return `<section class="wsec"><h3>${title} <span class="count">${list.length}</span></h3>${note ? `<p class="note">${note}</p>` : ''}${simpleTable(cols, list)}</section>`;
+  const sorted = [...list].sort((a, b) => (a.rule?.idx ?? 99) - (b.rule?.idx ?? 99) || a.name.localeCompare(b.name));
+  return `<section class="wsec"><h3>${title} : <span class="count">${list.length}</span></h3>${note ? `<p class="note">${note}</p>` : ''}${simpleTable(cols, sorted)}</section>`;
 }
 const SECTIONS = {
   pin: () => {

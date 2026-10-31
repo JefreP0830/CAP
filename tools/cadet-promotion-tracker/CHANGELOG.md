@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.1 - 2026-10-31
+Weekly report styling.
+- Section titles and column labels medium grey; data rows black.
+- Count shown as "TITLE : 5" with the number in black at title size.
+- Each section ordered by achievement, then cadet last name.
+
 ## 0.8.0 - 2026-10-31
 - "Print weekly packet" is now "Print weekly report": one report with four
   sections, each with a count: To Be Pinned (rank to be pinned), Proctored
