@@ -150,7 +150,11 @@ tr.pgpad { display: none; }
 .kpi-p.alert .num { color: var(--cap-scarlet); }
 
 /* report card */
-.cardhead { display: grid; grid-template-columns: repeat(4, auto); gap: 6px 28px; margin: 10px 0 28px; justify-content: start; }
+.cardhead { display: grid; grid-template-columns: repeat(4, auto); gap: 22px 36px; margin: 14px 0 30px; justify-content: start; }
+.cardhead .blk { display: flex; flex-direction: column; gap: 3px; }
+table.cardreq .tile { width: 40px; min-width: 40px; margin-right: 8px; background: #FFFFFF; }
+table.cardreq tr.na td { color: var(--tile-off-fg); }
+.status-na { color: var(--tile-off-fg); }
 .cardhead .k { font-size: 8.5pt; text-transform: uppercase; letter-spacing: .4px; }
 .cardhead .v { font-size: 13pt; font-weight: 700; color: var(--cap-black); }
 .cardhead .v.big { color: var(--cap-ultramarine); }
@@ -493,22 +497,27 @@ function kpiStrip() {
     return `<div class="kpi-p ${alertOn && n ? 'alert' : ''}"><span class="num">${n}</span><span class="lbl">${label}</span></div>`;
   }).join('')}</div>`;
 }
+const SHORT = { L: 'Leadership test', A: 'Aerospace test', D: 'Drill test', F: 'Fitness test', C: 'Character',
+  P: 'Participation & inspection', ORL: 'Oral presentation', WRT: 'Written assignment' };
+const blk = (k, v, cls = '') => `<div class="blk"><span class="k">${k}</span><span class="v ${cls}">${v}</span></div>`;
 function reportCard(c) {
   const eligLine = c.eligible ? fmt(c.eligible) : '—';
   const pastDue = c.days !== null && c.days > 0 ? `${c.days} days` : 'NA';
   const needed = c.tiles.filter(t => !t.on);
   return head('Cadet Progress Report') + `
     <div class="cardhead">
-      <span class="k">Cadet</span><span class="k">CAPID</span><span class="k">Current grade</span><span class="k">Working toward</span>
-      <span class="v">${esc(c.name)}</span><span class="v">${esc(c.capid)}</span><span class="v">${esc(c.grade)}</span><span class="v big">${esc(c.achv)} (${esc(c.next)})</span>
-      <span class="k">Requirements done</span><span class="k">Eligible to promote</span><span class="k">Past due</span><span class="k"></span>
-      <span class="v big">${c.pct}%</span><span class="v">${eligLine}</span><span class="v ${pastDue !== 'NA' ? 'status-need' : ''}">${pastDue}</span><span></span>
+      ${blk('Cadet', esc(c.name))}${blk('CAPID', esc(c.capid))}${blk('Current grade', esc(c.grade))}${blk('Working toward', `${esc(c.achv)} (${esc(c.next)})`, 'big')}
+      ${blk('Requirements done', c.pct + '%', 'big')}${blk('Eligible to promote', eligLine)}${blk('Past due', pastDue)}<div></div>
     </div>
-    <table><thead><tr><th>Requirement</th><th>Status</th><th>Date recorded</th></tr></thead><tbody>
-      ${TILE_ORDER.map(k => c.tiles.find(t => t.code === k)).filter(Boolean).map(t => `<tr><td>${esc(t.name)}</td><td class="${t.on ? 'status-done' : 'status-need'}">${t.on ? 'Complete' : 'Still needed'}</td><td>${t.date ? fmt(t.date) : ''}</td></tr>`).join('')}
+    <table class="cardreq"><thead><tr><th>Requirement</th><th>Status</th><th>Date recorded</th></tr></thead><tbody>
+      ${TILE_ORDER.map(k => {
+        const t = c.tiles.find(x => x.code === k);
+        const st = !t ? '<td class="status-na">Not required</td>' : `<td class="${t.on ? 'status-done' : 'status-need'}">${t.on ? 'Complete' : 'Still needed'}</td>`;
+        return `<tr class="${t ? '' : 'na'}"><td><span class="tile">${k}</span> ${SHORT[k]}</td>${st}<td>${t && t.date ? fmt(t.date) : ''}</td></tr>`;
+      }).join('')}
     </tbody></table>
     <div class="cardfoot">
-      <p>${needed.length ? `<strong>Next steps:</strong> ${needed.map(t => esc(t.name)).join('; ')}.` : (c.ready ? '<strong>All requirements are complete.</strong> Promotion is awaiting commander approval.' : '<strong>All requirements are complete.</strong> Promotion is possible once the eligible date is reached.')}</p>
+      <p>${needed.length ? `<strong>Next steps:</strong> ${needed.map(t => SHORT[t.code]).join('; ')}.` : (c.ready ? '<strong>All requirements are complete.</strong> Promotion is awaiting commander approval.' : '<strong>All requirements are complete.</strong> Promotion is possible once the eligible date is reached.')}</p>
       <p>Status comes from CAP eServices as of the export date above. If something you have completed shows as still needed, ask the squadron to record it in eServices.</p>
     </div>`;
 }

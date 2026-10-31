@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.8.3 - 2026-10-31
+Report card.
+- Lists all eight requirements (L A D F C P ORL WRT) with an outline tile in
+  front and short names; requirements not needed for the achievement show
+  "Not required".
+- Info items laid out as separate blocks with more vertical space.
+
 ## 0.8.2 - 2026-10-31
 Report card.
 - Fixed requirement table overlapping the info block in print.
