@@ -150,8 +150,8 @@ export default function App() {
       {step === 'select' && (
         <main className="wrap">
           <div className="tabs" role="tablist">
-            <button role="tab" aria-selected={activeTab === 'Promotion'} onClick={() => setActiveTab('Promotion')}>Promotion tests</button>
-            <button role="tab" aria-selected={activeTab === 'Advanced'} onClick={() => setActiveTab('Advanced')}>Advanced training</button>
+            <button role="tab" aria-selected={activeTab === 'Promotion'} onClick={() => setActiveTab('Promotion')}>Drill Test</button>
+            <button role="tab" aria-selected={activeTab === 'Advanced'} onClick={() => setActiveTab('Advanced')}>Advanced Training</button>
           </div>
           <ol className="tests">
             {filteredAchievements.map((ach) => (
