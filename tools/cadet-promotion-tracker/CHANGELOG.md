@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.5 - 2026-10-31
+- Print margin 0.1 in, plus a 0.1 in side inset that holds even when the
+  print dialog is set to Margins: None.
+
 ## 0.6.4 - 2026-10-31
 - Print: letter landscape (11 x 8.5 in), 0.25 in margins. Only the column
   header row repeats on each new page; rows never split across pages.
