@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0 - 2026-10-31
+- Installable as a Windows app (PWA) when opened from the published link:
+  app icon (rising chevrons), own window, works offline once installed,
+  updates automatically. Offline helper caches only the app and the Excel
+  reader; never cadet data.
+
 ## 0.9.2 - 2026-10-31
 - Load-screen instructions reduced to one fixed weekly process (12 steps), no
   alternatives: export in eServices, load this week's and last week's files,

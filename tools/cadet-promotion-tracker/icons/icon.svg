@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Cadet Promotion Tracker app icon: three rising chevrons, top one gold, on CAP Ultramarine.
+       Generic mark; not a CAP official emblem. -->
+  <rect width="512" height="512" rx="96" fill="#001489"/>
+  <path d="M136 188 L256 118 L376 188" fill="none" stroke="#FFCD00" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/><path d="M136 282 L256 212 L376 282" fill="none" stroke="#FFFFFF" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/><path d="M136 376 L256 306 L376 376" fill="none" stroke="#FFFFFF" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
