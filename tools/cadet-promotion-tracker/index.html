@@ -21,7 +21,7 @@
   --tile-off-bg: #F2F3F3;
   --tile-off-fg: #6B6E6E;
   --rule: #D9DBDB;
-  --tile-na: #4D4D4D;
+  --tile-na: #D3D3D3; /* 70% black at ~25% strength */
   --font-title: 'Rajdhani', Arial, sans-serif;
   --font-body: Arial, Helvetica, sans-serif;
 }
@@ -66,7 +66,9 @@ td.capid { font-variant-numeric: tabular-nums; }
 td.name { font-weight: 700; color: var(--cap-black); white-space: nowrap; }
 td.grade { white-space: nowrap; }
 td.grade .to { color: var(--cap-ultramarine); font-weight: 700; }
-td.pct { font-weight: 700; color: var(--cap-black); font-variant-numeric: tabular-nums; text-align: right; }
+td.pct { font-weight: 700; color: var(--cap-black); font-variant-numeric: tabular-nums; text-align: center; }
+th.c { text-align: center; }
+td.achv { font-size: 9pt; white-space: nowrap; letter-spacing: .3px; }
 td.pct.done { color: var(--cap-ultramarine); }
 td.card button { padding: 3px 8px; font-size: 9pt; }
 
@@ -76,8 +78,8 @@ td.card button { padding: 3px 8px; font-size: 9pt; }
 .tile.on { background: var(--cap-ultramarine); border-color: var(--cap-ultramarine); color: #FFFFFF; }
 .tile.na { background: var(--tile-na); border-color: var(--tile-na); color: var(--tile-na); }
 
-.elig { white-space: nowrap; font-variant-numeric: tabular-nums; }
-.days { display: inline-block; min-width: 46px; text-align: center; font-size: 9pt; font-weight: 700; padding: 3px 6px; border-radius: 3px; margin-left: 6px; }
+.elig { white-space: nowrap; font-variant-numeric: tabular-nums; font-size: 9pt; }
+.days { display: inline-block; min-width: 42px; text-align: center; font-size: 8.5pt; font-weight: 700; padding: 3px 6px; border-radius: 3px; margin-left: 6px; }
 .days.wait { border: 1px solid var(--cap-silver); color: var(--cap-body); }
 .days.over { background: var(--cap-scarlet); color: #FFFFFF; border: 1px solid var(--cap-scarlet); }
 .days.ready { background: var(--cap-yellow); color: var(--cap-ultramarine); border: 1px solid var(--cap-yellow); }
@@ -179,12 +181,10 @@ const TILES = {
   // SDA oral presentation covers staff service; at Ach 8 / Eaker the speech is the oral item.
   ORL: { name: 'Oral: SDA presentation or speech', cols: ['OralPresentationDate','SpeechDate'], done: r => has(r.OralPresentationDate) || has(r.SpeechDate) },
   // SDA technical writing covers staff service; at Ach 8 / Eaker / Spaatz the essay is the written item.
-  WRT: { name: 'Written: SDA writing or essay', cols: ['TechnicalWritingAssignmentDate','EssayDate'], done: r => has(r.TechnicalWritingAssignmentDate) || has(r.EssayDate) },
-  S:   { name: 'Special: Welcome Course (Ach 1), encampment (Mitchell), leadership academy (Eaker)', cols: ['WelcomeCourseDate','SpecialActivityDate'],
-         done: (r, a) => a === 'Achievement 1' ? has(r.WelcomeCourseDate) : has(r.SpecialActivityDate) }
+  WRT: { name: 'Written: SDA writing or essay', cols: ['TechnicalWritingAssignmentDate','EssayDate'], done: r => has(r.TechnicalWritingAssignmentDate) || has(r.EssayDate) }
 };
 // Every cadet shows this same block, left to right. Tiles an achievement does not require are blacked out.
-const TILE_ORDER = ['L','A','D','F','C','P','ORL','WRT','S'];
+const TILE_ORDER = ['L','A','D','F','C','P','ORL','WRT'];
 
 // One row per achievement, in program order. grade = grade earned on completion.
 // tiles = what this achievement requires. proctored = closed-book milestone exam tiles.
@@ -192,27 +192,27 @@ const TILE_ORDER = ['L','A','D','F','C','P','ORL','WRT','S'];
 const PHASE1_2 = ['L','A','D','F','C','P'];
 const PHASE3_4 = ['L','A','F','C','P','ORL','WRT'];
 const RULES = [
-  { a: 'Achievement 1',   code: 'ACH 1',   grade: 'C/Amn',    tiles: ['L','D','F','C','P','S'] },
+  { a: 'Achievement 1',   code: 'ACH 1',   grade: 'C/Amn',    tiles: ['L','D','F','C','P'] },
   { a: 'Achievement 2',   code: 'ACH 2',   grade: 'C/A1C',    tiles: PHASE1_2 },
   { a: 'Achievement 3',   code: 'ACH 3',   grade: 'C/SrA',    tiles: PHASE1_2 },
-  { a: 'Wright Brothers', code: 'WRIGHT',  grade: 'C/SSgt',   tiles: ['L','D','F','P'], proctored: ['L'] },
+  { a: 'Wright Brothers', code: 'WB',      grade: 'C/SSgt',   tiles: ['L','D','F','P'], proctored: ['L'] },
   { a: 'Achievement 4',   code: 'ACH 4',   grade: 'C/TSgt',   tiles: PHASE1_2 },
   { a: 'Achievement 5',   code: 'ACH 5',   grade: 'C/MSgt',   tiles: PHASE1_2 },
   { a: 'Achievement 6',   code: 'ACH 6',   grade: 'C/SMSgt',  tiles: PHASE1_2 },
   { a: 'Achievement 7',   code: 'ACH 7',   grade: 'C/CMSgt',  tiles: PHASE1_2 },
   { a: 'Achievement 8',   code: 'ACH 8',   grade: 'C/CMSgt',  tiles: ['L','A','D','F','C','P','ORL','WRT'] },
-  { a: 'Mitchell Award',  code: 'MITCHELL',grade: 'C/2d Lt',  tiles: ['L','A','F','P','S'], proctored: ['L','A'] },
+  { a: 'Mitchell Award',  code: 'MIT',     grade: 'C/2d Lt',  tiles: ['L','A','F','P'], proctored: ['L','A'] },
   { a: 'Achievement 9',   code: 'ACH 9',   grade: 'C/2d Lt',  tiles: PHASE3_4 },
   { a: 'Achievement 10',  code: 'ACH 10',  grade: 'C/1st Lt', tiles: PHASE3_4 },
   { a: 'Achievement 11',  code: 'ACH 11',  grade: 'C/1st Lt', tiles: PHASE3_4 },
-  { a: 'Earhart Award',   code: 'EARHART', grade: 'C/Capt',   tiles: ['L','F','P'], proctored: ['L'] },
+  { a: 'Earhart Award',   code: 'EHRT',    grade: 'C/Capt',   tiles: ['L','F','P'], proctored: ['L'] },
   { a: 'Achievement 12',  code: 'ACH 12',  grade: 'C/Capt',   tiles: ['L','F','C','P','ORL','WRT'] },
   { a: 'Achievement 13',  code: 'ACH 13',  grade: 'C/Capt',   tiles: ['L','F','C','P','ORL','WRT'] },
   { a: 'Achievement 14',  code: 'ACH 14',  grade: 'C/Maj',    tiles: PHASE3_4 },
   { a: 'Achievement 15',  code: 'ACH 15',  grade: 'C/Maj',    tiles: PHASE3_4 },
   { a: 'Achievement 16',  code: 'ACH 16',  grade: 'C/Maj',    tiles: PHASE3_4 },
-  { a: 'Eaker Award',     code: 'EAKER',   grade: 'C/Lt Col', tiles: ['F','P','ORL','WRT','S'] },
-  { a: 'Spaatz Award',    code: 'SPAATZ',  grade: 'C/Col',    tiles: ['L','A','F','WRT'], proctored: ['L','A','F','WRT'] }
+  { a: 'Eaker Award',     code: 'EAKR',    grade: 'C/Lt Col', tiles: ['F','P','ORL','WRT'] },
+  { a: 'Spaatz Award',    code: 'SPTZ',    grade: 'C/Col',    tiles: ['L','A','F','WRT'], proctored: ['L','A','F','WRT'] }
 ];
 const RULE_BY_NAME = Object.fromEntries(RULES.map((r, i) => [r.a, { ...r, idx: i }]));
 const STALLED_DAYS = 56;     // not ready and 8+ weeks past eligible date
@@ -373,7 +373,7 @@ const FILTERS = [
   ['stalled', 'Stalled 8+ weeks',  c => c.stalled, true]
 ];
 function legendText(list) {
-  return TILE_ORDER.map(k => `<b>${k}</b> ${esc(TILES[k].name)}`).join(' &nbsp;·&nbsp; ') + ' &nbsp;·&nbsp; Dark tile: not required for this achievement';
+  return TILE_ORDER.map(k => `<b>${k}</b> ${esc(TILES[k].name)}`).join(' &nbsp;·&nbsp; ') + ' &nbsp;·&nbsp; Blank grey tile: not required for this achievement';
 }
 function render() {
   document.getElementById('kpis').innerHTML = FILTERS.map(([k, label, fn, alert]) => {
@@ -403,12 +403,12 @@ function tilesHtml(c) {
 }
 function rosterTable(list) {
   if (!list.length) return '<p class="none">No cadets in this view.</p>';
-  return `<table><thead><tr><th>CAPID</th><th>Cadet</th><th>Grade</th><th>Next</th><th>Requirements</th><th style="text-align:right">Progress</th><th>Eligible</th></tr></thead><tbody>${
+  return `<table><thead><tr><th>CAPID</th><th>Cadet</th><th>Next grade</th><th>Achv</th><th>Requirements</th><th class="c">Progress</th><th>Eligible</th></tr></thead><tbody>${
     list.map(c => `<tr>
       <td class="capid">${esc(c.capid)}</td>
       <td class="name">${esc(c.name)}</td>
-      <td class="grade">${esc(c.grade || '')}</td>
-      <td class="grade"><span class="to">${esc(c.next || c.achv)}</span> <span style="font-size:8.5pt">${esc(c.code || '')}</span></td>
+      <td class="grade"><span class="to">${esc(c.next || c.achv)}</span></td>
+      <td class="achv">${esc(c.code || '')}</td>
       <td>${tilesHtml(c)}</td>
       <td class="pct ${c.reqsDone ? 'done' : ''}">${c.pct}%</td>
       <td>${eligHtml(c)}</td>

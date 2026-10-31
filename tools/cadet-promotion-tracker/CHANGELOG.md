@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.0 - 2026-10-31
+- Tiles limited to L A D F C P ORL WRT. S (Welcome Course, encampment,
+  leadership academy) removed; those are not tracked.
+- Not-required tiles toned down to light grey.
+- Grade column removed; Next grade and Achv are separate aligned columns.
+  Milestones abbreviated WB, MIT, EHRT, EAKR, SPTZ.
+- Progress centered; eligible date set smaller.
+
 ## 0.5.0 - 2026-10-31
 - Every cadet shows the same tile block, left to right:
   L A D F C P ORL WRT S. Tiles not required for the cadet's achievement are

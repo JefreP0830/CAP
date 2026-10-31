@@ -21,7 +21,7 @@ Each cadet shows only the tiles their next achievement requires. A tile fills
 in when eServices has a date or value for it. Rules live in the `RULES` and
 `TILES` tables at the top of the script, with their sources.
 
-Every cadet shows the same tiles in the same order. Dark tiles are not
+Every cadet shows the same tiles in the same order. Light grey blank tiles are not
 required for that cadet's achievement.
 
 | Tile | Meaning | Export column(s) |
@@ -34,7 +34,9 @@ required for that cadet's achievement.
 | P | Participation & inspection | ActivePart, CadetOath, LeadershipExpectationsDate, UniformDate |
 | ORL | SDA oral presentation, or speech (Ach 8, Eaker) | OralPresentationDate, SpeechDate |
 | WRT | SDA technical writing, or essay (Ach 8, Eaker, Spaatz) | TechnicalWritingAssignmentDate, EssayDate |
-| S | Welcome Course (Ach 1), encampment (Mitchell), leadership academy (Eaker) | WelcomeCourseDate, SpecialActivityDate |
+
+Not tracked: Welcome Course (Ach 1), encampment (Mitchell) and leadership
+academy (Eaker). Check these in eServices before approving those promotions.
 
 The Eligible column shows NextApprovalDate: a plain box counts down the days,
 a red box counts days past it, and Ready means every tile is complete and the
