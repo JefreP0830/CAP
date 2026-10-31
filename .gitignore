@@ -1,0 +1,22 @@
+# ---- DATA NEVER ENTERS THIS REPO ----
+# Rosters, eServices exports and any output built from them stay on the
+# squadron file share. See docs/decisions.md (D-001).
+*.csv
+*.xlsx
+*.xls
+*.xlsm
+*.pdf
+*.json
+!package.json
+!package-lock.json
+data/
+exports/
+**/private/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+~$*
+.vscode/
+node_modules/

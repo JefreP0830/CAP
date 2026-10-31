@@ -1,0 +1,2051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadet Promotion Tracker &mdash; NER-VT014</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    /* =========================================================
+       BASE STYLES & BRAND PALETTE
+       Primary Navy: #002B49 | Accent Red: #C41230 | Gray: #64748B
+       Header Font: Rajdhani 20pt | Body Font: Arial 11pt
+       ========================================================= */
+    :root {
+      --cap-navy: #002B49;
+      --cap-navy-dark: #001A2C;
+      --cap-navy-light: #0A3D62;
+      --cap-red: #C41230;
+      --cap-red-dark: #9E0D24;
+      --cap-slate: #64748B;
+      --cap-slate-dark: #334155;
+      --cap-slate-light: #F8FAFC;
+      --cap-border: #CBD5E1;
+      --cap-bg: #F1F5F9;
+      --cap-white: #FFFFFF;
+      --status-ready: #002B49;
+      --status-ready-bg: #E0F2FE;
+      --status-pastdue: #C41230;
+      --status-pastdue-bg: #FEE2E2;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 11pt;
+      line-height: 1.4;
+      color: #1E293B;
+      background-color: var(--cap-bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* HEADER */
+    header.app-header {
+      background: linear-gradient(135deg, var(--cap-navy) 0%, var(--cap-navy-dark) 100%);
+      color: var(--cap-white);
+      padding: 12px 24px;
+      border-bottom: 3px solid var(--cap-red);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-titles {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Line 1: CADET PROMOTION TRACKER (Rajdhani 20pt) */
+    .header-titles h1 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 20pt;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      line-height: 1.1;
+      color: #FFFFFF;
+    }
+
+    /* Line 2: NER-VT014 CHAMPLAIN COMPOSITE SQ */
+    .header-titles .subtitle {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 13pt;
+      font-weight: 600;
+      color: #94A3B8;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* BUTTONS */
+    .btn {
+      font-family: Arial, sans-serif;
+      font-size: 10pt;
+      font-weight: bold;
+      padding: 6px 14px;
+      border-radius: 4px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background-color: var(--cap-navy);
+      color: #FFFFFF;
+      border-color: #001A2C;
+    }
+    .btn-primary:hover {
+      background-color: var(--cap-navy-light);
+    }
+
+    .btn-save {
+      background-color: #047857;
+      color: #FFFFFF;
+      border-color: #065F46;
+    }
+    .btn-save:hover {
+      background-color: #065F46;
+    }
+
+    .btn-secondary {
+      background-color: #FFFFFF;
+      color: var(--cap-navy);
+      border-color: #CBD5E1;
+    }
+    .btn-secondary:hover {
+      background-color: #F1F5F9;
+      border-color: #94A3B8;
+    }
+
+    .btn-sm {
+      font-size: 9pt;
+      padding: 4px 8px;
+    }
+
+    /* KPI METRICS ROW - COLOR NEUTRAL */
+    .kpi-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+      padding: 14px 24px 8px 24px;
+      background-color: #FFFFFF;
+      border-bottom: 1px solid var(--cap-border);
+    }
+
+    .kpi-card {
+      background: var(--cap-slate-light);
+      border: 1px solid var(--cap-border);
+      border-left: 4px solid var(--cap-slate);
+      border-radius: 4px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .kpi-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    }
+
+    .kpi-label {
+      font-size: 9.5pt;
+      font-weight: bold;
+      color: var(--cap-slate-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .kpi-value {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 20pt;
+      font-weight: 700;
+      color: var(--cap-navy);
+      line-height: 1.1;
+      margin-top: 2px;
+    }
+    .kpi-subtext {
+      font-size: 8.5pt;
+      color: var(--cap-slate);
+      margin-top: 2px;
+    }
+
+    /* TOOLBAR & TABS */
+    .toolbar-container {
+      padding: 10px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background-color: #FFFFFF;
+      border-bottom: 1px solid var(--cap-border);
+    }
+
+    .toolbar-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .nav-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .tab-btn {
+      font-family: Arial, sans-serif;
+      font-size: 10pt;
+      font-weight: bold;
+      padding: 6px 14px;
+      border: 1px solid #CBD5E1;
+      background-color: #FFFFFF;
+      color: var(--cap-slate-dark);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .tab-btn:hover {
+      background-color: #F1F5F9;
+      border-color: #94A3B8;
+    }
+    .tab-btn.active {
+      background-color: var(--cap-navy);
+      color: #FFFFFF;
+      border-color: var(--cap-navy);
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .search-box input {
+      font-family: Arial, sans-serif;
+      font-size: 10pt;
+      padding: 6px 12px;
+      border: 1px solid #CBD5E1;
+      border-radius: 4px;
+      width: 240px;
+      outline: none;
+    }
+    .search-box input:focus {
+      border-color: var(--cap-navy);
+      box-shadow: 0 0 0 2px rgba(0, 43, 73, 0.15);
+    }
+
+    /* LETTER LEGEND */
+    .letter-legend {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 4px;
+      padding: 7px 16px;
+      gap: 12px;
+      overflow-x: auto;
+    }
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      white-space: nowrap;
+      font-size: 8.5pt;
+      font-weight: 600;
+      color: #334155;
+      flex: 1 1 auto;
+      text-align: center;
+    }
+    .legend-box {
+      width: 18px;
+      height: 18px;
+      border-radius: 3px;
+      font-size: 8pt;
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      flex-shrink: 0;
+      line-height: 1;
+      background-color: #E2E8F0;
+      color: #64748B;
+      border: 1px solid #CBD5E1;
+      box-sizing: border-box;
+    }
+
+    /* MAIN CONTENT & TABLES */
+    main.app-main {
+      flex: 1;
+      padding: 16px 24px;
+      overflow-x: auto;
+    }
+
+    .table-container {
+      background-color: #FFFFFF;
+      border: 1px solid var(--cap-border);
+      border-radius: 4px;
+      overflow-x: auto;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    table.tracker-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 10pt;
+      white-space: nowrap;
+    }
+
+    table.tracker-table thead th {
+      background-color: var(--cap-navy);
+      color: #FFFFFF;
+      padding: 8px 10px;
+      font-weight: bold;
+      font-size: 9.5pt;
+      letter-spacing: 0.3px;
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    table.tracker-table tbody tr {
+      border-bottom: 1px solid var(--cap-border);
+      transition: background-color 0.1s;
+    }
+    table.tracker-table tbody tr:nth-child(even) {
+      background-color: #F8FAFC;
+    }
+    table.tracker-table tbody tr:hover {
+      background-color: #EFF6FF;
+    }
+
+    table.tracker-table td {
+      padding: 7px 10px;
+      vertical-align: middle;
+      border-right: 1px solid #E2E8F0;
+    }
+
+    /* BADGES & PILLS */
+    .badge {
+      display: inline-block;
+      padding: 2px 7px;
+      font-size: 8.5pt;
+      font-weight: bold;
+      border-radius: 3px;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .badge-ready {
+      background-color: #D1FAE5;
+      color: #065F46;
+      border: 1px solid #6EE7B7;
+    }
+    .badge-not-ready {
+      background-color: #F1F5F9;
+      color: #64748B;
+      border: 1px solid #CBD5E1;
+    }
+    .badge-pastdue {
+      background-color: #FEE2E2;
+      color: #991B1B;
+      border: 1px solid #FCA5A5;
+      font-weight: bold;
+    }
+    .badge-ontrack {
+      background-color: #F1F5F9;
+      color: #334155;
+    }
+
+    /* LETTER BOXES (TEST, REQUIRED, SDA) */
+    .letter-box-group {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .letter-box {
+      width: 20px;
+      height: 20px;
+      border-radius: 3px;
+      font-size: 8pt;
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      border: 1px solid transparent;
+      line-height: 1;
+    }
+
+    /* Done / Passed (Standard Green for L, A, D, C, F, SDA W, SDA P) */
+    .lb-done {
+      background-color: #059669;
+      color: #FFFFFF;
+      border-color: #047857;
+    }
+
+    /* Done / Passed (Blue for Welcome W and Encampment E) */
+    .lb-done-blue {
+      background-color: #0284C7;
+      color: #FFFFFF;
+      border-color: #0369A1;
+    }
+
+    /* Drill Highlight: Yellow/Amber when drill test is needed */
+    .lb-drill-need {
+      background-color: #F59E0B;
+      color: #000000;
+      border-color: #D97706;
+      font-weight: 900;
+    }
+
+    /* Test Column: T letter box (Bold Red only for incomplete milestone exams) */
+    .lb-test-need {
+      background-color: #DC2626;
+      color: #FFFFFF;
+      border-color: #B91C1C;
+      font-weight: 900;
+    }
+    .lb-test-faded {
+      background-color: #E2E8F0;
+      color: #64748B;
+      border-color: #CBD5E1;
+      font-weight: normal;
+    }
+
+    /* Missing Requirement */
+    .lb-missing {
+      background-color: #E2E8F0;
+      color: #64748B;
+      border-color: #CBD5E1;
+    }
+
+    /* Encampment Missing for Mitchell */
+    .lb-encamp-need {
+      background-color: #DC2626;
+      color: #FFFFFF;
+      border-color: #B91C1C;
+      font-weight: 900;
+    }
+
+    /* N/A to this achievement */
+    .lb-na {
+      background-color: #F8FAFC;
+      color: #CBD5E1;
+      border-color: #E2E8F0;
+      opacity: 0.45;
+    }
+
+    .lb-clickable {
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    .lb-clickable:hover {
+      transform: scale(1.15);
+    }
+
+    /* TOGGLE PILLS */
+    .toggle-pill {
+      cursor: pointer;
+      user-select: none;
+      font-size: 8.5pt;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-weight: bold;
+      display: inline-block;
+    }
+    .toggle-yes { background-color: #DCFCE7; color: #166534; border: 1px solid #86EFAC; }
+    .toggle-no { background-color: #F3F4F6; color: #4B5563; border: 1px solid #D1D5DB; }
+
+    /* NOTE CELL */
+    .note-cell {
+      max-width: 220px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: pointer;
+      color: #2563EB;
+      text-decoration: underline;
+      font-size: 9pt;
+    }
+    .note-cell.empty {
+      color: #94A3B8;
+      text-decoration: none;
+      font-style: italic;
+    }
+
+    .editable-input {
+      font-family: Arial, sans-serif;
+      font-size: 9pt;
+      padding: 2px 5px;
+      border: 1px solid #CBD5E1;
+      border-radius: 3px;
+      background-color: #FFFFFF;
+      outline: none;
+    }
+    .editable-input:focus {
+      border-color: var(--cap-navy);
+    }
+
+    .duty-input {
+      font-family: Arial, sans-serif;
+      font-size: 8.5pt;
+      width: 100px;
+      padding: 2px 5px;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      background-color: transparent;
+      outline: none;
+      transition: border-color 0.15s, background-color 0.15s, color 0.15s, opacity 0.15s;
+    }
+    .duty-input:hover, .duty-input:focus {
+      border-color: #CBD5E1;
+      background-color: #FFFFFF;
+    }
+    .duty-input.active {
+      color: #0F172A;
+      font-weight: bold;
+      opacity: 1;
+    }
+    .duty-input.empty {
+      color: #94A3B8;
+      font-weight: normal;
+      opacity: 0.45;
+    }
+
+    /* DRAG & DROP OVERLAY */
+    .drop-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 43, 73, 0.88);
+      color: #FFFFFF;
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 14px;
+      pointer-events: none;
+    }
+    .drop-overlay.active {
+      display: flex;
+    }
+    .drop-overlay-box {
+      border: 3px dashed #FFFFFF;
+      border-radius: 8px;
+      padding: 35px 50px;
+      text-align: center;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 20pt;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+    .drop-overlay-sub {
+      font-size: 11pt;
+      font-family: Arial, sans-serif;
+      color: #CBD5E1;
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open {
+      display: flex;
+    }
+    .modal-card {
+      background-color: #FFFFFF;
+      border-radius: 6px;
+      border: 1px solid var(--cap-border);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .modal-header {
+      background-color: var(--cap-navy);
+      color: #FFFFFF;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+    .modal-header h3 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16pt;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: #FFFFFF;
+      font-size: 16pt;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .modal-body {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 10.5pt;
+    }
+    .modal-footer {
+      padding: 12px 18px;
+      background-color: var(--cap-slate-light);
+      border-top: 1px solid var(--cap-border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .form-group label {
+      font-weight: bold;
+      font-size: 9.5pt;
+      color: var(--cap-slate-dark);
+    }
+    .form-group textarea {
+      font-family: Arial, sans-serif;
+      font-size: 10pt;
+      padding: 8px 10px;
+      border: 1px solid #CBD5E1;
+      border-radius: 4px;
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .summary-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .summary-list li {
+      padding: 6px 10px;
+      background-color: #F8FAFC;
+      border-left: 3px solid var(--cap-navy);
+      font-size: 9.5pt;
+    }
+    .summary-list li.added {
+      border-left-color: #059669;
+      background-color: #ECFDF5;
+    }
+    .summary-list li.missing {
+      border-left-color: var(--cap-red);
+      background-color: #FEF2F2;
+    }
+
+    /* PRINT SPECIFIC STYLES: 8.5 x 11 Landscape, 0.15" margins */
+    @page {
+      size: letter landscape;
+      margin: 0.15in;
+    }
+
+    .print-banner {
+      display: none;
+    }
+
+    @media print {
+      body {
+        background: #FFFFFF !important;
+        font-family: Arial, sans-serif;
+        font-size: 8pt;
+        color: #000000;
+        margin: 0;
+        padding: 0;
+      }
+      header.app-header, .kpi-container, .toolbar-container, .modal-overlay, .drop-overlay, .no-print {
+        display: none !important;
+      }
+      .print-banner {
+        display: block !important;
+        margin-bottom: 6px;
+        border-bottom: 2px solid #002B49;
+        padding-bottom: 4px;
+      }
+      .print-banner h1 {
+        font-family: 'Rajdhani', Arial, sans-serif;
+        font-size: 15pt;
+        font-weight: 700;
+        color: #002B49;
+        text-transform: uppercase;
+        margin: 0;
+      }
+      .print-banner .print-sub {
+        font-family: 'Rajdhani', Arial, sans-serif;
+        font-size: 11pt;
+        font-weight: 600;
+        color: #475569;
+        text-transform: uppercase;
+      }
+      .print-banner .print-meta {
+        font-size: 8pt;
+        color: #475569;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2px;
+      }
+      main.app-main {
+        padding: 0 !important;
+        overflow: visible !important;
+      }
+      .table-container {
+        border: none !important;
+        box-shadow: none !important;
+        overflow: visible !important;
+      }
+      table.tracker-table {
+        width: 100% !important;
+        font-size: 7.5pt !important;
+        border-collapse: collapse !important;
+      }
+      table.tracker-table thead th {
+        background-color: #002B49 !important;
+        color: #FFFFFF !important;
+        padding: 3px 4px !important;
+        font-size: 7.5pt !important;
+        border: 1px solid #94A3B8 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      table.tracker-table td {
+        padding: 2.5px 4px !important;
+        font-size: 7.5pt !important;
+        border: 1px solid #CBD5E1 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .letter-box {
+        width: 14px !important;
+        height: 14px !important;
+        font-size: 6.5pt !important;
+      }
+      .note-cell {
+        max-width: 180px !important;
+        text-decoration: none !important;
+        color: #000000 !important;
+      }
+      .editable-input {
+        border: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+        font-size: 7.5pt !important;
+      }
+      .duty-input {
+        border: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+        font-size: 7.5pt !important;
+      }
+      .duty-input.active {
+        color: #000000 !important;
+        font-weight: bold !important;
+        opacity: 1 !important;
+      }
+      .duty-input.empty {
+        color: #94A3B8 !important;
+        opacity: 0.4 !important;
+      }
+      .col-duty,
+      .col-notes,
+      table.tracker-table th:nth-child(11),
+      table.tracker-table td:nth-child(11),
+      table.tracker-table th:nth-child(12),
+      table.tracker-table td:nth-child(12) {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- DRAG & DROP OVERLAY -->
+  <div class="drop-overlay" id="dropOverlay">
+    <div class="drop-overlay-box">
+      Drop eServices Report File Here
+    </div>
+    <div class="drop-overlay-sub">
+      Accepts .xlsx or .csv &mdash; Updates tracker in seconds
+    </div>
+  </div>
+
+  <!-- PRINT ONLY BANNER -->
+  <div class="print-banner">
+    <h1>CADET PROMOTION TRACKER</h1>
+    <div class="print-sub">NER-VT014 CHAMPLAIN COMPOSITE SQ</div>
+    <div class="print-meta">
+      <span id="printTabName">Roster: All Cadets</span>
+      <span id="printDate">Generated: </span>
+    </div>
+  </div>
+
+  <!-- APPLICATION HEADER -->
+  <header class="app-header no-print">
+    <div class="header-titles">
+      <!-- Line 1: CADET PROMOTION TRACKER -->
+      <h1>CADET PROMOTION TRACKER</h1>
+      <!-- Line 2: NER-VT014 CHAMPLAIN COMPOSITE SQ -->
+      <div class="subtitle">NER-VT014 CHAMPLAIN COMPOSITE SQ</div>
+    </div>
+    <div class="header-actions">
+      <!-- File input for eServices report (.xlsx or .csv) -->
+      <input type="file" id="reportFileInput" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleReportUpload(event)">
+      <button class="btn btn-primary" onclick="document.getElementById('reportFileInput').click()">
+        Ingest eServices Report
+      </button>
+
+      <!-- Print Roster -->
+      <button class="btn btn-secondary" onclick="window.print()">
+        Print Roster
+      </button>
+    </div>
+  </header>
+
+  <!-- KPI SUMMARY CARDS (COLOR NEUTRAL) -->
+  <section class="kpi-container no-print" id="kpiContainer">
+    <div class="kpi-card" onclick="setTab('all')">
+      <div class="kpi-label">Active Cadets</div>
+      <div class="kpi-value" id="kpiTotalActive">0</div>
+      <div class="kpi-subtext">Squadron Roster</div>
+    </div>
+    <div class="kpi-card" onclick="setTab('ready')">
+      <div class="kpi-label">Promotion Ready</div>
+      <div class="kpi-value" id="kpiReady">0</div>
+      <div class="kpi-subtext">Requirements Complete</div>
+    </div>
+    <div class="kpi-card" onclick="setTab('pastdue')">
+      <div class="kpi-label">Past Due</div>
+      <div class="kpi-value" id="kpiPastDue">0</div>
+      <div class="kpi-subtext">Past Eligible Date</div>
+    </div>
+    <div class="kpi-card" onclick="setTab('drill')">
+      <div class="kpi-label">Drill Test Needed</div>
+      <div class="kpi-value" id="kpiDrillNeeded">0</div>
+      <div class="kpi-subtext">Pending Practical Test</div>
+    </div>
+    <div class="kpi-card" onclick="setTab('milestone')">
+      <div class="kpi-label">Milestone Exams</div>
+      <div class="kpi-value" id="kpiMilestones">0</div>
+      <div class="kpi-subtext">Proctored Online Exams</div>
+    </div>
+  </section>
+
+  <!-- TOOLBAR: TABS, LEGEND & SEARCH -->
+  <section class="toolbar-container no-print">
+    <div class="toolbar-row">
+      <div class="nav-tabs" id="navTabs">
+        <button class="tab-btn active" data-tab="all" onclick="setTab('all')">All Cadets</button>
+        <button class="tab-btn" data-tab="ready" onclick="setTab('ready')">Ready to Promote</button>
+        <button class="tab-btn" data-tab="pastdue" onclick="setTab('pastdue')">Past Due</button>
+        <button class="tab-btn" data-tab="drill" onclick="setTab('drill')">Drill Needed</button>
+        <button class="tab-btn" data-tab="milestone" onclick="setTab('milestone')">Milestones</button>
+      </div>
+
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search by name, CAPID, rank..." oninput="handleSearch(this.value)">
+      </div>
+    </div>
+
+    <!-- LETTER LEGEND -->
+    <div class="letter-legend" id="letterLegend">
+      <span class="legend-item"><span class="legend-box">T</span> Test</span>
+      <span class="legend-item"><span class="legend-box">L</span> Leadership</span>
+      <span class="legend-item"><span class="legend-box">A</span> Aerospace</span>
+      <span class="legend-item"><span class="legend-box">D</span> Drill</span>
+      <span class="legend-item"><span class="legend-box">C</span> Character</span>
+      <span class="legend-item"><span class="legend-box">F</span> Fitness</span>
+      <span class="legend-item"><span class="legend-box">W</span> Welcome</span>
+      <span class="legend-item"><span class="legend-box">E</span> Encampment</span>
+      <span class="legend-item"><span class="legend-box">W</span> Writing</span>
+      <span class="legend-item"><span class="legend-box">P</span> Presentation</span>
+    </div>
+  </section>
+
+  <!-- MAIN TABLE AREA -->
+  <main class="app-main">
+    <div class="table-container" id="tableContainer">
+      <!-- Injected by JavaScript -->
+    </div>
+  </main>
+
+  <!-- NOTE MODAL -->
+  <div class="modal-overlay" id="noteModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="noteModalTitle">Cadet Note</h3>
+        <button class="modal-close" onclick="closeNoteModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Notes for <span id="noteCadetName"></span>:</label>
+          <textarea id="noteInput" placeholder="Enter notes or updates here..."></textarea>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-secondary btn-sm" onclick="insertNoteTimestamp()">+ Insert Timestamp</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeNoteModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveNoteModal()">Save Note</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- INGESTION SUMMARY MODAL -->
+  <div class="modal-overlay" id="summaryModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>eServices Report Ingest Summary</h3>
+        <button class="modal-close" onclick="closeSummaryModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="summaryModalContent">
+        <!-- Injected by JavaScript -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="closeSummaryModal()">Acknowledge</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT APPLICATION CORE -->
+  <script>
+    // =========================================================
+    // SEED DATA & CONSTANTS
+    // =========================================================
+
+    const ACHV_SPECS = {
+      "Achievement 1": { code: "ACH 1", rank: "C/Amn", prevRank: "CADET", hasDrill: true, hasMilestoneExam: false, milestoneName: null, isOfficer: false },
+      "Achievement 2": { code: "ACH 2", rank: "C/A1C", prevRank: "C/Amn", hasDrill: true, hasMilestoneExam: false, milestoneName: null, isOfficer: false },
+      "Achievement 3": { code: "ACH 3", rank: "C/SrA", prevRank: "C/A1C", hasDrill: true, hasMilestoneExam: false, milestoneName: null, isOfficer: false },
+      "Wright Brothers": { code: "WRIGHT B", rank: "C/SSgt", prevRank: "C/SrA", hasDrill: true, hasMilestoneExam: true, milestoneName: "Wright Brothers", isOfficer: false },
+      "Achievement 4": { code: "ACH 4", rank: "C/TSgt", prevRank: "C/SSgt", hasDrill: true, hasMilestoneExam: false, milestoneName: null, isOfficer: false },
+      "Achievement 5": { code: "ACH 5", rank: "C/MSgt", prevRank: "C/TSgt", hasDrill: true, hasMilestoneExam: false, milestoneName: null, isOfficer: false },
+      "Achievement 6": { code: "ACH 6", rank: "C/SMSgt", prevRank: "C/MSgt", hasDrill: true, hasMilestoneExam: false, milestoneName: null, isOfficer: false },
+      "Achievement 7": { code: "ACH 7", rank: "C/CMSgt", prevRank: "C/SMSgt", hasDrill: true, hasMilestoneExam: false, milestoneName: null, isOfficer: false },
+      "Achievement 8": { code: "ACH 8", rank: "C/CMSgt", prevRank: "C/CMSgt", hasDrill: true, hasMilestoneExam: false, milestoneName: null, isOfficer: false },
+      "Mitchell Award": { code: "MITCHELL", rank: "C/2LT", prevRank: "C/CMSgt", hasDrill: false, hasMilestoneExam: true, milestoneName: "Mitchell Award", isOfficer: false },
+      "Achievement 9": { code: "ACH 9", rank: "C/2LT", prevRank: "C/2LT", hasDrill: false, hasMilestoneExam: false, milestoneName: null, isOfficer: true },
+      "Achievement 10": { code: "ACH 10", rank: "C/1LT", prevRank: "C/2LT", hasDrill: false, hasMilestoneExam: false, milestoneName: null, isOfficer: true },
+      "Achievement 11": { code: "ACH 11", rank: "C/1LT", prevRank: "C/1LT", hasDrill: false, hasMilestoneExam: false, milestoneName: null, isOfficer: true },
+      "Earhart Award": { code: "EARHART", rank: "C/Capt", prevRank: "C/1LT", hasDrill: false, hasMilestoneExam: true, milestoneName: "Earhart Award", isOfficer: false },
+      "Achievement 12": { code: "ACH 12", rank: "C/Capt", prevRank: "C/Capt", hasDrill: false, hasMilestoneExam: false, milestoneName: null, isOfficer: true },
+      "Achievement 13": { code: "ACH 13", rank: "C/Capt", prevRank: "C/Capt", hasDrill: false, hasMilestoneExam: false, milestoneName: null, isOfficer: true },
+      "Achievement 14": { code: "ACH 14", rank: "C/Maj", prevRank: "C/Capt", hasDrill: false, hasMilestoneExam: false, milestoneName: null, isOfficer: true },
+      "Eaker Award": { code: "EAKER", rank: "C/Lt Col", prevRank: "C/Maj", hasDrill: false, hasMilestoneExam: false, milestoneName: "Eaker Award", isOfficer: false },
+      "Spaatz Award": { code: "SPAATZ", rank: "C/Col", prevRank: "C/Lt Col", hasDrill: false, hasMilestoneExam: true, milestoneName: "Spaatz Award", isOfficer: false }
+    };
+
+    function formatTargetCode(target) {
+      const spec = ACHV_SPECS[target];
+      if (spec && spec.code) return spec.code;
+      if (!target) return 'ACH 1';
+      return String(target).replace(/Achievement\s*/i, 'ACH ');
+    }
+
+    let INITIAL_SEED_CADETS = [];
+
+    let cadets = [];
+    let currentTab = 'all';
+    let searchQuery = '';
+    let activeEditingCapid = null;
+
+    // =========================================================
+    // INITIALIZATION & DUAL STORAGE
+    // =========================================================
+    function initApp() {
+      // Roster is held in memory only. Nothing is written to browser storage;
+      // closing the tab clears it. Load an eServices export to begin.
+      cadets = [];
+
+      const today = new Date();
+      document.getElementById('printDate').innerText = 'Generated: ' + today.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+
+      setupDragAndDrop();
+      render();
+    }
+
+    function saveCadets() {
+      // Intentionally a no-op: no cadet data is persisted anywhere.
+    }
+
+
+    // =========================================================
+    // FULL-WINDOW DRAG AND DROP
+    // =========================================================
+    function setupDragAndDrop() {
+      const overlay = document.getElementById('dropOverlay');
+
+      window.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        overlay.classList.add('active');
+      });
+
+      window.addEventListener('dragleave', function(e) {
+        if (e.clientX <= 0 || e.clientY <= 0 || e.clientX >= window.innerWidth || e.clientY >= window.innerHeight) {
+          overlay.classList.remove('active');
+        }
+      });
+
+      window.addEventListener('drop', function(e) {
+        e.preventDefault();
+        overlay.classList.remove('active');
+        if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+          const file = e.dataTransfer.files[0];
+          handleIncomingFile(file);
+        }
+      });
+    }
+
+    // =========================================================
+    // DATE & PROMOTION LOGIC ENGINE
+    // =========================================================
+    function getNextThursday(dateStr) {
+      if (!dateStr) return null;
+      let d = parseAnyDate(dateStr);
+      if (!d || isNaN(d.getTime())) return null;
+
+      const day = d.getDay();
+      const diff = (4 - day + 7) % 7;
+      d.setDate(d.getDate() + diff);
+      return formatDateISO(d);
+    }
+
+    function parseAnyDate(val) {
+      if (!val) return null;
+      if (val instanceof Date) return val;
+      const str = String(val).trim();
+      if (!str || str === 'None' || str === 'N/A') return null;
+
+      if (/^\d{4}-\d{2}-\d{2}/.test(str)) {
+        const parts = str.substring(0, 10).split('-');
+        return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+      }
+
+      const dMonY = str.match(/^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})/);
+      if (dMonY) {
+        const day = parseInt(dMonY[1]);
+        const monStr = dMonY[2].toLowerCase();
+        const year = parseInt(dMonY[3]);
+        const months = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+        const mIdx = months.indexOf(monStr);
+        if (mIdx !== -1) {
+          return new Date(year, mIdx, day);
+        }
+      }
+
+      const parsed = new Date(str);
+      return isNaN(parsed.getTime()) ? null : parsed;
+    }
+
+    function formatDateISO(d) {
+      if (!d) return '';
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function formatDisplayDate(dateStr) {
+      if (!dateStr) return '&mdash;';
+      const d = parseAnyDate(dateStr);
+      if (!d) return dateStr;
+      return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function getDaysPastDue(dateStr) {
+      if (!dateStr) return null;
+      const d = parseAnyDate(dateStr);
+      if (!d) return null;
+
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      d.setHours(0,0,0,0);
+
+      const diffTime = today.getTime() - d.getTime();
+      return Math.round(diffTime / (1000 * 60 * 60 * 24));
+    }
+
+    // =========================================================
+    // SMART REQUIREMENT EVALUATION (CAPP 60-12 CADET SUPER CHART)
+    // =========================================================
+    function evaluateCadetStatus(cadet) {
+      const target = cadet.targetAchievement || 'Achievement 1';
+      const spec = ACHV_SPECS[target] || ACHV_SPECS["Achievement 1"];
+      const req = cadet.requirements || {};
+
+      let isReady = false;
+      let missing = [];
+      let needsDrill = false;
+      let needsMilestoneTest = false;
+      let milestoneTestDesc = '';
+
+      if (spec.hasMilestoneExam) {
+        if (target === "Wright Brothers") {
+          if (!req.leadership?.complete) {
+            needsMilestoneTest = true;
+            milestoneTestDesc = "Wright Brothers Milestone Leadership Exam";
+          }
+        } else if (target === "Mitchell Award") {
+          if (!req.leadership?.complete || !req.aerospace?.complete) {
+            needsMilestoneTest = true;
+            milestoneTestDesc = "Mitchell Milestone Exams (Leadership / Aerospace)";
+          }
+        } else if (target === "Earhart Award") {
+          if (!req.leadership?.complete || !req.aerospace?.complete) {
+            needsMilestoneTest = true;
+            milestoneTestDesc = "Earhart Milestone Exams (Leadership / Aerospace)";
+          }
+        } else if (target === "Spaatz Award") {
+          if (!req.leadership?.complete || !req.aerospace?.complete) {
+            needsMilestoneTest = true;
+            milestoneTestDesc = "Spaatz Comprehensive Exams";
+          }
+        }
+      }
+
+      if (target === "Achievement 1") {
+        if (!req.leadership?.complete) missing.push("Leadership (Ch 1)");
+        if (!req.drill?.complete) { missing.push("Drill 1"); needsDrill = true; }
+        if (!req.fitness?.complete) missing.push("Baseline Fitness");
+        if (!req.character?.complete) missing.push("Character/Wingman");
+        if (!req.welcome?.complete) missing.push("Welcome Course");
+        if (!req.oath?.complete) missing.push("Cadet Oath");
+      } else if (target === "Wright Brothers") {
+        if (!req.leadership?.complete) missing.push("Leadership Exam");
+        if (!req.drill?.complete) { missing.push("Comp Drill Test"); needsDrill = true; }
+        if (!req.fitness?.complete) missing.push("Physical Fitness");
+      } else if (target === "Mitchell Award") {
+        if (!req.leadership?.complete) missing.push("Leadership Milestone Exam");
+        if (!req.aerospace?.complete) missing.push("Aerospace Milestone Exam");
+        if (!req.fitness?.complete) missing.push("Physical Fitness");
+        if (!cadet.encampment) missing.push("Encampment Graduate");
+      } else if (target === "Earhart Award") {
+        if (!req.leadership?.complete) missing.push("Leadership Milestone Exam");
+        if (!req.aerospace?.complete) missing.push("Aerospace Milestone Exam");
+        if (!req.fitness?.complete) missing.push("Physical Fitness");
+      } else if (target === "Eaker Award") {
+        if (!req.sdaWritten?.complete) missing.push("Milestone Essay");
+        if (!req.sdaOral?.complete) missing.push("Milestone Speech");
+        if (!req.fitness?.complete) missing.push("Physical Fitness");
+      } else if (target === "Spaatz Award") {
+        if (!req.leadership?.complete) missing.push("Spaatz Leadership Exam");
+        if (!req.aerospace?.complete) missing.push("Spaatz AE Exam");
+        if (!req.sdaWritten?.complete) missing.push("Spaatz Essay");
+        if (!req.fitness?.complete) missing.push("Spaatz CPFT");
+      } else if (spec.isOfficer) {
+        if (!req.leadership?.complete) missing.push("Leadership");
+        if (!req.aerospace?.complete) missing.push("Aerospace");
+        if (!req.character?.complete) missing.push("Character");
+        if (!req.fitness?.complete) missing.push("Physical Fitness");
+        if (!req.sdaWritten?.complete) missing.push("SDA Written");
+        if (!req.sdaOral?.complete) missing.push("SDA Oral");
+      } else {
+        if (!req.leadership?.complete) missing.push("Leadership");
+        if (!req.aerospace?.complete) missing.push("Aerospace");
+        if (!req.character?.complete) missing.push("Character");
+        if (!req.fitness?.complete) missing.push("Physical Fitness");
+        if (!req.drill?.complete) { missing.push("Drill Test"); needsDrill = true; }
+      }
+
+      isReady = missing.length === 0;
+      const daysPastDue = getDaysPastDue(cadet.eligibleDate || cadet.nextPromotionDate);
+
+      return {
+        isReady,
+        missing,
+        needsDrill,
+        needsMilestoneTest,
+        milestoneTestDesc,
+        daysPastDue,
+        spec
+      };
+    }
+
+    // =========================================================
+    // RENDERING CORE
+    // =========================================================
+    function render() {
+      updateKPIs();
+      if (currentTab === 'mentorship') {
+        renderMentorshipTable();
+      } else {
+        renderMasterTable();
+      }
+    }
+
+    function updateKPIs() {
+      let activeCount = 0;
+      let readyCount = 0;
+      let pastDueCount = 0;
+      let drillCount = 0;
+      let milestoneCount = 0;
+
+      cadets.forEach(c => {
+        if (!c.active) return;
+        activeCount++;
+
+        const evalRes = evaluateCadetStatus(c);
+        if (evalRes.isReady) readyCount++;
+        if (evalRes.daysPastDue !== null && evalRes.daysPastDue > 0) pastDueCount++;
+        if (evalRes.needsDrill) drillCount++;
+        if (evalRes.spec.hasMilestoneExam) milestoneCount++;
+      });
+
+      document.getElementById('kpiTotalActive').innerText = activeCount;
+      document.getElementById('kpiReady').innerText = readyCount;
+      document.getElementById('kpiPastDue').innerText = pastDueCount;
+      document.getElementById('kpiDrillNeeded').innerText = drillCount;
+      document.getElementById('kpiMilestones').innerText = milestoneCount;
+    }
+
+    function filterCadets() {
+      return cadets.filter(c => {
+        if (currentTab === 'inactive') {
+          if (c.active) return false;
+        } else {
+          if (!c.active) return false;
+        }
+
+        const evalRes = evaluateCadetStatus(c);
+        if (currentTab === 'cmd' && c.flight !== 'CMD') return false;
+        if (currentTab === 'alpha' && c.flight !== 'A') return false;
+        if (currentTab === 'bravo' && c.flight !== 'B') return false;
+        if (currentTab === 'ready' && !evalRes.isReady) return false;
+        if (currentTab === 'pastdue' && (evalRes.daysPastDue === null || evalRes.daysPastDue <= 0)) return false;
+        if (currentTab === 'drill' && !evalRes.needsDrill) return false;
+        if (currentTab === 'milestone' && !evalRes.spec.hasMilestoneExam) return false;
+        if (currentTab === 'mentorship' && c.targetAchievement !== 'Achievement 1') return false;
+
+        if (searchQuery) {
+          const q = searchQuery.toLowerCase();
+          const matchName = (c.name || '').toLowerCase().includes(q);
+          const matchCapid = String(c.capid).includes(q);
+          const matchRank = (c.currentRank || '').toLowerCase().includes(q);
+          const matchDuty = (c.dutyPosition || '').toLowerCase().includes(q);
+          if (!matchName && !matchCapid && !matchRank && !matchDuty) {
+            return false;
+          }
+        }
+
+        return true;
+      });
+    }
+
+    function renderMasterTable() {
+      const filtered = filterCadets();
+      const container = document.getElementById('tableContainer');
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div style="padding: 32px; text-align: center; color: #64748B;">
+            <p style="font-size: 13pt; font-weight: bold; margin-bottom: 6px;">No cadets found</p>
+            <p style="font-size: 10pt;">Try adjusting your search or tab filter.</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = `
+        <table class="tracker-table">
+          <thead>
+            <tr>
+              <th style="width: 70px;">CAPID</th>
+              <th style="width: 180px;">Cadet Name</th>
+              <th style="width: 85px;">Current</th>
+              <th style="width: 55px; text-align:center;">Pinned</th>
+              <th style="width: 90px;">TARGET</th>
+              <th style="width: 140px;">Promotion Eligible</th>
+              <th style="width: 85px; text-align:center;">Status</th>
+              <th style="width: 48px; text-align:center;" title="TEST: Flags bold red 'T' only if an incomplete milestone exam is pending">TEST</th>
+              <th style="width: 175px;" title="REQUIRED: L=Leadership, A=Aerospace, D=Drill, C=Character, F=Fitness, W=Welcome (Blue), E=Encampment (Blue)">REQUIRED</th>
+              <th style="width: 65px; text-align:center;" title="SDA (Officers): W=Technical Writing, P=Oral Presentation">SDA</th>
+              <th class="col-duty" style="width: 110px;">Duty Position</th>
+              <th class="col-notes" style="min-width: 160px;">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      filtered.forEach(c => {
+        const evalRes = evaluateCadetStatus(c);
+        const spec = evalRes.spec;
+        const req = c.requirements || {};
+
+        let statusBadge = '';
+        if (evalRes.isReady) {
+          statusBadge = '<span class="badge badge-ready">READY</span>';
+        } else {
+          statusBadge = '<span class="badge badge-not-ready">NOT READY</span>';
+        }
+
+        let daysBadge = '';
+        if (evalRes.daysPastDue !== null) {
+          if (evalRes.daysPastDue > 0) {
+            daysBadge = `<span class="badge badge-pastdue">+${evalRes.daysPastDue}d</span>`;
+          } else if (evalRes.daysPastDue === 0) {
+            daysBadge = `<span class="badge badge-pastdue">Due Today</span>`;
+          } else {
+            daysBadge = `<span class="badge badge-ontrack">${evalRes.daysPastDue}d</span>`;
+          }
+        }
+
+        let testBoxHtml = '';
+        if (evalRes.needsMilestoneTest) {
+          testBoxHtml = `<span class="letter-box lb-test-need" title="Milestone Exam Needed: ${escapeHtml(evalRes.milestoneTestDesc)}">T</span>`;
+        } else {
+          testBoxHtml = `<span class="letter-box lb-test-faded" title="No proctored exam needed">T</span>`;
+        }
+
+        const lClass = req.leadership?.complete ? 'lb-done' : 'lb-missing';
+        const lTitle = `Leadership: ${req.leadership?.complete ? 'Passed' : 'Needed'}`;
+
+        let aClass = 'lb-missing';
+        let aTitle = '';
+        if (c.targetAchievement === 'Achievement 1' || c.targetAchievement === 'Wright Brothers' || c.targetAchievement === 'Eaker Award') {
+          aClass = 'lb-na';
+          aTitle = 'Aerospace: N/A for this achievement';
+        } else if (req.aerospace?.complete) {
+          aClass = 'lb-done';
+          aTitle = 'Aerospace: Passed';
+        } else {
+          aClass = 'lb-missing';
+          aTitle = 'Aerospace: Module or Exam Needed';
+        }
+
+        let dClass = 'lb-missing';
+        let dTitle = '';
+        if (!spec.hasDrill) {
+          dClass = 'lb-na';
+          dTitle = 'Drill Test: N/A for this achievement';
+        } else if (req.drill?.complete) {
+          dClass = 'lb-done';
+          dTitle = 'Drill Test: Passed';
+        } else {
+          dClass = 'lb-drill-need';
+          dTitle = 'Drill Test: NEEDED (Practical Test Pending)';
+        }
+
+        let cClass = req.character?.complete ? 'lb-done' : 'lb-missing';
+        let cTitle = `Character Development: ${req.character?.complete ? 'Attended' : 'Needed'}`;
+        if (c.targetAchievement === 'Wright Brothers') {
+          cClass = 'lb-na';
+          cTitle = 'Character: N/A for Wright Brothers';
+        }
+
+        const fClass = req.fitness?.complete ? 'lb-done' : 'lb-missing';
+        const fTitle = `Physical Fitness (CPFT): ${req.fitness?.complete ? 'Passed' : 'Needed'}`;
+
+        let wClass = 'lb-na';
+        let wTitle = 'Welcome Course: N/A';
+        if (c.targetAchievement === 'Achievement 1' || !req.welcome?.complete) {
+          wClass = req.welcome?.complete ? 'lb-done-blue' : 'lb-missing';
+          wTitle = `Cadet Welcome Course: ${req.welcome?.complete ? 'Completed' : 'Needed'}`;
+        } else {
+          wClass = 'lb-done-blue';
+          wTitle = 'Cadet Welcome Course: Completed';
+        }
+
+        let eClass = 'lb-na';
+        let eTitle = '';
+        if (c.encampment) {
+          eClass = 'lb-done-blue';
+          eTitle = 'Encampment: Graduate (Click to toggle)';
+        } else if (c.targetAchievement === 'Mitchell Award') {
+          eClass = 'lb-encamp-need';
+          eTitle = 'Encampment: REQUIRED for Mitchell Award (Click to toggle)';
+        } else {
+          eClass = 'lb-missing';
+          eTitle = 'Encampment: Not Yet Attended (Click to toggle)';
+        }
+
+        const requiredHtml = `
+          <div class="letter-box-group">
+            <span class="letter-box ${lClass}" title="${lTitle}">L</span>
+            <span class="letter-box ${aClass}" title="${aTitle}">A</span>
+            <span class="letter-box ${dClass}" title="${dTitle}">D</span>
+            <span class="letter-box ${cClass}" title="${cTitle}">C</span>
+            <span class="letter-box ${fClass}" title="${fTitle}">F</span>
+            <span class="letter-box ${wClass}" title="${wTitle}">W</span>
+            <span class="letter-box ${eClass} lb-clickable" onclick="toggleCadetEncampment(${c.capid})" title="${eTitle}">E</span>
+          </div>
+        `;
+
+        let sdaHtml = '';
+        if (spec.isOfficer) {
+          const wDone = Boolean(req.sdaWritten?.complete);
+          const pDone = Boolean(req.sdaOral?.complete);
+
+          const wClass = wDone ? 'lb-done' : 'lb-missing';
+          const pClass = pDone ? 'lb-done' : 'lb-missing';
+
+          const wTitle = `SDA Technical Writing Assignment: ${wDone ? 'Completed' : 'Pending'} (Click to toggle)`;
+          const pTitle = `SDA Oral Presentation: ${pDone ? 'Completed' : 'Pending'} (Click to toggle)`;
+
+          sdaHtml = `
+            <div class="letter-box-group" style="justify-content: center;">
+              <span class="letter-box ${wClass} lb-clickable" onclick="toggleCadetSDAWritten(${c.capid})" title="${wTitle}">W</span>
+              <span class="letter-box ${pClass} lb-clickable" onclick="toggleCadetSDAOral(${c.capid})" title="${pTitle}">P</span>
+            </div>
+          `;
+        } else {
+          sdaHtml = `<span style="color: #94A3B8;">&mdash;</span>`;
+        }
+
+        const noteDisplay = c.notes ? escapeHtml(c.notes) : 'Add note...';
+        const noteClass = c.notes ? 'note-cell' : 'note-cell empty';
+        const cleanAchvCode = formatTargetCode(c.targetAchievement);
+        const hasDuty = Boolean(c.dutyPosition && c.dutyPosition.trim() !== '' && c.dutyPosition.trim().toUpperCase() !== 'NA' && c.dutyPosition.trim() !== '-');
+        const dutyClass = hasDuty ? 'duty-input active' : 'duty-input empty';
+        const dutyVal = c.dutyPosition ? escapeHtml(c.dutyPosition) : 'NA';
+
+        html += `
+          <tr>
+            <td style="font-weight: bold; color: var(--cap-navy);">${c.capid}</td>
+            <td style="font-weight: bold;">${escapeHtml(c.name)}</td>
+            <td style="font-weight: bold; color: #334155;">${escapeHtml(c.currentRank || spec.prevRank)}</td>
+            <td style="text-align: center;">
+              <span class="toggle-pill ${c.pinned === 'Yes' ? 'toggle-yes' : 'toggle-no'}" onclick="toggleCadetPinned(${c.capid})">
+                ${c.pinned || 'No'}
+              </span>
+            </td>
+            <td style="font-weight: 700; color: var(--cap-navy);">${cleanAchvCode}</td>
+            <td>
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px;">
+                <span style="font-weight: 600;">${formatDisplayDate(c.eligibleDate || c.nextPromotionDate)}</span>
+                ${daysBadge}
+              </div>
+            </td>
+            <td style="text-align: center;">
+              <div>${statusBadge}</div>
+            </td>
+            <td style="text-align: center;">${testBoxHtml}</td>
+            <td>${requiredHtml}</td>
+            <td style="text-align: center;">${sdaHtml}</td>
+            <td class="col-duty">
+              <input type="text" class="${dutyClass}" value="${dutyVal}" 
+                placeholder="NA"
+                oninput="this.className = (this.value && this.value.trim() !== '' && this.value.trim().toUpperCase() !== 'NA' && this.value.trim() !== '-') ? 'duty-input active' : 'duty-input empty'" 
+                onchange="updateCadetField(${c.capid}, 'dutyPosition', this.value)">
+            </td>
+            <td class="col-notes">
+              <div class="${noteClass}" onclick="openNoteModal(${c.capid})">${noteDisplay}</div>
+            </td>
+          </tr>
+        `;
+      });
+
+      html += `
+          </tbody>
+        </table>
+      `;
+
+      container.innerHTML = html;
+    }
+
+    function renderMentorshipTable() {
+      const recruits = cadets.filter(c => c.active && c.targetAchievement === 'Achievement 1');
+      const container = document.getElementById('tableContainer');
+
+      if (recruits.length === 0) {
+        container.innerHTML = `
+          <div style="padding: 32px; text-align: center; color: #64748B;">
+            <p style="font-size: 13pt; font-weight: bold; margin-bottom: 6px;">No recruits currently working on Achievement 1</p>
+            <p style="font-size: 10pt;">New cadets joining the squadron will appear here automatically.</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = `
+        <table class="tracker-table">
+          <thead>
+            <tr>
+              <th style="width: 70px;">CAPID</th>
+              <th style="width: 170px;">Recruit Name</th>
+              <th style="width: 90px;">Joined</th>
+              <th style="width: 130px;">Primary Mentor</th>
+              <th style="width: 130px;">Secondary Mentor</th>
+              <th style="width: 90px;">Assigned</th>
+              <th style="width: 65px; text-align:center;">Welcome</th>
+              <th style="width: 55px; text-align:center;">Oath</th>
+              <th style="width: 65px; text-align:center;">Wingman</th>
+              <th style="width: 65px; text-align:center;">Lead Ch1</th>
+              <th style="width: 65px; text-align:center;">Baseline</th>
+              <th style="width: 55px; text-align:center;">Drill 1</th>
+              <th style="width: 60px; text-align:center;">O-Flight</th>
+              <th style="width: 60px; text-align:center;">Uniform</th>
+              <th style="width: 100px;">Status</th>
+              <th style="min-width: 140px;">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      recruits.forEach(c => {
+        const evalRes = evaluateCadetStatus(c);
+        const req = c.requirements || {};
+        const mentor = c.mentor || {};
+
+        const statusBadge = evalRes.isReady ? '<span class="badge badge-ready">READY</span>' : '<span class="badge badge-not-ready">IN PROGRESS</span>';
+
+        html += `
+          <tr>
+            <td style="font-weight: bold; color: var(--cap-navy);">${c.capid}</td>
+            <td style="font-weight: bold;">${escapeHtml(c.name)}</td>
+            <td>${formatDisplayDate(c.joinDate)}</td>
+            <td>
+              <input type="text" class="editable-input" style="width: 120px;" value="${escapeHtml(mentor.assignedMentor || '')}" placeholder="Assign mentor..." onchange="updateMentorField(${c.capid}, 'assignedMentor', this.value)">
+            </td>
+            <td>
+              <input type="text" class="editable-input" style="width: 120px;" value="${escapeHtml(mentor.secondaryMentor || '')}" placeholder="Secondary..." onchange="updateMentorField(${c.capid}, 'secondaryMentor', this.value)">
+            </td>
+            <td>
+              <input type="date" class="editable-input" style="width: 105px;" value="${mentor.dateAssigned || ''}" onchange="updateMentorField(${c.capid}, 'dateAssigned', this.value)">
+            </td>
+            <td style="text-align:center;">
+              <span class="toggle-pill ${req.welcome?.complete ? 'toggle-yes' : 'toggle-no'}">
+                ${req.welcome?.complete ? 'Pass' : 'Pending'}
+              </span>
+            </td>
+            <td style="text-align:center;">
+              <span class="toggle-pill ${req.oath?.complete ? 'toggle-yes' : 'toggle-no'}">
+                ${req.oath?.complete ? 'Done' : 'Need'}
+              </span>
+            </td>
+            <td style="text-align:center;">
+              <span class="toggle-pill ${req.character?.complete ? 'toggle-yes' : 'toggle-no'}">
+                ${req.character?.complete ? 'Pass' : 'Need'}
+              </span>
+            </td>
+            <td style="text-align:center;">
+              <span class="toggle-pill ${req.leadership?.complete ? 'toggle-yes' : 'toggle-no'}">
+                ${req.leadership?.complete ? 'Pass' : 'Need'}
+              </span>
+            </td>
+            <td style="text-align:center;">
+              <span class="toggle-pill ${req.fitness?.complete ? 'toggle-yes' : 'toggle-no'}">
+                ${req.fitness?.complete ? 'Pass' : 'Need'}
+              </span>
+            </td>
+            <td style="text-align:center;">
+              <span class="toggle-pill ${req.drill?.complete ? 'toggle-yes' : 'toggle-no'}">
+                ${req.drill?.complete ? 'Pass' : 'Need'}
+              </span>
+            </td>
+            <td style="text-align:center;">
+              <span class="toggle-pill ${mentor.oflight ? 'toggle-yes' : 'toggle-no'}" onclick="toggleMentorOflight(${c.capid})">
+                ${mentor.oflight ? 'Flew' : 'No'}
+              </span>
+            </td>
+            <td style="text-align:center;">
+              <span class="toggle-pill ${mentor.uniform ? 'toggle-yes' : 'toggle-no'}" onclick="toggleMentorUniform(${c.capid})">
+                ${mentor.uniform ? 'Yes' : 'No'}
+              </span>
+            </td>
+            <td>${statusBadge}</td>
+            <td>
+              <div class="${c.notes ? 'note-cell' : 'note-cell empty'}" onclick="openNoteModal(${c.capid})">
+                ${c.notes ? escapeHtml(c.notes) : 'Add note...'}
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      html += `
+          </tbody>
+        </table>
+      `;
+
+      container.innerHTML = html;
+    }
+
+    // =========================================================
+    // INGESTION ENGINE (.XLSX & .CSV)
+    // =========================================================
+    function handleReportUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      handleIncomingFile(file);
+      e.target.value = '';
+    }
+
+    function handleIncomingFile(file) {
+      const fileName = file.name.toLowerCase();
+      if (fileName.endsWith('.csv')) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          try {
+            const rows = parseCSVToObjects(evt.target.result);
+            processIngestedRows(rows, file.name);
+          } catch(err) {
+            alert("Error parsing CSV report: " + err.message);
+          }
+        };
+        reader.readAsText(file);
+      } else {
+        if (typeof XLSX === 'undefined') {
+          alert("SheetJS library is loading or blocked. You can export as CSV from eServices for 100% offline ingest.");
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          try {
+            const data = new Uint8Array(evt.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const firstSheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheetName];
+            const rows = XLSX.utils.sheet_to_json(worksheet);
+            processIngestedRows(rows, file.name);
+          } catch(err) {
+            alert("Error reading Excel file: " + err.message);
+          }
+        };
+        reader.readAsArrayBuffer(file);
+      }
+    }
+
+    function parseCSVToObjects(text) {
+      const lines = text.split(/\r\n|\n|\r/);
+      if (lines.length < 2) return [];
+
+      const headers = parseCSVLine(lines[0]).map(h => h.trim());
+      const objects = [];
+
+      for (let i = 1; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line) continue;
+        const vals = parseCSVLine(line);
+        const obj = {};
+        headers.forEach((h, idx) => {
+          obj[h] = vals[idx] !== undefined ? vals[idx].trim() : '';
+        });
+        objects.push(obj);
+      }
+      return objects;
+    }
+
+    function parseCSVLine(line) {
+      const values = [];
+      let cur = '';
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const c = line[i];
+        if (c === '"') {
+          if (inQuotes && line[i+1] === '"') {
+            cur += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (c === ',' && !inQuotes) {
+          values.push(cur);
+          cur = '';
+        } else {
+          cur += c;
+        }
+      }
+      values.push(cur);
+      return values;
+    }
+
+    function processIngestedRows(rows, filename) {
+      if (!rows || rows.length === 0) {
+        alert("The uploaded file contains no data rows.");
+        return;
+      }
+
+      let updatedCount = 0;
+      let newCount = 0;
+      let newlyAddedCadets = [];
+      const reportCapids = new Set();
+
+      rows.forEach(r => {
+        const capidRaw = r['CAPID'] || r['capid'] || r['CapID'];
+        if (!capidRaw) return;
+        const capid = parseInt(capidRaw);
+        if (isNaN(capid)) return;
+
+        reportCapids.add(capid);
+
+        const last = (r['NameLast'] || r['namelast'] || '').trim();
+        const first = (r['NameFirst'] || r['namefirst'] || '').trim();
+        const name = (last && first) ? `${last}, ${first}` : (r['Name'] || `Cadet ${capid}`);
+        const email = (r['Email'] || r['email'] || '').trim();
+        const achvName = (r['AchvName'] || r['achvname'] || 'Achievement 1').trim();
+        const nextApproval = (r['NextApprovalDate'] || r['nextapprovaldate'] || '').trim();
+        const joinDate = (r['JoinDate'] || r['joindate'] || '').trim();
+
+        // Tests & Requirements
+        const leadDate = r['LeadLabDateP'] || r['leadlabdatep'] || '';
+        const leadIntDate = r['LeadershipInteractiveDate'] || r['leadershipinteractivedate'] || '';
+        const leadScore = parseInt(r['LeadLabScore'] || r['leadlabscore']) || 0;
+        const leadComplete = Boolean((leadDate && leadDate !== 'None') || (leadIntDate && leadIntDate !== 'None') || leadScore >= 80);
+
+        const aeDate = r['AEDateP'] || r['aedatep'] || '';
+        const aeIntDate = r['AEInteractiveDate'] || r['aeinteractivedate'] || '';
+        const aeScore = parseInt(r['AEScore'] || r['aescore']) || 0;
+        const aeMod = r['AEModuleOrTest'] || r['aemoduleortest'] || '0';
+        const aeComplete = Boolean((aeDate && aeDate !== 'None' && aeDate !== 'N/A') || (aeIntDate && aeIntDate !== 'None' && aeIntDate !== 'N/A') || aeScore >= 80 || (aeMod && aeMod !== '0' && aeMod !== 'None'));
+
+        const drillDate = r['DrillDate'] || r['drilldate'] || '';
+        const drillScore = parseInt(r['DrillScore'] || r['drillscore']) || 0;
+        const drillComplete = Boolean((drillDate && drillDate !== 'None' && drillDate !== 'N/A') || drillScore > 0);
+
+        const charDate = r['CharacterDevelopment'] || r['characterdevelopment'] || '';
+        const charComplete = Boolean(charDate && charDate !== 'None' && charDate !== 'N/A');
+
+        const fitDate = r['PhyFitTest'] || r['phyfittest'] || '';
+        const fitComplete = Boolean(fitDate && fitDate !== 'None' && fitDate !== 'N/A');
+
+        const welcomeDate = r['WelcomeCourseDate'] || r['welcomecoursedate'] || '';
+        const welcomeComplete = Boolean(welcomeDate && welcomeDate !== 'None' && welcomeDate !== 'N/A');
+
+        const oathVal = r['CadetOath'] || r['cadetoath'] || '';
+        const oathDate = r['CadetOathDate'] || r['cadetoathdate'] || '';
+        const oathComplete = Boolean(oathVal === true || String(oathVal).toLowerCase() === 'true' || (oathDate && oathDate !== 'None'));
+
+        const staffService = r['StaffServiceDate'] || r['staffservicedate'] || '';
+        const sdaOral = r['OralPresentationDate'] || r['oralpresentationdate'] || '';
+        const sdaWritten = r['TechnicalWritingAssignmentDate'] || r['technicalwritingassignmentdate'] || '';
+        const sdaTitle = r['TechnicalWritingAssignment'] || r['technicalwritingassignment'] || '';
+
+        const existingIdx = cadets.findIndex(c => c.capid === capid);
+        const spec = ACHV_SPECS[achvName] || ACHV_SPECS["Achievement 1"];
+        const thuDate = getNextThursday(nextApproval);
+
+        if (existingIdx !== -1) {
+          const c = cadets[existingIdx];
+          c.name = name;
+          c.email = email || c.email;
+          c.targetAchievement = achvName;
+          c.currentRank = c.currentRank || spec.prevRank;
+          c.eligibleDate = formatDateISO(parseAnyDate(nextApproval)) || c.eligibleDate;
+          c.nextPromotionDate = thuDate || c.nextPromotionDate;
+          c.active = true;
+
+          c.requirements = c.requirements || {};
+          c.requirements.leadership = { complete: leadComplete, date: leadIntDate || leadDate || null, score: leadScore };
+          c.requirements.aerospace = { complete: aeComplete, date: aeIntDate || aeDate || null, score: aeScore };
+          c.requirements.drill = { complete: drillComplete, date: drillDate || null, score: drillScore };
+          c.requirements.character = { complete: charComplete, date: charDate || null };
+          c.requirements.fitness = { complete: fitComplete, date: fitDate || null };
+          c.requirements.welcome = { complete: welcomeComplete, date: welcomeDate || null };
+          c.requirements.oath = { complete: oathComplete, date: oathDate || null };
+          c.requirements.staffService = { complete: Boolean(staffService && staffService !== 'None') };
+          c.requirements.sdaOral = { complete: Boolean(sdaOral && sdaOral !== 'None') || c.requirements.sdaOral?.complete };
+          c.requirements.sdaWritten = { complete: Boolean((sdaWritten && sdaWritten !== 'None') || (sdaTitle && sdaTitle !== 'None')) || c.requirements.sdaWritten?.complete };
+
+          updatedCount++;
+        } else {
+          const newCadet = {
+            capid: capid,
+            name: name,
+            nameLast: last,
+            nameFirst: first,
+            email: email,
+            currentRank: spec.prevRank,
+            targetAchievement: achvName,
+            flight: 'Unassigned',
+            pinned: 'Yes',
+            dutyPosition: 'NA',
+            encampment: false,
+            joinDate: formatDateISO(parseAnyDate(joinDate)),
+            lastPromotionDate: null,
+            eligibleDate: formatDateISO(parseAnyDate(nextApproval)),
+            nextPromotionDate: thuDate,
+            active: true,
+            notes: '',
+            requirements: {
+              leadership: { complete: leadComplete, date: leadIntDate || leadDate || null, score: leadScore },
+              aerospace: { complete: aeComplete, date: aeIntDate || aeDate || null, score: aeScore },
+              drill: { complete: drillComplete, date: drillDate || null, score: drillScore },
+              character: { complete: charComplete, date: charDate || null },
+              fitness: { complete: fitComplete, date: fitDate || null },
+              welcome: { complete: welcomeComplete, date: welcomeDate || null },
+              oath: { complete: oathComplete, date: oathDate || null },
+              staffService: { complete: Boolean(staffService && staffService !== 'None') },
+              sdaOral: { complete: Boolean(sdaOral && sdaOral !== 'None') },
+              sdaWritten: { complete: Boolean((sdaWritten && sdaWritten !== 'None') || (sdaTitle && sdaTitle !== 'None')) }
+            },
+            mentor: {
+              assignedMentor: '',
+              secondaryMentor: '',
+              dateAssigned: '',
+              oflight: false,
+              uniform: false
+            }
+          };
+          cadets.push(newCadet);
+          newlyAddedCadets.push(newCadet);
+          newCount++;
+        }
+      });
+
+      let inactiveCadets = [];
+      cadets.forEach(c => {
+        if (!reportCapids.has(c.capid) && c.active) {
+          c.active = false;
+          inactiveCadets.push(c);
+        }
+      });
+
+      saveCadets();
+      render();
+
+      showSummaryModal(filename, updatedCount, newCount, newlyAddedCadets, inactiveCadets);
+    }
+
+    function showSummaryModal(filename, updatedCount, newCount, newlyAdded, inactives) {
+      const modal = document.getElementById('summaryModal');
+      const content = document.getElementById('summaryModalContent');
+
+      let html = `
+        <div style="font-size: 11pt; margin-bottom: 12px;">
+          Ingested file: <strong>${escapeHtml(filename)}</strong>
+        </div>
+        <ul class="summary-list">
+          <li><strong>${updatedCount}</strong> existing cadets updated with latest requirements and Thursday promotion dates.</li>
+      `;
+
+      if (newCount > 0) {
+        html += `<li class="added"><strong>${newCount} new cadet(s) discovered and added:</strong><br>`;
+        newlyAdded.forEach(c => {
+          html += `&bull; ${escapeHtml(c.name)} (CAPID ${c.capid} &mdash; ${c.targetAchievement})<br>`;
+        });
+        html += `</li>`;
+      } else {
+        html += `<li>No new cadets found in report.</li>`;
+      }
+
+      if (inactives.length > 0) {
+        html += `<li class="missing"><strong>${inactives.length} cadet(s) not in current report (marked Inactive):</strong><br>`;
+        inactives.forEach(c => {
+          html += `&bull; ${escapeHtml(c.name)} (CAPID ${c.capid})<br>`;
+        });
+        html += `</li>`;
+      }
+
+      html += `
+        </ul>
+        <p style="font-size: 9pt; color: #64748B; margin-top: 8px;">
+          Data shown comes only from this export. Nothing is saved; close the tab when finished.
+        </p>
+      `;
+
+      content.innerHTML = html;
+      modal.classList.add('open');
+    }
+
+    function closeSummaryModal() {
+      document.getElementById('summaryModal').classList.remove('open');
+    }
+
+    // =========================================================
+    // CADET LOCAL DATA UPDATES
+    // =========================================================
+    function updateCadetField(capid, field, value) {
+      const c = cadets.find(x => x.capid === capid);
+      if (!c) return;
+
+      c[field] = value;
+      saveCadets();
+      render();
+    }
+
+    function toggleCadetPinned(capid) {
+      const c = cadets.find(x => x.capid === capid);
+      if (!c) return;
+      c.pinned = (c.pinned === 'Yes') ? 'No' : 'Yes';
+      saveCadets();
+      render();
+    }
+
+    function toggleCadetEncampment(capid) {
+      const c = cadets.find(x => x.capid === capid);
+      if (!c) return;
+      c.encampment = !c.encampment;
+      saveCadets();
+      render();
+    }
+
+    function toggleCadetSDAWritten(capid) {
+      const c = cadets.find(x => x.capid === capid);
+      if (!c) return;
+      c.requirements = c.requirements || {};
+      c.requirements.sdaWritten = c.requirements.sdaWritten || {};
+      c.requirements.sdaWritten.complete = !c.requirements.sdaWritten.complete;
+      saveCadets();
+      render();
+    }
+
+    function toggleCadetSDAOral(capid) {
+      const c = cadets.find(x => x.capid === capid);
+      if (!c) return;
+      c.requirements = c.requirements || {};
+      c.requirements.sdaOral = c.requirements.sdaOral || {};
+      c.requirements.sdaOral.complete = !c.requirements.sdaOral.complete;
+      saveCadets();
+      render();
+    }
+
+    function updateMentorField(capid, field, value) {
+      const c = cadets.find(x => x.capid === capid);
+      if (!c) return;
+      c.mentor = c.mentor || {};
+      c.mentor[field] = value;
+      saveCadets();
+      render();
+    }
+
+    function toggleMentorOflight(capid) {
+      const c = cadets.find(x => x.capid === capid);
+      if (!c) return;
+      c.mentor = c.mentor || {};
+      c.mentor.oflight = !c.mentor.oflight;
+      saveCadets();
+      render();
+    }
+
+    function toggleMentorUniform(capid) {
+      const c = cadets.find(x => x.capid === capid);
+      if (!c) return;
+      c.mentor = c.mentor || {};
+      c.mentor.uniform = !c.mentor.uniform;
+      saveCadets();
+      render();
+    }
+
+    // =========================================================
+    // NOTE MODAL ACTIONS
+    // =========================================================
+    function openNoteModal(capid) {
+      const c = cadets.find(x => x.capid === capid);
+      if (!c) return;
+      activeEditingCapid = capid;
+      document.getElementById('noteCadetName').innerText = `${c.name} (${c.capid})`;
+      document.getElementById('noteInput').value = c.notes || '';
+      document.getElementById('noteModal').classList.add('open');
+    }
+
+    function closeNoteModal() {
+      document.getElementById('noteModal').classList.remove('open');
+      activeEditingCapid = null;
+    }
+
+    function insertNoteTimestamp() {
+      const textarea = document.getElementById('noteInput');
+      const now = new Date();
+      const month = now.getMonth() + 1;
+      const day = now.getDate();
+      const stamp = `${month}/${day} JP - `;
+      textarea.value = (textarea.value ? textarea.value + '\n' : '') + stamp;
+      textarea.focus();
+    }
+
+    function saveNoteModal() {
+      if (!activeEditingCapid) return;
+      const c = cadets.find(x => x.capid === activeEditingCapid);
+      if (c) {
+        c.notes = document.getElementById('noteInput').value.trim();
+        saveCadets();
+        render();
+      }
+      closeNoteModal();
+    }
+
+    // =========================================================
+    // UI HELPERS & SELECT OPTIONS
+    // =========================================================
+    function setTab(tabName) {
+      currentTab = tabName;
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-tab') === tabName);
+      });
+
+      const tabTitles = {
+        'all': 'All Cadets',
+        'cmd': 'Command Staff',
+        'alpha': 'Alpha Flight',
+        'bravo': 'Bravo Flight',
+        'ready': 'Ready to Promote',
+        'pastdue': 'Past Due / Eligible',
+        'drill': 'Drill Test Needed',
+        'milestone': 'Milestone Exams',
+        'mentorship': 'Recruits & Mentorship',
+        'inactive': 'Inactive Cadets'
+      };
+      document.getElementById('printTabName').innerText = 'Roster: ' + (tabTitles[tabName] || tabName);
+
+      render();
+    }
+
+    function handleSearch(val) {
+      searchQuery = val.trim();
+      render();
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    window.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>

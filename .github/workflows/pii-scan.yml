@@ -1,0 +1,11 @@
+name: pii-scan
+# Second line of defense: runs on every push, catching commits made on a
+# machine where the local pre-commit hook was not installed.
+on: [push, pull_request]
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - run: bash scripts/pii-scan.sh --all && bash scripts/pii-scan.sh --history

@@ -1,0 +1,15 @@
+/* CAP brand tokens - single source for every tool in this repo.
+   Palette: CAP Brand Portal / CAPR 900-2. Typography: house standard.
+   Do not redraw or recolor official marks; use approved files only. */
+:root {
+  --cap-ultramarine: #001489; /* primary: titles, headings, emphasis, fills */
+  --cap-silver:      #9EA2A2; /* rules, borders, quiet fills; never text on white */
+  --cap-scarlet:     #BA0C2F; /* sparing alert accent; never body text */
+  --cap-yellow:      #FFCD00; /* highlight fills; text only on ultramarine/dark */
+  --cap-black:       #000000;
+  --cap-body:        #4D4D4D; /* 70% black, all body text */
+  --cap-byline:      #4D4D4D;
+  --cap-font-title:  'Rajdhani', Arial, sans-serif;
+  --cap-font-body:   Arial, Helvetica, sans-serif;
+  --cap-line:        1.2;
+}
