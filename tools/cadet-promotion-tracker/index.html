@@ -179,7 +179,7 @@ table.cardreq tr.na td { color: var(--tile-off-fg); }
 <header class="bar no-print">
   <div class="titles">
     <h1>Cadet Promotion Tracker</h1>
-    <div class="byline">NER-VT014 Champlain Composite Squadron</div>
+    <div class="byline" id="unitLine">Civil Air Patrol cadet promotions</div>
   </div>
   <div class="actions">
     <button class="btn-primary" onclick="document.getElementById('file').click()">Load eServices exports</button>
@@ -201,18 +201,18 @@ table.cardreq tr.na td { color: var(--tile-off-fg); }
         <li>Log in to eServices.</li>
         <li>Go to <strong>Menu &gt; Cadet Programs &gt; Cadet Promotions</strong>.</li>
         <li>Open the Cadet Promotions menu and select <strong>Reports</strong>.</li>
-        <li>Under Report, select <strong>Cadet Promotions Track Report</strong>; under Reg-Wing-Unit, select <strong>NER-VT-014</strong>.</li>
-        <li>On the Cadet Promotions Full Track page, choose <strong>Search by Organization</strong> and confirm <strong>NER-VT-014 Champlain Composite Squadron</strong> is selected.</li>
+        <li>Under Report, select <strong>Cadet Promotions Track Report</strong>.</li>
+        <li>Under Reg-Wing-Unit, select <strong>your unit</strong>.</li>
+        <li>On the Cadet Promotions Full Track page, choose <strong>Search by Organization</strong> and confirm <strong>your unit</strong> is selected.</li>
         <li>Check <strong>Only Show Cadet's Current Achievement</strong>.</li>
-        <li>Select <strong>Export to Excel</strong>. The file downloads to your Downloads folder as <em>Cadet_Full_Track_Report-MM_DD_YYYY</em>.</li>
-        <li>Move the file to the squadron file share and keep it. Next week's To Be Pinned list is built from it.</li>
+        <li>Select <strong>Export to Excel</strong>. The file saves to your Downloads folder as <em>Cadet_Full_Track_Report-MM_DD_YYYY</em>. Leave it there and don't rename it: the date in the name tells the tracker which week it is, and next week's To Be Pinned list compares against it.</li>
       </ol>
     </section>
     <section>
       <h3>In this tracker</h3>
       <ol start="9">
         <li>Select <strong>Load eServices exports</strong>.</li>
-        <li>Select this week's file and last week's file together (hold <strong>Ctrl</strong> and click both). This week's file alone also works, without the To Be Pinned list.</li>
+        <li>In your Downloads folder, select this week's and last week's <em>Cadet_Full_Track_Report</em> files together (hold <strong>Ctrl</strong> and click both). This week's file alone also works, without the To Be Pinned list.</li>
         <li>The roster loads. Click a summary tile to filter it.</li>
         <li>Print: <strong>Print this view</strong> (roster for the wall), <strong>Print weekly report</strong> (pin, tests, ready), or pick a cadet and <strong>Print report card</strong>.</li>
         <li>Each week, repeat with the new export.</li>
@@ -428,7 +428,14 @@ function promotions() {
   }).map(c => ({ ...c, newGrade: gradeBefore(c.rule.idx), completed: RULES[c.rule.idx - 1].a }));
 }
 
+function unitLabel() {
+  const r = current && current.rows[0];
+  if (!r || !has(r.Unit)) return 'Civil Air Patrol';
+  const u = String(r.Unit).trim();
+  return `${String(r.Region).trim()}-${String(r.Wing).trim()}-${/^\d+$/.test(u) ? u.padStart(3, '0') : u}`;
+}
 function build() {
+  document.getElementById('unitLine').textContent = unitLabel();
   cadets = current.rows.map(r => evaluate(r, current.asOf)).sort((a, b) => a.name.localeCompare(b.name));
   pins = promotions();
   const pinSet = new Set(pins.map(p => p.capid));
@@ -501,7 +508,7 @@ function rosterTable(list, legend) {
 
 /* ---------------- reports ---------------- */
 function head(title, note) {
-  return `<div class="report-head"><h2>${title}</h2><div class="meta">NER-VT014 Champlain Composite Squadron<br>eServices export ${fmt(current.asOf)} &middot; printed ${fmt(new Date())}</div></div>${note ? `<p class="note">${note}</p>` : ''}`;
+  return `<div class="report-head"><h2>${title}</h2><div class="meta">${esc(unitLabel())}<br>eServices export ${fmt(current.asOf)} &middot; printed ${fmt(new Date())}</div></div>${note ? `<p class="note">${note}</p>` : ''}`;
 }
 function simpleTable(cols, list) {
   if (!list.length) return '<p class="none">None this week.</p>';

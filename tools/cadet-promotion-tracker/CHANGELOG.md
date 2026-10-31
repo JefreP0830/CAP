@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.1 - 2026-10-31
+- Instructions: report and unit selection split into separate steps; unit
+  wording generic ("your unit"); exports stay in Downloads (no file moves).
+- Header and printed reports show the unit from the export (e.g. NER-VT-014)
+  instead of a hard-coded squadron, so other units can use the tracker.
+
 ## 0.9.0 - 2026-10-31
 - Load screen shows step-by-step instructions: exporting the Cadet Promotions
   Full Track report from eServices, and loading/printing in the tracker.

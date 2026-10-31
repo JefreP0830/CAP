@@ -1,6 +1,6 @@
 # Cadet Promotion Tracker
 
-Squadron view of every cadet's progress toward their next achievement, built
+Unit view of every cadet's progress toward their next achievement, built
 from the CAP eServices **Cadet Full Track Report**. Read-only: eServices is
 the source of truth (docs/decisions.md).
 
@@ -10,16 +10,19 @@ The same steps appear on the tracker's load screen.
 
 In eServices:
 1. Menu > Cadet Programs > Cadet Promotions > Reports.
-2. Report: Cadet Promotions Track Report; Reg-Wing-Unit: NER-VT-014.
-3. Search by Organization; confirm NER-VT-014 Champlain Composite Squadron.
+2. Report: Cadet Promotions Track Report. Reg-Wing-Unit: your unit.
+3. Search by Organization; confirm your unit.
 4. Check Only Show Cadet's Current Achievement (the tracker copes if missed).
-5. Export to Excel. Move the file to the squadron file share and keep it.
+5. Export to Excel. Leave the file in Downloads with its dated name; keep it
+   for next week's To Be Pinned comparison.
 
 In the tracker:
 6. Load eServices exports: select this week's and last week's files
-   together (Ctrl+click) so To Be Pinned can be built.
+   together (Ctrl+click).
 7. Print this view (wall roster), Print weekly report, or Print report card.
-   Keep the print dialog's Margins on Default (output is the same either way).
+
+The unit shown on screen and in print comes from the export, so any squadron
+can use the tracker.
 
 Nothing is saved. Closing the tab clears the roster.
 
