@@ -140,3 +140,6 @@ ol.steps { list-style: none; display: grid; gap: 8px; }
 .step.on { border: 2px solid var(--cap-ultramarine); background: var(--tint); padding: 9px 11px; }
 .step.on .tick { color: var(--cap-ultramarine); }
 .btn-secondary.wide { width: 100%; margin-top: 8px; }
+li.panelfig { margin-top: 10px; }
+li.panelfig .keyimg { max-width: 420px; margin: 0 auto; }
+li.panelfig figcaption { text-align: center; }

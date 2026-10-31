@@ -405,7 +405,18 @@ export default function App() {
           <p className="hint">Tap each step as it is done correctly in rehearsal. Nothing is saved or scored.</p>
           <ol className="steps">
             {guide.steps.map((st, i) => (
-              <li key={i}>
+              <React.Fragment key={i}>
+              {st.panel && (
+                <li className="panelfig">
+                  <figure>
+                    <button className="keyimg" onClick={() => setZoomKey(st.panel!)} aria-label={`Enlarge: ${st.panel.caption}`}>
+                      <img src={st.panel.src} alt={st.panel.caption} />
+                    </button>
+                    <figcaption>{st.panel.caption}. Diagram drawn with the audience at the top.</figcaption>
+                  </figure>
+                </li>
+              )}
+              <li>
                 <button className={cn('step', doneSteps[i] && 'on')} aria-pressed={!!doneSteps[i]} onClick={() => setDoneSteps(d => ({ ...d, [i]: !d[i] }))}>
                   <span className="n">{i + 1}</span>
                   <span className="body">
@@ -417,6 +428,7 @@ export default function App() {
                   <span className="tick">{doneSteps[i] ? 'Done' : ''}</span>
                 </button>
               </li>
+              </React.Fragment>
             ))}
           </ol>
           <p className="hint">{Object.values(doneSteps).filter(Boolean).length} of {guide.steps.length} steps done.</p>
