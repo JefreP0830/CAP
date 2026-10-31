@@ -91,13 +91,17 @@ td.card button { padding: 3px 8px; font-size: 9pt; }
 
 /* ---------- print ---------- */
 .print-only { display: none; }
+tr.pgpad { display: none; }
 @page { size: 11in 8.5in; margin: 0.1in; }
 @page card { size: letter portrait; margin: 0.6in; }
 @media print {
   .no-print { display: none !important; }
   .print-only { display: block; }
   /* Backup inset: keeps the sides clear even if the print dialog sets Margins to None. */
-  #printArea { padding: 0 0.1in; }
+  #printArea { padding: 0.1in 0.1in 0; }
+  tr.pgpad { display: table-row; }
+  tr.pgpad td { height: 0.1in; padding: 0; border: 0; }
+  .report > table:first-of-type thead tr.pgpad td, .report .kpis-print + table thead tr.pgpad td { height: 0.1in; }
   body { font-size: 9.5pt; }
   * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   main { padding: 0; }
@@ -418,7 +422,7 @@ function tilesHtml(c) {
 }
 function rosterTable(list) {
   if (!list.length) return '<p class="none">No cadets in this view.</p>';
-  return `<table><thead><tr><th>CAPID</th><th>Cadet</th><th>Next</th><th>Achv</th><th class="req">Requirements</th><th class="c">Progress</th><th>Eligible</th></tr></thead><tbody>${
+  return `<table><thead><tr class="pgpad"><td colspan="7"></td></tr><tr><th>CAPID</th><th>Cadet</th><th>Next</th><th>Achv</th><th class="req">Requirements</th><th class="c">Progress</th><th>Eligible</th></tr></thead><tbody>${
     list.map(c => `<tr>
       <td class="capid">${esc(c.capid)}</td>
       <td class="name">${esc(c.name)}</td>
@@ -427,7 +431,7 @@ function rosterTable(list) {
       <td class="req">${tilesHtml(c)}</td>
       <td class="pct ${c.reqsDone ? 'done' : ''}">${c.pct}%</td>
       <td class="elig-cell">${eligHtml(c)}</td>
-    </tr>`).join('')}</tbody></table>`;
+    </tr>`).join('')}</tbody><tfoot><tr class="pgpad"><td colspan="7"></td></tr></tfoot></table>`;
 }
 
 /* ---------------- reports ---------------- */
@@ -436,7 +440,8 @@ function head(title, note) {
 }
 function simpleTable(cols, list) {
   if (!list.length) return '<p class="none">None this week.</p>';
-  return `<table><thead><tr>${cols.map(c => `<th>${c[0]}</th>`).join('')}</tr></thead><tbody>${list.map(r => `<tr>${cols.map(c => `<td>${c[1](r)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  const pad = `<tr class="pgpad"><td colspan="${cols.length}"></td></tr>`;
+  return `<table><thead>${pad}<tr>${cols.map(c => `<th>${c[0]}</th>`).join('')}</tr></thead><tbody>${list.map(r => `<tr>${cols.map(c => `<td>${c[1](r)}</td>`).join('')}</tr>`).join('')}</tbody><tfoot>${pad}</tfoot></table>`;
 }
 const REPORTS = {
   roster: list => head('Promotion Roster', 'Find your name. Blue tiles are complete; grey tiles are still needed. The box beside the eligible date counts down the days to eligibility, or turns red and counts days past it.') +
