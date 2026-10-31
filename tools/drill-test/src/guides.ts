@@ -87,8 +87,8 @@ export const GUIDES: Guide[] = [
     roles: [
       'US flagbearer: the color guard commander, gives all commands (¶7.1.2.1)',
       'CAP (organizational) flagbearer, and any other flagbearers',
-      'Two guards; may carry replica service rifles, never side arms, bayonets, swords or sabers (¶7.1.2.2)',
-      'Three or more cadets; with only three, the US flagbearer and two guards (¶7.1.2.3)',
+      'Two guards; may carry replica service rifles. Should not carry side arms (replica pistols); will not carry bayonets, swords or sabers (¶7.1.2.2)',
+      'Three or more cadets (¶7.1.2); with only three, the US flagbearer and two guards (¶7.1.2.3)',
     ],
     figures: [],
     steps: [
@@ -98,7 +98,7 @@ export const GUIDES: Guide[] = [
       { text: 'For the Pledge of Allegiance and/or the National Anthem the color guard must be at present arms. All flagbearers except the US flagbearer extend the right arm to dip the flag to 45 degrees; guards present arms. The US flag does not dip. See Figure 7.4.', who: 'Color guard commander', say: 'Present, ARMS', ref: 'CAPP 60-33 ¶7.7.2, ¶7.2.8, ¶7.1.4' },
       { text: 'To return to the carry: flagbearers retract the right arm; guards go back to shoulder arms.', who: 'Color guard commander', say: 'Order, ARMS', ref: 'CAPP 60-33 ¶7.2.8' },
       { text: 'Move to the flag stands keeping the US flag to the right of, or in front of, the organizational flag.', who: 'Color guard', ref: 'CAPP 60-33 ¶7.8.2' },
-      { text: 'Post the colors. Guards are at present arms while the colors are posted. All flags go into the stands at the same moment: one sound of the ferrules. Keep the US flag higher than the others throughout, and align all spades. The US flag ends on its own right (the audience\'s left).', who: 'Flagbearers and guards', ref: 'CAPP 60-33 ¶7.8.3, ¶7.8.4, ¶7.8.6' },
+      { text: 'Post the colors. Guards are at present arms while the colors are posted. All flags should be posted at the same moment: one sound of the ferrules. Keep the US flag higher than the others throughout, and align all spades. The US flag ends on its own right (the audience\'s left).', who: 'Flagbearers and guards', ref: 'CAPP 60-33 ¶7.8.3, ¶7.8.4, ¶7.8.6' },
       { text: 'Directly after posting, the flagbearers all face and salute the US flag.', who: 'Flagbearers', ref: 'CAPP 60-33 ¶7.8.5' },
       { text: 'Retrieving: the event organizer decides whether the colors are retrieved before attendees are dismissed or after the event ends.', who: 'Event organizer', ref: 'CAPP 60-33 ¶7.8.7' },
       { text: 'Directly before retrieving, the flagbearers all face and salute the US flag.', who: 'Flagbearers', ref: 'CAPP 60-33 ¶7.8.5' },
@@ -110,7 +110,7 @@ export const GUIDES: Guide[] = [
       { text: 'Command voice: loud enough for the guard to hear, not projected beyond it. Do not shout in a small room.', ref: 'CAPP 60-33 ¶7.4.1, ¶7.6.3' },
       { text: 'No rifle spinning or exhibition drill of any kind. The focus is the US flag.', ref: 'CAPP 60-33 ¶7.6.2' },
       { text: 'The CAP flag dips for the National Anthem, "To the Color" or a foreign anthem. Organizational or state flags are never carried without the US flag.', ref: 'CAPP 60-33 ¶7.1.4, ¶7.1.2.3' },
-      { text: 'Flags are 3 ft by 4 ft on a 7-foot pole (8-foot optional) with a silver spade.', ref: 'CAPP 60-33 ¶7.1.3' },
+      { text: 'Preferred flag size is 3 ft by 4 ft on a 7-foot pole (8-foot optional) with a silver-colored spade.', ref: 'CAPP 60-33 ¶7.1.3' },
     ],
     source: 'CAPP 60-33, Drill & Ceremonies Guide, November 2025, Chapter 7 (¶7.1–7.2, 7.4–7.8). Figures 7.1, 7.2 and 7.4 are photographs on pp.98-99 of the manual',
   },
