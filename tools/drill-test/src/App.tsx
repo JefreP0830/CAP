@@ -13,7 +13,7 @@ import {
   Menu,
   LogOut
 } from 'lucide-react';
-import { Achievement, FALLBACK_ACHIEVEMENTS, CAP_COLORS, DrillTestSubmission, achLabel, achTitle } from './constants';
+import { Achievement, FALLBACK_ACHIEVEMENTS, CAP_COLORS, DrillTestSubmission, achLabel, achTitle, pointsFor } from './constants';
 import { generateDrillTestPDF } from './utils/pdfGenerator';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -28,7 +28,7 @@ export default function App() {
   const [cadetCAPID, setCadetCAPID] = useState('');
   const [proctorCAPID, setProctorCAPID] = useState('');
   const [hotwash, setHotwash] = useState('');
-  const [scores, setScores] = useState<Record<number, 'Pass' | 'Fail'>>({});
+  const [scores, setScores] = useState<Record<number, 'Pass' | 'Partial' | 'Fail'>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [activeTab, setActiveTab] = useState<'Promotion' | 'Advanced'>('Promotion');
   const [showValidationErrors, setShowValidationErrors] = useState(false);
@@ -43,7 +43,7 @@ export default function App() {
     setStep('form');
   };
 
-  const handleScoreChange = (index: number, score: 'Pass' | 'Fail') => {
+  const handleScoreChange = (index: number, score: 'Pass' | 'Partial' | 'Fail') => {
     setScores(prev => ({ ...prev, [index]: score }));
   };
 
@@ -131,12 +131,7 @@ export default function App() {
     : 0;
 
   const passCount = selectedAchievement 
-    ? selectedAchievement.movements.reduce((acc, mov, idx) => {
-        if (!mov.isNonGraded && scores[idx] === 'Pass') {
-          return acc + (mov.points || 1);
-        }
-        return acc;
-      }, 0)
+    ? selectedAchievement.movements.reduce((acc, mov, idx) => acc + pointsFor(mov, scores[idx]), 0)
     : 0;
   const isPassing = selectedAchievement ? passCount >= selectedAchievement.passingScore : false;
 
@@ -510,6 +505,20 @@ export default function App() {
                             >
                               <CheckCircle2 className="w-5 h-5" />
                             </button>
+                            {move.points === 2 && (
+                              <button
+                                onClick={() => handleScoreChange(idx, 'Partial')}
+                                aria-label="1 of 2 points"
+                                className={cn(
+                                  "px-2 rounded-lg border transition-all text-xs font-bold",
+                                  scores[idx] === 'Partial'
+                                    ? "bg-amber-500 border-amber-500 text-white"
+                                    : "bg-white border-slate-200 text-slate-400"
+                                )}
+                              >
+                                1 pt
+                              </button>
+                            )}
                             <button
                               onClick={() => handleScoreChange(idx, 'Fail')}
                               className={cn(

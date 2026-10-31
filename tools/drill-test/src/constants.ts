@@ -2,7 +2,7 @@ export interface DrillMovement {
   command: string;
   description?: string;
   standards?: string;
-  score: 'Pass' | 'Fail' | null;
+  score: 'Pass' | 'Partial' | 'Fail' | null;
   points?: number;
   isNonGraded?: boolean;
 }
@@ -34,7 +34,7 @@ export interface DrillTestSubmission {
   cadetCAPID: string;
   proctorCAPID: string;
   date: string;
-  scores: Record<number, 'Pass' | 'Fail'>;
+  scores: Record<number, 'Pass' | 'Partial' | 'Fail'>;
   hotwash: string;
   category: 'Promotion' | 'Advanced';
 }
@@ -49,6 +49,11 @@ export const achTitle = (a: Achievement) =>
   a.category !== 'Promotion' ? a.name
   : a.number === 'WB' ? 'Wright Brothers Award'
   : a.name ? `Ach ${a.number}: ${a.name}` : `Achievement ${a.number}`;
+
+// Points a scored movement earns. 'Partial' = 1 point on a 2-point step
+// (Ach 7 Problem #2: "grade each step and put the number of points").
+export const pointsFor = (m: DrillMovement, s?: 'Pass' | 'Partial' | 'Fail') =>
+  m.isNonGraded ? 0 : s === 'Pass' ? (m.points || 1) : s === 'Partial' ? 1 : 0;
 
 export const CAP_COLORS = {
   blue: '#003366',
@@ -396,7 +401,7 @@ export const FALLBACK_ACHIEVEMENTS: Achievement[] = [
     passingScore: 16,
     topic: "Squadron Formations",
     conditions: "Problem #1 is completed on paper. No reference materials are permitted. 3 cadets in addition to the cadet being tested are needed to role play for Problem #2: Capt Curry (outgoing commander), Capt Arnold (incoming commander), Col Mitchell (wing commander). The tested cadet is the flag bearer, with the unit flag or a prop.",
-    note: "Passing Score: 80%. Must earn at least 16 of 20 possible points (Problem #1: 10, Problem #2: 10). If Arnold, Curry or Mitchell do a step incorrectly but the cadet immediately corrects them, the cadet receives the point for the step. Mark a 2-point step Pass only when the whole step is correct.",
+    note: "Passing Score: 80%. Must earn at least 16 of 20 possible points (Problem #1: 10, Problem #2: 10). If Arnold, Curry or Mitchell do a step incorrectly but the cadet immediately corrects them, the cadet receives the point for the step. A 2-point step can earn 1 point when only part of it is correct.",
     rubric: {
       title: "Problems #1 and #2",
       subtitle: "Diagram the Squadron in Line; Change of Command Ceremony",

@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { DrillTestSubmission, Achievement, CAP_COLORS, achTitle } from '../constants';
+import { DrillTestSubmission, Achievement, CAP_COLORS, achTitle, pointsFor } from '../constants';
 
 export const generateDrillTestPDF = (submission: DrillTestSubmission, achievement: Achievement) => {
   const doc = new jsPDF();
@@ -47,12 +47,7 @@ export const generateDrillTestPDF = (submission: DrillTestSubmission, achievemen
     ? achievement.movements.reduce((acc, m) => acc + (m.points || 0), 0)
     : gradedMovements.length;
 
-  const passCount = achievement.movements.reduce((acc, mov, idx) => {
-    if (!mov.isNonGraded && submission.scores[idx] === 'Pass') {
-      return acc + (mov.points || 1);
-    }
-    return acc;
-  }, 0);
+  const passCount = achievement.movements.reduce((acc, mov, idx) => acc + pointsFor(mov, submission.scores[idx]), 0);
 
   const isPassed = passCount >= achievement.passingScore;
 
@@ -80,7 +75,7 @@ export const generateDrillTestPDF = (submission: DrillTestSubmission, achievemen
           textColor: (m.isNonGraded ? [120, 120, 120] : [0, 0, 0]) as [number, number, number]
         }
       },
-      m.isNonGraded ? '-' : (submission.scores[index] || 'N/A')
+      m.isNonGraded ? '-' : submission.scores[index] === 'Partial' ? '1 of 2 pts' : (submission.scores[index] || 'N/A')
     ];
   });
 
