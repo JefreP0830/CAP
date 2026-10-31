@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.3 - 2026-10-31
+- "Next grade" header renamed "Next"; grade set at the Achv size (bold, blue).
+
 ## 0.6.2 - 2026-10-31
 - Progress and Eligible tightened; the freed width goes to the Cadet column.
 

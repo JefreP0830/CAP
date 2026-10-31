@@ -65,7 +65,7 @@ td { padding: 7px 6px; border-bottom: 1px solid var(--rule); vertical-align: mid
 td.capid { font-variant-numeric: tabular-nums; }
 td.name { font-weight: 700; color: var(--cap-black); white-space: nowrap; }
 td.grade { white-space: nowrap; }
-td.grade .to { color: var(--cap-ultramarine); font-weight: 700; }
+td.grade .to { color: var(--cap-ultramarine); font-weight: 700; font-size: 9pt; }
 td.pct { font-weight: 700; color: var(--cap-black); font-variant-numeric: tabular-nums; text-align: center; }
 th.c { text-align: center; }
 /* Requirements sits alone: equal air on both sides; narrow columns shrink to fit,
@@ -408,7 +408,7 @@ function tilesHtml(c) {
 }
 function rosterTable(list) {
   if (!list.length) return '<p class="none">No cadets in this view.</p>';
-  return `<table><thead><tr><th>CAPID</th><th>Cadet</th><th>Next grade</th><th>Achv</th><th class="req">Requirements</th><th class="c">Progress</th><th>Eligible</th></tr></thead><tbody>${
+  return `<table><thead><tr><th>CAPID</th><th>Cadet</th><th>Next</th><th>Achv</th><th class="req">Requirements</th><th class="c">Progress</th><th>Eligible</th></tr></thead><tbody>${
     list.map(c => `<tr>
       <td class="capid">${esc(c.capid)}</td>
       <td class="name">${esc(c.name)}</td>
