@@ -155,6 +155,8 @@ tr.pgpad { display: none; }
 table.cardreq .tile { width: 40px; min-width: 40px; margin-right: 8px; background: #FFFFFF; }
 table.cardreq tr.na td { color: var(--tile-off-fg); }
 .status-na { color: var(--tile-off-fg); }
+.cardhead .v.late { color: var(--cap-scarlet); }
+.cardhead .v.nav { color: var(--tile-off-fg); }
 .cardhead .k { font-size: 8.5pt; text-transform: uppercase; letter-spacing: .4px; }
 .cardhead .v { font-size: 13pt; font-weight: 700; color: var(--cap-black); }
 .cardhead .v.big { color: var(--cap-ultramarine); }
@@ -507,7 +509,7 @@ function reportCard(c) {
   return head('Cadet Progress Report') + `
     <div class="cardhead">
       ${blk('Cadet', esc(c.name))}${blk('CAPID', esc(c.capid))}${blk('Current grade', esc(c.grade))}${blk('Working toward', `${esc(c.achv)} (${esc(c.next)})`, 'big')}
-      ${blk('Requirements done', c.pct + '%', 'big')}${blk('Eligible to promote', eligLine)}${blk('Past due', pastDue)}<div></div>
+      ${blk('Requirements done', c.pct + '%', 'big')}${blk('Eligible to promote', eligLine)}${blk('Past due', pastDue, pastDue === 'NA' ? 'nav' : 'late')}<div></div>
     </div>
     <table class="cardreq"><thead><tr><th>Requirement</th><th>Status</th><th>Date recorded</th></tr></thead><tbody>
       ${TILE_ORDER.map(k => {

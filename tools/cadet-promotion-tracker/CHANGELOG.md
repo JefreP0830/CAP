@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.8.4 - 2026-10-31
+- Report card: past-due days in red; NA in grey.
+
 ## 0.8.3 - 2026-10-31
 Report card.
 - Lists all eight requirements (L A D F C P ORL WRT) with an outline tile in
