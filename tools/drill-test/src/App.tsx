@@ -3,6 +3,9 @@ import { Achievement, FALLBACK_ACHIEVEMENTS, DrillTestSubmission, achLabel, achT
 import { generateDrillTestPDF } from './utils/pdfGenerator';
 import { clsx, type ClassValue } from 'clsx';
 
+// Bump on every release; shown top right so a printout can be traced to a build.
+const APP_VERSION = '2026.10.31';
+
 function cn(...inputs: ClassValue[]) {
   return clsx(inputs);
 }
@@ -163,9 +166,12 @@ export default function App() {
   return (
     <div className="app">
       <header className="bar">
-        <div className="wrap">
-          <h1>CAP Drill Test</h1>
-          <p className="byline">Civil Air Patrol &middot; CAPP 60-34, Drill &amp; Ceremonies Practical Tests (Sep 2024)</p>
+        <div className="wrap head">
+          <div>
+            <h1>CAP Drill Test</h1>
+            <p className="byline">Civil Air Patrol &middot; CAPP 60-34, Drill &amp; Ceremonies Practical Tests (Sep 2024)</p>
+          </div>
+          <span className="ver">v{APP_VERSION}</span>
         </div>
       </header>
 
@@ -187,7 +193,7 @@ export default function App() {
             ))}
           </ol>
           <p className="foot">
-            Reference: <a href="https://www.gocivilairpatrol.com/programs/cadets/library/drill" target="_blank" rel="noreferrer">CAP Drill &amp; Ceremonies library</a>. Version 2026.10.31
+            Reference: <a href="https://www.gocivilairpatrol.com/programs/cadets/library/drill" target="_blank" rel="noreferrer">CAP Drill &amp; Ceremonies library</a>.
           </p>
         </main>
       )}
