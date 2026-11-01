@@ -30,6 +30,10 @@ Source: Google AI Studio project "CAP Drill Evaluator" (v2026.07.12), imported a
 - Achievements with no CAP honoree go by their grade; where the grade does not change they are labelled "Ghost" (Achievements 9, 11, 12, 13, 16).
 - From the squadron's cadet staff scripts (Oct 2026). Grades and honorees checked against CAP "Stripes to Diamonds": Achievement 5 has no honoree (the script had Lindbergh). Wording edits: "Phase II, the Leadership Phase" (was "and the"); Achievements 9 and 12 name their phase the same way; Achievement 15 "final phase" (was "highest phase").
 
+### Publishing
+- Published on GitHub Pages as one self-contained file: `tools/drill-test/app/index.html` (build with `npm run build:pages`), linked from the CAP Tools home page.
+- Home-screen app icon in the Cadet Promotion Tracker style: an element in formation with its leader out front in gold, on Ultramarine (`public/icons/icon.svg`; generic mark, not a CAP emblem). No icons inside the app.
+- Manifest paths made relative so the app installs from its Pages folder.
+
 ### Not yet done
-- Hosting for field use (GitHub Pages proposed).
 - `server.ts` (Google Drive upload, unused by the app) and `src/services/geminiService.ts` (unused) still in the folder; to be removed with the hosting change.
