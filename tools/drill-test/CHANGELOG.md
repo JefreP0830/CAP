@@ -32,7 +32,7 @@ Source: Google AI Studio project "CAP Drill Evaluator" (v2026.07.12), imported a
 
 ### Publishing
 - Published on GitHub Pages as one self-contained file: `tools/drill-test/app/index.html` (build with `npm run build:pages`), linked from the CAP Tools home page.
-- Home-screen app icon in the Cadet Promotion Tracker style: an element in formation with its leader out front in gold, on Ultramarine (`public/icons/icon.svg`; generic mark, not a CAP emblem). No icons inside the app.
+- Home-screen app icon in the Cadet Promotion Tracker style: a guidon with a gold finial, on Ultramarine (`public/icons/icon.svg`; generic mark, not a CAP emblem). No icons inside the app.
 - Manifest paths made relative so the app installs from its Pages folder.
 
 ### Not yet done

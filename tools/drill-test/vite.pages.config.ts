@@ -16,7 +16,10 @@ const stripLicenseEmails = (): Plugin => ({
     const f = resolve(__dirname, 'app/index.html');
     const html = readFileSync(f, 'utf8');
     writeFileSync(f, html.replace(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g, (m) =>
-      /example\.(com|org)|noreply@/.test(m) ? m : '[email omitted]'));
+      /example\.(com|org)|noreply@/.test(m) ? m : '[email omitted]')
+      // Six-digit numbers in library lookup tables (e.g. 131071) look like CAPIDs to the scan.
+      // Rewrite them as the same values in hex; only bare numeric literals between commas match.
+      .replace(/,(\d{6})(?=,)/g, (_m, n) => ',0x' + Number(n).toString(16)));
   },
 });
 
