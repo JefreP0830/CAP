@@ -407,7 +407,7 @@ export default function App() {
             {guide.steps.map((st, i) => (
               <React.Fragment key={i}>
               {st.panel && (
-                <li className={cn('panelfig', st.panel.small && 'small')}>
+                <li className={cn('panelfig', st.panel.small && 'small', st.panel.wide && 'wide')}>
                   <figure>
                     <button className="keyimg" onClick={() => setZoomKey(st.panel!)} aria-label={`Enlarge: ${st.panel.caption}`}>
                       <img src={st.panel.src} alt={st.panel.caption} />

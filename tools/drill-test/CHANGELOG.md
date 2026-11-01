@@ -21,8 +21,9 @@ Source: Google AI Studio project "CAP Drill Evaluator" (v2026.07.12), imported a
 - PDF: achievement as title, CAP subtitle, Ultramarine rule, S/U scores.
 
 ### Practice guides (replace the old Advanced Training items)
-- Change of Command (CAPP 60-33, Nov 2025, para 6.16, Figure 6.5).
-- Still to come: Squadron Formation (60-33 ch.5), Color Guard (60-33 ch.7), Drill Competition (CAPP 60-75, Oct 2021).
+- Seven guides, each checked independently against its source: Squadron Formation, Guidon Bearer, Color Guard: Flag & Rifle Positions, Color Guard: Posting & Retrieving the Colors (CAPP 60-33, Nov 2025); Competition: Color Guard Standard Drill and Competition: Element Standard Drill (CAPP 60-75, Oct 2021); Change of Command (60-33 para 6.16, Figure 6.5).
+- Figures are cut from the official PDFs. Photos of identifiable cadets are not included.
+- Color Guard Standard Drill presentation-area diagram shown full width.
 
 ### Not yet done
 - Hosting for field use (GitHub Pages proposed).

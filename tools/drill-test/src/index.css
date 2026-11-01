@@ -146,4 +146,5 @@ ol.steps { list-style: none; display: grid; gap: 8px; }
 li.panelfig { margin-top: 10px; }
 li.panelfig .keyimg { max-width: 420px; margin: 0 auto; }
 li.panelfig.small .keyimg { max-width: 260px; }
+li.panelfig.wide .keyimg { max-width: none; width: 100%; }
 li.panelfig figcaption { text-align: center; }

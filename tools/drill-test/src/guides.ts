@@ -17,7 +17,7 @@ import symbols from './assets/guides/symbols-figure-1-1.png';
 import compArea from './assets/guides/competition-cg-area.png';
 
 // panel: a figure panel shown just above this step, so positions appear where they are needed.
-export interface GuideStep { text: string; who?: string; say?: string; ref: string; panel?: { src: string; caption: string; small?: boolean } }
+export interface GuideStep { text: string; who?: string; say?: string; ref: string; panel?: { src: string; caption: string; small?: boolean; wide?: boolean } }
 export interface Guide {
   id: string;
   title: string;
@@ -217,7 +217,7 @@ export const GUIDES: Guide[] = [
       { text: "Pre-marshal at the ready line. When the event manager calls you, form up in one rank at the start point with all color guard accessories. Flagbearers may steady the flags with one or both hands, as long as both do it the same way. Guards march at right shoulder arms.", who: "Color guard", ref: "CAPP 60-75 \u00b62-3b(1)" },
       { text: "When directed, march into the presentation area. Execute a half left about and a halt so the team ends 12 paces from the Chief Judge with the US flagbearer centered on the Chief Judge.", who: "Color guard commander", ref: "CAPP 60-75 \u00b62-3b(2)" },
       { text: "Command present arms and report. The Chief Judge returns the salute and the clock starts (2 minutes 30 seconds minimum).", who: "Color guard commander", say: "Present, ARMS  /  Sir (Ma'am), the [team name or number] Color Guard reports for Standard Drill", ref: "CAPP 60-75 \u00b62-3b(2), (4)" },
-      { panel: { src: compArea, caption: 'Color Guard presentation area for Standard Drill; arrows show routine steps 1-24 (CAPP 60-75 p.12)' }, text: "Routine command 1 of 24. Guards come down from right shoulder arms to order arms.", who: "Color guard commander", say: "Order, ARMS", ref: "CAPP 60-75 \u00b62-3b(3); CAPP 60-33 \u00b67.3.10.2" },
+      { panel: { src: compArea, caption: 'Color Guard presentation area for Standard Drill; arrows show routine steps 1-24 (CAPP 60-75 p.12)', wide: true }, text: "Routine command 1 of 24. Guards come down from right shoulder arms to order arms.", who: "Color guard commander", say: "Order, ARMS", ref: "CAPP 60-75 \u00b62-3b(3); CAPP 60-33 \u00b67.3.10.2" },
       { text: "Routine command 2 of 24. Flags from the carry to the order.", who: "Color guard commander", say: "Order, COLORS", ref: "CAPP 60-75 \u00b62-3b(3); CAPP 60-33 \u00b67.2.5.1" },
       { text: "Routine command 3 of 24. Flags at parade rest; guards at parade rest with rifles.", who: "Color guard commander", say: "Parade, REST", ref: "CAPP 60-75 \u00b62-3b(3); CAPP 60-33 \u00b67.2.7, \u00b67.3.7.1" },
       { text: "Routine command 4 of 24. Back to the order and order arms.", who: "Color guard commander", say: "Color Guard, ATTENTION", ref: "CAPP 60-75 \u00b62-3b(3); CAPP 60-33 \u00b67.2.7, \u00b67.3.6.1" },
