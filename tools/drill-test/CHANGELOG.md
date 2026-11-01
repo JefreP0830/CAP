@@ -27,6 +27,7 @@ Source: Google AI Studio project "CAP Drill Evaluator" (v2026.07.12), imported a
 
 ### Promotion scripts (third tab)
 - 21 read-only scripts for pinning ceremonies, Achievement 1 through the Spaatz Award, grouped by phase; large type for reading aloud.
+- Achievements with no CAP honoree go by their grade; where the grade does not change they are labelled "Ghost" (Achievements 9, 11, 12, 13, 16).
 - From the squadron's cadet staff scripts (Oct 2026). Grades and honorees checked against CAP "Stripes to Diamonds": Achievement 5 has no honoree (the script had Lindbergh). Wording edits: "Phase II, the Leadership Phase" (was "and the"); Achievements 9 and 12 name their phase the same way; Achievement 15 "final phase" (was "highest phase").
 
 ### Not yet done

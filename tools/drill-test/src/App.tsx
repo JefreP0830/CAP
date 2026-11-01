@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Achievement, FALLBACK_ACHIEVEMENTS, DrillTestSubmission, achLabel, achTitle, pointsFor, retrainList, wordCount, MIN_FEEDBACK_WORDS } from './constants';
 import { generateDrillTestPDF } from './utils/pdfGenerator';
 import { GUIDES, type Guide } from './guides';
-import { PROMOTION_SCRIPTS, SCRIPT_PHASES, type PromotionScript } from './scripts';
+import { PROMOTION_SCRIPTS, SCRIPT_PHASES, scriptLabel, type PromotionScript } from './scripts';
 import { clsx, type ClassValue } from 'clsx';
 
 // Bump on every release; shown top right so a printout can be traced to a build.
@@ -199,7 +199,7 @@ export default function App() {
                     <li key={s.id}>
                       <button className="test" onClick={() => { setScript(s); setStep('script'); window.scrollTo(0, 0); }}>
                         <span className="code">{s.award}</span>
-                        <span className="topic">{s.honoree ? `${s.honoree} \u00b7 ` : ''}{s.gradeName} ({s.grade})</span>
+                        <span className="topic">{scriptLabel(s)}</span>
                       </button>
                     </li>
                   ))}
@@ -467,7 +467,7 @@ export default function App() {
         <main className="wrap script">
           <button className="link" onClick={() => { setStep('select'); setScript(null); }}>Back to scripts</button>
           <h2>{script.award}</h2>
-          <p className="sub">{script.honoree ? `${script.honoree} \u00b7 ` : ''}{script.gradeName} ({script.grade})</p>
+          <p className="sub">{scriptLabel(script)}</p>
           <p className="phase">{script.phase}</p>
           <div className="read">
             {script.lines.map((l, i) => <p key={i}>{l}</p>)}

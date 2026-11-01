@@ -98,3 +98,13 @@ export const PROMOTION_SCRIPTS: PromotionScript[] = [
     'Earning this award takes exceptional dedication, discipline, and perseverance. It represents the highest level of achievement in the Civil Air Patrol cadet program.',
     'Congratulations on earning the General Carl A. Spaatz Award and becoming a Cadet Colonel.' ] },
 ];
+
+// Label shown under the title. Named achievements show the honoree. Unnamed ones go by their
+// grade, or "Ghost" when the grade does not change from the previous promotion (squadron usage).
+export const scriptLabel = (sc: PromotionScript): string => {
+  const grade = `${sc.gradeName} (${sc.grade})`;
+  if (sc.honoree) return `${sc.honoree} \u00b7 ${grade}`;
+  const i = PROMOTION_SCRIPTS.indexOf(sc);
+  const ghost = i > 0 && PROMOTION_SCRIPTS[i - 1].grade === sc.grade;
+  return ghost ? `Ghost \u00b7 grade held: ${grade}` : grade;
+};
