@@ -203,7 +203,7 @@ export const GUIDES: Guide[] = [
     purpose: [
       { text: 'Tests the team\'s proficiency marching as a color guard. Scored together with Element Standard Drill for the Standard Drill event, on a 50 ft by 90 ft drill pad.', ref: 'CAPP 60-75 ¶2-3a' },
       { text: 'The 24 commands are given in sequence with no added commands. Tap each one as the team executes it, like the judges\' sequence table.', ref: 'CAPP 60-75 ¶2-3b(3); Attachment 1' },
-      { text: 'CAPP 60-75 sets the national event. Confirm with your event director what applies at a wing or region competition.', ref: 'Practice note, not from CAPP 60-75' },
+      { text: 'Region and wing competitions operate under Part 2, Core Team Events, at a minimum, and are encouraged to use the rest of the guide. Confirm the details with your event director.', ref: 'CAPP 60-75 Preface' },
     ],
     roles: [
       'Team of four cadets (CAPP 60-75 ¶1-5)',
@@ -244,7 +244,7 @@ export const GUIDES: Guide[] = [
       { text: "March off the presentation area to the end point. Do not report out to the Chief Judge. The clock stops when the team steps out of the presentation area.", who: "Color guard", ref: "CAPP 60-75 \u00b62-3b(4), (5)" },
     ],
     watch: [
-      { text: 'Judged: in-place commands and posture, marching and cadence, turning movements, alignment and uniformity (0-15 points each); voice commands, flag procedures, poise (0-10 each).', ref: 'CAPP 60-75 Attachment 1, Color Guard Standard Drill scorecard' },
+      { text: 'Judged: in-place commands and posture, marching and cadence, turning movements, alignment and uniformity (marked 0, 5, 8 or 15 each); voice commands, flag procedures, poise (marked 0, 3, 6 or 10 each).', ref: 'CAPP 60-75 Attachment 1, Color Guard Standard Drill scorecard' },
       { text: 'Penalties, 3 points each, given only by the Chief Judge: a movement out of sequence or omitted, a boundary violation, finishing in under 2 minutes 30 seconds. There is no maximum time.', ref: 'CAPP 60-75 ¶2-3b(4); Attachment 1' },
       { text: 'Use the entire presentation area, as the diagram shows.', ref: 'CAPP 60-75 ¶2-3b(5)' },
       { text: 'CAPP 60-75 (2021) still cites AFMAN 36-2203. Current CAP drill guidance, CAPP 60-33 (Nov 2025), is based on DAFPAM 34-1203.', ref: 'CAPP 60-75 ¶2-3; CAPP 60-33 ¶7.1.1' },
@@ -281,7 +281,7 @@ export const GUIDES: Guide[] = [
     ],
     watch: [
       { text: 'Judging criteria: precision of execution (dress, cover, alignment, sequence); accuracy of movements; cadence (timing and snap); command voice (timing, snap, clarity); professionalism (bearing, esprit de corps, poise); proper report and dismissal.', ref: 'CAPP 60-75 ¶2-3b Element (7)' },
-      { text: 'Penalties, 3 points each, given only by the Chief Judge: a movement out of sequence or omitted, a boundary violation, finishing in under 2 minutes 30 seconds. There is no maximum time.', ref: 'CAPP 60-75 Attachment 1, Element Standard Drill scorecard' },
+      { text: 'Penalties, 3 points each, given only by the Chief Judge: a movement out of sequence or omitted, a boundary violation, finishing in under 2 minutes 30 seconds. There is no maximum time.', ref: 'CAPP 60-75 ¶2-3b Element (8)(b); Attachment 1, Element Standard Drill scorecard' },
       { text: 'Do not try to memorize the card. Reading it is expected; there is no penalty for the hand and head movements needed to read it.', ref: 'CAPP 60-75 ¶2-3b Element (1)' },
       { text: 'If the space means marching in from another direction, reach the same position and continue as written.', ref: 'CAPP 60-75 ¶2-3b Element (3)' },
     ],
