@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Achievement, FALLBACK_ACHIEVEMENTS, DrillTestSubmission, achLabel, achTitle, pointsFor, retrainList, wordCount, MIN_FEEDBACK_WORDS } from './constants';
 import { generateDrillTestPDF } from './utils/pdfGenerator';
 import { GUIDES, type Guide } from './guides';
+import { PROMOTION_SCRIPTS, SCRIPT_PHASES, type PromotionScript } from './scripts';
 import { clsx, type ClassValue } from 'clsx';
 
 // Bump on every release; shown top right so a printout can be traced to a build.
@@ -12,7 +13,8 @@ function cn(...inputs: ClassValue[]) {
 }
 
 export default function App() {
-  const [step, setStep] = useState<'select' | 'form' | 'success' | 'guide'>('select');
+  const [step, setStep] = useState<'select' | 'form' | 'success' | 'guide' | 'script'>('select');
+  const [script, setScript] = useState<PromotionScript | null>(null);
   const [guide, setGuide] = useState<Guide | null>(null);
   const [doneSteps, setDoneSteps] = useState<Record<number, boolean>>({});
   const [selectedAchievement, setSelectedAchievement] = useState<Achievement | null>(null);
@@ -23,7 +25,7 @@ export default function App() {
   const lastPdf = useRef<{ blob: Blob; name: string; title: string; text: string } | null>(null);
   const [scores, setScores] = useState<Record<number, 'Pass' | 'Partial' | 'Fail'>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [activeTab, setActiveTab] = useState<'Promotion' | 'Advanced'>('Promotion');
+  const [activeTab, setActiveTab] = useState<'Promotion' | 'Advanced' | 'Scripts'>('Promotion');
   const [showValidationErrors, setShowValidationErrors] = useState(false);
   const [formError, setFormError] = useState('');
   const [shareNote, setShareNote] = useState('');
@@ -173,7 +175,7 @@ export default function App() {
         <div className="wrap head">
           <div>
             <h1>Drill Evaluator</h1>
-            <p className="byline">Civil Air Patrol &middot; Drill tests (CAPP 60-34) and practice guides (CAPP 60-33)</p>
+            <p className="byline">Civil Air Patrol &middot; Drill tests, practice guides and promotion scripts</p>
           </div>
           <span className="ver">v{APP_VERSION}</span>
         </div>
@@ -184,8 +186,28 @@ export default function App() {
           <div className="tabs" role="tablist">
             <button role="tab" aria-selected={activeTab === 'Promotion'} onClick={() => setActiveTab('Promotion')}>Drill Test</button>
             <button role="tab" aria-selected={activeTab === 'Advanced'} onClick={() => setActiveTab('Advanced')}>Practice Guides</button>
+            <button role="tab" aria-selected={activeTab === 'Scripts'} onClick={() => setActiveTab('Scripts')}>Promotion Script</button>
           </div>
-          {activeTab === 'Promotion' ? (
+          {activeTab === 'Scripts' ? (
+          <>
+            <p className="hint">Read at the pinning ceremony. Tap a promotion to open its script.</p>
+            {SCRIPT_PHASES.map((ph) => (
+              <section key={ph}>
+                <h3 className="sec">{ph}</h3>
+                <ol className="tests">
+                  {PROMOTION_SCRIPTS.filter((s) => s.phase === ph).map((s) => (
+                    <li key={s.id}>
+                      <button className="test" onClick={() => { setScript(s); setStep('script'); window.scrollTo(0, 0); }}>
+                        <span className="code">{s.award}</span>
+                        <span className="topic">{s.honoree ? `${s.honoree} \u00b7 ` : ''}{s.gradeName} ({s.grade})</span>
+                      </button>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+            ))}
+          </>
+          ) : activeTab === 'Promotion' ? (
           <ol className="tests">
             {filteredAchievements.map((ach) => (
               <li key={String(ach.number)}>
@@ -438,6 +460,18 @@ export default function App() {
           <ul className="watch">{guide.watch.map((w, i) => <li key={i}>{w.text} <span className="cite">{w.ref}</span></li>)}</ul>
 
           <p className="foot">Source: {guide.source}.</p>
+        </main>
+      )}
+
+      {step === 'script' && script && (
+        <main className="wrap script">
+          <button className="link" onClick={() => { setStep('select'); setScript(null); }}>Back to scripts</button>
+          <h2>{script.award}</h2>
+          <p className="sub">{script.honoree ? `${script.honoree} \u00b7 ` : ''}{script.gradeName} ({script.grade})</p>
+          <p className="phase">{script.phase}</p>
+          <div className="read">
+            {script.lines.map((l, i) => <p key={i}>{l}</p>)}
+          </div>
         </main>
       )}
 

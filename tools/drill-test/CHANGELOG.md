@@ -25,6 +25,10 @@ Source: Google AI Studio project "CAP Drill Evaluator" (v2026.07.12), imported a
 - Figures are cut from the official PDFs. Photos of identifiable cadets are not included.
 - Color Guard Standard Drill presentation-area diagram shown full width.
 
+### Promotion scripts (third tab)
+- 21 read-only scripts for pinning ceremonies, Achievement 1 through the Spaatz Award, grouped by phase; large type for reading aloud.
+- From the squadron's cadet staff scripts (Oct 2026). Grades and honorees checked against CAP "Stripes to Diamonds": Achievement 5 has no honoree (the script had Lindbergh). Wording edits: "Phase II, the Leadership Phase" (was "and the"); Achievements 9 and 12 name their phase the same way; Achievement 15 "final phase" (was "highest phase").
+
 ### Not yet done
 - Hosting for field use (GitHub Pages proposed).
 - `server.ts` (Google Drive upload, unused by the app) and `src/services/geminiService.ts` (unused) still in the folder; to be removed with the hosting change.
