@@ -11,6 +11,7 @@ run time, in the browser, on the machine you are using.
 | Tool | What it does | Status |
 |---|---|---|
 | [Cadet Promotion Tracker](tools/cadet-promotion-tracker/) | Squadron-level promotion view from the weekly eServices Cadet Full Track Report | Porting from Antigravity |
+| [Monthly Ops Checklist](tools/monthly-ops/) | Printable FY calendar of recurring compliance tasks by month and officer | Draft for review |
 
 ## Layout
 
