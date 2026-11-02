@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.5 - 2026-11-02
+- Due shows only the target week or date (red when a regulation sets it).
+- CAPID field fits its column in print.
+
 ## 0.8.4 - 2026-11-02
 - Month heading no longer prints on a single-month sheet.
 - SUI area tiles fit on one row.

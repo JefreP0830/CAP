@@ -41,7 +41,7 @@ tr.grp td{color:var(--head);font-size:13.33px;background:var(--tint);padding:4px
 .bx{display:inline-block;width:12px;height:12px;border:1.5px solid var(--ink);margin-top:1px}
 .bx.on{background:var(--ink)}
 .red{color:var(--red)}
-.c-n{width:30px}.c-a{width:70px}.c-o{width:64px}.c-d{width:170px}.c-id{width:96px}
+.c-n{width:30px}.c-a{width:70px}.c-o{width:64px}.c-d{width:130px}.c-id{width:96px}
 td.num{color:var(--head);font-variant-numeric:tabular-nums}
 tr.wkcut td{border-top:2px solid var(--ink)}
 td.sui{font-size:12px;padding-top:7px;padding-left:12px;color:var(--ink)}
@@ -52,7 +52,7 @@ td.sui{font-size:12px;padding-top:7px;padding-left:12px;color:var(--ink)}
 .alab{font-size:12px;color:var(--head)}
 .aval{font-family:var(--f-title);font-weight:600;font-size:18px;color:#000;font-variant-numeric:tabular-nums}
 .asub{font-size:12px;color:var(--ink);white-space:nowrap}.c-trig{width:190px}
-.cap{font:inherit;font-size:14.67px;color:var(--ink);width:80px;border:0;border-radius:2px;background:#E9EAEA;padding:3px 6px;font-variant-numeric:tabular-nums}
+.cap{font:inherit;font-size:14.67px;color:var(--ink);width:100%;max-width:84px;box-sizing:border-box;border:0;border-radius:2px;background:#E9EAEA;padding:3px 6px;font-variant-numeric:tabular-nums}
 .cap:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .cap::placeholder{color:#8A8D8F}
 .btn{font:inherit;font-size:13.33px;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:7px 12px;min-height:36px;cursor:pointer}
@@ -75,10 +75,10 @@ h3{font-weight:400;font-size:14.67px;color:var(--head);margin:18px 0 6px;letter-
   @page{size:letter;margin:0.5in}
   .pick,.notice{display:none}
   .cap::placeholder{color:transparent}
-  .c-n{width:22px}.c-a{width:58px}.c-o{width:44px}.c-d{width:138px}.c-id{width:66px}
+  .c-n{width:22px}.c-a{width:58px}.c-o{width:44px}.c-d{width:96px}.c-id{width:78px}
   td{font-size:13.33px;padding:4px 5px}td.sui{font-size:11px;white-space:nowrap;padding-left:8px}td.due{white-space:nowrap}
   .kpi .val{font-size:20px}.kpi{padding:8px 10px}
-  .cap{width:60px}
+  .cap{max-width:none}
   .kpi .val{font-size:24px}
   .areas{gap:4px}.atile{padding:4px}.aval{font-size:15px}.asub,.alab{font-size:10.5px}
   .wrap{max-width:none;padding:0}
@@ -265,8 +265,12 @@ function rowsFor(m,f){
 const info=(key,m)=>(ENTRY[m]&&ENTRY[m][key])||(DONE[m]&&DONE[m][key]?{d:DONE[m][key],src:"record"}:null);
 const isDone=(key,m)=>!!info(key,m);
 const counts=(m,f)=>{const list=rowsFor(m,f).filter(r=>!r.t.optional);return {n:list.length,d:list.filter(r=>isDone(r.key,m)).length};};
-const dueTxt=r=>{const t=r.t;const lead=r.w?"Wk "+r.w+(t.dueR?" · ":""):(t.dueT?esc(t.dueT):"");return lead+(t.dueR?'<span class="red">'+esc(t.dueR)+'</span>':"");};
-const due=(r,m)=>{const i=info(r.key,m); return i?(r.w?"Wk "+r.w+" · ":"")+"Done "+esc(mdy(i.d)):dueTxt(r);};
+const dueTxt=r=>{const t=r.t;
+  // One short entry per row: the target week or hard date. Red when a regulation sets it.
+  const lead=r.w?"Wk "+r.w:(t.dueT?t.dueT.replace(/\s*·\s*$/,""):"");
+  if(lead) return t.dueR?'<span class="red">'+esc(lead)+'</span>':esc(lead);
+  return t.dueR?'<span class="red">'+esc(t.dueR)+'</span>':"";};
+const due=(r,m)=>{const i=info(r.key,m); return i?"Done "+esc(mdy(i.d).slice(0,5)):dueTxt(r);};
 function idCell(r,m){
   const i=info(r.key,m);
   if(i&&i.src!=="typed") return esc(i.c||"");
