@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0 - 2026-11-02
+- Self-SUI due Jan 27, 2027; SUI due Jan 27, 2028 (charter Jan 27, 2026).
+- SUI area shown on each task row; area header rows removed.
+- Second KPI row: FY2027 percent complete by SUI area.
+- Checkbox replaced by a row number; a CAPID marks the task done. CAPID
+  field shaded, no underline. Month heading shows only in print or in
+  All months.
+
 ## 0.4.0 - 2026-11-02
 - Members enter only their CAPID on each finished task; the box fills and
   today's date stamps. Nothing is saved; the record is the PDF they email.

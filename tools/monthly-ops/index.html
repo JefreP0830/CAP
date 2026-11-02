@@ -41,10 +41,18 @@ tr.grp td{color:var(--head);font-size:13.33px;background:var(--tint);padding:4px
 .bx{display:inline-block;width:12px;height:12px;border:1.5px solid var(--ink);margin-top:1px}
 .bx.on{background:var(--ink)}
 .red{color:var(--red)}
-.c-bx{width:26px}.c-o{width:64px}.c-d{width:180px}.c-id{width:96px}.c-trig{width:190px}
-.cap{font:inherit;font-size:14.67px;color:var(--ink);width:76px;border:0;border-bottom:1px solid var(--rule);background:transparent;padding:2px 0;font-variant-numeric:tabular-nums}
+.c-n{width:30px}.c-a{width:48px}.c-o{width:64px}.c-d{width:170px}.c-id{width:96px}
+td.num{color:var(--head);font-variant-numeric:tabular-nums}
+.printonly{display:none}
+.alabel{font-size:12px;color:var(--head);margin:14px 0 6px;letter-spacing:.03em}
+.areas{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.atile{border:1px solid var(--rule);border-radius:3px;padding:6px 8px;display:grid;gap:1px}
+.alab{font-size:12px;color:var(--head)}
+.aval{font-family:var(--f-title);font-weight:600;font-size:20px;color:#000;font-variant-numeric:tabular-nums}
+.asub{font-size:12px;color:var(--ink)}.c-trig{width:190px}
+.cap{font:inherit;font-size:14.67px;color:var(--ink);width:80px;border:0;border-radius:2px;background:#E9EAEA;padding:3px 6px;font-variant-numeric:tabular-nums}
 .cap:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
-.cap::placeholder{color:var(--rule)}
+.cap::placeholder{color:#8A8D8F}
 .btn{font:inherit;font-size:13.33px;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:7px 12px;min-height:36px;cursor:pointer}
 .btn:hover{border-color:var(--ink)}.btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .notice{font-size:13.33px;color:var(--ink);margin:10px 0 0}
@@ -64,7 +72,8 @@ h3{font-weight:400;font-size:14.67px;color:var(--head);margin:18px 0 6px;letter-
   @page{size:letter;margin:0.5in}
   .pick,.notice{display:none}
   .cap::placeholder{color:transparent}
-  .c-bx{width:20px}.c-o{width:40px}.c-d{width:118px}.c-id{width:70px}
+  .c-n{width:24px}.c-a{width:36px}.c-o{width:50px}.c-d{width:124px}.c-id{width:72px}
+  .printonly{display:flex}
   .cap{width:60px}
   .kpi .val{font-size:24px}
   .wrap{max-width:none;padding:0}
@@ -91,6 +100,7 @@ h3{font-weight:400;font-size:14.67px;color:var(--head);margin:18px 0 6px;letter-
     <p class="notice">Enter your CAPID on each task you finish. Nothing is saved here: save as PDF (Ctrl+P) and email it.</p>
     <p class="notice" id="loadMsg" hidden></p>
     <div class="kpis" id="kpis"></div>
+    <div id="areawrap"><p class="alabel">FY2027 by SUI area (done of tasks)</p><div class="areas" id="areas"></div></div>
   </header>
   <main id="main"></main>
   <p class="key">Red = set by regulation.</p>
@@ -157,7 +167,7 @@ const TASKS=[
  {id:"afa",a:"D5",m:["jan"],t:"Send AFA Outstanding Cadet selection to AFA",o:"CC",dueR:"15 Jan",r:"39-3 ¶42"},
  {id:"inv",a:"D7",m:["oct"],t:"Annual property inventory; certify in ORMS",o:"LG",dueR:"30 Nov",r:"174-1 ¶2-16, ¶6-10"},
  {id:"invchk",a:"D7",m:["nov"],t:"Confirm inventory certified (missed = property freeze)",o:"LG",dueR:"30 Nov",r:"174-1 ¶2-16"},
- {id:"selfsui",a:"E1",m:["jan"],t:"Complete the full self-SUI (12-month midpoint)",o:"CC",dueR:"30 days after midpoint",r:"20-3 §11.2"},
+ {id:"selfsui",a:"E1",m:["jan"],t:"Complete the full self-SUI (12-month midpoint)",o:"CC",dueR:"Jan 27, 2027",r:"20-3 §11.2 (within 30 days of the midpoint)"},
  {id:"suifwd",a:"E1",m:["feb"],t:"Send self-SUI to wing IG and Wing CC; load to DTS",o:"CC",dueR:"14 days after self-SUI",r:"20-3 §11.3"},
  {id:"eo",a:"E1",m:["jun"],t:"Brief nondiscrimination policy to all members",o:"CC",dueT:"Jun · ",dueR:"yearly",r:"36-1 ¶4.4.2"},
  {id:"rmday",a:"E2",m:["jan","feb","mar"],t:"Hold Annual Safety RM Day",o:"CC/SE",dueR:"31 Mar",r:"160-1 §5.2.1.4"},
@@ -167,7 +177,7 @@ const TASKS=[
 
 const DONE={oct:{inv:"10/22",aer:"10/31"}};
 // Next SUI milestone shown in the KPI tile; update after each one.
-const SUI_NEXT={when:"Jan–Feb 2027",what:"Full self-SUI at the 12-month midpoint"};
+const SUI_NEXT={when:"Jan 27, 2027",what:"Self-SUI · SUI due Jan 27, 2028"};
 
 const CLOCKS=[
  {a:"B1",w:"CPP concern",d:"Contact wing CC; email follow-up",o:"Adult",c:"2 hrs",r:"60-2 §4.1.1.4"},
@@ -234,26 +244,19 @@ function recLine(m){
   return items.length?"REC1:FY27:"+m+":"+items.join(",")+":END":"";
 }
 
-function monthSection(mo,f,first){
-  const [m,name,q]=mo; let body="";
-  AREAS.forEach(([k])=>{
-    const rows=TASKS.filter(t=>t.a===k&&inMonth(t,m)&&owns(t.o,f));
-    if(!rows.length) return;
-    body+='<tr class="grp"><td colspan="5">'+esc(areaName(k))+'</td></tr>'+rows.map(t=>'<tr id="row-'+m+'-'+t.id+'"><td><span class="bx'+(isDone(t,m)?' on':'')+'" aria-hidden="true"></span></td><td>'+esc(t.t.replace("{ROT}",ROTATION[m]))+'</td><td>'+esc(t.o)+'</td><td class="due">'+due(t,m)+'</td><td>'+idCell(t,m)+'</td></tr>').join("");
-  });
-  return '<section class="month'+(first?' first':'')+'"><div class="mhead"><h2>'+name+' · '+q+'</h2></div>'+
-   (body?'<div class="tblbox"><table><colgroup><col class="c-bx"><col><col class="c-o"><col class="c-d"><col class="c-id"></colgroup><thead><tr><th></th><th>Task</th><th>OPR</th><th>Due</th><th>CAPID</th></tr></thead><tbody>'+body+'</tbody></table></div>':'<p class="note">No tasks for this officer this month.</p>')+
+function monthSection(mo,f,first,single){
+  const [m,name,q]=mo; let n=0;
+  const rows=[]; AREAS.forEach(([k])=>TASKS.filter(t=>t.a===k&&inMonth(t,m)&&owns(t.o,f)).forEach(t=>rows.push(t)));
+  const body=rows.map(t=>'<tr id="row-'+m+'-'+t.id+'"><td class="num">'+(++n)+'</td><td>'+esc(t.t.replace("{ROT}",ROTATION[m]))+'</td><td>'+esc(t.a==="OPS"?"Ops":t.a)+'</td><td>'+esc(t.o)+'</td><td class="due">'+due(t,m)+'</td><td>'+idCell(t,m)+'</td></tr>').join("");
+  return '<section class="month'+(first?' first':'')+'"><div class="mhead'+(single?' printonly':'')+'"><h2>'+name+' · '+q+'</h2></div>'+
+   (body?'<div class="tblbox"><table><colgroup><col class="c-n"><col><col class="c-a"><col class="c-o"><col class="c-d"><col class="c-id"></colgroup><thead><tr><th>#</th><th>Task</th><th>SUI</th><th>OPR</th><th>Due</th><th>CAPID</th></tr></thead><tbody>'+body+'</tbody></table></div>':'<p class="note">No tasks for this officer this month.</p>')+
    '<p class="note">Entering your CAPID certifies you completed that task. Table 4.2 minimums each month: Leadership 90 · Aerospace 90 · Fitness 45 · Character 45 min.'+(m==="nov"||m==="dec"?' No in-person event is required in '+name+'.':'')+'</p>'+
    '<p class="rec" id="rec-'+m+'">'+recLine(m)+'</p></section>';
 }
 function anySection(f,first){
-  let body="";
-  AREAS.forEach(([k])=>{
-    const rows=CLOCKS.filter(c=>c.a===k&&(f==="all"||c.o.split("/").includes(f)||["Adult","Member","Driver"].includes(c.o)));
-    if(!rows.length) return;
-    body+='<tr class="grp"><td colspan="4">'+esc(areaName(k))+'</td></tr>'+rows.map(c=>'<tr><td>'+esc(c.w)+'</td><td>'+esc(c.d)+'</td><td>'+esc(c.o)+'</td><td>'+(c.c?'<span class="red">'+esc(c.c)+'</span>':esc(c.cT))+'</td></tr>').join("");
-  });
-  return '<section class="month'+(first?' first':'')+'"><div class="mhead"><h2>Any month: event deadlines</h2></div><div class="tblbox"><table><colgroup><col class="c-trig"><col><col class="c-o"><col class="c-d"></colgroup><thead><tr><th>When this happens</th><th>Do this</th><th>OPR</th><th>Clock</th></tr></thead><tbody>'+body+'</tbody></table></div></section>';
+  const rows=[]; AREAS.forEach(([k])=>CLOCKS.filter(c=>c.a===k&&(f==="all"||c.o.split("/").includes(f)||["Adult","Member","Driver"].includes(c.o))).forEach(c=>rows.push(c)));
+  const body=rows.map(c=>'<tr><td>'+esc(c.w)+'</td><td>'+esc(c.d)+'</td><td>'+esc(c.a)+'</td><td>'+esc(c.o)+'</td><td>'+(c.c?'<span class="red">'+esc(c.c)+'</span>':esc(c.cT))+'</td></tr>').join("");
+  return '<section class="month'+(first?' first':'')+'"><div class="mhead"><h2>Any month: event deadlines</h2></div><div class="tblbox"><table><colgroup><col class="c-trig"><col><col class="c-a"><col class="c-o"><col class="c-d"></colgroup><thead><tr><th>When this happens</th><th>Do this</th><th>SUI</th><th>OPR</th><th>Clock</th></tr></thead><tbody>'+body+'</tbody></table></div></section>';
 }
 function refSection(first){
   let refs="";
@@ -263,7 +266,7 @@ function refSection(first){
   });
   return '<section class="month'+(first?' first':'')+'"><div class="mhead"><h2>Sources and process</h2></div>'+
   '<h3>How a task is shown done</h3><p class="note">The member enters their CAPID on each task they finish; the box fills and the date stamps. They save the sheet as PDF and email it from their own CAP email account; the email records who sent it and when. Proof of the work is the eServices record where eServices holds it; anything else, one PDF or photo in SUI Evidence › (SUI area) › FY27. The CC loads the emailed sheets with Load completed sheets and validates against eServices reports.</p>'+
-  '<h3>SUI cycle</h3><div class="grid3"><div><span class="lab">Unit</span>NER-VT014 chartered Jan 2026 (NER-VT006 de-chartered Jan 2026).</div><div><span class="lab">Self-SUI</span>Within 30 days of the 12-month midpoint: <span class="red">Jan–Feb 2027</span>. To wing IG and Wing CC, and into DTS, within <span class="red">14 days</span>.</div><div><span class="lab">First SUI</span>About Jan 2028. Confirm with the wing IG.</div></div>'+
+  '<h3>SUI cycle</h3><div class="grid3"><div><span class="lab">Unit</span>NER-VT014 chartered Jan 27, 2026 (NER-VT006 de-chartered Jan 2026).</div><div><span class="lab">Self-SUI</span>Due <span class="red">Jan 27, 2027</span> (12-month midpoint; 20-3 allows 30 days after). To wing IG and Wing CC, and into DTS, within <span class="red">14 days</span>.</div><div><span class="lab">SUI</span>Due <span class="red">Jan 27, 2028</span>. Never past 27 months (Apr 27, 2028).</div></div>'+
   '<h3>References by task (CAPR unless noted)</h3><div class="tblbox"><table class="refs"><colgroup><col><col style="width:240px"></colgroup><tbody>'+refs+'</tbody></table></div>'+
   '<h3>National publications cited</h3><ul class="src">'+PUBS.map(p=>'<li>CAPR '+esc(p[0])+' '+esc(p[1])+' · '+esc(p[2])+'</li>').join("")+'</ul>'+
   '<h3>Supplements that apply</h3><ul class="src">'+SUPPS.map(p=>'<li>'+esc(p[0])+' '+esc(p[1])+' · '+esc(p[2])+'</li>').join("")+'</ul>'+
@@ -287,8 +290,9 @@ function toHash(){ const v=selM.value+(selO.value==="all"?"":"-"+selO.value.toLo
 
 function kpis(m,f){
   const box=document.getElementById("kpis");
-  if(!keys.includes(m)){box.innerHTML="";box.hidden=true;return;}
-  box.hidden=false;
+  const arw=document.getElementById("areawrap");
+  if(!keys.includes(m)){box.innerHTML="";box.hidden=true;arw.hidden=true;return;}
+  box.hidden=false;arw.hidden=false;
   const mo=MONTHS.find(x=>x[0]===m), qMonths=MONTHS.filter(x=>x[2]===mo[2]);
   const sum=list=>list.reduce((a,k)=>{const x=counts(k,f);return {n:a.n+x.n,d:a.d+x.d};},{n:0,d:0});
   const c=counts(m,f), q=sum(qMonths.map(x=>x[0])), y=sum(keys);
@@ -299,10 +303,13 @@ function kpis(m,f){
     tile(mo[2]+" · "+qMonths.map(x=>x[1].slice(0,3)).join("–"),pct(q),rem(q))+
     tile("FY2027",pct(y),rem(y))+
     tile("Next SUI action",SUI_NEXT.when,SUI_NEXT.what);
+  const ar=document.getElementById("areas");
+  ar.innerHTML=AREAS.map(([k,nm])=>{let n=0,d=0;keys.forEach(mk=>TASKS.filter(t=>t.a===k&&inMonth(t,mk)&&owns(t.o,f)&&!t.optional).forEach(t=>{n++;if(isDone(t,mk))d++;}));
+    if(!n) return ""; return '<div class="atile" title="'+esc(nm)+'"><span class="alab">'+(k==="OPS"?"Ops":k)+'</span><span class="aval">'+Math.round(100*d/n)+'%</span><span class="asub">'+d+' of '+n+'</span></div>';}).join("");
 }
 function render(){
   const m=selM.value,f=selO.value; let out="",first=true;
-  MONTHS.forEach(mo=>{ if(m==="all"||m===mo[0]){out+=monthSection(mo,f,first);first=false;} });
+  MONTHS.forEach(mo=>{ if(m==="all"||m===mo[0]){out+=monthSection(mo,f,first,m!=="all");first=false;} });
   if(m==="any"){out+=anySection(f,true);}
   if(m==="ref"){out+=refSection(true);}
   document.getElementById("main").innerHTML=out;
@@ -315,7 +322,6 @@ document.getElementById("main").addEventListener("input",e=>{
   const m=el.dataset.m,id=el.dataset.id; ENTRY[m]=ENTRY[m]||{};
   if(v.length===6){ ENTRY[m][id]={c:v,d:today(),src:"typed"}; } else { delete ENTRY[m][id]; }
   const t=TASKS.find(x=>x.id===id), row=document.getElementById("row-"+m+"-"+id);
-  row.querySelector(".bx").classList.toggle("on",isDone(t,m));
   row.querySelector(".due").innerHTML=due(t,m);
   const rec=document.getElementById("rec-"+m); if(rec) rec.textContent=recLine(m);
   kpis(selM.value,selO.value);
