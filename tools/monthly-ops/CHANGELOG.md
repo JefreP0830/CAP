@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.0 - 2026-11-02
+- Finance committee meets monthly (unit standard; CAPR 173-1 sets quarterly).
+- Heavier rule between each week's tasks.
+- VTWG 173-1 supplement deadlines added to event deadlines: card receipts
+  7 days, lost-receipt letter 48 hrs, travel report 7 days.
+
 ## 0.6.0 - 2026-11-02
 - Weekly items are separate sign-offs for W1–W4. Rows run week by week;
   dated items sit after the week their date falls in; monthly items last.

@@ -43,6 +43,7 @@ tr.grp td{color:var(--head);font-size:13.33px;background:var(--tint);padding:4px
 .red{color:var(--red)}
 .c-n{width:30px}.c-a{width:48px}.c-o{width:64px}.c-d{width:170px}.c-id{width:96px}
 td.num{color:var(--head);font-variant-numeric:tabular-nums}
+tr.wkcut td{border-top:2px solid var(--ink)}
 .printonly{display:none}
 .alabel{font-size:12px;color:var(--head);margin:14px 0 6px;letter-spacing:.03em}
 .areas{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
@@ -151,7 +152,7 @@ const TASKS=[
  {id:"cpft",a:"B1",m:Q1,t:"Offer the cadet physical fitness test (CPFT)",o:"CP",dueT:"This month · ",dueR:"quarterly",r:"60-1 §5.4.5.1"},
  {id:"goals",a:"B1",m:Q3,t:"Review annual goals; log progress",o:"CC",dueT:"Wk 4 · ",dueR:"quarterly",r:"60-1 §4.2.2 (log: should)"},
  {id:"tests",a:"D1",m:["apr","oct"],t:"Inventory controlled test materials",o:"ET",dueT:"This month · ",dueR:"6-monthly",r:"40-2 ¶6.8.1"},
- {id:"fincom",a:"D3",m:Q2,t:"Finance committee: minutes, budget, reconcile to wing",o:"CC/FM",dueT:"This month · ",dueR:"quarterly",r:"173-1 ¶8, ¶9.c(8)–(9)"},
+ {id:"fincom",a:"D3",m:"all",t:"Finance committee meeting: minutes, budget review, reconcile",o:"CC/FM",dueT:"Wk 3",r:"Unit standard monthly; 173-1 ¶8, ¶9.c(8)–(9) require quarterly"},
  {id:"org",a:"E1",m:Q3,t:"Check org chart and eServices duty assignments",o:"CC/DP",dueT:"Wk 4",r:"30-1 ¶8.2; 35-1 ¶1-3 (squadron practice)"},
  {id:"esq",a:"OPS",m:Q3,t:"Review ES quals and driver DOT expiring (3 yr)",o:"DO",dueT:"Wk 4",r:"60-3 ¶2-4; 132-1 §6.1.1 (squadron practice)"},
  // ---- once a year ----
@@ -195,6 +196,9 @@ const CLOCKS=[
  {a:"D3",w:"Cash advance",d:"Turn in receipts after the activity",o:"Member",c:"10 days",r:"173-1 ¶6.m"},
  {a:"D3",w:"Raffle planned",d:"Report to NHQ/FM",o:"FM",c:"Before sales",r:"173-1 ¶27"},
  {a:"D3",w:"Fundraiser planned",d:"Get Wing CC written approval",o:"CC",c:"Before event",r:"173-4 ¶3a"},
+ {a:"D3",w:"Wing card purchase",d:"Send invoice and receipt to wing admin and DF",o:"Cardholder",c:"7 days",r:"VTWG Sup 1 to 173-1 ¶20g.2"},
+ {a:"D3",w:"Receipt lost",d:"Send letter of explanation",o:"Cardholder",c:"48 hrs",r:"VTWG Sup 1 to 173-1 ¶20g.4"},
+ {a:"D3",w:"Official travel",d:"VTWG Form 173-1a (and 173-1b) to wing",o:"Member",c:"7 days after",r:"VTWG Sup 1 to 173-1 ¶24c"},
  {a:"D3",w:"New commander",d:"Appoint FM and committee; new CAPF 172",o:"CC",c:"30 days",r:"173-1 ¶6.g, ¶9.c"},
  {a:"D4",w:"IT incident",d:"Report to unit ITO and NHQ",o:"Member",c:"Immediately",r:"120-1 §13.1, §13.3"},
  {a:"D4",w:"Parent reg changes",d:"Revise unit supplement or OI, if any",o:"CC",c:"6 months",r:"1-2 ¶8.3.2.2"},
@@ -272,8 +276,8 @@ function recLine(m){
 }
 
 function monthSection(mo,f,first,single){
-  const [m,name,q]=mo; let n=0;
-  const body=rowsFor(m,f).map(r=>'<tr id="row-'+m+'-'+r.key+'"><td class="num">'+(++n)+'</td><td>'+esc(r.t.t.replace("{ROT}",ROTATION[m]))+'</td><td>'+esc(r.t.a==="OPS"?"Ops":r.t.a)+'</td><td class="due">'+due(r,m)+'</td><td>'+esc(r.t.o)+'</td><td>'+idCell(r,m)+'</td></tr>').join("");
+  const [m,name,q]=mo; let n=0, prev=null;
+  const body=rowsFor(m,f).map(r=>{const g=Math.floor(r.k/100);const cut=prev!==null&&g!==prev;prev=g;return '<tr id="row-'+m+'-'+r.key+'"'+(cut?' class="wkcut"':'')+'><td class="num">'+(++n)+'</td><td>'+esc(r.t.t.replace("{ROT}",ROTATION[m]))+'</td><td>'+esc(r.t.a==="OPS"?"Ops":r.t.a)+'</td><td class="due">'+due(r,m)+'</td><td>'+esc(r.t.o)+'</td><td>'+idCell(r,m)+'</td></tr>';}).join("");
   return '<section class="month'+(first?' first':'')+'"><div class="mhead'+(single?' printonly':'')+'"><h2>'+name+' · '+q+'</h2></div>'+
    (body?'<div class="tblbox"><table><colgroup><col class="c-n"><col><col class="c-a"><col class="c-d"><col class="c-o"><col class="c-id"></colgroup><thead><tr><th>#</th><th>Task</th><th>SUI</th><th>Due</th><th>OPR</th><th>CAPID</th></tr></thead><tbody>'+body+'</tbody></table></div>':'<p class="note">No tasks for this officer this month.</p>')+
    '<p class="note">Entering your CAPID certifies you completed that task. Table 4.2 minimums each month: Leadership 90 · Aerospace 90 · Fitness 45 · Character 45 min.'+(m==="nov"||m==="dec"?' No in-person event is required in '+name+'.':'')+'</p>'+
