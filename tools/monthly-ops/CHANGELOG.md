@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.5 - 2026-11-02
+- Added monthly "Update personnel files" (D5-Q02).
+- Merged: applications with prospective cadets; uniform with office
+  supplies; radios into one equipment check (radios, monitors, devices).
+  Dropped the separate base-station power test.
+
 ## 0.9.4 - 2026-11-02
 - Weekly promotions row renamed "Update Promotion Tracker and post to wall".
 
