@@ -17,6 +17,8 @@
 html,body{margin:0;background:var(--paper);color:var(--ink)}
 body{font-family:var(--f-body);font-size:14.67px;line-height:1.2}
 .wrap{max-width:960px;margin:0 auto;padding-block:28px 48px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.titlerow{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 24px}
+.amonth{font-family:var(--f-title);font-weight:700;font-size:32px;line-height:1.05;color:var(--blue);letter-spacing:.02em}
 h1{font-family:var(--f-title);font-weight:700;font-size:32px;line-height:1.05;color:var(--blue);margin:0}
 .fy{margin:6px 0 0;font-size:18.67px;color:var(--ink);letter-spacing:.01em}
 .fy .sep{color:var(--rule);padding:0 10px}
@@ -81,7 +83,9 @@ h3{font-weight:400;font-size:14.67px;color:var(--head);margin:18px 0 6px;letter-
   .cap::placeholder{color:transparent}
   .c-n{width:22px}.c-a{width:74px}.c-o{width:66px}.c-d{width:72px}.c-id{width:86px}
   td{font-size:13.33px;padding:4px 5px}td.sui{font-size:11px;white-space:nowrap;padding-left:8px}td.due{white-space:nowrap;font-size:12px}td.opr{font-size:12px}
-  .kpi .val{font-size:17px}.kpi{padding:8px 10px}
+  .kpi .val{font-size:15px;white-space:nowrap}.kpi{padding:8px 10px}.kpis{gap:6px}
+  .asub{white-space:normal}.kpi,.atile{min-width:0;overflow:hidden}
+  .amonth{font-size:26px}h1{font-size:26px}
   .cap{max-width:none}
   .kpi .val{font-size:24px}
   .areas{gap:4px}.atile{padding:4px}.aval{font-size:15px}.asub,.alab{font-size:10.5px}
@@ -98,7 +102,7 @@ h3{font-weight:400;font-size:14.67px;color:var(--head);margin:18px 0 6px;letter-
 <body>
 <div class="wrap">
   <header>
-    <h1>Unit Operations Checklist</h1>
+    <div class="titlerow"><h1>Unit Operations Checklist</h1><span class="amonth" id="amonth"></span></div>
     <p class="fy">NER-VT014<span class="sep">|</span>FY2027 (OCT 1, 2026 – SEP 30, 2027)</p>
     <div class="pick">
       <label for="selMonth">Month <select id="selMonth"></select></label>
@@ -349,7 +353,7 @@ function kpis(m,f){
   const pct=x=>x.n?Math.round(100*x.d/x.n)+"%":"–";
   const tile=(lab,val,sub)=>'<div class="kpi"><div class="lab">'+lab+'</div><div class="val">'+val+'</div><div class="sub">'+sub+'</div></div>';
   const rem=x=>(x.n-x.d)+" of "+x.n+" tasks";
-  box.innerHTML=tile(mo[1],pct(c),rem(c))+
+  box.innerHTML=tile("Current",pct(c),rem(c))+
     tile(mo[2]+" · "+qMonths.map(x=>x[1].slice(0,3)).join("–"),pct(q),rem(q))+
     tile("FY2027",pct(y),rem(y))+
     tile("Unit Safety",pct(sf),rem(sf))+
@@ -359,7 +363,8 @@ function kpis(m,f){
     if(!n) return ""; return '<div class="atile" title="'+esc(nm)+'"><span class="alab">'+(k==="OPS"?"Ops":k)+'</span><span class="aval">'+Math.round(100*d/n)+'%</span><span class="asub">'+d+' of '+n+'</span></div>';}).join("");
 }
 function render(){
-  const m=selM.value,f=selO.value; let out="",first=true;
+  const m=selM.value,f=selO.value;
+  {const mo=MONTHS.find(x=>x[0]===m);document.getElementById("amonth").textContent=mo?mo[1].toUpperCase()+" "+(["oct","nov","dec"].includes(m)?"2026":"2027"):(m==="all"?"ALL MONTHS":"");} let out="",first=true;
   MONTHS.forEach(mo=>{ if(m==="all"||m===mo[0]){out+=monthSection(mo,f,first,m!=="all");first=false;} });
   if(m==="any"){out+=anySection(f,true);}
   if(m==="ref"){out+=refSection(true);}

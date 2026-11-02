@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.9 - 2026-11-02
+- Active month shown large beside the title (screen and print); first tile labeled "Current".
+- Tiles shrink to fit the printed page.
+
 ## 0.9.8 - 2026-11-02
 - Due, OPR, CAPID and SUI columns centered and evenly sized; SUI no longer clips in print.
 
