@@ -194,7 +194,7 @@ const TASKS=[
 
 const DONE={oct:{inv:"10/22",aer:"10/31"}};
 // Next SUI milestone shown in the KPI tile; update after each one.
-const SUI_NEXT={when:"Jan 27, 2027",what:"Self-SUI · SUI due Jan 27, 2028"};
+const SUI_NEXT={when:"Jan 27, 2027",what:"SUI due Jan 27, 2028"};
 
 const CLOCKS=[
  {a:"B1",w:"CPP concern",d:"Contact wing CC; email follow-up",o:"Adult",c:"2 hrs",r:"60-2 §4.1.1.4"},
@@ -345,11 +345,11 @@ function kpis(m,f){
   const sl=rowsFor(m,f).filter(r=>r.t.safe&&!r.t.optional), sf={n:sl.length,d:sl.filter(r=>isDone(r.key,m)).length};
   const pct=x=>x.n?Math.round(100*x.d/x.n)+"%":"–";
   const tile=(lab,val,sub)=>'<div class="kpi"><div class="lab">'+lab+'</div><div class="val">'+val+'</div><div class="sub">'+sub+'</div></div>';
-  const rem=x=>(x.n-x.d)+" of "+x.n+" tasks remaining";
+  const rem=x=>(x.n-x.d)+" of "+x.n+" tasks";
   box.innerHTML=tile(mo[1],pct(c),rem(c))+
     tile(mo[2]+" · "+qMonths.map(x=>x[1].slice(0,3)).join("–"),pct(q),rem(q))+
     tile("FY2027",pct(y),rem(y))+
-    tile("Unit Safety · "+mo[1].slice(0,3),pct(sf),rem(sf))+
+    tile("Unit Safety",pct(sf),rem(sf))+
     tile("Next SUI action",SUI_NEXT.when,SUI_NEXT.what);
   const ar=document.getElementById("areas");
   ar.innerHTML=AREAS.map(([k,nm])=>{let n=0,d=0;keys.forEach(mk=>rowsFor(mk,f).filter(r=>r.t.a===k&&!r.t.optional).forEach(r=>{n++;if(isDone(r.key,mk))d++;}));

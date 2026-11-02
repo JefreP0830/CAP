@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.9.7 - 2026-11-02
+- Tile text trimmed.
+
 ## 0.9.6 - 2026-11-02
 - Due and OPR columns set at 9pt.
 
