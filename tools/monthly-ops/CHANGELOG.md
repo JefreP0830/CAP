@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.8.3 - 2026-11-02
+- Removed the note lines under each month and the color key.
+
 ## 0.8.2 - 2026-11-02
 - SUI column moved after CAPID, set at 9pt.
 

@@ -107,7 +107,6 @@ h3{font-weight:400;font-size:14.67px;color:var(--head);margin:18px 0 6px;letter-
     <div id="areawrap"><p class="alabel">FY2027 by SUI area (done of tasks)</p><div class="areas" id="areas"></div></div>
   </header>
   <main id="main"></main>
-  <p class="key">Red = set by regulation.</p>
 </div>
 
 <script>
@@ -281,7 +280,6 @@ function monthSection(mo,f,first,single){
   const body=rowsFor(m,f).map(r=>{const g=Math.floor(r.k/100);const cut=prev!==null&&g!==prev;prev=g;return '<tr id="row-'+m+'-'+r.key+'"'+(cut?' class="wkcut"':'')+'><td class="num">'+(++n)+'</td><td>'+esc(r.t.t.replace("{ROT}",ROTATION[m]))+'</td><td class="due">'+due(r,m)+'</td><td>'+esc(r.t.o)+'</td><td>'+idCell(r,m)+'</td><td class="sui">'+esc(code(r.t))+'</td></tr>';}).join("");
   return '<section class="month'+(first?' first':'')+'"><div class="mhead'+(single?' printonly':'')+'"><h2>'+name+' · '+q+'</h2></div>'+
    (body?'<div class="tblbox"><table><colgroup><col class="c-n"><col><col class="c-d"><col class="c-o"><col class="c-id"><col class="c-a"></colgroup><thead><tr><th>#</th><th>Task</th><th>Due</th><th>OPR</th><th>CAPID</th><th>SUI</th></tr></thead><tbody>'+body+'</tbody></table></div>':'<p class="note">No tasks for this officer this month.</p>')+
-   '<p class="note">Entering your CAPID certifies you completed that task. Table 4.2 minimums each month: Leadership 90 · Aerospace 90 · Fitness 45 · Character 45 min.'+(m==="nov"||m==="dec"?' No in-person event is required in '+name+'.':'')+'</p>'+
    '<p class="rec" id="rec-'+m+'">'+recLine(m)+'</p></section>';
 }
 function anySection(f,first){
