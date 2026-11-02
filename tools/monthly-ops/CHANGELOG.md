@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.0 - 2026-11-02
+- Weekly unit standards: facility safety, facility hygiene, class setup,
+  attendance roster upload.
+- Monthly: uniform supplies, office supplies, storage areas (D7-Q06),
+  computer health. Added IT as an OPR.
+
 ## 0.8.5 - 2026-11-02
 - Due shows only the target week or date (red when a regulation sets it).
 - CAPID field fits its column in print.
