@@ -41,7 +41,14 @@ tr.grp td{color:var(--head);font-size:13.33px;background:var(--tint);padding:4px
 .bx{display:inline-block;width:12px;height:12px;border:1.5px solid var(--ink);margin-top:1px}
 .bx.on{background:var(--ink)}
 .red{color:var(--red)}
-.c-bx{width:26px}.c-o{width:64px}.c-d{width:190px}.c-trig{width:190px}
+.c-bx{width:26px}.c-o{width:64px}.c-d{width:180px}.c-id{width:96px}.c-trig{width:190px}
+.cap{font:inherit;font-size:14.67px;color:var(--ink);width:76px;border:0;border-bottom:1px solid var(--rule);background:transparent;padding:2px 0;font-variant-numeric:tabular-nums}
+.cap:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.cap::placeholder{color:var(--rule)}
+.btn{font:inherit;font-size:13.33px;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:7px 12px;min-height:36px;cursor:pointer}
+.btn:hover{border-color:var(--ink)}.btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.notice{font-size:13.33px;color:var(--ink);margin:10px 0 0}
+.rec{font-size:9px;color:var(--head);margin:8px 0 0;word-break:break-all;font-family:"Courier New",monospace}
 .note{font-size:12px;color:var(--ink);margin:8px 0 0;max-width:80ch}
 .key{font-size:12px;color:var(--head);margin:10px 0 0}
 h3{font-weight:400;font-size:14.67px;color:var(--head);margin:18px 0 6px;letter-spacing:.02em}
@@ -55,7 +62,11 @@ h3{font-weight:400;font-size:14.67px;color:var(--head);margin:18px 0 6px;letter-
 @media (max-width:640px){.grid3{grid-template-columns:1fr}.grid3>div{border-right:0;border-bottom:1px solid var(--rule)}.src{columns:1}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media print{
   @page{size:letter;margin:0.5in}
-  .pick{display:none}
+  .pick,.notice{display:none}
+  .cap::placeholder{color:transparent}
+  .c-bx{width:20px}.c-o{width:40px}.c-d{width:118px}.c-id{width:70px}
+  .cap{width:60px}
+  .kpi .val{font-size:24px}
   .wrap{max-width:none;padding:0}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   table{min-width:0}
@@ -74,11 +85,15 @@ h3{font-weight:400;font-size:14.67px;color:var(--head);margin:18px 0 6px;letter-
     <div class="pick">
       <label for="selMonth">Month <select id="selMonth"></select></label>
       <label for="selOpr">Officer <select id="selOpr"></select></label>
+      <button type="button" id="loadBtn" class="btn">Load completed sheets</button>
+      <input type="file" id="loadFile" accept="application/pdf,.pdf" multiple hidden>
     </div>
+    <p class="notice">Enter your CAPID on each task you finish. Nothing is saved here: save as PDF (Ctrl+P) and email it.</p>
+    <p class="notice" id="loadMsg" hidden></p>
     <div class="kpis" id="kpis"></div>
   </header>
   <main id="main"></main>
-  <p class="key">Red = set by regulation. Print with Ctrl+P on letter paper.</p>
+  <p class="key">Red = set by regulation.</p>
 </div>
 
 <script>
@@ -200,20 +215,36 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const areaName=k=>{const a=AREAS.find(x=>x[0]===k);return a[0]==="OPS"?a[1]:a[0]+" "+a[1];};
 const inMonth=(t,m)=>(t.m==="all"||t.m.includes(m))&&!(t.skip||[]).includes(m);
 const owns=(o,f)=>f==="all"||o.split("/").includes(f);
-const isDone=(t,m)=>!!(DONE[m]&&DONE[m][t.id]);
+// ENTRY[m][id] = {c: CAPID, d: "YYYY-MM-DD", src: "typed" | "loaded"}. Held in memory only.
+const ENTRY={};
+const today=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");};
+const mdy=iso=>iso.length===10?iso.slice(5,7)+"/"+iso.slice(8,10)+"/"+iso.slice(2,4):iso;
+const info=(t,m)=>(ENTRY[m]&&ENTRY[m][t.id])||(DONE[m]&&DONE[m][t.id]?{d:DONE[m][t.id],src:"record"}:null);
+const isDone=(t,m)=>!!info(t,m);
 const counts=(m,f)=>{const list=TASKS.filter(t=>inMonth(t,m)&&owns(t.o,f)&&!t.optional);const d=list.filter(t=>isDone(t,m)).length;return {n:list.length,d};};
-const due=(t,m)=>{ if(isDone(t,m)) return "Done "+esc(DONE[m][t.id]); return (t.dueT?esc(t.dueT):"")+(t.dueR?'<span class="red">'+esc(t.dueR)+'</span>':""); };
+const dueTxt=t=>(t.dueT?esc(t.dueT):"")+(t.dueR?'<span class="red">'+esc(t.dueR)+'</span>':"");
+const due=(t,m)=>{const i=info(t,m); return i?"Done "+esc(mdy(i.d)):dueTxt(t);};
+function idCell(t,m){
+  const i=info(t,m);
+  if(i&&i.src!=="typed") return esc(i.c||"");
+  return '<input class="cap" type="text" inputmode="numeric" maxlength="6" autocomplete="off" aria-label="CAPID for: '+esc(t.t.replace("{ROT}",ROTATION[m]))+'" id="cap-'+m+'-'+t.id+'" data-m="'+m+'" data-id="'+t.id+'" value="'+(i?esc(i.c):"")+'" placeholder="CAPID">';
+}
+function recLine(m){
+  const e=ENTRY[m]||{}; const items=Object.keys(e).filter(k=>e[k].src==="typed").map(k=>k+"-"+e[k].c+"-"+e[k].d.replace(/-/g,""));
+  return items.length?"REC1:FY27:"+m+":"+items.join(",")+":END":"";
+}
 
 function monthSection(mo,f,first){
   const [m,name,q]=mo; let body="";
   AREAS.forEach(([k])=>{
     const rows=TASKS.filter(t=>t.a===k&&inMonth(t,m)&&owns(t.o,f));
     if(!rows.length) return;
-    body+='<tr class="grp"><td colspan="4">'+esc(areaName(k))+'</td></tr>'+rows.map(t=>'<tr><td><span class="bx'+(isDone(t,m)?' on':'')+'" aria-hidden="true"></span></td><td>'+esc(t.t.replace("{ROT}",ROTATION[m]))+'</td><td>'+esc(t.o)+'</td><td>'+due(t,m)+'</td></tr>').join("");
+    body+='<tr class="grp"><td colspan="5">'+esc(areaName(k))+'</td></tr>'+rows.map(t=>'<tr id="row-'+m+'-'+t.id+'"><td><span class="bx'+(isDone(t,m)?' on':'')+'" aria-hidden="true"></span></td><td>'+esc(t.t.replace("{ROT}",ROTATION[m]))+'</td><td>'+esc(t.o)+'</td><td class="due">'+due(t,m)+'</td><td>'+idCell(t,m)+'</td></tr>').join("");
   });
-  return '<section class="month'+(first?' first':'')+'"><div class="mhead"><h2>'+name+' · '+q+'</h2><span class="sign">CC review ______________ Date ________</span></div>'+
-   (body?'<div class="tblbox"><table><colgroup><col class="c-bx"><col><col class="c-o"><col class="c-d"></colgroup><thead><tr><th></th><th>Task</th><th>OPR</th><th>Due</th></tr></thead><tbody>'+body+'</tbody></table></div>':'<p class="note">No tasks for this officer this month.</p>')+
-   '<p class="note">Table 4.2 minimums each month: Leadership 90 · Aerospace 90 · Fitness 45 · Character 45 min.'+(m==="nov"||m==="dec"?' No in-person event is required in '+name+'.':'')+'</p></section>';
+  return '<section class="month'+(first?' first':'')+'"><div class="mhead"><h2>'+name+' · '+q+'</h2></div>'+
+   (body?'<div class="tblbox"><table><colgroup><col class="c-bx"><col><col class="c-o"><col class="c-d"><col class="c-id"></colgroup><thead><tr><th></th><th>Task</th><th>OPR</th><th>Due</th><th>CAPID</th></tr></thead><tbody>'+body+'</tbody></table></div>':'<p class="note">No tasks for this officer this month.</p>')+
+   '<p class="note">Entering your CAPID certifies you completed that task. Table 4.2 minimums each month: Leadership 90 · Aerospace 90 · Fitness 45 · Character 45 min.'+(m==="nov"||m==="dec"?' No in-person event is required in '+name+'.':'')+'</p>'+
+   '<p class="rec" id="rec-'+m+'">'+recLine(m)+'</p></section>';
 }
 function anySection(f,first){
   let body="";
@@ -231,7 +262,7 @@ function refSection(first){
     if(rows.length) refs+='<tr class="grp"><td colspan="2">'+esc(areaName(k))+'</td></tr>'+rows.map(r=>'<tr><td>'+esc(r[0])+'</td><td>'+esc(r[1])+'</td></tr>').join("");
   });
   return '<section class="month'+(first?' first':'')+'"><div class="mhead"><h2>Sources and process</h2></div>'+
-  '<h3>How a task is shown done</h3><p class="note">Write the date and initials on the sheet. Proof is the eServices record where eServices holds it; anything else, save one PDF or photo to 00_Administration › SUI Evidence › (SUI area) › FY27. The CC signs each month sheet; scan the signed sheet to SUI Evidence › E1 Command › FY27.</p>'+
+  '<h3>How a task is shown done</h3><p class="note">The member enters their CAPID on each task they finish; the box fills and the date stamps. They save the sheet as PDF and email it from their own CAP email account; the email records who sent it and when. Proof of the work is the eServices record where eServices holds it; anything else, one PDF or photo in SUI Evidence › (SUI area) › FY27. The CC loads the emailed sheets with Load completed sheets and validates against eServices reports.</p>'+
   '<h3>SUI cycle</h3><div class="grid3"><div><span class="lab">Unit</span>NER-VT014 chartered Jan 2026 (NER-VT006 de-chartered Jan 2026).</div><div><span class="lab">Self-SUI</span>Within 30 days of the 12-month midpoint: <span class="red">Jan–Feb 2027</span>. To wing IG and Wing CC, and into DTS, within <span class="red">14 days</span>.</div><div><span class="lab">First SUI</span>About Jan 2028. Confirm with the wing IG.</div></div>'+
   '<h3>References by task (CAPR unless noted)</h3><div class="tblbox"><table class="refs"><colgroup><col><col style="width:240px"></colgroup><tbody>'+refs+'</tbody></table></div>'+
   '<h3>National publications cited</h3><ul class="src">'+PUBS.map(p=>'<li>CAPR '+esc(p[0])+' '+esc(p[1])+' · '+esc(p[2])+'</li>').join("")+'</ul>'+
@@ -278,6 +309,48 @@ function render(){
   kpis(m,f); toHash();
 }
 selM.addEventListener("change",render); selO.addEventListener("change",render);
+document.getElementById("main").addEventListener("input",e=>{
+  const el=e.target; if(!el.classList||!el.classList.contains("cap")) return;
+  const v=el.value.replace(/\D/g,"").slice(0,6); if(v!==el.value) el.value=v;
+  const m=el.dataset.m,id=el.dataset.id; ENTRY[m]=ENTRY[m]||{};
+  if(v.length===6){ ENTRY[m][id]={c:v,d:today(),src:"typed"}; } else { delete ENTRY[m][id]; }
+  const t=TASKS.find(x=>x.id===id), row=document.getElementById("row-"+m+"-"+id);
+  row.querySelector(".bx").classList.toggle("on",isDone(t,m));
+  row.querySelector(".due").innerHTML=due(t,m);
+  const rec=document.getElementById("rec-"+m); if(rec) rec.textContent=recLine(m);
+  kpis(selM.value,selO.value);
+});
+const typedCount=()=>Object.values(ENTRY).reduce((a,e)=>a+Object.values(e).filter(x=>x.src==="typed").length,0);
+window.addEventListener("beforeunload",e=>{ if(typedCount()){ e.preventDefault(); e.returnValue=""; } });
+const baseTitle=document.title;
+window.addEventListener("beforeprint",()=>{
+  if(!typedCount()) return;
+  const m=selM.value, mi=MONTHS.findIndex(x=>x[0]===m);
+  const mm=mi<0?"ALL":String(((mi+9)%12)+1).padStart(2,"0")+"-"+m.toUpperCase();
+  document.title="FY27-"+mm+"_"+(selO.value==="all"?"ALL":selO.value)+"_"+today();
+});
+window.addEventListener("afterprint",()=>{document.title=baseTitle;});
+// ---- master: read completed sheets (PDF text) ----
+const loadBtn=document.getElementById("loadBtn"), loadFile=document.getElementById("loadFile"), loadMsg=document.getElementById("loadMsg");
+loadBtn.addEventListener("click",()=>loadFile.click());
+function pdfjs(){ return window.pdfjsLib?Promise.resolve(window.pdfjsLib):new Promise((ok,no)=>{const sc=document.createElement("script");sc.src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";sc.onload=()=>{window.pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";ok(window.pdfjsLib);};sc.onerror=()=>no(new Error("The PDF reader did not load. Check the internet connection and try again."));document.head.appendChild(sc);}); }
+loadFile.addEventListener("change",async()=>{
+  const files=[...loadFile.files]; if(!files.length) return;
+  loadMsg.hidden=false; loadMsg.textContent="Reading "+files.length+" sheet(s)…";
+  let sheets=0,added=0,none=[];
+  try{
+    const lib=await pdfjs();
+    for(const f of files){
+      const doc=await lib.getDocument({data:await f.arrayBuffer()}).promise; let text="";
+      for(let i=1;i<=doc.numPages;i++){const pg=await doc.getPage(i);const tc=await pg.getTextContent();text+=tc.items.map(x=>x.str).join("");}
+      const recs=[...text.replace(/\s+/g,"").matchAll(/REC1:FY27:([a-z]{3}):([a-z0-9,\-]+):END/g)];
+      if(!recs.length){none.push(f.name);continue;} sheets++;
+      recs.forEach(r=>{const m=r[1];ENTRY[m]=ENTRY[m]||{};r[2].split(",").forEach(it=>{const p=it.split("-");if(p.length!==3||!/^\d{6}$/.test(p[1])||!/^\d{8}$/.test(p[2]))return;const d=p[2].slice(0,4)+"-"+p[2].slice(4,6)+"-"+p[2].slice(6,8);const cur=ENTRY[m][p[0]];if(!cur||d<cur.d){ENTRY[m][p[0]]={c:p[1],d,src:"loaded"};added++;}});});
+    }
+    loadMsg.textContent="Loaded "+sheets+" sheet(s), "+added+" completion(s)."+(none.length?" No checklist record found in: "+none.join(", ")+".":"");
+  }catch(err){ loadMsg.textContent=err.message||"A sheet could not be read."; }
+  loadFile.value=""; render();
+});
 window.addEventListener("hashchange",()=>{fromHash();render();});
 fromHash(); render();
 })();

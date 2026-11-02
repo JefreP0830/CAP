@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0 - 2026-11-02
+- Members enter only their CAPID on each finished task; the box fills and
+  today's date stamps. Nothing is saved; the record is the PDF they email.
+- Each printed month carries a coded record line; "Load completed sheets"
+  reads emailed PDFs back and updates the tiles. Read in the browser only.
+- Warns before closing with unsaved entries; PDF file name is set
+  automatically (FY27-MM-MON_OPR_date).
+
 ## 0.3.0 - 2026-11-02
 - Renamed Unit Operations Checklist; header cut to unit and FY lines.
 - Month and officer pickers; opens on the current month.
