@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.8.2 - 2026-11-02
+- SUI column moved after CAPID, set at 9pt.
+
 ## 0.8.1 - 2026-11-02
 - Removed SUI-cycle prompts (self-SUI, DTS updates, SUI visit and upload
   deadlines). The checklist covers regular operations; the IG prompts the
