@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.0 - 2026-11-02
+- Weekly items are separate sign-offs for W1–W4. Rows run week by week;
+  dated items sit after the week their date falls in; monthly items last.
+- Added the unit's weekly vehicle inspection (unit standard).
+- Save PDF button; sheets go to the unit file share. OPR column moved
+  after Due.
+
 ## 0.5.0 - 2026-11-02
 - Self-SUI due Jan 27, 2027; SUI due Jan 27, 2028 (charter Jan 27, 2026).
 - SUI area shown on each task row; area header rows removed.
