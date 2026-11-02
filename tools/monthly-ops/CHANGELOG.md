@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.1 - 2026-11-02
+- Unit Safety tile: the month's safety-tagged tasks (facility, vehicle,
+  personal, computer, equipment).
+- Monthly radio and battery check; general equipment check.
+- Facility safety covers building access; moved off the E2 tile (unit
+  standard, not an SUI item).
+
 ## 0.9.0 - 2026-11-02
 - Weekly unit standards: facility safety, facility hygiene, class setup,
   attendance roster upload.
