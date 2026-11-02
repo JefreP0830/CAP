@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.4 - 2026-11-02
+- Month heading no longer prints on a single-month sheet.
+- SUI area tiles fit on one row.
+
 ## 0.8.3 - 2026-11-02
 - Removed the note lines under each month and the color key.
 
