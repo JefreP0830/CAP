@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.0 - 2026-11-02
+- SUI column shows area and worksheet question (1 Nov 2026 worksheets),
+  e.g. D7-Q01; area only when the SUI does not inspect the task.
+- New monthly checks: CPP Basic current for required members (E1-Q10),
+  web calendar (B1-Q12), specialty track enrollment and progress (D5-Q04),
+  vehicle maintenance schedule (D8-Q04a). Driver DOT split out (D8-Q10).
+- Event deadline: SUI documents uploaded 10 days before onsite (E1-Q07).
+
 ## 0.7.0 - 2026-11-02
 - Finance committee meets monthly (unit standard; CAPR 173-1 sets quarterly).
 - Heavier rule between each week's tasks.

@@ -41,7 +41,7 @@ tr.grp td{color:var(--head);font-size:13.33px;background:var(--tint);padding:4px
 .bx{display:inline-block;width:12px;height:12px;border:1.5px solid var(--ink);margin-top:1px}
 .bx.on{background:var(--ink)}
 .red{color:var(--red)}
-.c-n{width:30px}.c-a{width:48px}.c-o{width:64px}.c-d{width:170px}.c-id{width:96px}
+.c-n{width:30px}.c-a{width:80px}.c-o{width:64px}.c-d{width:170px}.c-id{width:96px}
 td.num{color:var(--head);font-variant-numeric:tabular-nums}
 tr.wkcut td{border-top:2px solid var(--ink)}
 .printonly{display:none}
@@ -74,7 +74,7 @@ h3{font-weight:400;font-size:14.67px;color:var(--head);margin:18px 0 6px;letter-
   @page{size:letter;margin:0.5in}
   .pick,.notice{display:none}
   .cap::placeholder{color:transparent}
-  .c-n{width:24px}.c-a{width:36px}.c-o{width:50px}.c-d{width:124px}.c-id{width:72px}
+  .c-n{width:24px}.c-a{width:62px}.c-o{width:50px}.c-d{width:124px}.c-id{width:72px}
   .printonly{display:flex}
   .cap{width:60px}
   .kpi .val{font-size:24px}
@@ -129,53 +129,58 @@ const TASKS=[
  // ---- every month ----
  // wkly: one row per week, W1–W4
  {id:"mtg",a:"B1",m:"all",wkly:true,t:"Conduct unit meeting, 2–2½ hrs",o:"CC",r:"60-1 §4.3.2.1 (should)"},
- {id:"sched",a:"B1",m:"all",wkly:true,t:"Post next meeting's schedule (keep 2 years)",o:"CP",dueR:"1 wk ahead",r:"60-1 §4.3.2.4"},
+ {id:"sched",q:"Q07a",a:"B1",m:"all",wkly:true,t:"Post next meeting's schedule (keep 2 years)",o:"CP",dueR:"1 wk ahead",r:"60-1 §4.3.2.4"},
  {id:"ratio",a:"B1",m:"all",wkly:true,t:"Verify adult CPP and supervision ratio met",o:"CC",dueR:"before activity",r:"60-2 §2.6.5, Table 2.1"},
  {id:"promo",a:"B1",m:"all",wkly:true,t:"Endorse earned cadet promotions in eServices",o:"CC",r:"60-1 §5.2.1"},
- {id:"vinsp",a:"D8",m:"all",wkly:true,t:"Inspect vehicle; record on CAPF 132",o:"LG",r:"Unit standard (above CAPR 132-1)"},
+ {id:"vinsp",q:"Q02",a:"D8",m:"all",wkly:true,t:"Inspect vehicle; record on CAPF 132",o:"LG",r:"Unit standard (above CAPR 132-1)"},
  {id:"absent",a:"B1",m:"all",t:"Contact cadets absent 30 and 60 days",o:"CP",dueT:"Wk 2",r:"60-1 §3.4.2"},
- {id:"t42",a:"B1",m:"all",t:"Check next month meets Table 4.2 minimums",o:"CP",dueT:"Wk 4",r:"60-1 §4.3.2.2"},
- {id:"event",a:"B1",m:"all",skip:["oct","nov"],t:"Set next month's in-person event; post 2 weeks ahead",o:"CP",dueT:"Wk 4 · ",dueR:"monthly",r:"60-1 §4.3.3"},
+ {id:"t42",q:"Q07b",a:"B1",m:"all",t:"Check next month meets Table 4.2 minimums",o:"CP",dueT:"Wk 4",r:"60-1 §4.3.2.2"},
+ {id:"event",q:"Q08",a:"B1",m:"all",skip:["oct","nov"],t:"Set next month's in-person event; post 2 weeks ahead",o:"CP",dueT:"Wk 4 · ",dueR:"monthly",r:"60-1 §4.3.3"},
  {id:"ccars",a:"D2",m:"all",t:"Enter this month's character sessions in CAPCCARS",o:"HC",dueR:"30 days after session",r:"80-1 §9.1; Atch 2"},
- {id:"backup",a:"D4",m:"all",t:"Back up unit files to a second location",o:"DA",dueT:"Wk 1",r:"10-2 ¶7.b; 120-1 §11.6"},
+ {id:"backup",q:"Q07",a:"D4",m:"all",t:"Back up unit files to a second location",o:"DA",dueT:"Wk 1",r:"10-2 ¶7.b; 120-1 §11.6"},
  {id:"apps",a:"D5",m:"all",t:"Act on online membership applications",o:"CC",dueT:"Wk 2",r:"39-2 §2.4.2.1 (refund at 30 days)"},
  {id:"prosp",a:"D5",m:"all",t:"Join or release prospective cadets",o:"CC",dueR:"30 days",r:"39-2 §2.2.8"},
  {id:"expire",a:"D5",m:"all",t:"Pull expirations: membership, CPP, TLC",o:"DP",dueT:"Wk 3",r:"39-2 §6.2; 60-2 §3.2; 60-1 §2.3.2.5"},
- {id:"pafile",a:"D6",m:"all",t:"Add this month's outreach to the 12-month PA file",o:"PA",dueT:"Wk 4",r:"190-1 ¶7.4.2; SUI D6"},
- {id:"c132",a:"D8",m:"all",t:"Upload last month's vehicle CAPF 132 to ORMS",o:"LG",dueR:"10th",r:"132-1 §2.3.3"},
- {id:"tires",a:"D8",m:"all",t:"Check vehicle tire pressure",o:"LG",dueT:"Wk 1 · ",dueR:"monthly",r:"132-1 Atch 2"},
+ {id:"pafile",q:"Q06",a:"D6",m:"all",t:"Add this month's outreach to the 12-month PA file",o:"PA",dueT:"Wk 4",r:"190-1 ¶7.4.2; SUI D6"},
+ {id:"c132",q:"Q05",a:"D8",m:"all",t:"Upload last month's vehicle CAPF 132 to ORMS",o:"LG",dueR:"10th",r:"132-1 §2.3.3"},
+ {id:"tires",q:"Q04b",a:"D8",m:"all",t:"Check vehicle tire pressure",o:"LG",dueT:"Wk 1 · ",dueR:"monthly",r:"132-1 Atch 2"},
+ {id:"cppt",a:"E1",q:"Q10",m:"all",t:"Verify CPP Basic current (12 mo) for required members, incl. cadets 18+",o:"CC",dueT:"Wk 3",r:"60-2 §3.2, §3.3"},
+ {id:"webcal",a:"B1",q:"Q12",m:"all",t:"Update the unit web calendar of cadet activities",o:"CP",dueT:"Wk 4",r:"60-2 §2.6.2 (unit standard: monthly)"},
+ {id:"track",a:"D5",q:"Q04",m:"all",t:"Check primary staff specialty track enrollment and progress",o:"DP",dueT:"Wk 3",r:"35-1 ¶1-2(b); SUI D5 Q04, A1 Q05, E2 Q07 (unit standard: monthly)"},
+ {id:"maint",a:"D8",q:"Q04a",m:"all",t:"Check vehicle maintenance is on the manufacturer schedule",o:"LG",dueT:"Wk 1",r:"132-1 ¶13.1"},
  {id:"dts",a:"E1",m:"all",t:"Update open DTS discrepancies, if any",o:"CC",dueR:"Every 30 days",r:"20-3 Table 10.1"},
  {id:"selfin",a:"E1",m:"all",t:"Self-inspect this month's SUI area: {ROT}",o:"CC",dueT:"Wk 3",r:"Squadron practice"},
- {id:"safed",a:"E2",m:"all",t:"Deliver safety education; members log it in eServices",o:"SE",dueT:"Wk 1 · ",dueR:"monthly",r:"160-1 §5.2.1.1"},
+ {id:"safed",q:"Q08",a:"E2",m:"all",t:"Deliver safety education; members log it in eServices",o:"SE",dueT:"Wk 1 · ",dueR:"monthly",r:"160-1 §5.2.1.1"},
  {id:"power",a:"OPS",m:"all",t:"Test base-station emergency power",o:"DOK",dueT:"Wk 3",r:"100-1 §7.3 (should)"},
  // ---- quarterly / half-year ----
  {id:"cpft",a:"B1",m:Q1,t:"Offer the cadet physical fitness test (CPFT)",o:"CP",dueT:"This month · ",dueR:"quarterly",r:"60-1 §5.4.5.1"},
- {id:"goals",a:"B1",m:Q3,t:"Review annual goals; log progress",o:"CC",dueT:"Wk 4 · ",dueR:"quarterly",r:"60-1 §4.2.2 (log: should)"},
- {id:"tests",a:"D1",m:["apr","oct"],t:"Inventory controlled test materials",o:"ET",dueT:"This month · ",dueR:"6-monthly",r:"40-2 ¶6.8.1"},
- {id:"fincom",a:"D3",m:"all",t:"Finance committee meeting: minutes, budget review, reconcile",o:"CC/FM",dueT:"Wk 3",r:"Unit standard monthly; 173-1 ¶8, ¶9.c(8)–(9) require quarterly"},
+ {id:"goals",q:"Q06c",a:"B1",m:Q3,t:"Review annual goals; log progress",o:"CC",dueT:"Wk 4 · ",dueR:"quarterly",r:"60-1 §4.2.2 (log: should)"},
+ {id:"tests",q:"Q04b",a:"D1",m:["apr","oct"],t:"Inventory controlled test materials",o:"ET",dueT:"This month · ",dueR:"6-monthly",r:"40-2 ¶6.8.1"},
+ {id:"fincom",q:"Q03",a:"D3",m:"all",t:"Finance committee meeting: minutes, budget review, reconcile",o:"CC/FM",dueT:"Wk 3",r:"Unit standard monthly; 173-1 ¶8, ¶9.c(8)–(9) require quarterly"},
  {id:"org",a:"E1",m:Q3,t:"Check org chart and eServices duty assignments",o:"CC/DP",dueT:"Wk 4",r:"30-1 ¶8.2; 35-1 ¶1-3 (squadron practice)"},
- {id:"esq",a:"OPS",m:Q3,t:"Review ES quals and driver DOT expiring (3 yr)",o:"DO",dueT:"Wk 4",r:"60-3 ¶2-4; 132-1 §6.1.1 (squadron practice)"},
+ {id:"esq",a:"OPS",m:Q3,t:"Review ES qualifications expiring (3 yr)",o:"DO",dueT:"Wk 4",r:"60-3 ¶2-4 (squadron practice)"},
+ {id:"dot",a:"D8",q:"Q10",m:Q3,t:"Review driver DOT training expiring (3 yr)",o:"LG",dueT:"Wk 4",r:"132-1 §6.1"},
  // ---- once a year ----
- {id:"aer",a:"A1",m:["oct"],t:"Submit AE Annual Activity Report in eServices",o:"AE",dueR:"30 Oct",r:"50-1 §11; Atch 5"},
+ {id:"aer",q:"Q04",a:"A1",m:["oct"],t:"Submit AE Annual Activity Report in eServices",o:"AE",dueR:"30 Oct",r:"50-1 §11; Atch 5"},
  {id:"aeaw",a:"A1",m:["jan"],t:"Nominate AE awards to wing (VTWG has no groups)",o:"AE",dueR:"15 Jan",r:"50-1 §9.2.1; Atch 2"},
- {id:"aeplan",a:"A1",m:["sep"],t:"AEO and CC plan the AE year; log in AE notebook",o:"AE",dueT:"Sep · ",dueR:"yearly",r:"50-1 Atch 4"},
+ {id:"aeplan",q:"Q06",a:"A1",m:["sep"],t:"AEO and CC plan the AE year; log in AE notebook",o:"AE",dueT:"Sep · ",dueR:"yearly",r:"50-1 Atch 4"},
  {id:"recruit",a:"B1",m:["aug"],t:"Hold a recruiting campaign or open house",o:"PA/CP",dueT:"Aug · ",dueR:"yearly",r:"60-1 §3.1.1"},
- {id:"fygoal",a:"B1",m:["sep"],t:"Set next FY goals: specific and measurable",o:"CC",dueT:"Sep",r:"60-1 §4.2.1"},
+ {id:"fygoal",q:"Q06a",a:"B1",m:["sep"],t:"Set next FY goals: specific and measurable",o:"CC",dueT:"Sep",r:"60-1 §4.2.1"},
  {id:"cac",a:"B1",m:["sep"],t:"Announce Cadet Advisory Council reps",o:"CC",dueR:"25 Sep",r:"60-1 Table 7.1"},
  {id:"decccars",a:"D2",m:["jan"],t:"Enter December character sessions in CAPCCARS",o:"HC",dueR:"5 Jan",r:"80-1 §9.1"},
  {id:"budget",a:"D3",m:["sep"],t:"Send budget, CAPF 172 and committee list to wing",o:"FM",dueR:"1 Oct",r:"173-1 ¶6.g, ¶9.c(1), (9)"},
- {id:"cyfiles",a:"D4",m:["dec"],t:"Cut off calendar-year files; destroy eligible records",o:"DA",dueR:"31 Dec",r:"10-2 ¶9.a; Table 1"},
- {id:"fyfiles",a:"D4",m:["sep"],t:"Cut off fiscal-year files",o:"DA",dueR:"30 Sep",r:"10-2 ¶9.b"},
+ {id:"cyfiles",q:"Q05",a:"D4",m:["dec"],t:"Cut off calendar-year files; destroy eligible records",o:"DA",dueR:"31 Dec",r:"10-2 ¶9.a; Table 1"},
+ {id:"fyfiles",q:"Q05",a:"D4",m:["sep"],t:"Cut off fiscal-year files",o:"DA",dueR:"30 Sep",r:"10-2 ¶9.b"},
  {id:"web",a:"D4",m:["sep"],t:"Re-approve unit website in eServices",o:"CC",dueR:"30 Sep",r:"120-1 §5.2.2"},
  {id:"coty",a:"D5",m:["dec"],t:"Start Cadet of the Year nomination, CAPF 58",o:"CC",dueT:"1 Jan (should)",r:"39-3 ¶24b(1)"},
  {id:"awards",a:"D5",m:["jan"],t:"Send annual award nominations to wing",o:"CC",dueR:"15 Jan",r:"39-3 ¶23a, ¶24b(2)"},
  {id:"afa",a:"D5",m:["jan"],t:"Send AFA Outstanding Cadet selection to AFA",o:"CC",dueR:"15 Jan",r:"39-3 ¶42"},
- {id:"inv",a:"D7",m:["oct"],t:"Annual property inventory; certify in ORMS",o:"LG",dueR:"30 Nov",r:"174-1 ¶2-16, ¶6-10"},
- {id:"invchk",a:"D7",m:["nov"],t:"Confirm inventory certified (missed = property freeze)",o:"LG",dueR:"30 Nov",r:"174-1 ¶2-16"},
- {id:"selfsui",a:"E1",m:["jan"],t:"Complete the full self-SUI (12-month midpoint)",o:"CC",dueR:"Jan 27, 2027",r:"20-3 §11.2 (within 30 days of the midpoint)"},
- {id:"suifwd",a:"E1",m:["feb"],t:"Send self-SUI to wing IG and Wing CC; load to DTS",o:"CC",dueR:"14 days after self-SUI",r:"20-3 §11.3"},
+ {id:"inv",q:"Q01",a:"D7",m:["oct"],t:"Annual property inventory; certify in ORMS",o:"LG",dueR:"30 Nov",r:"174-1 ¶2-16, ¶6-10"},
+ {id:"invchk",q:"Q01",a:"D7",m:["nov"],t:"Confirm inventory certified (missed = property freeze)",o:"LG",dueR:"30 Nov",r:"174-1 ¶2-16"},
+ {id:"selfsui",q:"Q11",a:"E1",m:["jan"],t:"Complete the full self-SUI (12-month midpoint)",o:"CC",dueR:"Jan 27, 2027",r:"20-3 §11.2 (within 30 days of the midpoint)"},
+ {id:"suifwd",q:"Q11",a:"E1",m:["feb"],t:"Send self-SUI to wing IG and Wing CC; load to DTS",o:"CC",dueR:"14 days after self-SUI",r:"20-3 §11.3"},
  {id:"eo",a:"E1",m:["jun"],t:"Brief nondiscrimination policy to all members",o:"CC",dueT:"Jun · ",dueR:"yearly",r:"36-1 ¶4.4.2"},
- {id:"rmday",a:"E2",m:["jan","feb","mar"],t:"Hold Annual Safety RM Day",o:"CC/SE",dueR:"31 Mar",r:"160-1 §5.2.1.4"},
+ {id:"rmday",q:"Q09",a:"E2",m:["jan","feb","mar"],t:"Hold Annual Safety RM Day",o:"CC/SE",dueR:"31 Mar",r:"160-1 §5.2.1.4"},
  {id:"alert",a:"OPS",m:["aug"],t:"Update the unit alert roster",o:"DO",dueT:"Aug · ",dueR:"yearly",r:"60-3 ¶1-5c(6)"},
  {id:"commyr",a:"OPS",m:["jan"],t:"Optional: Communicator of the Year nomination",o:"DOK",dueR:"15 Jan",r:"100-1 §4.8.2",optional:true}
 ];
@@ -188,7 +193,7 @@ const CLOCKS=[
  {a:"B1",w:"CPP concern",d:"Contact wing CC; email follow-up",o:"Adult",c:"2 hrs",r:"60-2 §4.1.1.4"},
  {a:"B1",w:"Cadet joins",d:"Earn Cadet Airman; parents' orientation",o:"CP",c:"60 days",r:"60-1 §3.1.2"},
  {a:"B1",w:"Orientation flight",d:"Record the flight in eServices",o:"CP",c:"10 days",r:"60-1 §8.3.1.4"},
- {a:"B1",w:"HAA held",d:"Keep the CAPF 60-82",o:"CP",c:"2 years",r:"60-2 §2.7.4.2"},
+ {a:"B1",w:"HAA held",q:"Q13",d:"Keep the CAPF 60-82",o:"CP",c:"2 years",r:"60-2 §2.7.4.2"},
  {a:"D1",w:"Adult joins",d:"Complete Level I (should)",o:"ET",cT:"30 days",r:"40-1 §6.1"},
  {a:"D1",w:"Test officer change",d:"Inventory test materials; change locks",o:"ET",c:"At change",r:"40-2 ¶6.7.3"},
  {a:"D3",w:"Funds received",d:"Deposit; slip reaches wing in 7 days",o:"FM",c:"On receipt",r:"173-1 ¶17, ¶11.r"},
@@ -199,21 +204,22 @@ const CLOCKS=[
  {a:"D3",w:"Wing card purchase",d:"Send invoice and receipt to wing admin and DF",o:"Cardholder",c:"7 days",r:"VTWG Sup 1 to 173-1 ¶20g.2"},
  {a:"D3",w:"Receipt lost",d:"Send letter of explanation",o:"Cardholder",c:"48 hrs",r:"VTWG Sup 1 to 173-1 ¶20g.4"},
  {a:"D3",w:"Official travel",d:"VTWG Form 173-1a (and 173-1b) to wing",o:"Member",c:"7 days after",r:"VTWG Sup 1 to 173-1 ¶24c"},
- {a:"D3",w:"New commander",d:"Appoint FM and committee; new CAPF 172",o:"CC",c:"30 days",r:"173-1 ¶6.g, ¶9.c"},
+ {a:"D3",w:"New commander",q:"Q05b",d:"Appoint FM and committee; new CAPF 172",o:"CC",c:"30 days",r:"173-1 ¶6.g, ¶9.c"},
  {a:"D4",w:"IT incident",d:"Report to unit ITO and NHQ",o:"Member",c:"Immediately",r:"120-1 §13.1, §13.3"},
- {a:"D4",w:"Parent reg changes",d:"Revise unit supplement or OI, if any",o:"CC",c:"6 months",r:"1-2 ¶8.3.2.2"},
- {a:"D4",w:"Supplement anniversary",d:"Certify unit supplement or OI, if any",o:"DA",c:"Anniversary month",r:"1-2 ¶8.3.4"},
+ {a:"D4",w:"Parent reg changes",q:"Q01d",d:"Revise unit supplement or OI, if any",o:"CC",c:"6 months",r:"1-2 ¶8.3.2.2"},
+ {a:"D4",w:"Supplement anniversary",q:"Q01b",d:"Certify unit supplement or OI, if any",o:"DA",c:"Anniversary month",r:"1-2 ¶8.3.4"},
  {a:"D5",w:"Adult joins",d:"Complete CPP Basic course",o:"Member",c:"60 days",r:"60-2 §3.2.3"},
- {a:"D5",w:"Staff appointed",d:"Update eServices; enroll specialty track",o:"CC/DP",c:"At appointment",r:"35-1 ¶1-2, ¶1-3"},
+ {a:"D5",w:"Staff appointed",q:"Q01",d:"Update eServices; enroll specialty track",o:"CC/DP",c:"At appointment",r:"35-1 ¶1-2, ¶1-3"},
  {a:"D5",w:"Lifesaving act",d:"Submit decoration nomination",o:"CC",c:"2 years",r:"39-3 ¶5"},
  {a:"D5",w:"Termination",d:"Send written notice to member",o:"CC",c:"10 days",r:"35-3 ¶6b"},
- {a:"D5",w:"Member leaves",d:"Keep inactive member record",o:"DP",c:"5 years",r:"39-2 ¶1.8"},
+ {a:"D5",w:"Member leaves",q:"Q03",d:"Keep inactive member record",o:"DP",c:"5 years",r:"39-2 ¶1.8"},
  {a:"D7",w:"Property issued",d:"Member accepts it in ORMS",o:"Member",c:"7 days",r:"174-1 ¶2-15.b"},
  {a:"D7",w:"Property lost",d:"Report loss or damage",o:"Member",c:"7 days",r:"174-1 ¶2-25"},
  {a:"D7",w:"New CC or LG",d:"Changeover inventory",o:"CC/LG",c:"On change",r:"174-1 ¶2-17"},
- {a:"D8",w:"Vehicle used",d:"CAPF 132 before first use each day",o:"Driver",c:"Before use",r:"132-1 ¶8.3"},
+ {a:"D8",w:"Vehicle used",q:"Q02",d:"CAPF 132 before first use each day",o:"Driver",c:"Before use",r:"132-1 ¶8.3"},
  {a:"D8",w:"Vehicle mishap",d:"Notify wing/region LG, LGT and CAP/GC",o:"CC",c:"48 hrs",r:"132-1 §10.4"},
  {a:"D8",w:"Tires reach 6 years",d:"Replace tires",o:"LG",c:"6 years",r:"132-1 ¶13.2.2"},
+ {a:"E1",q:"Q07",w:"SUI date set",d:"Upload worksheets and documents to the Documents app",o:"CC",c:"10 days before onsite",r:"National SUI page; SUI E1 Q07"},
  {a:"E1",w:"SUI visit",d:"Finish the remaining SUI items",o:"CC",c:"30 days",r:"20-3 §10.1"},
  {a:"E1",w:"SUI discrepancy",d:"First DTS reply, then update, then close",o:"CC",c:"Day 30 · 30 · 90",r:"20-3 Table 10.1"},
  {a:"E1",w:"Self-SUI done",d:"Send to wing IG and Wing CC; load to DTS",o:"CC",c:"14 days",r:"20-3 §11.3"},
@@ -237,6 +243,7 @@ const owns=(o,f)=>f==="all"||o.split("/").includes(f);
 const ENTRY={};
 const today=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");};
 const mdy=iso=>iso.length===10?iso.slice(5,7)+"/"+iso.slice(8,10)+"/"+iso.slice(2,4):iso;
+const code=x=>x.a==="OPS"?"Ops":x.a+(x.q?"-"+x.q:"");
 const MABBR={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
 const wkOf=d=>d<=7?1:d<=14?2:d<=21?3:4;
 function sortKey(t,m,w){
@@ -277,7 +284,7 @@ function recLine(m){
 
 function monthSection(mo,f,first,single){
   const [m,name,q]=mo; let n=0, prev=null;
-  const body=rowsFor(m,f).map(r=>{const g=Math.floor(r.k/100);const cut=prev!==null&&g!==prev;prev=g;return '<tr id="row-'+m+'-'+r.key+'"'+(cut?' class="wkcut"':'')+'><td class="num">'+(++n)+'</td><td>'+esc(r.t.t.replace("{ROT}",ROTATION[m]))+'</td><td>'+esc(r.t.a==="OPS"?"Ops":r.t.a)+'</td><td class="due">'+due(r,m)+'</td><td>'+esc(r.t.o)+'</td><td>'+idCell(r,m)+'</td></tr>';}).join("");
+  const body=rowsFor(m,f).map(r=>{const g=Math.floor(r.k/100);const cut=prev!==null&&g!==prev;prev=g;return '<tr id="row-'+m+'-'+r.key+'"'+(cut?' class="wkcut"':'')+'><td class="num">'+(++n)+'</td><td>'+esc(r.t.t.replace("{ROT}",ROTATION[m]))+'</td><td>'+esc(code(r.t))+'</td><td class="due">'+due(r,m)+'</td><td>'+esc(r.t.o)+'</td><td>'+idCell(r,m)+'</td></tr>';}).join("");
   return '<section class="month'+(first?' first':'')+'"><div class="mhead'+(single?' printonly':'')+'"><h2>'+name+' · '+q+'</h2></div>'+
    (body?'<div class="tblbox"><table><colgroup><col class="c-n"><col><col class="c-a"><col class="c-d"><col class="c-o"><col class="c-id"></colgroup><thead><tr><th>#</th><th>Task</th><th>SUI</th><th>Due</th><th>OPR</th><th>CAPID</th></tr></thead><tbody>'+body+'</tbody></table></div>':'<p class="note">No tasks for this officer this month.</p>')+
    '<p class="note">Entering your CAPID certifies you completed that task. Table 4.2 minimums each month: Leadership 90 · Aerospace 90 · Fitness 45 · Character 45 min.'+(m==="nov"||m==="dec"?' No in-person event is required in '+name+'.':'')+'</p>'+
@@ -285,7 +292,7 @@ function monthSection(mo,f,first,single){
 }
 function anySection(f,first){
   const rows=[]; AREAS.forEach(([k])=>CLOCKS.filter(c=>c.a===k&&(f==="all"||c.o.split("/").includes(f)||["Adult","Member","Driver"].includes(c.o))).forEach(c=>rows.push(c)));
-  const body=rows.map(c=>'<tr><td>'+esc(c.w)+'</td><td>'+esc(c.d)+'</td><td>'+esc(c.a)+'</td><td>'+esc(c.o)+'</td><td>'+(c.c?'<span class="red">'+esc(c.c)+'</span>':esc(c.cT))+'</td></tr>').join("");
+  const body=rows.map(c=>'<tr><td>'+esc(c.w)+'</td><td>'+esc(c.d)+'</td><td>'+esc(code(c))+'</td><td>'+esc(c.o)+'</td><td>'+(c.c?'<span class="red">'+esc(c.c)+'</span>':esc(c.cT))+'</td></tr>').join("");
   return '<section class="month'+(first?' first':'')+'"><div class="mhead"><h2>Any month: event deadlines</h2></div><div class="tblbox"><table><colgroup><col class="c-trig"><col><col class="c-a"><col class="c-o"><col class="c-d"></colgroup><thead><tr><th>When this happens</th><th>Do this</th><th>SUI</th><th>OPR</th><th>Clock</th></tr></thead><tbody>'+body+'</tbody></table></div></section>';
 }
 function refSection(first){
@@ -297,6 +304,7 @@ function refSection(first){
   return '<section class="month'+(first?' first':'')+'"><div class="mhead"><h2>Sources and process</h2></div>'+
   '<h3>How a task is shown done</h3><p class="note">The member enters their CAPID on each task they finish; the box fills and the date stamps. They select Save PDF and save the file to the unit file share. Proof of the work is the eServices record where eServices holds it; anything else, one PDF or photo in SUI Evidence › (SUI area) › FY27. The CC loads the saved sheets with Load completed sheets and validates against eServices reports.</p>'+
   '<h3>SUI cycle</h3><div class="grid3"><div><span class="lab">Unit</span>NER-VT014 chartered Jan 27, 2026 (NER-VT006 de-chartered Jan 2026).</div><div><span class="lab">Self-SUI</span>Due <span class="red">Jan 27, 2027</span> (12-month midpoint; 20-3 allows 30 days after). To wing IG and Wing CC, and into DTS, within <span class="red">14 days</span>.</div><div><span class="lab">SUI</span>Due <span class="red">Jan 27, 2028</span>. Never past 27 months (Apr 27, 2028).</div></div>'+
+  '<h3>SUI column</h3><p class="note">Area and worksheet question from the national SUI worksheets dated 1 Nov 2026 (for example D7-Q01). An area with no question number means the SUI does not inspect that task; it comes from a regulation or unit standard.</p>'+
   '<h3>References by task (CAPR unless noted)</h3><div class="tblbox"><table class="refs"><colgroup><col><col style="width:240px"></colgroup><tbody>'+refs+'</tbody></table></div>'+
   '<h3>National publications cited</h3><ul class="src">'+PUBS.map(p=>'<li>CAPR '+esc(p[0])+' '+esc(p[1])+' · '+esc(p[2])+'</li>').join("")+'</ul>'+
   '<h3>Supplements that apply</h3><ul class="src">'+SUPPS.map(p=>'<li>'+esc(p[0])+' '+esc(p[1])+' · '+esc(p[2])+'</li>').join("")+'</ul>'+
