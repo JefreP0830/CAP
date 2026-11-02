@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.9.6 - 2026-11-02
+- Due and OPR columns set at 9pt.
+
 ## 0.9.5 - 2026-11-02
 - Added monthly "Update personnel files" (D5-Q02).
 - Merged: applications with prospective cadets; uniform with office

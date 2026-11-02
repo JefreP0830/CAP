@@ -44,6 +44,7 @@ tr.grp td{color:var(--head);font-size:13.33px;background:var(--tint);padding:4px
 .c-n{width:30px}.c-a{width:70px}.c-o{width:64px}.c-d{width:130px}.c-id{width:96px}
 td.num{color:var(--head);font-variant-numeric:tabular-nums}
 tr.wkcut td{border-top:2px solid var(--ink)}
+td.due,td.opr{font-size:12px;padding-top:7px}
 td.sui{font-size:12px;padding-top:7px;padding-left:12px;color:var(--ink)}
 .printonly{display:none}
 .alabel{font-size:12px;color:var(--head);margin:14px 0 6px;letter-spacing:.03em}
@@ -76,7 +77,7 @@ h3{font-weight:400;font-size:14.67px;color:var(--head);margin:18px 0 6px;letter-
   .pick,.notice{display:none}
   .cap::placeholder{color:transparent}
   .c-n{width:22px}.c-a{width:58px}.c-o{width:44px}.c-d{width:96px}.c-id{width:78px}
-  td{font-size:13.33px;padding:4px 5px}td.sui{font-size:11px;white-space:nowrap;padding-left:8px}td.due{white-space:nowrap}
+  td{font-size:13.33px;padding:4px 5px}td.sui{font-size:11px;white-space:nowrap;padding-left:8px}td.due{white-space:nowrap;font-size:12px}td.opr{font-size:12px}
   .kpi .val{font-size:20px}.kpi{padding:8px 10px}
   .cap{max-width:none}
   .kpi .val{font-size:24px}
@@ -292,7 +293,7 @@ function recLine(m){
 
 function monthSection(mo,f,first,single){
   const [m,name,q]=mo; let n=0, prev=null;
-  const body=rowsFor(m,f).map(r=>{const g=Math.floor(r.k/100);const cut=prev!==null&&g!==prev;prev=g;return '<tr id="row-'+m+'-'+r.key+'"'+(cut?' class="wkcut"':'')+'><td class="num">'+(++n)+'</td><td>'+esc(r.t.t.replace("{ROT}",ROTATION[m]))+'</td><td class="due">'+due(r,m)+'</td><td>'+esc(r.t.o)+'</td><td>'+idCell(r,m)+'</td><td class="sui">'+esc(code(r.t))+'</td></tr>';}).join("");
+  const body=rowsFor(m,f).map(r=>{const g=Math.floor(r.k/100);const cut=prev!==null&&g!==prev;prev=g;return '<tr id="row-'+m+'-'+r.key+'"'+(cut?' class="wkcut"':'')+'><td class="num">'+(++n)+'</td><td>'+esc(r.t.t.replace("{ROT}",ROTATION[m]))+'</td><td class="due">'+due(r,m)+'</td><td class="opr">'+esc(r.t.o)+'</td><td>'+idCell(r,m)+'</td><td class="sui">'+esc(code(r.t))+'</td></tr>';}).join("");
   return '<section class="month'+(first?' first':'')+'"><div class="mhead'+(single?' printonly':'')+'"><h2>'+name+' · '+q+'</h2></div>'+
    (body?'<div class="tblbox"><table><colgroup><col class="c-n"><col><col class="c-d"><col class="c-o"><col class="c-id"><col class="c-a"></colgroup><thead><tr><th>#</th><th>Task</th><th>Due</th><th>OPR</th><th>CAPID</th><th>SUI</th></tr></thead><tbody>'+body+'</tbody></table></div>':'<p class="note">No tasks for this officer this month.</p>')+
    '<p class="rec" id="rec-'+m+'">'+recLine(m)+'</p></section>';
