@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.1 - 2026-11-02
+- Removed SUI-cycle prompts (self-SUI, DTS updates, SUI visit and upload
+  deadlines). The checklist covers regular operations; the IG prompts the
+  SUI cycle. The Next SUI tile and Sources keep the dates for reference.
+
 ## 0.8.0 - 2026-11-02
 - SUI column shows area and worksheet question (1 Nov 2026 worksheets),
   e.g. D7-Q01; area only when the SUI does not inspect the task.
