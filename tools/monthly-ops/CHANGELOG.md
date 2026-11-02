@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.2 - 2026-11-02
+- Week blocks hold only weekly sign-offs and hard-dated items; all other
+  monthly checks are listed together after Week 4.
+- Weekly vehicle row renamed "Conduct vehicle safety inspection (CAPF 132)".
+
 ## 0.9.1 - 2026-11-02
 - Unit Safety tile: the month's safety-tagged tasks (facility, vehicle,
   personal, computer, equipment).
