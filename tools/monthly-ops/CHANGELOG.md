@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.9.3 - 2026-11-02
+- CPP/ratio row shows the ratios again (1:15 day, 1:12 overnight, 2+ adults).
+
 ## 0.9.2 - 2026-11-02
 - Week blocks hold only weekly sign-offs and hard-dated items; all other
   monthly checks are listed together after Week 4.
