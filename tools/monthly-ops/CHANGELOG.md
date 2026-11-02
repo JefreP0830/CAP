@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.9.8 - 2026-11-02
+- Due, OPR, CAPID and SUI columns centered and evenly sized; SUI no longer clips in print.
+
 ## 0.9.7 - 2026-11-02
 - Tile text trimmed.
 
