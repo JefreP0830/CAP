@@ -39,6 +39,8 @@ th{font-weight:400;font-size:12px;color:var(--head);text-align:left;padding:3px 
 td{padding:4px 6px;border-bottom:1px solid var(--rule);vertical-align:top}
 tr.ph td{background:var(--tint);color:var(--head);font-size:13.33px;letter-spacing:.03em;border-top:2px solid var(--ink);padding:3px 6px}
 tr.ph td.hl{text-align:center;font-size:12px}
+.pt{font-weight:700;color:#000;font-size:17px;letter-spacing:.01em}
+tr.ph td.pt{padding:5px 6px}
 tr.done td{border-bottom:2px solid var(--ink)}
 td.num{color:var(--head);font-variant-numeric:tabular-nums;font-size:13.33px}
 .ch{display:flex;gap:6px;align-items:baseline}
@@ -67,6 +69,7 @@ td.sg{text-align:center}
   tr{break-inside:avoid}
   td{padding:1px 4px;font-size:12px}
   td.num,tr.ph td{font-size:11px}
+  tr.ph td.pt,tr.ph .pt{font-size:14px;padding:3px 4px}
   tr.ph td{padding:1px 4px}
   body{font-size:12px}
   input.f{font-size:11px;padding:0 4px;height:15px}
@@ -159,12 +162,12 @@ let front="",back="";
 PHASES.forEach(p=>{
   const rows=ITEMS.filter(i=>i.id[0]===p.k);
   const title=p.name.charAt(0)+p.name.slice(1).toLowerCase()+' ('+p.k+')';
-  front+='<tr class="ph"><td colspan="2">'+esc(title)+'</td><td class="hl">SUI</td><td class="hl">CAPID</td></tr>';
-  back+='<tr class="ph"><td colspan="2">'+esc(title)+' · How to</td><td>Why</td></tr>';
+  front+='<tr class="ph"><td colspan="2" class="pt">'+esc(title)+'</td><td class="hl">SUI</td><td class="hl">CAPID</td></tr>';
+  back+='<tr class="ph"><td colspan="2"><span class="pt">'+esc(title)+'</span> · How to</td><td>Why</td></tr>';
   rows.forEach(i=>{
     let resp=esc(i.r);
     if(i.count) resp=resp.replace("___ ADULTS · ___ CADETS",'<input class="f n" inputmode="numeric" maxlength="3" aria-label="Adults present"> ADULTS · <input class="f n" inputmode="numeric" maxlength="3" aria-label="Cadets present"> CADETS');
-    front+='<tr><td class="num">'+i.id+'</td><td><div class="ch"><span class="c">'+esc(i.c)+'</span><span class="lead" aria-hidden="true"></span><span class="r'+(i.reg?' red':'')+'">'+resp+'</span></div></td><td class="sui">'+esc(i.sui||"")+'</td><td class="sg">'+cap(i.id,(i.adult?"Adult CAPID for ":"CAPID for ")+i.id)+(i.adult?'<span class="adult">adult</span>':'')+'</td></tr>';
+    front+='<tr><td class="num">'+i.id+'</td><td><div class="ch"><span class="c">'+esc(i.c)+'</span><span class="lead" aria-hidden="true"></span><span class="r'+(i.reg?' red':'')+'">'+resp+'</span></div></td><td class="sui">'+esc(i.sui||"")+'</td><td class="sg">'+cap(i.id,(i.adult?"Adult CAPID for ":"CAPID for ")+i.id)+'</td></tr>';
     back+='<tr><td class="num">'+i.id+'</td><td>'+esc(i.how)+'</td><td class="why">'+esc(i.why)+' <span class="ref">'+esc(i.ref)+'</span></td></tr>';
   });
 });
