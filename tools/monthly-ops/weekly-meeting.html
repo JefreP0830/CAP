@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Weekly Meeting Checklist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap">
+<style>
+/* Tokens copied from shared/brand/cap-brand.css (CAP Brand Portal / CAPR 900-2). */
+/* Layout: two letter pages. Front = run card (challenge / response / SUI / sign-off). Back = how to and why, same numbers. */
+:root{
+  --paper:#FFFFFF; --ink:#4D4D4D; --head:#63666A; --rule:#9EA2A2; --tint:#F1F2F2; --field:#E9EAEA;
+  --blue:#001489; --red:#BA0C2F;
+  --f-title:"Rajdhani", Arial, sans-serif; --f-body:Arial, Helvetica, sans-serif;
+  color-scheme:light;
+}
+html,body{margin:0;background:var(--paper);color:var(--ink)}
+body{font-family:var(--f-body);font-size:14.67px;line-height:1.2}
+.wrap{max-width:900px;margin:0 auto;padding-block:24px 48px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.titlerow{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 24px}
+h1{font-family:var(--f-title);font-weight:700;font-size:30px;line-height:1.05;color:var(--blue);margin:0}
+.side{font-family:var(--f-title);font-weight:700;font-size:20px;color:var(--blue);letter-spacing:.03em}
+.sub{margin:4px 0 0;font-size:14.67px;color:var(--ink);display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center}
+.sub .sep{color:var(--rule)}
+.field{display:inline-block;min-width:110px;height:20px;background:var(--field);border-radius:2px;vertical-align:middle}
+input.f{font:inherit;font-size:14.67px;color:var(--ink);background:var(--field);border:0;border-radius:2px;padding:2px 6px;width:100%;max-width:90px;box-sizing:border-box;font-variant-numeric:tabular-nums}
+input.f.n{max-width:44px;text-align:center}
+input.f:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+input.f::placeholder{color:#8A8D8F}
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0 0}
+.btn{font:inherit;font-size:13.33px;color:var(--blue);background:var(--paper);border:1px solid var(--blue);border-radius:3px;padding:7px 12px;min-height:36px;cursor:pointer}
+.btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.hint{font-size:13.33px;color:var(--ink)}
+.page{margin-top:20px}
+.pagelab{font-size:12px;color:var(--head);letter-spacing:.03em;margin:0 0 4px}
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+th{font-weight:400;font-size:12px;color:var(--head);text-align:left;padding:3px 6px;border-bottom:1px solid var(--head);letter-spacing:.03em}
+td{padding:4px 6px;border-bottom:1px solid var(--rule);vertical-align:top}
+tr.ph td{background:var(--tint);color:var(--head);font-size:13.33px;letter-spacing:.03em;border-top:2px solid var(--ink);padding:3px 6px}
+tr.ph td .t{float:right}
+tr.done td{border-bottom:2px solid var(--ink)}
+td.num{color:var(--head);font-variant-numeric:tabular-nums;font-size:13.33px}
+.ch{display:flex;gap:6px;align-items:baseline}
+.ch .c{flex:0 1 auto}
+.ch .lead{flex:1 1 auto;border-bottom:1.5px dotted var(--rule);min-width:16px;transform:translateY(-3px)}
+.ch .r{flex:0 1 auto;text-align:right;color:#000;letter-spacing:.02em}
+.ch .r.red{color:var(--red)}
+td.sui{font-size:12px;text-align:center;padding-top:6px;color:var(--ink)}
+td.sg{text-align:center}
+.adult{font-size:11px;color:var(--head);display:block;margin-top:1px}
+.c-n{width:34px}.c-s{width:70px}.c-g{width:100px}
+/* back */
+.back td{font-size:13.33px;line-height:1.25}
+.back td.why{color:var(--ink)}
+.back .ref{color:var(--head);font-size:12px}
+.c-h{width:47%}
+.key{font-size:12px;color:var(--head);margin:8px 0 0}
+@media (max-width:640px){table{min-width:600px}.tb{overflow-x:auto}}
+@media print{
+  @page{size:letter;margin:0.4in}
+  .tools,.hint{display:none}
+  .wrap{max-width:none;padding:0 0.2in}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .page{margin-top:10px}
+  .page.back{break-before:page}
+  tr{break-inside:avoid}
+  td{padding:1px 4px;font-size:12px}
+  td.num,tr.ph td{font-size:11px}
+  tr.ph td{padding:1px 4px}
+  body{font-size:12px}
+  input.f{font-size:11px;padding:0 4px;height:15px}
+  .adult{display:inline;margin-left:3px;font-size:9px}
+  td.sui{font-size:10px;padding-top:2px}
+  .front td{font-size:13px;padding:3px 4px}.front td.sui{font-size:10.5px;padding-top:4px}.front td.num{font-size:11.5px}
+  .back td{font-size:10.5px;line-height:1.15;padding:2px 4px}
+  .back .ref{font-size:9.5px}
+  .key{font-size:10px;margin-top:4px}
+  h1{font-size:24px}.side{font-size:16px}
+  .pagelab{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="titlerow"><h1>WEEKLY MEETING CHECKLIST</h1><span class="side">NER-VT014 · FY2027</span></div>
+    <div class="sub">
+      <span>Date <input class="f" id="mdate" type="text" placeholder="MM/DD/YY" aria-label="Meeting date" style="max-width:96px"></span>
+      <span class="sep">|</span>
+      <span>Read by (CAPID) <input class="f" id="reader" type="text" inputmode="numeric" maxlength="6" placeholder="CAPID" aria-label="Checklist reader CAPID"></span>
+    </div>
+    <div class="tools">
+      <button type="button" class="btn" id="saveBtn">Save PDF</button>
+      <span class="hint">Front: run the checklist. Back: how to do each item and why. Print double-sided, flip on long edge.</span>
+    </div>
+  </header>
+
+  <section class="page front" aria-label="Front: checklist">
+    <p class="pagelab">FRONT · CHECKLIST</p>
+    <div class="tb"><table>
+      <colgroup><col class="c-n"><col><col class="c-s"><col class="c-g"></colgroup>
+      <thead><tr><th>#</th><th>Challenge ........ Response</th><th style="text-align:center">SUI</th><th style="text-align:center">CAPID</th></tr></thead>
+      <tbody id="frontBody"></tbody>
+    </table></div>
+    <p class="key">Red response = set by regulation. CAPID: sign each phase; adult-only rows need an adult's CAPID.</p>
+  </section>
+
+  <section class="page back" aria-label="Back: how to and why">
+    <p class="pagelab">BACK · HOW TO AND WHY</p>
+    <div class="tb"><table>
+      <colgroup><col class="c-n"><col class="c-h"><col></colgroup>
+      <thead><tr><th>#</th><th>How to</th><th>Why</th></tr></thead>
+      <tbody id="backBody"></tbody>
+    </table></div>
+  </section>
+</div>
+
+<script>
+(function(){
+// ================= DATA (edit here) =================
+// id = phase letter + number. c = challenge, r = expected response, reg = response set by regulation (red),
+// adult = adult must verify, sui = SUI worksheet code, how / why = back side, ref = source.
+const PHASES=[
+ {k:"B",name:"BEFORE MEETING",time:"1815"},
+ {k:"O",name:"OPENING",time:"1830"},
+ {k:"D",name:"DURING",time:"1850"},
+ {k:"C",name:"CLOSING",time:"2030"},
+ {k:"A",name:"AFTER MEETING",time:"By next meeting"}];
+
+const ITEMS=[
+ {id:"B1",c:"Building",r:"UNLOCKED · LIGHTS ON · EXITS CLEAR",how:"Arrive 15 minutes early. Unlock, turn on lights, walk every exit path and remove anything in the way.",why:"Members arrive to a safe building, and nobody waits outside in the dark.",ref:"Unit standard"},
+ {id:"B2",c:"Fire extinguishers, first aid kit",r:"IN PLACE · CHARGED · STOCKED",how:"Check the extinguisher gauge is in the green and the pin is in. Open the first aid kit and restock anything used.",why:"In an emergency there is no time to look for gear that is missing or empty.",ref:"Unit standard"},
+ {id:"B3",c:"Restrooms, water",r:"STOCKED",how:"Check soap, paper and water. Note anything low for the supply officer.",why:"Basic hygiene keeps members healthy and the facility in good standing with our host.",ref:"Unit standard"},
+ {id:"B4",c:"Classrooms, training aids",r:"SET FOR BLOCKS 1 AND 2",how:"Set rooms, screens and materials to match tonight's posted schedule.",why:"Instructors start on time, and the class matches what was published.",ref:"Unit standard"},
+ {id:"B5",c:"Sign-in station",r:"OPEN · VISITORS LOGGED",how:"Put out the sign-in sheet. Visitors and prospective cadets write the date of each visit.",why:"A prospective cadet may visit for up to 30 days before joining. The log shows when that clock started.",ref:"CAPR 39-2 §2.2.8",sui:"D5"},
+ {id:"B6",c:"Tonight's schedule",r:"POSTED",reg:true,how:"Confirm tonight's schedule was published about a week ago and is posted where members can see it.",why:"CAPR 60-1 requires weekly schedules published about a week ahead and kept 2 years; inspectors review 3 months of them.",ref:"CAPR 60-1 §4.3.2.4",sui:"B1-Q07a"},
+
+ {id:"O1",c:"Head count",r:"___ ADULTS · ___ CADETS",count:true,how:"Count adults and cadets present at formation and write both numbers in the blanks.",why:"The ratio check below depends on a real count, not an estimate.",ref:"Unit standard"},
+ {id:"O2",c:"Supervision ratio",r:"1 ADULT PER ≤15 CADETS · 2+ ADULTS",reg:true,adult:true,how:"Divide cadets by 15 and round up: that is the adults needed, never fewer than 2. If short, call another adult or change the plan.",why:"Cadet Protection requires enough screened, trained adults that no cadet is ever with fewer than two of them.",ref:"CAPR 60-2 §2.6.5, Table 2.1",sui:"B1"},
+ {id:"O3",c:"Present adults' CPP training",r:"ALL CURRENT (12 MONTHS)",reg:true,adult:true,how:"Check the eServices CPP non-compliance report before the meeting. Any adult not current does not supervise cadets tonight.",why:"Adult CPP training must be refreshed every 12 months; lapsed training bars an adult from cadet activities.",ref:"CAPR 60-2 §3.2",sui:"E1-Q10"},
+ {id:"O4",c:"Opening formation, announcements",r:"COMPLETE",how:"Cadet leaders form the squadron and give announcements on time.",why:"Formation sets the standard for the night and practices drill and command presence.",ref:"Unit standard"},
+ {id:"O5",c:"Safety brief",r:"GIVEN · TOPIC: ________",how:"Give a 5-minute brief on a real hazard for tonight's activities. Write the topic in the blank.",why:"Short, frequent briefs build the habit. A brief can count as the month's safety education if it is logged (A5).",ref:"CAPR 160-1 §5.2.1.1",sui:"E2-Q08"},
+
+ {id:"D1",c:"Block 1",r:"TAUGHT AS SCHEDULED",how:"Teach the topic on the posted schedule. If it changes, note what was taught instead.",why:"The schedule is the record of what cadets received; it should match what happened.",ref:"CAPR 60-1 §4.3.2.4",sui:"B1-Q07a"},
+ {id:"D2",c:"Block 2",r:"TAUGHT AS SCHEDULED",how:"Same as Block 1.",why:"Same as Block 1.",ref:"CAPR 60-1 §4.3.2.4",sui:"B1-Q07a"},
+ {id:"D3",c:"Minutes by program area",r:"RECORDED",reg:true,how:"Write the minutes spent tonight on leadership, aerospace, fitness and character on the schedule copy.",why:"Each month needs at least 90 min leadership, 90 AE, 45 fitness and 45 character. Tracking weekly avoids a shortfall at month end.",ref:"CAPR 60-1 §4.3.2.2, Table 4.2",sui:"B1-Q07b"},
+ {id:"D4",c:"Injuries or close calls",r:"NONE · OR REPORTED",reg:true,how:"If anyone is hurt or nearly hurt, tell the commander that night. The commander enters it in CAPSIS within 48 hours.",why:"Reporting close calls lets us fix the hazard before someone is hurt.",ref:"CAPR 160-2 §6.3, §6.6",sui:"E2"},
+
+ {id:"C1",c:"Flight AARs",r:"COMPLETE",how:"Each flight leader runs a 10-minute after-action review: what went well, what to improve.",why:"Cadets learn to lead by reviewing their own performance while it is fresh.",ref:"Unit standard"},
+ {id:"C2",c:"Promotions",r:"PRESENTED (IF ANY)",how:"Present earned promotions in front of the squadron with the promotion script.",why:"Public recognition rewards progress and motivates the next cadet.",ref:"Unit standard"},
+ {id:"C3",c:"Closing formation",r:"COMPLETE",how:"Form up, give final announcements and dismiss.",why:"A clean close keeps the night on time and orderly.",ref:"Unit standard"},
+ {id:"C4",c:"Cadet departure",r:"ALL RELEASED · 2 ADULTS STAY TO LAST",adult:true,how:"Release each cadet to a parent, guardian or approved ride. Two adults stay until the last cadet is picked up.",why:"No cadet waits alone, and no adult is left alone with a cadet.",ref:"Unit standard (CPP practice)",sui:"B1"},
+ {id:"C5",c:"Facility",r:"SECURED · LIGHTS OFF · LOCKED · TRASH OUT",how:"Walk every room, take the trash out, turn off lights and lock all doors.",why:"We leave the building better than we found it and keep our host's trust.",ref:"Unit standard"},
+ {id:"C6",c:"Command hotwash",r:"COMPLETE · NOTES SAVED",how:"CC, DCC, C/CC, C/DC and C/1st Sgt review the night for 5 minutes. Save the notes.",why:"Fixing small problems weekly keeps the plan a month ahead.",ref:"Unit standard"},
+
+ {id:"A1",c:"Attendance roster",r:"UPLOADED",how:"Upload tonight's sign-in to the unit file share.",why:"Attendance drives absent-cadet follow-up and shows who received training.",ref:"Unit standard"},
+ {id:"A2",c:"Promotion Tracker",r:"UPDATED · POSTED",how:"Update the tracker from this week's eServices report and post it on the wall.",why:"Cadets see exactly what they need for their next promotion.",ref:"Unit standard"},
+ {id:"A3",c:"Earned promotions",r:"ENDORSED IN eSERVICES",reg:true,adult:true,how:"The commander approves each earned promotion in eServices.",why:"A promotion is official only when the commander endorses it in eServices.",ref:"CAPR 60-1 §5.2.1",sui:"B1"},
+ {id:"A4",c:"Next week's schedule",r:"PUBLISHED · FILED (KEEP 2 YEARS)",reg:true,how:"Publish next week's schedule now, about a week ahead, and save a copy to the file share.",why:"Members can plan ahead, and the saved copies are the record inspectors review.",ref:"CAPR 60-1 §4.3.2.4",sui:"B1-Q07a"},
+ {id:"A5",c:"Safety brief",r:"LOGGED IN eSERVICES (IF USED)",reg:true,how:"If tonight's brief is the month's safety education, members log it in eServices.",why:"Inspectors check that safety education was logged every month for the past 12 months.",ref:"CAPR 160-1 §5.2.1.1",sui:"E2-Q08"}
+];
+
+// ================= RENDER =================
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const cap=(id,lab)=>'<input class="f" type="text" inputmode="numeric" maxlength="6" placeholder="CAPID" aria-label="'+esc(lab)+'">';
+let front="",back="";
+PHASES.forEach(p=>{
+  const rows=ITEMS.filter(i=>i.id[0]===p.k);
+  front+='<tr class="ph"><td colspan="4">'+p.k+' · '+p.name+'<span class="t">'+esc(p.time)+'</span></td></tr>';
+  back+='<tr class="ph"><td colspan="3">'+p.k+' · '+p.name+'</td></tr>';
+  rows.forEach(i=>{
+    let resp=esc(i.r);
+    if(i.count) resp=resp.replace("___ ADULTS · ___ CADETS",'<input class="f n" inputmode="numeric" maxlength="3" aria-label="Adults present"> ADULTS · <input class="f n" inputmode="numeric" maxlength="3" aria-label="Cadets present"> CADETS');
+    front+='<tr><td class="num">'+i.id+'</td><td><div class="ch"><span class="c">'+esc(i.c)+'</span><span class="lead" aria-hidden="true"></span><span class="r'+(i.reg?' red':'')+'">'+resp+'</span></div></td><td class="sui">'+esc(i.sui||"")+'</td><td class="sg">'+(i.adult?cap(i.id,"Adult CAPID for "+i.id)+'<span class="adult">adult</span>':'')+'</td></tr>';
+    back+='<tr><td class="num">'+i.id+'</td><td>'+esc(i.how)+'</td><td class="why">'+esc(i.why)+' <span class="ref">'+esc(i.ref)+'</span></td></tr>';
+  });
+  front+='<tr class="done"><td></td><td><div class="ch"><span class="c">'+p.k+' phase</span><span class="lead" aria-hidden="true"></span><span class="r">COMPLETE</span></div></td><td></td><td class="sg">'+cap(p.k,p.name+" phase complete CAPID")+'</td></tr>';
+});
+document.getElementById("frontBody").innerHTML=front;
+document.getElementById("backBody").innerHTML=back;
+document.getElementById("saveBtn").addEventListener("click",()=>window.print());
+})();
+</script>
+</body>
+</html>

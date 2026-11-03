@@ -1,5 +1,8 @@
 # Changelog
 
+## Weekly Meeting Checklist draft - 2026-11-03
+- New page weekly-meeting.html: pilot-style challenge/response run card (front) and how-to/why (back), phases B/O/D/C/A. Draft for review; the master checklist is unchanged and does not link to it yet.
+
 ## 0.9.11 - 2026-11-02
 - CPP/ratio row drops the overnight ratio (1:15, 2+ adults).
 
