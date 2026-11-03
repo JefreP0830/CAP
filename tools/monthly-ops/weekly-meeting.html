@@ -38,7 +38,7 @@ table{width:100%;border-collapse:collapse;table-layout:fixed}
 th{font-weight:400;font-size:12px;color:var(--head);text-align:left;padding:3px 6px;border-bottom:1px solid var(--head);letter-spacing:.03em}
 td{padding:4px 6px;border-bottom:1px solid var(--rule);vertical-align:top}
 tr.ph td{background:var(--tint);color:var(--head);font-size:13.33px;letter-spacing:.03em;border-top:2px solid var(--ink);padding:3px 6px}
-tr.ph td .t{float:right}
+tr.ph td.hl{text-align:center;font-size:12px}
 tr.done td{border-bottom:2px solid var(--ink)}
 td.num{color:var(--head);font-variant-numeric:tabular-nums;font-size:13.33px}
 .ch{display:flex;gap:6px;align-items:baseline}
@@ -85,32 +85,22 @@ td.sg{text-align:center}
 <div class="wrap">
   <header>
     <div class="titlerow"><h1>WEEKLY MEETING CHECKLIST</h1><span class="side">NER-VT014 · FY2027</span></div>
-    <div class="sub">
-      <span>Date <input class="f" id="mdate" type="text" placeholder="MM/DD/YY" aria-label="Meeting date" style="max-width:96px"></span>
-      <span class="sep">|</span>
-      <span>Read by (CAPID) <input class="f" id="reader" type="text" inputmode="numeric" maxlength="6" placeholder="CAPID" aria-label="Checklist reader CAPID"></span>
-    </div>
-    <div class="tools">
-      <button type="button" class="btn" id="saveBtn">Save PDF</button>
-      <span class="hint">Front: run the checklist. Back: how to do each item and why. Print double-sided, flip on long edge.</span>
+    <div class="titlerow" style="margin-top:6px">
+      <span class="sub">Date <input class="f" id="mdate" type="text" placeholder="MM/DD/YY" aria-label="Meeting date" style="max-width:96px"></span>
+      <button type="button" class="btn tools" id="saveBtn">Print PDF</button>
     </div>
   </header>
 
   <section class="page front" aria-label="Front: checklist">
-    <p class="pagelab">FRONT · CHECKLIST</p>
     <div class="tb"><table>
       <colgroup><col class="c-n"><col><col class="c-s"><col class="c-g"></colgroup>
-      <thead><tr><th>#</th><th>Challenge ........ Response</th><th style="text-align:center">SUI</th><th style="text-align:center">CAPID</th></tr></thead>
       <tbody id="frontBody"></tbody>
     </table></div>
-    <p class="key">Red response = set by regulation. CAPID: sign each phase; adult-only rows need an adult's CAPID.</p>
   </section>
 
   <section class="page back" aria-label="Back: how to and why">
-    <p class="pagelab">BACK · HOW TO AND WHY</p>
     <div class="tb"><table>
       <colgroup><col class="c-n"><col class="c-h"><col></colgroup>
-      <thead><tr><th>#</th><th>How to</th><th>Why</th></tr></thead>
       <tbody id="backBody"></tbody>
     </table></div>
   </section>
@@ -122,11 +112,11 @@ td.sg{text-align:center}
 // id = phase letter + number. c = challenge, r = expected response, reg = response set by regulation (red),
 // adult = adult must verify, sui = SUI worksheet code, how / why = back side, ref = source.
 const PHASES=[
- {k:"B",name:"BEFORE MEETING",time:"1815"},
- {k:"O",name:"OPENING",time:"1830"},
- {k:"D",name:"DURING",time:"1850"},
- {k:"C",name:"CLOSING",time:"2030"},
- {k:"A",name:"AFTER MEETING",time:"By next meeting"}];
+ {k:"B",name:"BEFORE MEETING"},
+ {k:"O",name:"OPENING"},
+ {k:"D",name:"DURING"},
+ {k:"C",name:"CLOSING"},
+ {k:"A",name:"AFTER MEETING"}];
 
 const ITEMS=[
  {id:"B1",c:"Building",r:"UNLOCKED · LIGHTS ON · EXITS CLEAR",how:"Arrive 15 minutes early. Unlock, turn on lights, walk every exit path and remove anything in the way.",why:"Members arrive to a safe building, and nobody waits outside in the dark.",ref:"Unit standard"},
@@ -163,19 +153,20 @@ const ITEMS=[
 
 // ================= RENDER =================
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const capOld=null;
 const cap=(id,lab)=>'<input class="f" type="text" inputmode="numeric" maxlength="6" placeholder="CAPID" aria-label="'+esc(lab)+'">';
 let front="",back="";
 PHASES.forEach(p=>{
   const rows=ITEMS.filter(i=>i.id[0]===p.k);
-  front+='<tr class="ph"><td colspan="4">'+p.k+' · '+p.name+'<span class="t">'+esc(p.time)+'</span></td></tr>';
-  back+='<tr class="ph"><td colspan="3">'+p.k+' · '+p.name+'</td></tr>';
+  const title=p.name.charAt(0)+p.name.slice(1).toLowerCase()+' ('+p.k+')';
+  front+='<tr class="ph"><td colspan="2">'+esc(title)+'</td><td class="hl">SUI</td><td class="hl">CAPID</td></tr>';
+  back+='<tr class="ph"><td colspan="2">'+esc(title)+' · How to</td><td>Why</td></tr>';
   rows.forEach(i=>{
     let resp=esc(i.r);
     if(i.count) resp=resp.replace("___ ADULTS · ___ CADETS",'<input class="f n" inputmode="numeric" maxlength="3" aria-label="Adults present"> ADULTS · <input class="f n" inputmode="numeric" maxlength="3" aria-label="Cadets present"> CADETS');
-    front+='<tr><td class="num">'+i.id+'</td><td><div class="ch"><span class="c">'+esc(i.c)+'</span><span class="lead" aria-hidden="true"></span><span class="r'+(i.reg?' red':'')+'">'+resp+'</span></div></td><td class="sui">'+esc(i.sui||"")+'</td><td class="sg">'+(i.adult?cap(i.id,"Adult CAPID for "+i.id)+'<span class="adult">adult</span>':'')+'</td></tr>';
+    front+='<tr><td class="num">'+i.id+'</td><td><div class="ch"><span class="c">'+esc(i.c)+'</span><span class="lead" aria-hidden="true"></span><span class="r'+(i.reg?' red':'')+'">'+resp+'</span></div></td><td class="sui">'+esc(i.sui||"")+'</td><td class="sg">'+cap(i.id,(i.adult?"Adult CAPID for ":"CAPID for ")+i.id)+(i.adult?'<span class="adult">adult</span>':'')+'</td></tr>';
     back+='<tr><td class="num">'+i.id+'</td><td>'+esc(i.how)+'</td><td class="why">'+esc(i.why)+' <span class="ref">'+esc(i.ref)+'</span></td></tr>';
   });
-  front+='<tr class="done"><td></td><td><div class="ch"><span class="c">'+p.k+' phase</span><span class="lead" aria-hidden="true"></span><span class="r">COMPLETE</span></div></td><td></td><td class="sg">'+cap(p.k,p.name+" phase complete CAPID")+'</td></tr>';
 });
 document.getElementById("frontBody").innerHTML=front;
 document.getElementById("backBody").innerHTML=back;
