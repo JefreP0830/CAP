@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.9.11 - 2026-11-02
+- CPP/ratio row drops the overnight ratio (1:15, 2+ adults).
+
 ## 0.9.10 - 2026-11-02
 - Built-in side margin in print, so the sheet stays off the paper edge even when the print dialog margins are set to None.
 
