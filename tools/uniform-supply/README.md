@@ -3,7 +3,7 @@
 Outfits new members, tracks Vanguard orders through issue, and keeps a
 permanent record of who received what.
 
-**Status:** Catalog tab built. Members, Requests, Ledger, Open Items tabs and
+**Status:** Catalog, Sizes & SKUs, Kit Summary and a sample pack list built. Members, Requests, Ledger, Open Items tabs and
 the branded intake form (Apps Script) come next.
 
 ## How it works
@@ -16,12 +16,24 @@ the branded intake form (Apps Script) come next.
 3. Each item moves through the Ledger: Requested, Ordered, Received, Issued,
    Acknowledged. The member acknowledges receipt with their CAPID.
 
+## Ordering rules
+
+- No links to Vanguard product pages. Staff start at vanguardmil.com and
+  search the exact title printed on the pack list.
+- No swaps. If a size is sold out or missing, mark the line NOT AVAILABLE and
+  move on. Never substitute.
+- Personalized text goes in ALL CAPS.
+- Every size has its own SKU on the pack list; the supply officer audits SKUs
+  against past orders.
+- Male/female uniform style and youth/adult OCP sizes are chosen by the
+  member at intake, so the pack list shows one exact product per line.
+
 ## Kits
 
 | Kit | Contents |
 |---|---|
 | K1 Cadet OCP | Coat, trousers, t-shirt, belt, boots, socks, cap, 2 name tapes, CAP tape, flag, AUX, Vermont Wing, VT-014 patch |
-| K2 Senior OCP | K1 in adult sizes, plus blank 2x2 tab |
+| K2 Senior OCP | K1, adult sizes only, plus blank 2x2 tab |
 | K3 Cadet Blues | Short-sleeve shirt, trousers or slacks, belt, flight cap and device, nameplate, socks; shoes and undershirt member-sourced |
 | K4 Senior CWU | Personalized polo, tactical gray trousers, black rigger belt, socks; shoes member-sourced |
 
