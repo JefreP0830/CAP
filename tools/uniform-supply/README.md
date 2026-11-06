@@ -9,10 +9,10 @@ the branded intake form (Apps Script) come next.
 ## How it works
 
 1. A new member (or parent) fills in a short branded form: legal last name,
-   first name, CAPID, cadet or senior, sizes. They never see a parts list.
-2. Supply staff open a request (`MILLER-01`), apply the member's kit from the
-   Catalog, swap alternates (female Blues, youth vs adult OCP), and enter the
-   order in Vanguard by hand.
+   first name, CAPID, cadet or senior, male or female uniform style, sizes.
+   They never see a parts list.
+2. Supply staff open a request (`MILLER-01`), print its pack list, and enter
+   the order in Vanguard by hand.
 3. Each item moves through the Ledger: Requested, Ordered, Received, Issued,
    Acknowledged. The member acknowledges receipt with their CAPID.
 
