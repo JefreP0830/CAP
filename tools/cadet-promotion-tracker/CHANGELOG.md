@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0 - 2026-11-08
+- KPI tiles: Cadets, Median days to promote, Ready to promote, Proctored test,
+  Drill test, Stalled. "To be pinned" tile removed (still in the weekly report).
+- Median days to promote: median days since each cadet's last promotion
+  (eligible date minus 56 days, per CAPR 60-1 5.6.2; join date for cadets on
+  Achievement 1). Statistic only; not a filter.
+- KPI numbers top-aligned in every tile; the selected tile no longer shifts.
+
 ## 1.0.0 - 2026-10-31
 - Installable as a Windows app (PWA) when opened from the published link:
   app icon (rising chevrons), own window, works offline once installed,

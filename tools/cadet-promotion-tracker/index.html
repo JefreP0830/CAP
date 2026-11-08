@@ -47,10 +47,11 @@ button:focus-visible { outline: 3px solid var(--cap-yellow); outline-offset: 2px
 
 /* KPI tiles double as filters */
 .kpis { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; padding: 14px 24px 8px; }
-.kpi { text-align: left; background: #FFFFFF; color: var(--cap-body); border: 1px solid var(--cap-silver); border-radius: 4px; padding: 10px 14px; font-weight: 400; }
+.kpi { display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start; text-align: left; background: #FFFFFF; color: var(--cap-body); border: 1px solid var(--cap-silver); border-radius: 4px; padding: 10px 14px; font-weight: 400; }
+.kpi.stat { cursor: default; }
 .kpi .num { display: block; font-family: var(--font-title); font-size: 30pt; font-weight: 700; line-height: 1; color: var(--cap-black); font-variant-numeric: tabular-nums; }
 .kpi .lbl { display: block; font-size: 9.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; margin-top: 4px; }
-.kpi.active { border: 2px solid var(--cap-ultramarine); background: #F5F6FC; }
+.kpi.active { border-color: var(--cap-ultramarine); box-shadow: inset 0 0 0 1px var(--cap-ultramarine); background: #F5F6FC; }
 .kpi.active .num { color: var(--cap-ultramarine); }
 .kpi.alert .num { color: var(--cap-scarlet); }
 
@@ -408,12 +409,16 @@ function evaluate(r, asOf) {
   const eligible = parseDate(r.NextApprovalDate);
   const days = eligible ? daysBetween(eligible, asOf) : null;   // >0 past, <=0 counting down
   const reqsDone = doneN === tiles.length;
+  // Last promotion date: the eligible date is always last approval + 56 days (CAPR 60-1 5.6.2).
+  // Cadets working on Achievement 1 have not promoted yet; count from their join date.
+  const lastPromo = achv === 'Achievement 1' ? parseDate(r.JoinDate) : (eligible ? new Date(eligible.getTime() - 56 * DAY) : null);
   const dateReached = days === null || days >= 0;
   return {
     capid, name, achv, rule, tiles,
     pct: Math.round(100 * doneN / tiles.length),
     grade: gradeBefore(rule.idx), next: rule.grade, code: rule.code,
     eligible, days, reqsDone,
+    daysInGrade: lastPromo ? daysBetween(lastPromo, asOf) : null,
     ready: reqsDone && dateReached,
     stalled: !reqsDone && days !== null && days >= STALLED_DAYS,
     needsProctor: (rule.proctored || []).some(c => !tiles.find(t => t.code === c).on),
@@ -468,11 +473,28 @@ const FILTERS = [
 function legendText(list) {
   return TILE_ORDER.map(k => `<b>${k}</b> ${esc(TILES[k].name)}`).join(' &nbsp;·&nbsp; ') + ' &nbsp;·&nbsp; Blank grey tile: not required for this achievement';
 }
-function render() {
-  document.getElementById('kpis').innerHTML = FILTERS.map(([k, label, fn, alert]) => {
+// KPI tiles left to right. 'median' is a statistic, not a filter.
+const KPI_ORDER = ['all', 'median', 'ready', 'proctor', 'drill', 'stalled'];
+const MEDIAN_TIP = "Median days since each cadet's last promotion (eligible date minus 56 days; join date for cadets on Achievement 1).";
+function medianDays() {
+  const v = cadets.map(c => c.daysInGrade).filter(d => d !== null && d !== undefined).sort((a, b) => a - b);
+  if (!v.length) return '—';
+  const m = Math.floor(v.length / 2);
+  return v.length % 2 ? v[m] : Math.round((v[m - 1] + v[m]) / 2);
+}
+function kpiItems() {
+  return KPI_ORDER.map(k => {
+    if (k === 'median') return { k, label: 'Median days to promote', n: medianDays(), stat: true };
+    const [, label, fn, alertOn] = FILTERS.find(f => f[0] === k);
     const n = cadets.filter(fn).length;
-    return `<button class="kpi ${k === filter ? 'active' : ''} ${alert && n ? 'alert' : ''}" onclick="setFilter('${k}')"><span class="num">${n}</span><span class="lbl">${label}</span></button>`;
-  }).join('');
+    return { k, label, n, alert: alertOn && n };
+  });
+}
+function render() {
+  document.getElementById('kpis').innerHTML = kpiItems().map(t => t.stat
+    ? `<div class="kpi stat" title="${esc(MEDIAN_TIP)}"><span class="num">${t.n}</span><span class="lbl">${t.label}</span></div>`
+    : `<button class="kpi ${t.k === filter ? 'active' : ''} ${t.alert ? 'alert' : ''}" onclick="setFilter('${t.k}')"><span class="num">${t.n}</span><span class="lbl">${t.label}</span></button>`
+  ).join('');
   document.getElementById('legend').innerHTML = legendText(cadets);
   document.getElementById('screen').innerHTML = rosterTable(visible());
 }
@@ -540,10 +562,8 @@ const REPORTS = {
   weekly: () => head('Weekly Report') + Object.values(SECTIONS).map(f => f()).join('')
 };
 function kpiStrip() {
-  return `<div class="kpis-print">${FILTERS.map(([k, label, fn, alertOn]) => {
-    const n = cadets.filter(fn).length;
-    return `<div class="kpi-p ${alertOn && n ? 'alert' : ''}"><span class="num">${n}</span><span class="lbl">${label}</span></div>`;
-  }).join('')}</div>`;
+  return `<div class="kpis-print">${kpiItems().map(t =>
+    `<div class="kpi-p ${t.alert ? 'alert' : ''}"><span class="num">${t.n}</span><span class="lbl">${t.label}</span></div>`).join('')}</div>`;
 }
 const SHORT = { L: 'Leadership test', A: 'Aerospace test', D: 'Drill test', F: 'Fitness test', C: 'Character',
   P: 'Participation & inspection', ORL: 'Oral presentation', WRT: 'Written assignment' };
