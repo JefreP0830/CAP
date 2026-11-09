@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.0 - 2026-11-09
+- Tiles follow the Month picker: a month shows that month; "All months" shows FY2027. Quarter and FY tiles removed from the monthly view. SUI area tiles show only areas with tasks in scope.
+
 ## 1.0.2 - 2026-11-09
 - Row reads "All Weekly Unit Operations Inspections complete" (monthly sign-off). Week divider lines removed.
 

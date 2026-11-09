@@ -26,7 +26,7 @@ h1{font-family:var(--f-title);font-weight:700;font-size:32px;line-height:1.05;co
 .pick label{font-size:13.33px;color:var(--head);display:flex;gap:8px;align-items:center}
 .pick select{max-width:190px;font:inherit;font-size:14.67px;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:6px 8px;min-height:36px}
 .pick select:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
-.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:18px 0 0}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:18px 0 0}
 .kpi{border:1px solid var(--rule);border-radius:3px;padding:10px 14px}
 .kpi .lab{font-size:12px;color:var(--head);letter-spacing:.03em}
 .kpi .val{font-family:var(--f-title);font-weight:600;font-size:26px;white-space:nowrap;color:#000;line-height:1.1;margin-top:2px;font-variant-numeric:tabular-nums}
@@ -53,7 +53,7 @@ td.due,td.opr{font-size:12px;padding-top:7px}
 td.sui{font-size:12px;padding-top:7px;padding-left:12px;color:var(--ink)}
 .printonly{display:none}
 .alabel{font-size:12px;color:var(--head);margin:14px 0 6px;letter-spacing:.03em}
-.areas{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:6px}
+.areas{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:6px}
 .atile{border:1px solid var(--rule);border-radius:3px;padding:5px 6px;display:grid;gap:1px;min-width:0}
 .alab{font-size:12px;color:var(--head)}
 .aval{font-family:var(--f-title);font-weight:600;font-size:18px;color:#000;font-variant-numeric:tabular-nums}
@@ -119,7 +119,7 @@ h3{font-weight:400;font-size:14.67px;color:var(--head);margin:18px 0 6px;letter-
     <p class="notice">Enter your CAPID on each task you finish, then Save PDF to the unit file share. Nothing is saved on this page.</p>
     <p class="notice" id="loadMsg" hidden></p>
     <div class="kpis" id="kpis"></div>
-    <div id="areawrap"><p class="alabel">FY2027 by SUI area (done of tasks)</p><div class="areas" id="areas"></div></div>
+    <div id="areawrap"><p class="alabel" id="alabel"></p><div class="areas" id="areas"></div></div>
   </header>
   <main id="main"></main>
 </div>
@@ -340,25 +340,21 @@ function fromHash(){
 function toHash(){ const v=selM.value+(selO.value==="all"?"":"-"+selO.value.toLowerCase()); if(location.hash.slice(1)!==v) history.replaceState(null,"","#"+v); }
 
 function kpis(m,f){
-  const box=document.getElementById("kpis");
-  const arw=document.getElementById("areawrap");
-  if(!keys.includes(m)){box.innerHTML="";box.hidden=true;arw.hidden=true;return;}
+  // Every tile follows the Month picker: one month, or the whole FY when "All months" is chosen.
+  const box=document.getElementById("kpis"), arw=document.getElementById("areawrap");
+  const scope=keys.includes(m)?[m]:(m==="all"?keys:null);
+  if(!scope){box.innerHTML="";box.hidden=true;arw.hidden=true;return;}
   box.hidden=false;arw.hidden=false;
-  const mo=MONTHS.find(x=>x[0]===m), qMonths=MONTHS.filter(x=>x[2]===mo[2]);
-  const sum=list=>list.reduce((a,k)=>{const x=counts(k,f);return {n:a.n+x.n,d:a.d+x.d};},{n:0,d:0});
-  const c=counts(m,f), q=sum(qMonths.map(x=>x[0])), y=sum(keys);
-  const sl=rowsFor(m,f).filter(r=>r.t.safe&&!r.t.optional), sf={n:sl.length,d:sl.filter(r=>isDone(r.key,m)).length};
+  const tally=filt=>{let n=0,d=0;scope.forEach(mk=>rowsFor(mk,f).filter(r=>!r.t.optional&&filt(r)).forEach(r=>{n++;if(isDone(r.key,mk))d++;}));return {n,d};};
+  const all=tally(()=>true), sf=tally(r=>r.t.safe);
   const pct=x=>x.n?Math.round(100*x.d/x.n)+"%":"–";
-  const tile=(lab,val,sub)=>'<div class="kpi"><div class="lab">'+lab+'</div><div class="val">'+val+'</div><div class="sub">'+sub+'</div></div>';
   const rem=x=>(x.n-x.d)+" of "+x.n+" tasks";
-  box.innerHTML=tile("Current",pct(c),rem(c))+
-    tile(mo[2]+" · "+qMonths.map(x=>x[1].slice(0,3)).join("–"),pct(q),rem(q))+
-    tile("FY2027",pct(y),rem(y))+
-    tile("Unit Safety",pct(sf),rem(sf))+
-    tile("Next SUI action",SUI_NEXT.when,SUI_NEXT.what);
-  const ar=document.getElementById("areas");
-  ar.innerHTML=AREAS.map(([k,nm])=>{let n=0,d=0;keys.forEach(mk=>rowsFor(mk,f).filter(r=>r.t.a===k&&!r.t.optional).forEach(r=>{n++;if(isDone(r.key,mk))d++;}));
-    if(!n) return ""; return '<div class="atile" title="'+esc(nm)+'"><span class="alab">'+(k==="OPS"?"Ops":k)+'</span><span class="aval">'+Math.round(100*d/n)+'%</span><span class="asub">'+d+' of '+n+'</span></div>';}).join("");
+  const tile=(lab,val,sub)=>'<div class="kpi"><div class="lab">'+lab+'</div><div class="val">'+val+'</div><div class="sub">'+sub+'</div></div>';
+  const label=scope.length===1?MONTHS.find(x=>x[0]===m)[1]:"FY2027";
+  box.innerHTML=tile(label,pct(all),rem(all))+tile("Unit Safety",pct(sf),rem(sf))+tile("Next SUI action",SUI_NEXT.when,SUI_NEXT.what);
+  document.getElementById("alabel").textContent=label+" by SUI area (done of tasks)";
+  document.getElementById("areas").innerHTML=AREAS.map(([k,nm])=>{const x=tally(r=>r.t.a===k);
+    if(!x.n) return ""; return '<div class="atile" title="'+esc(nm)+'"><span class="alab">'+(k==="OPS"?"Ops":k)+'</span><span class="aval">'+pct(x)+'</span><span class="asub">'+x.d+' of '+x.n+'</span></div>';}).join("");
 }
 function render(){
   const m=selM.value,f=selO.value;
