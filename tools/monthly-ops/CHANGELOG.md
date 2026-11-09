@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.1 - 2026-11-09
+- Print: SUI area tiles left off the printed sheet; narrower Due/OPR/CAPID/SUI columns so a month fits one page.
+
 ## 1.1.0 - 2026-11-09
 - Tiles follow the Month picker: a month shows that month; "All months" shows FY2027. Quarter and FY tiles removed from the monthly view. SUI area tiles show only areas with tasks in scope.
 

@@ -83,7 +83,8 @@ h3{font-weight:400;font-size:14.67px;color:var(--head);margin:18px 0 6px;letter-
   @page{size:letter;margin:0.5in}
   .pick,.notice{display:none}
   .cap::placeholder{color:transparent}
-  .c-n{width:22px}.c-a{width:74px}.c-o{width:66px}.c-d{width:72px}.c-id{width:86px}
+  .c-n{width:22px}.c-a{width:60px}.c-o{width:52px}.c-d{width:60px}.c-id{width:74px}
+  #areawrap{display:none}
   td{font-size:13.33px;padding:4px 5px}td.sui{font-size:11px;white-space:nowrap;padding-left:8px}td.due{white-space:nowrap;font-size:12px}td.opr{font-size:12px}
   .kpi .val{font-size:18px;white-space:nowrap}.kpi{padding:8px 10px}.kpis{gap:6px}
   .asub{white-space:normal}.kpi,.atile{min-width:0;overflow:hidden}
@@ -147,7 +148,7 @@ const TASKS=[
  {id:"absent",a:"B1",m:"all",t:"Contact cadets absent 30 and 60 days",o:"CP",dueT:"Wk 2",r:"60-1 §3.4.2"},
  {id:"t42",q:"Q07b",a:"B1",m:"all",t:"Check next month meets Table 4.2 minimums",o:"CP",dueT:"Wk 4",r:"60-1 §4.3.2.2"},
  {id:"event",q:"Q08",a:"B1",m:"all",skip:["oct","nov"],t:"Set next month's in-person event; post 2 weeks ahead",o:"CP",dueT:"Wk 4 · ",dueR:"monthly",r:"60-1 §4.3.3"},
- {id:"ccars",a:"D2",m:"all",t:"Enter this month's character sessions in CAPCCARS",o:"HC",dueR:"30 days after session",r:"80-1 §9.1; Atch 2"},
+ {id:"ccars",a:"D2",m:"all",t:"Enter this month's character sessions in CAPCCARS",o:"HC",dueR:"30 days",r:"80-1 §9.1; Atch 2"},
  {id:"backup",q:"Q07",a:"D4",m:"all",t:"Back up unit files to a second location",o:"DA",dueT:"Wk 1",r:"10-2 ¶7.b; 120-1 §11.6"},
  {id:"apps",a:"D5",m:"all",t:"Act on online applications; join or release prospective cadets",o:"CC",dueR:"30 days",r:"39-2 §2.4.2.1, §2.2.8"},
  {id:"pfiles",a:"D5",q:"Q02",m:"all",t:"Update personnel files",o:"DP",dueT:"Wk 3",r:"39-2 §1.7"},
