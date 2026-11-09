@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.2 - 2026-11-09
+- Roster columns use fixed widths, so they no longer shift when switching
+  between views (Cadets, Proctored, Drill, Stalled...) or in print.
+
 ## 1.1.1 - 2026-11-08
 - KPI tile shows median weeks to promote (one decimal) instead of days.
   Nothing else changes; past-due counts stay in days.

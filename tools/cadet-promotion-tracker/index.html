@@ -82,9 +82,13 @@ td.pct { font-weight: 700; color: var(--cap-black); font-variant-numeric: tabula
 th.c { text-align: center; }
 /* Requirements sits alone: equal air on both sides; narrow columns shrink to fit,
    the cadet name column takes any slack. */
-th.req, td.req { padding-left: 40px; padding-right: 40px; width: 1%; }
-td.achv, td.pct, th.c, td.grade, td.elig-cell { width: 1%; }
-td.name { width: auto; }
+th.req, td.req { padding-left: 40px; padding-right: 40px; }
+/* Fixed column grid: every view and every print uses the same widths, whatever cadets are listed.
+   The cadet name column takes the remaining width. */
+table.roster { table-layout: fixed; }
+col.w-capid { width: 84px; } col.w-next { width: 84px; } col.w-achv { width: 64px; }
+col.w-req { width: 440px; } col.w-pct { width: 96px; } col.w-elig { width: 168px; }
+table.roster td.name { overflow: hidden; text-overflow: ellipsis; }
 td.achv { font-size: 9pt; white-space: nowrap; letter-spacing: .3px; }
 td.pct.done { color: var(--cap-ultramarine); }
 td.card button { padding: 3px 8px; font-size: 9pt; }
@@ -125,6 +129,9 @@ tr.pgpad { display: none; }
   td { padding-top: 4px; padding-bottom: 4px; }
   .tile { padding: 2px 4px; }
   td.capid { font-size: 10.5pt; }
+  th.req, td.req { padding-left: 16px; padding-right: 16px; }
+  col.w-capid { width: 78px; } col.w-next { width: 78px; } col.w-achv { width: 56px; }
+  col.w-req { width: 380px; } col.w-pct { width: 80px; } col.w-elig { width: 150px; }
   td.name { font-size: 11pt; }
   td.pct { font-size: 11pt; }
   body { font-size: 9.5pt; }
@@ -519,7 +526,7 @@ function tilesHtml(c) {
 }
 function rosterTable(list, legend) {
   if (!list.length) return '<p class="none">No cadets in this view.</p>';
-  return `<table><thead><tr class="pgpad"><td colspan="7"></td></tr><tr><th>CAPID</th><th>Cadet</th><th>Next</th><th>Achv</th><th class="req">Requirements</th><th class="c">Progress</th><th>Eligible</th></tr></thead><tbody>${
+  return `<table class="roster"><colgroup><col class="w-capid"><col class="w-name"><col class="w-next"><col class="w-achv"><col class="w-req"><col class="w-pct"><col class="w-elig"></colgroup><thead><tr class="pgpad"><td colspan="7"></td></tr><tr><th>CAPID</th><th>Cadet</th><th>Next</th><th>Achv</th><th class="req">Requirements</th><th class="c">Progress</th><th>Eligible</th></tr></thead><tbody>${
     list.map(c => `<tr>
       <td class="capid">${esc(c.capid)}</td>
       <td class="name">${esc(c.name)}</td>
