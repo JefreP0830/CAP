@@ -61,10 +61,11 @@ td.sui{font-size:12px;padding-top:7px;padding-left:12px;color:var(--ink)}
 .cap{font:inherit;font-size:14.67px;color:var(--ink);width:100%;max-width:84px;box-sizing:border-box;border:0;border-radius:2px;background:#E9EAEA;padding:3px 6px;font-variant-numeric:tabular-nums}
 .cap:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .cap::placeholder{color:#8A8D8F}
-.btn{font:inherit;font-size:13.33px;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:7px 12px;min-height:36px;cursor:pointer}
-.btn:hover{border-color:var(--ink)}
-a.btn{text-decoration:none;display:inline-flex;align-items:center}
-.btn-main{border-color:var(--blue);color:var(--blue)}.btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.btn{font:inherit;font-size:13.33px;line-height:1.2;box-sizing:border-box;height:36px;color:var(--blue);background:var(--paper);border:1px solid var(--blue);border-radius:3px;padding:0 12px;cursor:pointer;display:inline-flex;align-items:center}
+.acts{margin-left:auto;display:flex;flex-wrap:wrap;gap:10px}
+.btn:hover{background:var(--tint)}
+a.btn{text-decoration:none}
+.btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .notice{font-size:13.33px;color:var(--ink);margin:10px 0 0}
 .rec{font-size:9px;color:var(--head);margin:8px 0 0;word-break:break-all;font-family:"Courier New",monospace}
 .note{font-size:12px;color:var(--ink);margin:8px 0 0;max-width:80ch}
@@ -108,9 +109,11 @@ h3{font-weight:400;font-size:14.67px;color:var(--head);margin:18px 0 6px;letter-
     <div class="pick">
       <label for="selMonth">Month <select id="selMonth"></select></label>
       <label for="selOpr">Officer <select id="selOpr"></select></label>
-      <button type="button" id="saveBtn" class="btn btn-main">Save PDF</button>
+      <span class="acts">
+      <button type="button" id="saveBtn" class="btn">Save PDF</button>
       <button type="button" id="loadBtn" class="btn">Load completed sheets</button>
       <a class="btn" href="weekly-meeting.html">Weekly Inspection</a>
+      </span>
       <input type="file" id="loadFile" accept="application/pdf,.pdf" multiple hidden>
     </div>
     <p class="notice">Enter your CAPID on each task you finish, then Save PDF to the unit file share. Nothing is saved on this page.</p>
