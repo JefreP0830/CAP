@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1 - 2026-11-09
+- Weekly inspection is one row at the top ("Weekly"), SUI "B, D, E".
+- Buttons: "Weekly Inspection" on the master (same row), "Monthly Inspection" on the weekly sheet.
+
 ## 1.0.0 - 2026-11-09
 - Weekly rows replaced by one weekly sign-off: "Complete the Weekly Unit
   Operations Inspection" (Wk 1–4). The inspection sheet (weekly-meeting.html)

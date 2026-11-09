@@ -29,7 +29,7 @@ input.f.n{max-width:44px;text-align:center}
 input.f:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 input.f::placeholder{color:#8A8D8F}
 .tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0 0}
-.btn{font:inherit;font-size:13.33px;color:var(--blue);background:var(--paper);border:1px solid var(--blue);border-radius:3px;padding:7px 12px;min-height:36px;cursor:pointer}
+.btn{box-sizing:border-box;line-height:1.2;font:inherit;font-size:13.33px;color:var(--blue);background:var(--paper);border:1px solid var(--blue);border-radius:3px;padding:7px 12px;min-height:36px;cursor:pointer}
 .btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .hint{font-size:13.33px;color:var(--ink)}
 .page{margin-top:20px}
@@ -91,7 +91,7 @@ td.sg{text-align:center}
     <div class="titlerow"><h1>WEEKLY UNIT OPERATIONS INSPECTION</h1><span class="side">NER-VT014 · FY2027</span></div>
     <div class="titlerow" style="margin-top:6px">
       <span class="sub">Date <input class="f" id="mdate" type="text" placeholder="MM/DD/YY" aria-label="Meeting date" style="max-width:96px"></span>
-      <span class="tools" style="display:flex;gap:10px"><a class="btn" href="./" style="text-decoration:none;display:inline-flex;align-items:center">Unit Operations Checklist</a><button type="button" class="btn" id="saveBtn">Print PDF</button></span>
+      <span class="tools" style="display:flex;gap:10px"><a class="btn" href="./" style="text-decoration:none;display:inline-flex;align-items:center;box-sizing:border-box;min-height:36px;line-height:1.2">Monthly Inspection</a><button type="button" class="btn" id="saveBtn">Print PDF</button></span>
     </div>
   </header>
 
