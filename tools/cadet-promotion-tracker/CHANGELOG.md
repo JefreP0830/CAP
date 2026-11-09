@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1 - 2026-11-08
+- KPI tile shows median weeks to promote (one decimal) instead of days.
+  Nothing else changes; past-due counts stay in days.
+
 ## 1.1.0 - 2026-11-08
 - KPI tiles: Cadets, Median days to promote, Ready to promote, Proctored test,
   Drill test, Stalled. "To be pinned" tile removed (still in the weekly report).

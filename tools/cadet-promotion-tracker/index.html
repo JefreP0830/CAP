@@ -475,16 +475,17 @@ function legendText(list) {
 }
 // KPI tiles left to right. 'median' is a statistic, not a filter.
 const KPI_ORDER = ['all', 'median', 'ready', 'proctor', 'drill', 'stalled'];
-const MEDIAN_TIP = "Median days since each cadet's last promotion (eligible date minus 56 days; join date for cadets on Achievement 1).";
-function medianDays() {
+const MEDIAN_TIP = "Median weeks since each cadet's last promotion (eligible date minus 56 days; join date for cadets on Achievement 1). Regular progression is about 8 weeks.";
+function medianWeeks() {
   const v = cadets.map(c => c.daysInGrade).filter(d => d !== null && d !== undefined).sort((a, b) => a - b);
   if (!v.length) return '—';
   const m = Math.floor(v.length / 2);
-  return v.length % 2 ? v[m] : Math.round((v[m - 1] + v[m]) / 2);
+  const days = v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2;
+  return (days / 7).toFixed(1);
 }
 function kpiItems() {
   return KPI_ORDER.map(k => {
-    if (k === 'median') return { k, label: 'Median days to promote', n: medianDays(), stat: true };
+    if (k === 'median') return { k, label: 'Median weeks to promote', n: medianWeeks(), stat: true };
     const [, label, fn, alertOn] = FILTERS.find(f => f[0] === k);
     const n = cadets.filter(fn).length;
     return { k, label, n, alert: alertOn && n };
