@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.2 - 2026-11-09
+- Print: the small SUI area tiles print in one row; the large tiles stay on screen only.
+
 ## 1.1.1 - 2026-11-09
 - Print: SUI area tiles left off the printed sheet; narrower Due/OPR/CAPID/SUI columns so a month fits one page.
 
