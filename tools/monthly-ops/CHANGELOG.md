@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.0 - 2026-11-09
+- Weekly rows replaced by one weekly sign-off: "Complete the Weekly Unit
+  Operations Inspection" (Wk 1–4). The inspection sheet (weekly-meeting.html)
+  carries meeting, schedule, CPP/ratio, setup, attendance, promotion tracker,
+  facility safety and hygiene, vehicle check, and web calendar.
+- Links between the master checklist and the weekly inspection sheet.
+
 ## Weekly Meeting Checklist draft - 2026-11-03
 - New page weekly-meeting.html: pilot-style challenge/response run card (front) and how-to/why (back), phases B/O/D/C/A. Draft for review; the master checklist is unchanged and does not link to it yet.
 
