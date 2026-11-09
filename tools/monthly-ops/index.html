@@ -48,7 +48,7 @@ tr.grp td{color:var(--head);font-size:13.33px;background:var(--tint);padding:4px
 .ctr .cap{display:block;margin:0 auto}
 .ctr td.sui{padding-left:6px}
 td.num{color:var(--head);font-variant-numeric:tabular-nums}
-tr.wkcut td{border-top:2px solid var(--ink)}
+
 td.due,td.opr{font-size:12px;padding-top:7px}
 td.sui{font-size:12px;padding-top:7px;padding-left:12px;color:var(--ink)}
 .printonly{display:none}
@@ -143,7 +143,7 @@ const Q1=["oct","jan","apr","jul"],Q2=["nov","feb","may","aug"],Q3=["dec","mar",
 const TASKS=[
  // ---- every month ----
  // wkly: one row per week, W1–W4
- {id:"wui",safe:true,top:true,a:"B1",ct:"B, D, E",m:"all",dueT:"Weekly",t:"Weekly Unit Operations Inspection complete",o:"CC",r:"Weekly Unit Operations Inspection sheet (B1, D5, D8, E1, E2 items)"},
+ {id:"wui",safe:true,top:true,a:"B1",ct:"B, D, E",m:"all",dueT:"Weekly",t:"All Weekly Unit Operations Inspections complete",o:"CC",r:"Weekly Unit Operations Inspection sheet (B1, D5, D8, E1, E2 items)"},
  {id:"absent",a:"B1",m:"all",t:"Contact cadets absent 30 and 60 days",o:"CP",dueT:"Wk 2",r:"60-1 §3.4.2"},
  {id:"t42",q:"Q07b",a:"B1",m:"all",t:"Check next month meets Table 4.2 minimums",o:"CP",dueT:"Wk 4",r:"60-1 §4.3.2.2"},
  {id:"event",q:"Q08",a:"B1",m:"all",skip:["oct","nov"],t:"Set next month's in-person event; post 2 weeks ahead",o:"CP",dueT:"Wk 4 · ",dueR:"monthly",r:"60-1 §4.3.3"},

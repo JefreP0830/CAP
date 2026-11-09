@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.2 - 2026-11-09
+- Row reads "All Weekly Unit Operations Inspections complete" (monthly sign-off). Week divider lines removed.
+
 ## 1.0.1 - 2026-11-09
 - Weekly inspection is one row at the top ("Weekly"), SUI "B, D, E".
 - Buttons: "Weekly Inspection" on the master (same row), "Monthly Inspection" on the weekly sheet.
