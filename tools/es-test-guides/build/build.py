@@ -4,7 +4,7 @@ from html import escape as e
 from pathlib import Path
 import questions as Q
 
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 
 def key(items, start=1):
     out = []
@@ -54,18 +54,11 @@ def fema_link(code):
 
 # ---------------------------------------------------------------- FEMA SID
 SID = f"""
-<section class="guide" id="sid" data-title="FEMA SID">
+<section class="guide sid" id="sid" data-title="FEMA SID">
 {head("Do this first, before any FEMA test", "FEMA Student ID (SID)", "Register once. Use the same SID for IS-100, IS-200, IS-700 and IS-800.",
  'Register at <a href="https://cdp.dhs.gov/FEMASID/">cdp.dhs.gov/femasid</a>. The FEMA courses are <i>not</i> on that site; they are at <a href="https://training.fema.gov/is/">training.fema.gov/is</a>.')}
-{fig("The whole path, start to certificate", flow([
-  ("Register", "Get your SID at cdp.dhs.gov/femasid"),
-  ("First login", "SID + password, then set up a second factor"),
-  ("Take the exam", "training.fema.gov/is, enter your SID"),
-  ("Get the certificate", "Student Portal right away, plus an email"),
-]))}
-<div class="cols3">
-<div><h2>Have ready</h2>
-<ul class="ess">
+<h2>Have ready</h2>
+<ul class="ess two">
 <li>Your full legal name (no nicknames)</li>
 <li>An email only you use. One email can hold one SID, so siblings cannot share a parent&rsquo;s address</li>
 <li>A phone number</li>
@@ -73,8 +66,15 @@ SID = f"""
 <li>Three short security answers (one word is best)</li>
 <li>A password: 14+ characters, with a number, an upper and lower case letter, and one of <span class="mono">$ % ^ , ! # - _ + = ; : ~</span></li>
 <li>Age 10 or older to receive FEMA exam credit</li>
-</ul></div>
-<div><h2>Register</h2>
+</ul>
+{fig("The whole path, start to certificate", flow([
+  ("Register", "Get your SID at cdp.dhs.gov/femasid"),
+  ("First login", "SID + password, then set up a second factor"),
+  ("Take the exam", "training.fema.gov/is, enter your SID"),
+  ("Get the certificate", "Student Portal right away, plus an email"),
+]))}
+<div class="cols3">
+<div><h2><span class="lead">Step 1</span> Register</h2>
 <ol class="steps">
 <li>Already have one? Use <a href="https://cdp.dhs.gov/FEMASID/account/find">Forgot your FEMA SID?</a> first. It emails it to you. Do not make a second one.</li>
 <li>Go to <a href="https://cdp.dhs.gov/FEMASID/register">Register for a FEMA SID</a>.</li>
@@ -83,7 +83,7 @@ SID = f"""
 <li>Check <i>I agree to the Privacy Statement</i>, then select <i>Register</i>.</li>
 <li>Write your SID number down. It is also emailed to you.</li>
 </ol></div>
-<div><h2>First login</h2>
+<div><h2><span class="lead">Step 2</span> First login</h2>
 <ol class="steps">
 <li>At cdp.dhs.gov/femasid select <i>Log in to FEMA SID</i>. Enter your SID number and password.</li>
 <li>Pick a second factor: <i>Authenticator App</i> (recommended), <i>Mobile Phone</i> (text or call), or <i>Email</i>. Then <i>Continue</i>.</li>
@@ -91,14 +91,14 @@ SID = f"""
 <li>That device is remembered for 21 days unless you clear its cookies.</li>
 <li>Check your profile details. Fix anything wrong now.</li>
 </ol></div>
-</div>
-<h2>Taking a FEMA test</h2>
-<ol class="steps wide">
-<li>Open the course page from the guide for that test, or search the code (for example IS-100.c) at training.fema.gov/is.</li>
+<div><h2><span class="lead">Step 3</span> Take the exam</h2>
+<ol class="steps">
+<li>Open the course page from the guide for that test, or search the code (for example IS-100.c) at <a href="https://training.fema.gov/is/">training.fema.gov/is</a>.</li>
 <li>Select <i>Take Final Exam</i>. Enter your SID when asked.</li>
 <li>Answer every question. 75% passes.</li>
-<li>Your certificate appears in the NDEMU Student Portal right away and is emailed to you. Save the PDF; your unit will tell you where CAP records it.</li>
-</ol>
+<li>Step 4: your certificate appears in the NDEMU Student Portal right away and is emailed to you. Save the PDF; your unit will tell you where CAP records it.</li>
+</ol></div>
+</div>
 <h2>Stuck?</h2>
 <div class="tiles c2">
 <div class="tile"><b>SID, password or MFA problems</b><span>FEMA SID Help Desk, 866-291-0696, weekdays 7:30 to 4:30 Central. Contact form on cdp.dhs.gov/femasid.</span></div>

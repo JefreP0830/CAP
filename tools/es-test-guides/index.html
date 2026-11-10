@@ -46,7 +46,12 @@ main{max-width:1000px;margin:0 auto;padding:18px max(16px,env(safe-area-inset-le
 .kick{margin:0;font-size:12px;color:var(--head);letter-spacing:.06em;text-transform:uppercase}
 .ghead h1{font-family:var(--f-title);font-weight:700;font-size:28px;line-height:1.05;color:var(--blue);margin:4px 0 0}
 .by{margin:4px 0 0;font-size:14.67px;color:var(--ink)}
-.where{margin:8px 0 0;font-size:13.33px;color:var(--ink)}
+.where{margin:8px 0 0;font-size:14.67px;color:var(--ink)}
+/* FEMA SID sheet: instructions, so nothing smaller than body size (11pt) */
+.sid .kick,.sid .step span:last-child,.sid figcaption,.sid .tile span,.sid .gfoot,.sid .mono{font-size:14.67px}
+.sid .step b{font-size:16px}
+.lead{font-family:var(--f-title);font-weight:700;color:var(--blue);margin-right:6px}
+ul.ess.two{columns:2;column-gap:28px}ul.ess.two li{break-inside:avoid}
 h2{font-weight:400;font-size:18.67px;color:var(--head);margin:18px 0 8px;padding-bottom:3px;border-bottom:1px solid var(--hair)}
 h2 .ct{font-size:12px;color:var(--head);margin-left:8px}
 h3{font-weight:400;font-size:14.67px;color:var(--head);margin:14px 0 6px;letter-spacing:.02em;break-after:avoid-page}
@@ -153,6 +158,7 @@ ol.key li.hide{display:none}
   .bar{position:static}
   .gstaff{margin-top:10px}
   .cols2,.cols3,.figrow{grid-template-columns:1fr}
+  ul.ess.two{columns:1}
   ol.key{columns:1}
   .flow{grid-auto-flow:row}
   .step+.step::before{left:24px;top:-18px;width:0;height:18px;border-top:0;border-left:1.5px solid var(--rule)}
@@ -195,7 +201,7 @@ ol.key li.hide{display:none}
 <body>
 <header class="bar">
  <div class="barin">
-  <div class="brand"><a href="#home"><h1>ES &amp; FEMA Test Guides</h1></a><p>NER-VT014 &middot; correct answers only &middot; v1.0.0</p></div>
+  <div class="brand"><a href="#home"><h1>ES &amp; FEMA Test Guides</h1></a><p>NER-VT014 &middot; correct answers only &middot; v1.0.1</p></div>
   <nav aria-label="Test sheets"><a href="#sid" data-id="sid">FEMA SID</a><a href="#capt116" data-id="capt116">CAPT 116</a><a href="#capt117" data-id="capt117">CAPT 117</a><a href="#is100" data-id="is100">IS-100</a><a href="#is200" data-id="is200">IS-200</a><a href="#is700" data-id="is700">IS-700</a><a href="#is800" data-id="is800">IS-800</a></nav>
   <div class="tools" id="tools">
    <input type="search" id="find" placeholder="Find a question by any word" aria-label="Find a question on this sheet">
@@ -207,12 +213,10 @@ ol.key li.hide{display:none}
 </header>
 <main id="main">
 <section class="guide home" id="home" data-title="Home"><h2>Pick your test</h2><div class="pickgrid"><a class="card" href="#sid"><b>FEMA Student ID</b><span>Do first. Needed for every FEMA exam.</span><em></em></a><a class="card" href="#capt116"><b>CAPT 116 &middot; General Emergency Services</b><span>CAP eServices</span><em>20 questions</em></a><a class="card" href="#capt117"><b>CAPT 117 &middot; ES Continuing Education</b><span>CAP eServices, Parts 1 to 3</span><em>29 questions</em></a><a class="card" href="#is100"><b>IS-100 &middot; Introduction to ICS</b><span>FEMA</span><em>25 questions</em></a><a class="card" href="#is200"><b>IS-200 &middot; Basic ICS for Initial Response</b><span>FEMA</span><em>31 questions</em></a><a class="card" href="#is700"><b>IS-700 &middot; Introduction to NIMS</b><span>FEMA</span><em>28 questions</em></a><a class="card" href="#is800"><b>IS-800 &middot; National Response Framework</b><span>FEMA</span><em>35 questions</em></a></div><p class="note">Each sheet: a few core essentials, then every test question with only its correct answer. Open a sheet and use Print this sheet for paper. Questions are copied word for word from the tests.</p></section>
-<section class="guide" id="sid" data-title="FEMA SID">
+<section class="guide sid" id="sid" data-title="FEMA SID">
 <header class="ghead"><p class="kick">Do this first, before any FEMA test</p><h1>FEMA Student ID (SID)</h1><p class="by">Register once. Use the same SID for IS-100, IS-200, IS-700 and IS-800.</p><p class="where">Register at <a href="https://cdp.dhs.gov/FEMASID/">cdp.dhs.gov/femasid</a>. The FEMA courses are <i>not</i> on that site; they are at <a href="https://training.fema.gov/is/">training.fema.gov/is</a>.</p></header>
-<figure><div class="flow "><div class="step"><span class="sn">1</span><b>Register</b><span>Get your SID at cdp.dhs.gov/femasid</span></div><div class="step"><span class="sn">2</span><b>First login</b><span>SID + password, then set up a second factor</span></div><div class="step"><span class="sn">3</span><b>Take the exam</b><span>training.fema.gov/is, enter your SID</span></div><div class="step"><span class="sn">4</span><b>Get the certificate</b><span>Student Portal right away, plus an email</span></div></div><figcaption>The whole path, start to certificate</figcaption></figure>
-<div class="cols3">
-<div><h2>Have ready</h2>
-<ul class="ess">
+<h2>Have ready</h2>
+<ul class="ess two">
 <li>Your full legal name (no nicknames)</li>
 <li>An email only you use. One email can hold one SID, so siblings cannot share a parent&rsquo;s address</li>
 <li>A phone number</li>
@@ -220,8 +224,10 @@ ol.key li.hide{display:none}
 <li>Three short security answers (one word is best)</li>
 <li>A password: 14+ characters, with a number, an upper and lower case letter, and one of <span class="mono">$ % ^ , ! # - _ + = ; : ~</span></li>
 <li>Age 10 or older to receive FEMA exam credit</li>
-</ul></div>
-<div><h2>Register</h2>
+</ul>
+<figure><div class="flow "><div class="step"><span class="sn">1</span><b>Register</b><span>Get your SID at cdp.dhs.gov/femasid</span></div><div class="step"><span class="sn">2</span><b>First login</b><span>SID + password, then set up a second factor</span></div><div class="step"><span class="sn">3</span><b>Take the exam</b><span>training.fema.gov/is, enter your SID</span></div><div class="step"><span class="sn">4</span><b>Get the certificate</b><span>Student Portal right away, plus an email</span></div></div><figcaption>The whole path, start to certificate</figcaption></figure>
+<div class="cols3">
+<div><h2><span class="lead">Step 1</span> Register</h2>
 <ol class="steps">
 <li>Already have one? Use <a href="https://cdp.dhs.gov/FEMASID/account/find">Forgot your FEMA SID?</a> first. It emails it to you. Do not make a second one.</li>
 <li>Go to <a href="https://cdp.dhs.gov/FEMASID/register">Register for a FEMA SID</a>.</li>
@@ -230,7 +236,7 @@ ol.key li.hide{display:none}
 <li>Check <i>I agree to the Privacy Statement</i>, then select <i>Register</i>.</li>
 <li>Write your SID number down. It is also emailed to you.</li>
 </ol></div>
-<div><h2>First login</h2>
+<div><h2><span class="lead">Step 2</span> First login</h2>
 <ol class="steps">
 <li>At cdp.dhs.gov/femasid select <i>Log in to FEMA SID</i>. Enter your SID number and password.</li>
 <li>Pick a second factor: <i>Authenticator App</i> (recommended), <i>Mobile Phone</i> (text or call), or <i>Email</i>. Then <i>Continue</i>.</li>
@@ -238,20 +244,20 @@ ol.key li.hide{display:none}
 <li>That device is remembered for 21 days unless you clear its cookies.</li>
 <li>Check your profile details. Fix anything wrong now.</li>
 </ol></div>
-</div>
-<h2>Taking a FEMA test</h2>
-<ol class="steps wide">
-<li>Open the course page from the guide for that test, or search the code (for example IS-100.c) at training.fema.gov/is.</li>
+<div><h2><span class="lead">Step 3</span> Take the exam</h2>
+<ol class="steps">
+<li>Open the course page from the guide for that test, or search the code (for example IS-100.c) at <a href="https://training.fema.gov/is/">training.fema.gov/is</a>.</li>
 <li>Select <i>Take Final Exam</i>. Enter your SID when asked.</li>
 <li>Answer every question. 75% passes.</li>
-<li>Your certificate appears in the NDEMU Student Portal right away and is emailed to you. Save the PDF; your unit will tell you where CAP records it.</li>
-</ol>
+<li>Step 4: your certificate appears in the NDEMU Student Portal right away and is emailed to you. Save the PDF; your unit will tell you where CAP records it.</li>
+</ol></div>
+</div>
 <h2>Stuck?</h2>
 <div class="tiles c2">
 <div class="tile"><b>SID, password or MFA problems</b><span>FEMA SID Help Desk, 866-291-0696, weekdays 7:30 to 4:30 Central. Contact form on cdp.dhs.gov/femasid.</span></div>
 <div class="tile"><b>Exam or certificate problems</b><span>FEMA Independent Study Program, 301-447-1200, weekdays 8:00 to 6:00 Eastern.</span></div>
 </div>
-<footer class="gfoot">Steps checked against cdp.dhs.gov/femasid and training.fema.gov on 10 Nov 2026. FEMA changes these screens; follow the screen if it differs.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.0</span></footer>
+<footer class="gfoot">Steps checked against cdp.dhs.gov/femasid and training.fema.gov on 10 Nov 2026. FEMA changes these screens; follow the screen if it differs.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.1</span></footer>
 </section>
 <section class="guide" id="capt116" data-title="CAPT 116">
 <header class="ghead"><p class="kick">CAP online test &middot; eServices</p><h1>CAPT 116 &middot; General Emergency Services</h1><p class="by">CAPR 60-3, Emergency Services Training and Operational Missions</p><p class="where">Take it in CAP eServices. This test opens every ES qualification.</p></header>
@@ -282,7 +288,7 @@ ol.key li.hide{display:none}
 <li><span class="n">18</span><p class="q">C911 imminently serious missions must be authorized by:</p><p class="a">The wing commander or, in his or her absence, the vice commander, director of operations, or director of emergency services</p></li>
 <li><span class="n">19</span><p class="q">CAP may be used to transport persons seriously ill, injured, or in distress to locations where facilities are suitable, or when other suitable modes of patient transportation (commercial or public) are not readily available in an emergency.</p><p class="a">True</p></li>
 <li><span class="n">20</span><p class="q">The CAPF 101 identifies specialties or functions in which CAP members are authorized to participate during operational missions as trainees or fully qualified staff.</p><p class="a">True</p></li></ol>
-<footer class="gfoot">Answers match the test banks captured November 2026. If a question on screen reads differently, the screen governs. Real-world rules come from the current publications, not this sheet.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.0</span></footer>
+<footer class="gfoot">Answers match the test banks captured November 2026. If a question on screen reads differently, the screen governs. Real-world rules come from the current publications, not this sheet.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.1</span></footer>
 </section>
 <section class="guide" id="capt117" data-title="CAPT 117">
 <header class="ghead"><p class="kick">CAP online test &middot; eServices</p><h1>CAPT 117 &middot; ES Continuing Education</h1><p class="by">Part 1 Critical Incident Stress (CAPR 60-5) &middot; Part 2 Crew Resource Management &middot; Part 3 Mission Base</p><p class="where">Take it in CAP eServices. Three parts, ten questions each.</p></header>
@@ -321,7 +327,7 @@ ol.key li.hide{display:none}
 <li><span class="n">27</span><p class="q">If instructed to report directly to a tactical assignment, you should report in to the designated Division or Group Supervisor or to the Operations Section Chief or Incident Commander depending upon the level of ICS activation.</p><p class="a">True</p></li>
 <li><span class="n">28</span><p class="q">The following are essential when communicating at any incident:</p><p class="a">A and C</p></li>
 <li><span class="n">29</span><p class="q">When demobilizing, communications equipment and other non-expendable equipment should be returned as instructed by your supervisor.</p><p class="a">True</p></li></ol>
-<footer class="gfoot">Answers match the test banks captured November 2026. If a question on screen reads differently, the screen governs. Real-world rules come from the current publications, not this sheet.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.0</span></footer>
+<footer class="gfoot">Answers match the test banks captured November 2026. If a question on screen reads differently, the screen governs. Real-world rules come from the current publications, not this sheet.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.1</span></footer>
 </section>
 <section class="guide" id="is100" data-title="IS-100">
 <header class="ghead"><p class="kick">FEMA Independent Study</p><h1>IS-100 &middot; Introduction to the Incident Command System</h1><p class="by">ICS-100 &middot; who does what, and the rules that keep it orderly</p><p class="where">Take it at <a href="https://training.fema.gov/is/courseoverview.aspx?code=IS-100.c">training.fema.gov/is</a> (IS-100.c). You need a FEMA SID to submit the exam. 75% passes.</p></header>
@@ -372,7 +378,7 @@ ol.key li.hide{display:none}
 <li><span class="n">23</span><p class="q">The Liaison Officer:</p><p class="a">Is the point of contact for other response organizations.</p></li>
 <li><span class="n">24</span><p class="q">Which one of the following activities is not an example of incident coordination?</p><p class="a">Directing, ordering, or controlling.</p></li>
 <li><span class="n">25</span><p class="q">Major activities of the Planning Section include:</p><p class="a">Preparing and documenting Incident Action Plans.</p></li></ol>
-<footer class="gfoot">Answers match the test banks captured November 2026. If a question on screen reads differently, the screen governs. Real-world rules come from the current publications, not this sheet.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.0</span></footer>
+<footer class="gfoot">Answers match the test banks captured November 2026. If a question on screen reads differently, the screen governs. Real-world rules come from the current publications, not this sheet.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.1</span></footer>
 </section>
 <section class="guide" id="is200" data-title="IS-200">
 <header class="ghead"><p class="kick">FEMA Independent Study</p><h1>IS-200 &middot; Basic ICS for Initial Response</h1><p class="by">ICS-200 &middot; growing the organization, briefings and transfer of command</p><p class="where">Take it at <a href="https://training.fema.gov/is/courseoverview.aspx?code=IS-200.c">training.fema.gov/is</a> (IS-200.c). You need a FEMA SID to submit the exam. 75% passes.</p></header>
@@ -422,7 +428,7 @@ ol.key li.hide{display:none}
 <li><span class="n">29</span><p class="q">Which Command Staff member approves the Incident Action Plan and all requests pertaining to the ordering and releasing of incident resources?</p><p class="a">Incident Commander</p></li>
 <li><span class="n">30</span><p class="q">Which of the following would NOT typically be included in the transfer of command briefing?</p><p class="a">Special requests from agency representatives</p></li>
 <li><span class="n">31</span><p class="q">Which of the following demonstrates a leader&#x27;s commitment to duty?</p><p class="a">Stepping out of a tactical role to assume a leadership role when needed. Developing subordinates for the future. Ensuring tasks are understood.</p></li></ol>
-<footer class="gfoot">Answers match the test banks captured November 2026. If a question on screen reads differently, the screen governs. Real-world rules come from the current publications, not this sheet.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.0</span></footer>
+<footer class="gfoot">Answers match the test banks captured November 2026. If a question on screen reads differently, the screen governs. Real-world rules come from the current publications, not this sheet.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.1</span></footer>
 </section>
 <section class="guide" id="is700" data-title="IS-700">
 <header class="ghead"><p class="kick">FEMA Independent Study</p><h1>IS-700 &middot; Introduction to NIMS</h1><p class="by">National Incident Management System &middot; a systematic approach for everyone with incident duties</p><p class="where">Take it at <a href="https://training.fema.gov/is/courseoverview.aspx?code=IS-700.b">training.fema.gov/is</a> (IS-700.b). You need a FEMA SID to submit the exam. 75% passes.</p></header>
@@ -473,7 +479,7 @@ ol.key li.hide{display:none}
 <li><span class="n">26</span><p class="q">Ensuring the uninterrupted flow of information’ describes which key communications and information systems principle?</p><p class="a">Resilience and Redundancy</p></li>
 <li><span class="n">27</span><p class="q">Using social media to support activities such as producing maps and incident visualizations is an example of which communications standard?</p><p class="a">Technology Use and Procedures</p></li>
 <li><span class="n">28</span><p class="q">NIMS is applicable to all stakeholders with incident related responsibilities.</p><p class="a">True</p></li></ol>
-<footer class="gfoot">Answers match the test banks captured November 2026. If a question on screen reads differently, the screen governs. Real-world rules come from the current publications, not this sheet.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.0</span></footer>
+<footer class="gfoot">Answers match the test banks captured November 2026. If a question on screen reads differently, the screen governs. Real-world rules come from the current publications, not this sheet.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.1</span></footer>
 </section>
 <section class="guide" id="is800" data-title="IS-800">
 <header class="ghead"><p class="kick">FEMA Independent Study</p><h1>IS-800 &middot; National Response Framework</h1><p class="by">NRF &middot; always in effect, a guide for how the nation responds</p><p class="where">Take it at <a href="https://training.fema.gov/is/courseoverview.aspx?code=IS-800.d">training.fema.gov/is</a> (IS-800.d). You need a FEMA SID to submit the exam. 75% passes.</p></header>
@@ -522,7 +528,7 @@ ol.key li.hide{display:none}
 <li><span class="n">33</span><p class="q">The police, fire, and emergency medical services are usually categorized inside which government?</p><p class="a">Local government</p></li>
 <li><span class="n">34</span><p class="q">Select one of the three core capabilities that spans all Mission Areas?</p><p class="a">Operational Coordination</p></li>
 <li><span class="n">35</span><p class="q">What is the definition for &quot;Mitigation&quot; mission area?</p><p class="a">Reduce loss of life and property by lessening the impact of disasters.</p></li></ol>
-<footer class="gfoot">Answers match the test banks captured November 2026. If a question on screen reads differently, the screen governs. Real-world rules come from the current publications, not this sheet.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.0</span></footer>
+<footer class="gfoot">Answers match the test banks captured November 2026. If a question on screen reads differently, the screen governs. Real-world rules come from the current publications, not this sheet.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.1</span></footer>
 </section>
 </main>
 <script>
