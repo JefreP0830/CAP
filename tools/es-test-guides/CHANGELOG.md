@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.4 - 2026-11-10
+- IS-100 lessons carried to every sheet: bolder flow arrows, real connectors in the IS-200 transfer-of-command flow, CAPT 116 priority flow at full width, short diagram titles (long ones moved into the bullets), missing IS-700 key term marked.
+
 ## 2.1.3 - 2026-11-10
 - Key terms now Ultramarine Blue bold (the brand emphasis style) so they pop.
 

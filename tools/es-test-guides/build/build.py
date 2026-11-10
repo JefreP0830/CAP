@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.1.3"
+VERSION = "2.1.4"
 
 LET = "ABCD"
 
@@ -128,13 +128,12 @@ C116 = f"""
 {head("Online test &middot; eServices", "CAPT 116 &middot; General Emergency Services", "CAPR 60-3(I), Emergency Services Training and Operational Missions (26 Dec 12)",
  "Take it in eServices. It is the starting point for every emergency services qualification.")}
 <h2>Core essentials</h2>
-<div class="figrow">
 {fig("Support priority when resources are short (§1-4)", flow([
  ("Air Force", "Highest"), ("Other DoD", ""), ("Federal civil", "FEMA, FAA"), ("State", ""), ("Local", "Lowest")], "rank"))}
 {fig("Minimum team makeup", tiles([
  ("Aircrew of 3", "Mission Pilot flies. Mission Observer helps with navigation, radios and the search. Mission Scanner watches outside for the search objective."),
  ("Ground team of 4+", "Qualified Ground Team Leader plus at least 3 qualified members or supervised trainees. Works at the level of its <i>lowest</i> qualified member.")], 2))}
-</div>
+
 {bullets([
  "[[Safety]] must always be a primary concern (§1-1b).",
  "[[CAPR 60-3]] gives direction for mission training, qualification and actual missions. Where it is silent, use common sense and prudent judgment.",
@@ -161,7 +160,7 @@ C117 = f"""
 {head("Online test &middot; eServices", "CAPT 117 &middot; ES Continuing Education", "Part 1 Critical Incident Stress (CAPR 60-5) &middot; Part 2 Crew Resource Management &middot; Part 3 Mission Base",
  "Take it in eServices. Three parts.")}
 <h2>Core essentials</h2>
-{fig("Critical incident stress care is a continuum, and sooner beats later", flow([
+{fig("CISM timeline: sooner beats later", flow([
  ("Before", "Pre-incident education. Reduces the harmful effects of trauma."),
  ("Within hours", "Defusing"),
  ("24 to 72 hours", "Debriefing (CISD)"),
@@ -326,7 +325,7 @@ I700 = f"""
 <div class="cols2">
 {bullets([
  "[[NIMS]] applies to every stakeholder with incident duties, at every level. [[Unity of effort]]: organizations work toward shared objectives and keep their own authority.",
- "Chain of Command and Unity of Command: ends conflicting instructions.",
+ "[[Chain of Command and Unity of Command]]: ends conflicting instructions.",
  "Common Terminology: standard names for functions and units.",
  "Comprehensive Resource Management: up-to-date inventories.",
  "Information and Intelligence Management: gather, analyze, share data.",
@@ -351,7 +350,7 @@ I800 = f"""
 {head("FEMA Independent Study", "IS-800 &middot; National Response Framework", "NRF &middot; always in effect, a guide for how the nation responds",
  fema_link("IS-800.d"))}
 <h2>Core essentials</h2>
-{fig("Tiered response: incidents begin and end locally, handled at the lowest jurisdictional level possible", flow([
+{fig("Tiered response: begin and end locally", flow([
  ("Local and tribal", "First to arrive, last to leave. Police, fire, EMS. IC relays needs to the local EOC."),
  ("State", "Governor and state EOC. Other states help through EMAC (interstate mutual aid)."),
  ("Federal", "Stafford Act: FEMA leads; the Unified Coordination Group leads at the Joint Field Office (JFO). Non-Stafford: agency with primary legal authority.")]))}
@@ -359,11 +358,13 @@ I800 = f"""
  ("Prevention","Stop imminent terrorism"),("Protection","Secure people and assets"),
  ("Mitigation","Reduce loss of life and property by lessening disaster impact"),
  ("Response","Save lives, protect property and environment, meet basic needs"),("Recovery","Restore and rebuild")],5))}
-{fig("Seven community lifelines: keep critical government and business functions running", tiles([
+{fig("Seven community lifelines", tiles([
  ("Safety and Security",""),("Food, Water, Shelter",""),("Health and Medical",""),("Energy",""),
  ("Communications",""),("Transportation",""),("Hazardous Materials","")],4))}
 <div class="cols2">
 {bullets([
+ "[[Tiered response]]: incidents are handled at the lowest jurisdictional level possible.",
+ "[[Community lifelines]]: services that keep critical government and business functions running.",
  "[[Three core capabilities]] cross all mission areas and lifelines: Planning; Public Information and Warning; Operational Coordination.",
  "[[NRF guiding principles]] include engaged partnership (whole community, information sharing) and scalable, flexible, adaptable capabilities.",
  "The [[NRF]] is always in effect and scales to the incident. It covers the Response mission area and how it ties to the others, and aligns with NIMS.",
