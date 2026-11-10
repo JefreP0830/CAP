@@ -115,11 +115,13 @@ figcaption{font-size:16px;color:var(--head);margin:0 0 8px}
 .spine{flex:1;min-height:16px;border-left:2px solid var(--head)}
 .cstaff{display:grid;gap:6px;border-left:2px solid var(--head);padding-left:12px;margin-bottom:16px}
 .cstaff .lab{margin:0}
-.gsl{margin:6px 0 0}
-.gstaff{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;position:relative;padding-top:14px}
-.gstaff::before{content:"";position:absolute;top:0;left:12.5%;right:12.5%;border-top:2px solid var(--head)}
+.gsl{margin:16px 0 0}
+.gstaff{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;position:relative;padding-top:16px}
 .gstaff .node{position:relative}
-.gstaff .node::before{content:"";position:absolute;top:-15px;left:50%;height:14px;border-left:2px solid var(--head)}
+.gstaff .node::before{content:"";position:absolute;top:-17px;left:calc(50% - 1px);height:17px;border-left:2px solid var(--head)}
+.gstaff .node::after{content:"";position:absolute;top:-17px;left:-6px;right:-6px;border-top:2px solid var(--head)}
+.gstaff .node:first-child::after{left:calc(50% - 1px)}
+.gstaff .node:last-child::after{right:calc(50% - 1px)}
 
 /* diagram: incident types */
 .types{display:grid;gap:6px}
@@ -195,7 +197,7 @@ ol.key li.hide{display:none}
   .tiles.c4,.tiles.c5,.tiles.c7{grid-template-columns:repeat(2,minmax(0,1fr))}
   .tiles.c3{grid-template-columns:1fr}
   .orgtop{grid-template-columns:1fr;gap:10px}.spacer,.spine{display:none}.node.ic{margin-top:0}.node.ic::after{display:none}.cstaff{margin-bottom:0}
-  .gstaff{grid-template-columns:repeat(2,minmax(0,1fr));padding-top:0}.gstaff::before,.gstaff .node::before{display:none}
+  .gstaff{grid-template-columns:repeat(2,minmax(0,1fr));padding-top:0}.gstaff .node::before,.gstaff .node::after{display:none}
   .cc{grid-template-columns:1fr}
   .trow{grid-template-columns:52px 1fr;}.trow .td{grid-column:1/-1}.tscale{display:none}
   .lvl{margin-left:calc(var(--i) * 8px)}

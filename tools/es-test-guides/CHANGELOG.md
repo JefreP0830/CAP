@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.4 - 2026-11-10
+- IS-100 org chart: more space above the General Staff label; connector bar now ends cleanly at the outer boxes.
+
 ## 2.0.3 - 2026-11-10
 - All diagrams: no text under 11pt; box titles 12pt; diagram titles moved above each diagram; connector lines 2px dark gray; boxes get a soft shadow; Incident Commander box tinted.
 
