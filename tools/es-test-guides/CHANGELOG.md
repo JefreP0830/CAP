@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.1 - 2026-11-10
+- FEMA SID sheet: divider under Have ready; the flow is now three wide Step 1 to 3 boxes holding their own instructions. Box 4 and the arrows removed.
+
 ## 2.0.0 - 2026-11-10
 - Rebuilt as a study companion. Removed every real exam question and answer.
 - Added an original 30-question practice test per sheet (CAPT 117: 10 per part),

@@ -4,7 +4,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.0.0"
+VERSION = "2.0.1"
 
 LET = "ABCD"
 
@@ -77,14 +77,9 @@ SID = f"""
 <li>A password: 14+ characters, with a number, an upper and lower case letter, and one of <span class="mono">$ % ^ , ! # - _ + = ; : ~</span></li>
 <li>Age 10 or older to receive FEMA exam credit</li>
 </ul>
-{fig("The whole path, start to certificate", flow([
-  ("Register", "Get your SID at cdp.dhs.gov/femasid"),
-  ("First login", "SID + password, then set up a second factor"),
-  ("Take the exam", "training.fema.gov/is, enter your SID"),
-  ("Get the certificate", "Student Portal right away, plus an email"),
-]))}
-<div class="cols3">
-<div><h2><span class="lead">Step 1</span> Register</h2>
+<hr class="div">
+<div class="stepboxes">
+<div class="sbox"><p class="sl">Step 1</p><h2 class="st">Register</h2>
 <ol class="steps">
 <li>Already have one? Use <a href="https://cdp.dhs.gov/FEMASID/account/find">Forgot your FEMA SID?</a> first. It emails it to you. Do not make a second one.</li>
 <li>Go to <a href="https://cdp.dhs.gov/FEMASID/register">Register for a FEMA SID</a>.</li>
@@ -93,7 +88,7 @@ SID = f"""
 <li>Check <i>I agree to the Privacy Statement</i>, then select <i>Register</i>.</li>
 <li>Write your SID number down. It is also emailed to you.</li>
 </ol></div>
-<div><h2><span class="lead">Step 2</span> First login</h2>
+<div class="sbox"><p class="sl">Step 2</p><h2 class="st">First login</h2>
 <ol class="steps">
 <li>At cdp.dhs.gov/femasid select <i>Log in to FEMA SID</i>. Enter your SID number and password.</li>
 <li>Pick a second factor: <i>Authenticator App</i> (recommended), <i>Mobile Phone</i> (text or call), or <i>Email</i>. Then <i>Continue</i>.</li>
@@ -101,12 +96,12 @@ SID = f"""
 <li>That device is remembered for 21 days unless you clear its cookies.</li>
 <li>Check your profile details. Fix anything wrong now.</li>
 </ol></div>
-<div><h2><span class="lead">Step 3</span> Take the exam</h2>
+<div class="sbox"><p class="sl">Step 3</p><h2 class="st">Take the exam</h2>
 <ol class="steps">
 <li>Open the course page from the guide for that test, or search the code (for example IS-100.c) at <a href="https://training.fema.gov/is/">training.fema.gov/is</a>.</li>
 <li>Select <i>Take Final Exam</i>. Enter your SID when asked.</li>
 <li>Answer every question. 75% passes.</li>
-<li>Step 4: your certificate appears in the NDEMU Student Portal right away and is emailed to you. Save the PDF; you will need it as proof of completion.</li>
+<li>Your certificate appears in the NDEMU Student Portal right away and is emailed to you. Save the PDF; you will need it as proof of completion.</li>
 </ol></div>
 </div>
 <h2>Stuck?</h2>
