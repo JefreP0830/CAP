@@ -11,7 +11,6 @@ run time, in the browser, on the machine you are using.
 | Tool | What it does | Status |
 |---|---|---|
 | [Cadet Promotion Tracker](tools/cadet-promotion-tracker/) | Squadron-level promotion view from the weekly eServices Cadet Full Track Report | Porting from Antigravity |
-| [ES & FEMA Test Guides](tools/es-test-guides/) | Printable companion sheets for CAPT 116/117 and FEMA IS-100/200/700/800, plus FEMA SID setup | v1.0.1 |
 | [Unit Operations Checklist](tools/monthly-ops/) | Printable FY calendar of recurring compliance tasks by month and officer | Draft for review |
 
 ## Layout
