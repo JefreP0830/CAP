@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ES &amp; FEMA Test Guides</title>
+<meta name="description" content="Quick companion sheets for CAPT 116, CAPT 117, IS-100, IS-200, IS-700 and IS-800: core essentials and correct answers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap">
+<style>
+/* Tokens copied from shared/brand/cap-brand.css (CAP Brand Portal / CAPR 900-2). */
+:root{
+  --paper:#FFFFFF; --ink:#4D4D4D; --head:#63666A; --rule:#9EA2A2; --hair:#D9DBDB; --tint:#F1F2F2;
+  --blue:#001489; --blue-t:#E8EBF6; --red:#BA0C2F;
+  --f-title:"Rajdhani", Arial, sans-serif; --f-body:Arial, Helvetica, sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink)}
+body{font-family:var(--f-body);font-size:14.67px;line-height:1.2}
+a{color:var(--blue)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* top bar (screen only) */
+.bar{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:3px solid var(--blue)}
+.barin{max-width:1000px;margin:0 auto;padding:12px max(16px,env(safe-area-inset-left,0px)) 10px}
+.brand{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px}
+.brand a{text-decoration:none}
+.brand h1{font-family:var(--f-title);font-weight:700;font-size:26px;color:var(--blue);margin:0;letter-spacing:.02em;text-transform:uppercase}
+.brand p{margin:0;font-size:13.33px;color:var(--ink)}
+nav{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+nav a{font-size:13.33px;text-decoration:none;color:var(--blue);border:1px solid var(--rule);border-radius:3px;padding:7px 10px;min-height:34px;display:inline-flex;align-items:center;white-space:nowrap}
+nav a[aria-current="page"]{background:var(--blue);border-color:var(--blue);color:#fff}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;align-items:center}
+.tools input{flex:1 1 220px;min-width:0;font:inherit;color:var(--ink);border:1px solid var(--rule);border-radius:3px;padding:7px 10px;min-height:36px}
+.btn{font:inherit;font-size:13.33px;height:36px;color:var(--blue);background:var(--paper);border:1px solid var(--blue);border-radius:3px;padding:0 12px;cursor:pointer}
+.btn:hover{background:var(--tint)}
+.hits{font-size:12px;color:var(--head);min-width:7ch}
+
+main{max-width:1000px;margin:0 auto;padding:18px max(16px,env(safe-area-inset-left,0px)) 48px}
+.guide{display:none}
+.guide.on{display:block}
+
+/* sheet header */
+.ghead{border-bottom:1.5px solid var(--hair);padding-bottom:10px;margin-bottom:4px}
+.kick{margin:0;font-size:12px;color:var(--head);letter-spacing:.06em;text-transform:uppercase}
+.ghead h1{font-family:var(--f-title);font-weight:700;font-size:28px;line-height:1.05;color:var(--blue);margin:4px 0 0}
+.by{margin:4px 0 0;font-size:14.67px;color:var(--ink)}
+.where{margin:8px 0 0;font-size:13.33px;color:var(--ink)}
+h2{font-weight:400;font-size:18.67px;color:var(--head);margin:18px 0 8px;padding-bottom:3px;border-bottom:1px solid var(--hair)}
+h2 .ct{font-size:12px;color:var(--head);margin-left:8px}
+h3{font-weight:400;font-size:14.67px;color:var(--head);margin:14px 0 6px;letter-spacing:.02em;break-after:avoid-page}
+.note{font-size:12px;color:var(--ink);margin:6px 0 8px;max-width:90ch}
+.red{color:var(--red)}
+.mono{font-family:"Courier New",monospace;font-size:13px;white-space:nowrap}
+
+/* essentials */
+ul.ess{margin:6px 0 0;padding-left:18px;line-height:1.3}
+ul.ess li{margin:0 0 5px}
+ol.steps{margin:6px 0 0;padding-left:20px;line-height:1.3}
+ol.steps li{margin:0 0 6px}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:4px 28px}
+.cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 24px}
+.figrow{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+figure{margin:10px 0 6px;break-inside:avoid}
+figcaption{font-size:12px;color:var(--head);margin-top:6px;letter-spacing:.02em}
+.lab{font-size:12px;color:var(--head);margin:8px 0 4px;letter-spacing:.03em}
+
+/* diagram: flow */
+.flow{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:18px;counter-reset:s}
+.step{position:relative;border:1px solid var(--rule);border-top:3px solid var(--blue);border-radius:3px;padding:8px 10px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.step+.step::before{content:"";position:absolute;left:-18px;top:50%;width:18px;border-top:1.5px solid var(--rule)}
+.step+.step::after{content:"";position:absolute;left:-7px;top:calc(50% - 4px);border:4px solid transparent;border-left:6px solid var(--rule)}
+.sn{font-family:var(--f-title);font-weight:700;font-size:20px;color:var(--blue);line-height:1}
+.step b{font-weight:400;color:#000;font-size:14.67px}
+.step span:last-child{font-size:12px;color:var(--ink)}
+.flow.rank .step{padding:6px 8px}
+.flow.vert{grid-auto-flow:row;gap:10px}
+.flow.vert .step{flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:2px 10px}
+.flow.vert .step span:last-child{flex-basis:100%}
+.flow.vert .step+.step::before{left:24px;top:-10px;width:0;height:10px;border-top:0;border-left:1.5px solid var(--rule)}
+.flow.vert .step+.step::after{display:none}
+
+/* diagram: tiles */
+.tiles{display:grid;gap:8px}
+.tiles.c2{grid-template-columns:repeat(2,minmax(0,1fr))}.tiles.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.tiles.c4{grid-template-columns:repeat(4,minmax(0,1fr))}.tiles.c5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.tiles.c7{grid-template-columns:repeat(7,minmax(0,1fr))}
+.tile{border:1px solid var(--rule);border-radius:3px;padding:8px 10px;display:flex;flex-direction:column;gap:3px;min-width:0;background:var(--paper)}
+.tile b{font-weight:400;color:#000}
+.tile span{font-size:12px;color:var(--ink)}
+.tile span:empty{display:none}
+
+/* diagram: ICS org */
+.node{border:1px solid var(--rule);border-radius:3px;padding:7px 9px;display:flex;flex-direction:column;gap:2px;background:var(--paper);min-width:0}
+.node b{font-weight:400;color:#000}
+.node span{font-size:12px;color:var(--ink)}
+.org{max-width:860px}
+.orgtop{display:grid;grid-template-columns:1fr minmax(0,250px) 1.3fr;gap:0 28px;align-items:stretch}
+.iccol{display:flex;flex-direction:column;align-items:center}
+.node.ic{border:1.5px solid var(--blue);width:100%;position:relative;margin-top:44px}
+.node.ic::after{content:"";position:absolute;right:-29px;top:50%;width:28px;border-top:1.5px solid var(--rule)}
+.spine{flex:1;min-height:16px;border-left:1.5px solid var(--rule)}
+.cstaff{display:grid;gap:6px;border-left:1.5px solid var(--rule);padding-left:12px;margin-bottom:16px}
+.cstaff .lab{margin:0}
+.gsl{margin:6px 0 0}
+.gstaff{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;position:relative;padding-top:14px}
+.gstaff::before{content:"";position:absolute;top:0;left:12.5%;right:12.5%;border-top:1.5px solid var(--rule)}
+.gstaff .node{position:relative}
+.gstaff .node::before{content:"";position:absolute;top:-15px;left:50%;height:14px;border-left:1.5px solid var(--rule)}
+
+/* diagram: incident types */
+.types{display:grid;gap:6px}
+.trow{display:grid;grid-template-columns:62px minmax(0,220px) 1fr;gap:10px;align-items:center}
+.tl{font-family:var(--f-title);font-weight:700;font-size:17px;color:var(--blue)}
+.tbar{height:14px;background:var(--blue);border-radius:2px;opacity:.85}
+.td{font-size:12.5px;color:var(--ink)}
+.tscale{display:flex;justify-content:space-between;max-width:292px;margin:2px 0 0;padding-left:72px;font-size:11px;color:var(--head)}
+
+/* diagram: title staircase */
+.stair{display:grid;gap:5px}
+.lvl{margin-left:calc(var(--i) * 14px);border:1px solid var(--rule);border-left:3px solid var(--blue);border-radius:3px;padding:6px 9px;display:grid;grid-template-columns:1fr auto;gap:1px 10px}
+.lvl b{font-weight:400;color:#000;font-size:13.33px}
+.lvl span{font-family:var(--f-title);font-weight:700;color:var(--blue);font-size:16px;text-align:right}
+.lvl em{grid-column:1/-1;font-style:normal;font-size:11.5px;color:var(--ink)}
+
+/* diagram: command & coordination */
+.cc{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+.ccstack{display:grid;gap:14px}
+.ccstack .node{position:relative}
+.ccstack .node+.node::before{content:"";position:absolute;left:50%;top:-15px;height:14px;border-left:1.5px solid var(--rule)}
+.node.jis{border-style:dashed;justify-content:center}
+
+/* answer key */
+ol.key{list-style:none;margin:0;padding:0;columns:2;column-gap:28px}
+ol.key li{break-inside:avoid;display:grid;grid-template-columns:24px 1fr;gap:0 6px;padding:7px 0 8px;border-bottom:1px solid var(--hair)}
+ol.key .n{grid-row:span 2;font-size:12px;color:var(--head);padding-top:1px;font-variant-numeric:tabular-nums}
+ol.key .q{margin:0;line-height:1.25}
+ol.key .a{margin:4px 0 0;color:var(--blue);border-left:3px solid var(--blue);padding:1px 0 1px 8px;line-height:1.25}
+ol.key li.hide{display:none}
+
+/* home */
+.pickgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
+.card{border:1px solid var(--rule);border-radius:3px;padding:12px 14px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:4px}
+.card:hover,.card:focus-visible{border-color:var(--blue)}
+.card b{font-weight:400;color:var(--blue);font-size:15.5px}
+.card span{font-size:13.33px}.card em{font-style:normal;font-size:12px;color:var(--head)}
+
+.gfoot{margin-top:20px;padding-top:8px;border-top:1px solid var(--hair);font-size:11.5px;color:var(--head);display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 20px}
+.pb{height:0}
+
+@media (max-width:760px){
+  .bar{position:static}
+  .gstaff{margin-top:10px}
+  .cols2,.cols3,.figrow{grid-template-columns:1fr}
+  ol.key{columns:1}
+  .flow{grid-auto-flow:row}
+  .step+.step::before{left:24px;top:-18px;width:0;height:18px;border-top:0;border-left:1.5px solid var(--rule)}
+  .step+.step::after{display:none}
+  .flow.rank{grid-auto-flow:row;gap:8px}
+  .flow.rank .step{flex-direction:row;gap:10px;align-items:baseline}
+  .flow.rank .step+.step::before{top:-8px;height:8px}
+  .tiles.c4,.tiles.c5,.tiles.c7{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tiles.c3{grid-template-columns:1fr}
+  .orgtop{grid-template-columns:1fr;gap:10px}.spacer,.spine{display:none}.node.ic{margin-top:0}.node.ic::after{display:none}.cstaff{margin-bottom:0}
+  .gstaff{grid-template-columns:repeat(2,minmax(0,1fr));padding-top:0}.gstaff::before,.gstaff .node::before{display:none}
+  .cc{grid-template-columns:1fr}
+  .trow{grid-template-columns:52px 1fr;}.trow .td{grid-column:1/-1}.tscale{display:none}
+  .lvl{margin-left:calc(var(--i) * 8px)}
+}
+
+@media print{
+  @page{size:letter;margin:0.45in 0.5in}
+  .bar,.home{display:none!important}
+  main{max-width:none;padding:0}
+  body{font-size:13.33px}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body.printall .guide:not(.home){display:block}
+  body.printall .guide:not(.home)+.guide{break-before:page}
+  .pb{break-before:page}
+  .ghead h1{font-size:24px}
+  h2{margin:12px 0 6px;font-size:16px}
+  ol.key{column-gap:22px}
+  ol.key li{padding:5px 0 6px}
+  ol.key li.hide{display:grid}
+  .note{font-size:11px}
+  ul.ess li{margin-bottom:3px}
+  a{color:inherit;text-decoration:none}
+  .where a{color:var(--blue)}
+  .gfoot{font-size:10px}
+  figure{margin:8px 0 4px}
+}
+</style>
+</head>
+<body>
+<header class="bar">
+ <div class="barin">
+  <div class="brand"><a href="#home"><h1>ES &amp; FEMA Test Guides</h1></a><p>NER-VT014 &middot; correct answers only &middot; v1.0.0</p></div>
+  <nav aria-label="Test sheets"><a href="#sid" data-id="sid">FEMA SID</a><a href="#capt116" data-id="capt116">CAPT 116</a><a href="#capt117" data-id="capt117">CAPT 117</a><a href="#is100" data-id="is100">IS-100</a><a href="#is200" data-id="is200">IS-200</a><a href="#is700" data-id="is700">IS-700</a><a href="#is800" data-id="is800">IS-800</a></nav>
+  <div class="tools" id="tools">
+   <input type="search" id="find" placeholder="Find a question by any word" aria-label="Find a question on this sheet">
+   <span class="hits" id="hits" aria-live="polite"></span>
+   <button type="button" class="btn" id="printOne">Print this sheet</button>
+   <button type="button" class="btn" id="printAll">Print all</button>
+  </div>
+ </div>
+</header>
+<main id="main">
+<section class="guide home" id="home" data-title="Home"><h2>Pick your test</h2><div class="pickgrid"><a class="card" href="#sid"><b>FEMA Student ID</b><span>Do first. Needed for every FEMA exam.</span><em></em></a><a class="card" href="#capt116"><b>CAPT 116 &middot; General Emergency Services</b><span>CAP eServices</span><em>20 questions</em></a><a class="card" href="#capt117"><b>CAPT 117 &middot; ES Continuing Education</b><span>CAP eServices, Parts 1 to 3</span><em>29 questions</em></a><a class="card" href="#is100"><b>IS-100 &middot; Introduction to ICS</b><span>FEMA</span><em>25 questions</em></a><a class="card" href="#is200"><b>IS-200 &middot; Basic ICS for Initial Response</b><span>FEMA</span><em>31 questions</em></a><a class="card" href="#is700"><b>IS-700 &middot; Introduction to NIMS</b><span>FEMA</span><em>28 questions</em></a><a class="card" href="#is800"><b>IS-800 &middot; National Response Framework</b><span>FEMA</span><em>35 questions</em></a></div><p class="note">Each sheet: a few core essentials, then every test question with only its correct answer. Open a sheet and use Print this sheet for paper. Questions are copied word for word from the tests.</p></section>
+<section class="guide" id="sid" data-title="FEMA SID">
+<header class="ghead"><p class="kick">Do this first, before any FEMA test</p><h1>FEMA Student ID (SID)</h1><p class="by">Register once. Use the same SID for IS-100, IS-200, IS-700 and IS-800.</p><p class="where">Register at <a href="https://cdp.dhs.gov/FEMASID/">cdp.dhs.gov/femasid</a>. The FEMA courses are <i>not</i> on that site; they are at <a href="https://training.fema.gov/is/">training.fema.gov/is</a>.</p></header>
+<figure><div class="flow "><div class="step"><span class="sn">1</span><b>Register</b><span>Get your SID at cdp.dhs.gov/femasid</span></div><div class="step"><span class="sn">2</span><b>First login</b><span>SID + password, then set up a second factor</span></div><div class="step"><span class="sn">3</span><b>Take the exam</b><span>training.fema.gov/is, enter your SID</span></div><div class="step"><span class="sn">4</span><b>Get the certificate</b><span>Student Portal right away, plus an email</span></div></div><figcaption>The whole path, start to certificate</figcaption></figure>
+<div class="cols3">
+<div><h2>Have ready</h2>
+<ul class="ess">
+<li>Your full legal name (no nicknames)</li>
+<li>An email only you use. One email can hold one SID, so siblings cannot share a parent&rsquo;s address</li>
+<li>A phone number</li>
+<li>Date, city and state of birth</li>
+<li>Three short security answers (one word is best)</li>
+<li>A password: 14+ characters, with a number, an upper and lower case letter, and one of <span class="mono">$ % ^ , ! # - _ + = ; : ~</span></li>
+<li>Age 10 or older to receive FEMA exam credit</li>
+</ul></div>
+<div><h2>Register</h2>
+<ol class="steps">
+<li>Already have one? Use <a href="https://cdp.dhs.gov/FEMASID/account/find">Forgot your FEMA SID?</a> first. It emails it to you. Do not make a second one.</li>
+<li>Go to <a href="https://cdp.dhs.gov/FEMASID/register">Register for a FEMA SID</a>.</li>
+<li>Fill in name, email, phone, birth details and the three security questions. An alternate email is optional; password resets go there too.</li>
+<li>Create the password.</li>
+<li>Check <i>I agree to the Privacy Statement</i>, then select <i>Register</i>.</li>
+<li>Write your SID number down. It is also emailed to you.</li>
+</ol></div>
+<div><h2>First login</h2>
+<ol class="steps">
+<li>At cdp.dhs.gov/femasid select <i>Log in to FEMA SID</i>. Enter your SID number and password.</li>
+<li>Pick a second factor: <i>Authenticator App</i> (recommended), <i>Mobile Phone</i> (text or call), or <i>Email</i>. Then <i>Continue</i>.</li>
+<li>Enter the 6-digit code and select <i>Verify</i>.</li>
+<li>That device is remembered for 21 days unless you clear its cookies.</li>
+<li>Check your profile details. Fix anything wrong now.</li>
+</ol></div>
+</div>
+<h2>Taking a FEMA test</h2>
+<ol class="steps wide">
+<li>Open the course page from the guide for that test, or search the code (for example IS-100.c) at training.fema.gov/is.</li>
+<li>Select <i>Take Final Exam</i>. Enter your SID when asked.</li>
+<li>Answer every question. 75% passes.</li>
+<li>Your certificate appears in the NDEMU Student Portal right away and is emailed to you. Save the PDF; your unit will tell you where CAP records it.</li>
+</ol>
+<h2>Stuck?</h2>
+<div class="tiles c2">
+<div class="tile"><b>SID, password or MFA problems</b><span>FEMA SID Help Desk, 866-291-0696, weekdays 7:30 to 4:30 Central. Contact form on cdp.dhs.gov/femasid.</span></div>
+<div class="tile"><b>Exam or certificate problems</b><span>FEMA Independent Study Program, 301-447-1200, weekdays 8:00 to 6:00 Eastern.</span></div>
+</div>
+<footer class="gfoot">Steps checked against cdp.dhs.gov/femasid and training.fema.gov on 10 Nov 2026. FEMA changes these screens; follow the screen if it differs.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.0</span></footer>
+</section>
+<section class="guide" id="capt116" data-title="CAPT 116">
+<header class="ghead"><p class="kick">CAP online test &middot; eServices</p><h1>CAPT 116 &middot; General Emergency Services</h1><p class="by">CAPR 60-3, Emergency Services Training and Operational Missions</p><p class="where">Take it in CAP eServices. This test opens every ES qualification.</p></header>
+<h2>Core essentials</h2>
+<div class="figrow">
+<figure><div class="flow rank"><div class="step"><span class="sn">1</span><b>Air Force</b><span>Highest</span></div><div class="step"><span class="sn">2</span><b>Other DoD</b><span></span></div><div class="step"><span class="sn">3</span><b>Federal civil</b><span>FEMA, FAA</span></div><div class="step"><span class="sn">4</span><b>State</b><span></span></div><div class="step"><span class="sn">5</span><b>Local</b><span>Lowest</span></div></div><figcaption>Who gets CAP first when resources are short</figcaption></figure>
+<figure><div class="tiles c2"><div class="tile"><b>Aircrew of 3</b><span>Mission Pilot, Mission Observer, Mission Scanner</span></div><div class="tile"><b>Ground team of 4+</b><span>Qualified Ground Team Leader plus at least 3 qualified members or supervised trainees. Works at the level of its <i>lowest</i> qualified member.</span></div></div><figcaption>Minimum team makeup</figcaption></figure>
+</div>
+<ul class="ess"><li>Safety is never secondary to the mission.</li><li>C911 (imminent lifesaving) missions: the wing commander approves. If absent: vice commander, director of operations, or director of emergency services.</li><li>Air Force assigned missions: FTCA liability protection for members. FECA injury coverage only for members 18 and older.</li><li>Private property: training entry is arranged in advance. On missions, make every effort to get agency approval and owner consent.</li><li>CAPF 101 shows what you may do, as trainee or qualified. Specialty ratings expire 3 years from the date earned.</li><li>Alert rosters and resource lists: update at least annually.</li><li>Each wing sends its annual operations training plan to the CAP-USAF liaison region by <span class="red">31 July</span> for the next fiscal year.</li><li>Everyone in ES completes OPSEC training and signs the nondisclosure agreement.</li><li>Never alter communications or advanced technology equipment.</li><li>The IC owns WMIRS accuracy but may delegate data entry. Electronic records in WMIRS are enough; no paper copies required.</li><li>Night vision devices: allowed on foot. Patient transport: only when other suitable transport is not readily available.</li><li>CAPR 60-3 supplements: wing level or higher only (Congressional Squadron excepted), with region commander, NHQ CAP/DO and CAP-USAF/XO approval.</li></ul>
+<div class="pb"></div>
+<h2>Answer key <span class="ct">20 questions</span></h2><p class="note">Five questions repeat in the test bank (source Q18, Q21 to Q24); each is listed once. Q3 and the second C911 item are worded slightly differently on the test, so both are kept.</p><ol class="key"><li><span class="n">1</span><p class="q">A typical aircrew is made up of a mission pilot, mission observer, and mission scanner.</p><p class="a">True</p></li>
+<li><span class="n">2</span><p class="q">Concerning entry on or seizure of private property during missions:</p><p class="a">All of the above.</p></li>
+<li><span class="n">3</span><p class="q">C911 imminently serious missions must be authorized by ________________________.</p><p class="a">the wing commander or in his or her absence the vice commander, director of operations, or director of emergency services</p></li>
+<li><span class="n">4</span><p class="q">The IC is responsible for the accuracy and quality of the information in WMIRS, and may not delegate WMIRS data entry.</p><p class="a">False</p></li>
+<li><span class="n">5</span><p class="q">Each wing is required to submit a comprehensive annual operations training plan to the CAP Liaison Region by the 31st of July for the following fiscal year.</p><p class="a">True</p></li>
+<li><span class="n">6</span><p class="q">All members acting within the scope of their duties and in accordance with CAP regulations are covered by the Federal Employee Compensation Act (FECA) and Federal Torts Claims Act (FTCA) while serving on Air Force assigned missions.</p><p class="a">False</p></li>
+<li><span class="n">7</span><p class="q">The priority for support missions is local agencies, state agencies, federal agencies like FEMA, and then the Air Force.</p><p class="a">False</p></li>
+<li><span class="n">8</span><p class="q">Ground teams may conduct operations at the level of the highest qualified member on the team.</p><p class="a">False</p></li>
+<li><span class="n">9</span><p class="q">Night vision devices may be used by CAP ground resources in support of SAR/DR operations while on foot.</p><p class="a">True</p></li>
+<li><span class="n">10</span><p class="q">CAPR 60-3 outlines the policies and procedures for execution of various CAP operational missions, and establishes a foundation for expansion into joint operations using the incident command system and other management tools. Some unique situations may dictate variations in the procedures contained in this regulation. In these cases common sense and prudent judgment must be used to ensure effective management of CAP resources. Safety is secondary to accomplishing the mission.</p><p class="a">False</p></li>
+<li><span class="n">11</span><p class="q">CAP members may alter advanced technology and communications equipment as necessary in order to successfully accomplish their assigned missions.</p><p class="a">False</p></li>
+<li><span class="n">12</span><p class="q">Only members conducting sensitive or classified missions must complete OPSEC Awareness Training and sign the non-disclosure agreement.</p><p class="a">False</p></li>
+<li><span class="n">13</span><p class="q">Unit alert rosters and resource lists must be updated at least ________________________.</p><p class="a">annually</p></li>
+<li><span class="n">14</span><p class="q">Supplements to CAPR 60-3 cannot be issued below the wing level (except Congressional Squadron) and require region commander, NHQ CAP/DO, and CAP-USAF/XO approval.</p><p class="a">True</p></li>
+<li><span class="n">15</span><p class="q">Specialty ratings listed on the CAPF 101 generally expire _____ years from the date the qualification was attained.</p><p class="a">3</p></li>
+<li><span class="n">16</span><p class="q">Ground teams will not be released without a qualified ground team leader and at least three qualified ground team members or supervised trainees.</p><p class="a">True</p></li>
+<li><span class="n">17</span><p class="q">Though electronic storage of mission documentation is generally acceptable, hard copies must still be maintained even if electronic records are in WMIRS.</p><p class="a">False</p></li>
+<li><span class="n">18</span><p class="q">C911 imminently serious missions must be authorized by:</p><p class="a">The wing commander or, in his or her absence, the vice commander, director of operations, or director of emergency services</p></li>
+<li><span class="n">19</span><p class="q">CAP may be used to transport persons seriously ill, injured, or in distress to locations where facilities are suitable, or when other suitable modes of patient transportation (commercial or public) are not readily available in an emergency.</p><p class="a">True</p></li>
+<li><span class="n">20</span><p class="q">The CAPF 101 identifies specialties or functions in which CAP members are authorized to participate during operational missions as trainees or fully qualified staff.</p><p class="a">True</p></li></ol>
+<footer class="gfoot">Answers match the test banks captured November 2026. If a question on screen reads differently, the screen governs. Real-world rules come from the current publications, not this sheet.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.0</span></footer>
+</section>
+<section class="guide" id="capt117" data-title="CAPT 117">
+<header class="ghead"><p class="kick">CAP online test &middot; eServices</p><h1>CAPT 117 &middot; ES Continuing Education</h1><p class="by">Part 1 Critical Incident Stress (CAPR 60-5) &middot; Part 2 Crew Resource Management &middot; Part 3 Mission Base</p><p class="where">Take it in CAP eServices. Three parts, ten questions each.</p></header>
+<h2>Core essentials</h2>
+<figure><div class="flow "><div class="step"><span class="sn">1</span><b>Before</b><span>Pre-incident education. Proven to reduce trauma.</span></div><div class="step"><span class="sn">2</span><b>Within hours</b><span>Defusing</span></div><div class="step"><span class="sn">3</span><b>24 to 72 hours</b><span>Debriefing (CISD)</span></div><div class="step"><span class="sn">4</span><b>After</b><span>Peer support and referral</span></div></div><figcaption>Critical incident stress care is a continuum, and sooner beats later</figcaption></figure>
+<figure><div class="tiles c4"><div class="tile"><b>Cognitive</b><span>Confusion, poor memory</span></div><div class="tile"><b>Emotional</b><span>Anxiety, grief, guilt</span></div><div class="tile"><b>Physical</b><span>Fatigue, rapid pulse</span></div><div class="tile"><b>Behavioral</b><span>Withdrawal, pacing</span></div></div><figcaption>Four places stress shows up</figcaption></figure>
+<div class="cols2">
+<ul class="ess"><li>CAPR 60-5 is CAP&rsquo;s CISM regulation.</li><li>CISM is many tools, not one procedure. Waiting 30 days is wrong.</li><li>Crisis intervention is called a psychological Band-Aid.</li><li>Critical incident stress is old: shell shock, combat fatigue, PTSD. &ldquo;Cumulative stress&rdquo; is not a term for it.</li><li>Stress accelerates aging.</li></ul>
+<ul class="ess"><li>CRM is every crew member&rsquo;s job, not just the pilot in command&rsquo;s.</li><li>Accidents come from a chain of factors, not one bad decision.</li><li>Split the workload. Announce what you are doing. Acknowledge, do it, report it done.</li><li>Prioritize: aviate, navigate, communicate. Sterile cockpit applies to everyone aboard.</li><li>Unit log (ICS 214): kept by supervisors, updated every operational period. Use 24-hour time.</li><li>Pack for an extended stay. Finish your work and return gear before you leave.</li></ul>
+</div>
+<div class="pb"></div>
+<h2>Answer key <span class="ct">29 questions</span></h2><p class="note">“Critical Incident Stress is a relatively new concept” appears twice in the test bank; it is listed once. “A and C” refers to the letters shown on the test screen.</p><h3>Part 1: Critical Incident Stress</h3><ol class="key"><li><span class="n">1</span><p class="q">Civil Air Patrol has developed which regulation for CISM?</p><p class="a">CAPR 60-5</p></li>
+<li><span class="n">2</span><p class="q">Which of the following is not a recognized term to describe veterans suffering from Critical Incident Stress?</p><p class="a">Cumulative Stress</p></li>
+<li><span class="n">3</span><p class="q">Stress accelerates the aging process.</p><p class="a">True</p></li>
+<li><span class="n">4</span><p class="q">Which of the following reactions might you see after a critical incident?</p><p class="a">All of the above</p></li>
+<li><span class="n">5</span><p class="q">Critical Incident Stress is a relatively new concept.</p><p class="a">False</p></li>
+<li><span class="n">6</span><p class="q">Crisis Intervention has been called a psychological Band-Aid.</p><p class="a">True</p></li>
+<li><span class="n">7</span><p class="q">Studies have not shown pre-incident education to have any effect on the negative consequences of traumatic experiences.</p><p class="a">False</p></li>
+<li><span class="n">8</span><p class="q">It makes no difference whether interventions are done soon after an event as long as they are performed within the first 30 days post-incident.</p><p class="a">False</p></li>
+<li><span class="n">9</span><p class="q">Critical Incident Stress Management has one procedure as its main focus to deal with the aftermath of trauma.</p><p class="a">False</p></li></ol><h3>Part 2: Crew Resource Management</h3><ol class="key"><li><span class="n">10</span><p class="q">Split the workload where possible to avoid unnecessary fatigue and extend the crew&#x27;s usefulness.</p><p class="a">True</p></li>
+<li><span class="n">11</span><p class="q">Those making decisions need the correct information, not just any information, and that means they need to have some control over what they are looking at.</p><p class="a">True</p></li>
+<li><span class="n">12</span><p class="q">It is recommended that crew members announce their intentions before or while taking action so that everyone knows what is happening and can do their jobs effectively.</p><p class="a">True</p></li>
+<li><span class="n">13</span><p class="q">Accidents typically occur because of one poor decision. The crew must work together all the time to avoid catastrophe.</p><p class="a">False</p></li>
+<li><span class="n">14</span><p class="q">The focus of CRM is on team coordination, crewmembers&#x27; interaction, attitudes, and behavior.</p><p class="a">True</p></li>
+<li><span class="n">15</span><p class="q">CRM is just the pilot in command&#x27;s responsibility.</p><p class="a">False</p></li>
+<li><span class="n">16</span><p class="q">Standard terminology and signals have not been developed for aircrews and the flightline staff.</p><p class="a">False</p></li>
+<li><span class="n">17</span><p class="q">Making a sterile cockpit means that all onboard, passengers and crew alike, avoid anything that could hinder a crew member from safely operating the aircraft.</p><p class="a">True</p></li>
+<li><span class="n">18</span><p class="q">It is recommended that crew members confirm responses with actions. If the pilot asks you to do something, acknowledge it, let him or her know when it is complete, and be sure that he or she understood.</p><p class="a">True</p></li>
+<li><span class="n">19</span><p class="q">It is not necessary to prioritize your work – everything must be done, so just follow the checklist.</p><p class="a">False</p></li></ol><h3>Part 3: Mission Base Operations</h3><ol class="key"><li><span class="n">20</span><p class="q">How often does the Unit Log need to be updated?</p><p class="a">Every Operational period</p></li>
+<li><span class="n">21</span><p class="q">It is recommended that staff members prepare personal items that they will need for an extended stay because supplies may be limited at the incident site.</p><p class="a">True</p></li>
+<li><span class="n">22</span><p class="q">Who maintains the unit log?</p><p class="a">Supervisors</p></li>
+<li><span class="n">23</span><p class="q">Information you should receive about your incident assignment before departing includes:</p><p class="a">All of the above</p></li>
+<li><span class="n">24</span><p class="q">It isn&#x27;t necessary to complete all work assignments before demobilizing - someone will do it.</p><p class="a">False</p></li>
+<li><span class="n">25</span><p class="q">Check-ins at an incident can be accomplished at:</p><p class="a">All of the above</p></li>
+<li><span class="n">26</span><p class="q">Never use military time when communicating on missions - civilians don&#x27;t understand it.</p><p class="a">False</p></li>
+<li><span class="n">27</span><p class="q">If instructed to report directly to a tactical assignment, you should report in to the designated Division or Group Supervisor or to the Operations Section Chief or Incident Commander depending upon the level of ICS activation.</p><p class="a">True</p></li>
+<li><span class="n">28</span><p class="q">The following are essential when communicating at any incident:</p><p class="a">A and C</p></li>
+<li><span class="n">29</span><p class="q">When demobilizing, communications equipment and other non-expendable equipment should be returned as instructed by your supervisor.</p><p class="a">True</p></li></ol>
+<footer class="gfoot">Answers match the test banks captured November 2026. If a question on screen reads differently, the screen governs. Real-world rules come from the current publications, not this sheet.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.0</span></footer>
+</section>
+<section class="guide" id="is100" data-title="IS-100">
+<header class="ghead"><p class="kick">FEMA Independent Study</p><h1>IS-100 &middot; Introduction to the Incident Command System</h1><p class="by">ICS-100 &middot; who does what, and the rules that keep it orderly</p><p class="where">Take it at <a href="https://training.fema.gov/is/courseoverview.aspx?code=IS-100.c">training.fema.gov/is</a> (IS-100.c). You need a FEMA SID to submit the exam. 75% passes.</p></header>
+<h2>Core essentials</h2>
+<figure>
+<div class="org">
+ <div class="orgtop">
+  <div class="spacer"></div>
+  <div class="iccol"><div class="node ic"><b>Incident Commander</b><span>Always staffed. Does every job not yet assigned.</span></div><div class="spine"></div></div>
+  <div class="cstaff"><p class="lab">Command Staff &middot; advise the IC</p>
+   <div class="node"><b>Public Information Officer</b><span>Only voice to the media</span></div>
+   <div class="node"><b>Safety Officer</b><span>Can stop unsafe work at once</span></div>
+   <div class="node"><b>Liaison Officer</b><span>Contact for other agencies</span></div>
+  </div>
+ </div>
+ <div class="gstaff">
+  <div class="node"><b>Operations</b><span>Does the tactical work</span></div>
+  <div class="node"><b>Planning</b><span>Tracks resources, information, documents. Writes the IAP.</span></div>
+  <div class="node"><b>Logistics</b><span>Food, comms, medical, transport, facilities</span></div>
+  <div class="node"><b>Finance / Admin</b><span>Costs, time, claims, mutual aid paperwork</span></div>
+ </div>
+ <p class="lab gsl">General Staff &middot; section chiefs, who run the work</p>
+</div><figcaption>The ICS organization</figcaption></figure>
+<ul class="ess"><li>Span of control: one supervisor manages 3 to 7 people; 5 is best.</li><li>Unity of command: each person reports to one supervisor.</li><li>Plain language on the radio. No 10-codes or agency jargon.</li><li>The IC sets objectives (or Unified Command), and establishes and expands the organization.</li><li>Unified Command: agencies set shared incident objectives and keep their own authority.</li><li>Transfer of command always includes a briefing.</li><li>No self-dispatching. Come only when requested through proper channels.</li><li>Accountability = check-in, incident action planning, personal responsibility, resource tracking.</li><li>Coordination is not command: directing, ordering or controlling is command.</li></ul>
+<div class="pb"></div>
+<h2>Answer key <span class="ct">25 questions</span></h2><p class="note">Answer letters are left off because the test can shuffle choices. Match the answer text.</p><ol class="key"><li><span class="n">1</span><p class="q">In a Unified Command, members representing multiple jurisdictions and agencies work together to establish:</p><p class="a">Incident Objectives</p></li>
+<li><span class="n">2</span><p class="q">To ensure a smooth transfer, the outgoing Incident Commander should provide a(n) ___________ to the new Incident Commander.</p><p class="a">Briefing</p></li>
+<li><span class="n">3</span><p class="q">Which General Staff member is responsible for ensuring that assigned incident personnel are fed and have communications, medical support, and transportation as needed to meet the operational objective?</p><p class="a">Logistics Section Chief</p></li>
+<li><span class="n">4</span><p class="q">Which ICS functional area tracks resources, collects and analyzes information, and maintains documentation?</p><p class="a">Planning</p></li>
+<li><span class="n">5</span><p class="q">Expansion of the ICS modular organization is the responsibility of the:</p><p class="a">Incident Commander</p></li>
+<li><span class="n">6</span><p class="q">Incident objectives that drive incident operations are established by the:</p><p class="a">Incident Commander or Unified Command</p></li>
+<li><span class="n">7</span><p class="q">Depending on the incident size and complexity, various types of support facilities may be established by:</p><p class="a">Incident Command</p></li>
+<li><span class="n">8</span><p class="q">Which NIMS Management Characteristic is necessary for achieving situational awareness and facilitating information sharing?</p><p class="a">Integrated Communications</p></li>
+<li><span class="n">9</span><p class="q">Which NIMS component includes the Incident Command System (ICS)?</p><p class="a">Command and Coordination</p></li>
+<li><span class="n">10</span><p class="q">The number of subordinates that one supervisor can manage effectively during an incident is referred to as:</p><p class="a">Manageable Span of Control</p></li>
+<li><span class="n">11</span><p class="q">Check-in, Incident Action Planning, Personal Responsibility, and Resource Tracking are all necessary to ensure:</p><p class="a">Accountability</p></li>
+<li><span class="n">12</span><p class="q">If the Incident Commander designates personnel to provide public information, safety, and liaison services, the personnel are collectively referred to as the:</p><p class="a">Command Staff</p></li>
+<li><span class="n">13</span><p class="q">Which position is always staffed in ICS applications?</p><p class="a">Incident Commander</p></li>
+<li><span class="n">14</span><p class="q">At the incident scene, who handles media inquiries?</p><p class="a">Public Information Officer</p></li>
+<li><span class="n">15</span><p class="q">Which ICS functional area arranges for resources and needed services to support achievement of the incident objectives?</p><p class="a">Logistics</p></li>
+<li><span class="n">16</span><p class="q">Which member of the Command Staff interfaces with other agencies to meet incident-related information requirements?</p><p class="a">Liaison Officer</p></li>
+<li><span class="n">17</span><p class="q">Which NIMS Management Characteristic refers to personnel requested through appropriate authorities and established resource management systems?</p><p class="a">Dispatch/ Deployment</p></li>
+<li><span class="n">18</span><p class="q">The NIMS Management Characteristic of Chain of Command and Unity of Command means that each person:</p><p class="a">Reports to only one ICS supervisor.</p></li>
+<li><span class="n">19</span><p class="q">Which NIMS Management Characteristic may include gathering, analyzing, and assessing weather service data from technical specialists?</p><p class="a">Information and Intelligence Management</p></li>
+<li><span class="n">20</span><p class="q">When command is transferred, the process should include a(n):</p><p class="a">Briefing</p></li>
+<li><span class="n">21</span><p class="q">Which ICS function is responsible for documentation of mutual aid agreements?</p><p class="a">Finance/Administration</p></li>
+<li><span class="n">22</span><p class="q">Establishment of the ICS modular organization is the responsibility of the:</p><p class="a">Incident Commander</p></li>
+<li><span class="n">23</span><p class="q">The Liaison Officer:</p><p class="a">Is the point of contact for other response organizations.</p></li>
+<li><span class="n">24</span><p class="q">Which one of the following activities is not an example of incident coordination?</p><p class="a">Directing, ordering, or controlling.</p></li>
+<li><span class="n">25</span><p class="q">Major activities of the Planning Section include:</p><p class="a">Preparing and documenting Incident Action Plans.</p></li></ol>
+<footer class="gfoot">Answers match the test banks captured November 2026. If a question on screen reads differently, the screen governs. Real-world rules come from the current publications, not this sheet.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.0</span></footer>
+</section>
+<section class="guide" id="is200" data-title="IS-200">
+<header class="ghead"><p class="kick">FEMA Independent Study</p><h1>IS-200 &middot; Basic ICS for Initial Response</h1><p class="by">ICS-200 &middot; growing the organization, briefings and transfer of command</p><p class="where">Take it at <a href="https://training.fema.gov/is/courseoverview.aspx?code=IS-200.c">training.fema.gov/is</a> (IS-200.c). You need a FEMA SID to submit the exam. 75% passes.</p></header>
+<h2>Core essentials</h2>
+<figure><div class="types"><div class="trow"><span class="tl">Type 5</span><div class="tbar" style="width:20%"></div><span class="td">1 to 2 single resources, up to 6 people. Hours. No written IAP.</span></div><div class="trow"><span class="tl">Type 4</span><div class="tbar" style="width:38%"></div><span class="td">Several resources, one operational period. IC covers the staff jobs. No written IAP.</span></div><div class="trow"><span class="tl">Type 3</span><div class="tbar" style="width:58%"></div><span class="td">Some or all Command and General Staff, division/group supervisors. Multiple periods. Written IAP.</span></div><div class="trow"><span class="tl">Type 2</span><div class="tbar" style="width:78%"></div><span class="td">Regional or national resources, up to 200 people per operational period. Written IAP.</span></div><div class="trow"><span class="tl">Type 1</span><div class="tbar" style="width:100%"></div><span class="td">National resources, all positions and branches, 500+ per period. Disaster declaration possible.</span></div><p class="tscale"><span>Least complex</span><span>Most complex</span></p></div><figcaption>Incident types: complexity sets the structure</figcaption></figure>
+<div class="figrow">
+<figure>
+<div class="stair">
+ <div class="lvl" style="--i:0"><b>Incident Command</b><span>Incident Commander</span><em>Deputy allowed</em></div>
+ <div class="lvl" style="--i:1"><b>Section</b><span>Chief</span><em>Deputy allowed</em></div>
+ <div class="lvl" style="--i:2"><b>Branch</b><span>Director</span><em>Deputy allowed. Added when span of control is exceeded.</em></div>
+ <div class="lvl" style="--i:3"><b>Division (area) or Group (function)</b><span>Supervisor</span><em>No deputy</em></div>
+ <div class="lvl" style="--i:4"><b>Strike Team (same kind and type) or Task Force (mixed)</b><span>Leader</span><em>No deputy</em></div>
+</div><figcaption>Titles by level</figcaption></figure>
+<figure><div class="flow vert"><div class="step"><span class="sn">1</span><b>Assess</b><span>Incoming IC checks the situation</span></div><div class="step"><span class="sn">2</span><b>Brief</b><span>Outgoing IC briefs face to face, using ICS Form 201</span></div><div class="step"><span class="sn">3</span><b>Decide</b><span>Who takes command, and when</span></div><div class="step"><span class="sn">4</span><b>Announce</b><span>Tell everyone the effective time and date</span></div></div><figcaption>Transfer of command</figcaption></figure>
+</div>
+<ul class="ess"><li>Only the functions and positions needed are filled.</li><li>Objectives are specific and measurable, not broad.</li><li>A more qualified arrival has options: assume command, keep it as is, or request a more qualified IC.</li><li>Operational Period Briefing presents the IAP to supervisors; the Planning Section Chief runs it. Field-level briefings go to crews.</li><li>IC authority comes from law, agency policy, and delegation of authority. The IC approves the IAP and resource orders and releases.</li><li>Predicting resource needs to choose the structure is complexity analysis.</li></ul>
+<div class="pb"></div>
+<h2>Answer key <span class="ct">31 questions</span></h2><ol class="key"><li><span class="n">1</span><p class="q">An important feature of Emergency Operation Plans is that they ________________________.</p><p class="a">provide a uniform response to all hazards that a community may face.</p></li>
+<li><span class="n">2</span><p class="q">When a more qualified person arrives on scene, which statement best describes what happens?</p><p class="a">The more qualified person has options based on agency guidelines; these can include assuming command, maintaining command as is, or requesting a more qualified Incident Commander.</p></li>
+<li><span class="n">3</span><p class="q">When an incident expands ________________________.</p><p class="a">only the functions and positions necessary are filled.</p></li>
+<li><span class="n">4</span><p class="q">Which Incident Type requires one or two single resources with up to six personnel?</p><p class="a">Type 5</p></li>
+<li><span class="n">5</span><p class="q">Which of these is NOT a tool that you would need at the incident?</p><p class="a">Exercise Plan</p></li>
+<li><span class="n">6</span><p class="q">To ensure a smooth transfer, the outgoing Incident Commander should provide a _________ to the new Incident Commander.</p><p class="a">Transfer of Command Briefing</p></li>
+<li><span class="n">7</span><p class="q">Which Incident Type requires regional or national resources with up to 200 personnel per operational period?</p><p class="a">Type 2</p></li>
+<li><span class="n">8</span><p class="q">Which factor does not impact the complexity of an incident?</p><p class="a">Cost considerations of responding agencies</p></li>
+<li><span class="n">9</span><p class="q">Which statement below correctly describes how to manage span of control using the modular concept?</p><p class="a">Span of control is accomplished by organizing resources into Teams, Divisions, Groups, Branches, or Sections</p></li>
+<li><span class="n">10</span><p class="q">Which statement best describes ICS Form 201?</p><p class="a">It contains status information for briefing the incoming Incident Commander or other incoming resources.</p></li>
+<li><span class="n">11</span><p class="q">Which major NIMS Component describes systems and methods that help to ensure that incident personnel and other decision makers have the means and information they need to make and communicate decisions?</p><p class="a">Communications and Information Management</p></li>
+<li><span class="n">12</span><p class="q">When command is transferred, then all personnel involved in the incident should be told:</p><p class="a">The effective time and date of the transfer</p></li>
+<li><span class="n">13</span><p class="q">Which of the following best describes the Operational Period Briefing?</p><p class="a">Presents the Incident Action Plan (IAP) for the upcoming period to supervisory personnel</p></li>
+<li><span class="n">14</span><p class="q">Which ICS Supervisory Position title is used at the Division/Group organizational level?</p><p class="a">Supervisor</p></li>
+<li><span class="n">15</span><p class="q">Which type of briefing is delivered to individual resources or crews who are assigned to operational tasks and/or work at or near the incident site?</p><p class="a">Field-level briefing</p></li>
+<li><span class="n">16</span><p class="q">An Incident Commander&#x27;s scope of authority is derived from existing laws, agency policies, and/or _________.</p><p class="a">Delegation of Authority</p></li>
+<li><span class="n">17</span><p class="q">Who generally facilitates the Operational Period Brief?</p><p class="a">Planning Section Chief</p></li>
+<li><span class="n">18</span><p class="q">Which of the following is NOT a recommended characteristic for incident objectives?</p><p class="a">Stated in broad terms to allow for flexibility</p></li>
+<li><span class="n">19</span><p class="q">Which of the following is NOT part of the NIMS Management characteristic of Chain of Command?</p><p class="a">Restricts personnel from sharing information with each other.</p></li>
+<li><span class="n">20</span><p class="q">A right or obligation to act on behalf of a department, agency, or jurisdiction is defined as?</p><p class="a">Authority</p></li>
+<li><span class="n">21</span><p class="q">Which statement accurately describes one reason a delegation of authority may be needed?</p><p class="a">When the incident scope is complex or beyond existing authorities</p></li>
+<li><span class="n">22</span><p class="q">Which NIMS Management Characteristic includes developing and issuing assignments, plans, procedures, and protocols to accomplish tasks?</p><p class="a">Management by Objectives</p></li>
+<li><span class="n">23</span><p class="q">Which Incident Type do these characteristics describe: some or all of the Command and General Staff are activated as well as Division or Group Supervisor and/or Unit Leader positions, the incident extends into multiple operational periods, and a written IAP is required?</p><p class="a">Type 3</p></li>
+<li><span class="n">24</span><p class="q">Which Incident Type requires regional or national resources, all Command and General Staff positions are activated, branches are activated, personnel may exceed 500 per operational period, and a disaster declaration may occur?</p><p class="a">Type 1</p></li>
+<li><span class="n">25</span><p class="q">Which General Staff member directs management of all incident-related operational activities to achieve the incident objectives?</p><p class="a">Operations Section Chief</p></li>
+<li><span class="n">26</span><p class="q">The Incident Command System (ICS) is:</p><p class="a">A standardized management tool for meeting the demands of small or large emergency or nonemergency situations.</p></li>
+<li><span class="n">27</span><p class="q">Predicting the resource needs of an incident to determine the appropriate management structure is referred to as (a):</p><p class="a">Complexity Analysis</p></li>
+<li><span class="n">28</span><p class="q">Which NIMS Management Characteristic helps to eliminate confusion caused by multiple, conflicting directives?</p><p class="a">Chain of Command and Unity of Command</p></li>
+<li><span class="n">29</span><p class="q">Which Command Staff member approves the Incident Action Plan and all requests pertaining to the ordering and releasing of incident resources?</p><p class="a">Incident Commander</p></li>
+<li><span class="n">30</span><p class="q">Which of the following would NOT typically be included in the transfer of command briefing?</p><p class="a">Special requests from agency representatives</p></li>
+<li><span class="n">31</span><p class="q">Which of the following demonstrates a leader&#x27;s commitment to duty?</p><p class="a">Stepping out of a tactical role to assume a leadership role when needed. Developing subordinates for the future. Ensuring tasks are understood.</p></li></ol>
+<footer class="gfoot">Answers match the test banks captured November 2026. If a question on screen reads differently, the screen governs. Real-world rules come from the current publications, not this sheet.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.0</span></footer>
+</section>
+<section class="guide" id="is700" data-title="IS-700">
+<header class="ghead"><p class="kick">FEMA Independent Study</p><h1>IS-700 &middot; Introduction to NIMS</h1><p class="by">National Incident Management System &middot; a systematic approach for everyone with incident duties</p><p class="where">Take it at <a href="https://training.fema.gov/is/courseoverview.aspx?code=IS-700.b">training.fema.gov/is</a> (IS-700.b). You need a FEMA SID to submit the exam. 75% passes.</p></header>
+<h2>Core essentials</h2>
+<div class="figrow">
+<figure><p class="lab">Guiding principles</p><div class="tiles c3"><div class="tile"><b>Flexibility</b><span></span></div><div class="tile"><b>Standardization</b><span>Supports interoperability</span></div><div class="tile"><b>Unity of Effort</b><span></span></div></div><p class="lab">Components</p><div class="tiles c3"><div class="tile"><b>Resource Management</b><span></span></div><div class="tile"><b>Command and Coordination</b><span>Includes ICS</span></div><div class="tile"><b>Communications and Information Management</b><span></span></div></div><figcaption>NIMS in one view</figcaption></figure>
+<figure>
+<div class="cc">
+ <div class="ccstack">
+  <div class="node"><b>MAC Group</b><span>Senior officials. Set policy and priorities, settle resource conflicts. Do not replace EOCs or dispatch.</span></div>
+  <div class="node"><b>Emergency Operations Center</b><span>Off-site. Information sharing, resource coordination, policy direction. Activates when local response grows large or complex. ICS-like layout.</span></div>
+  <div class="node"><b>Incident Command (ICS)</b><span>On scene. IC or Unified Command. Planning Section writes the IAP.</span></div>
+ </div>
+ <div class="node jis"><b>Joint Information System</b><span>One coordinated public message across all levels. The JIC is where PIOs work together.</span></div>
+</div><figcaption>Command and coordination structures</figcaption></figure>
+</div>
+<figure><div class="flow "><div class="step"><span class="sn">1</span><b>Identify requirements</b><span>Type, quantity, location, users</span></div><div class="step"><span class="sn">2</span><b>Order and acquire</b><span>Local first, if available</span></div><div class="step"><span class="sn">3</span><b>Mobilize</b><span>Deploy or activate</span></div><div class="step"><span class="sn">4</span><b>Track and report</b><span>Coordinate throughout</span></div><div class="step"><span class="sn">5</span><b>Demobilize</b><span>Orderly release</span></div><div class="step"><span class="sn">6</span><b>Reimburse and restock</b><span></span></div></div><figcaption>Resource management during an incident</figcaption></figure>
+<div class="cols2">
+<ul class="ess"><li>Chain of Command and Unity of Command: ends conflicting instructions.</li><li>Common Terminology: standard names for functions and units.</li><li>Comprehensive Resource Management: up-to-date inventories.</li><li>Information and Intelligence Management: gather, analyze, share data.</li><li>NIMS lists 14 management characteristics; the test asks about these four.</li></ul>
+<ul class="ess"><li>Interoperability: people and systems working well together.</li><li>Resilience and Redundancy: uninterrupted flow of information.</li><li>Technology Use: social media, maps, visualizations.</li><li>Inventorying happens outside incident response. Resources are typed by capability.</li><li>EMAC: state-to-state resource sharing.</li></ul>
+</div>
+<div class="pb"></div>
+<h2>Answer key <span class="ct">28 questions</span></h2><ol class="key"><li><span class="n">1</span><p class="q">Which NIMS Management Characteristic helps to eliminate confusion caused by conflicting instructions?</p><p class="a">Chain of Command and Unity of Command</p></li>
+<li><span class="n">2</span><p class="q">Which major NIMS Component describes recommended organizational structures for incident management at the operational and incident support levels?</p><p class="a">Command and Coordination</p></li>
+<li><span class="n">3</span><p class="q">Which of the following is an EOC function?</p><p class="a">All of the above (Information sharing, resource coordination, and policy direction)</p></li>
+<li><span class="n">4</span><p class="q">Which EOC configuration allows personnel to function in the EOC with minimal preparation or startup time?</p><p class="a">ICS or ICS-like EOC structure</p></li>
+<li><span class="n">5</span><p class="q">The ‘capacity for emergency management and response personnel to interact and work well together’ describes which of the key communications and information systems principles?</p><p class="a">Interoperability</p></li>
+<li><span class="n">6</span><p class="q">One EOC function is to provide coordinated support to incident command, on-scene personnel, and other EOCs, if needed.</p><p class="a">True</p></li>
+<li><span class="n">7</span><p class="q">Which NIMS Management Characteristic involves using standardized names and definitions for major organizational functions and units?</p><p class="a">Common Terminology</p></li>
+<li><span class="n">8</span><p class="q">In NIMS, resource inventorying refers to preparedness activities conducted _________ (of) incident response.</p><p class="a">outside</p></li>
+<li><span class="n">9</span><p class="q">Which EOC configuration aligns with the on-scene incident organization?</p><p class="a">ICS or ICS-like EOC structure</p></li>
+<li><span class="n">10</span><p class="q">Which NIMS Management Characteristic follows established processes for gathering, analyzing, assessing, sharing, and managing data?</p><p class="a">Information and Intelligence Management</p></li>
+<li><span class="n">11</span><p class="q">Regarding resource typing, which of the following characteristics are typically used to categorize resources?</p><p class="a">Capability</p></li>
+<li><span class="n">12</span><p class="q">Incident information is used across ICS, EOCs, MAC Groups, and JIS to aid in planning, determine incident costs, and identify safety issues.</p><p class="a">True</p></li>
+<li><span class="n">13</span><p class="q">The MAC Group does not replace the primary functions of EOCs or other dispatch organizations.</p><p class="a">True</p></li>
+<li><span class="n">14</span><p class="q">EOCs receive senior level guidance from:</p><p class="a">MAC Groups</p></li>
+<li><span class="n">15</span><p class="q">Which NIMS guiding principle supports interoperability among multiple organizations?</p><p class="a">Standardization</p></li>
+<li><span class="n">16</span><p class="q">Which NIMS Management Characteristic includes maintaining accurate and up-to-date inventories of personnel, equipment, teams, and supplies?</p><p class="a">Comprehensive Resource Management</p></li>
+<li><span class="n">17</span><p class="q">Which resource management task deploys or activates personnel and resources?</p><p class="a">Mobilize</p></li>
+<li><span class="n">18</span><p class="q">Which resource management task includes activating local resource requirements, if available?</p><p class="a">Order and Acquire</p></li>
+<li><span class="n">19</span><p class="q">Which resource management task determines the type, quantity, receiving location, and users of resources?</p><p class="a">Identify Requirements</p></li>
+<li><span class="n">20</span><p class="q">Which NIMS Command and Coordination structures are offsite locations where staff from multiple agencies come together?</p><p class="a">Emergency Operations Centers (EOCs)</p></li>
+<li><span class="n">21</span><p class="q">Which of the following correctly describes NIMS?</p><p class="a">A systematic approach to incident management.</p></li>
+<li><span class="n">22</span><p class="q">When an incident occurs or threatens, local emergency personnel manage response using NIMS principles and ICS. If the incident is or becomes large or complex, __________________.</p><p class="a">Local EOCs activate.</p></li>
+<li><span class="n">23</span><p class="q">Emergency Management Assistance Compact (EMAC) is a state-to-state system for sharing resources during an emergency or disaster.</p><p class="a">True</p></li>
+<li><span class="n">24</span><p class="q">Which resource management task enables resource coordination throughout the incident?</p><p class="a">Track and Report</p></li>
+<li><span class="n">25</span><p class="q">The Incident Action Plan is prepared by General Staff from which section?</p><p class="a">Planning</p></li>
+<li><span class="n">26</span><p class="q">Ensuring the uninterrupted flow of information’ describes which key communications and information systems principle?</p><p class="a">Resilience and Redundancy</p></li>
+<li><span class="n">27</span><p class="q">Using social media to support activities such as producing maps and incident visualizations is an example of which communications standard?</p><p class="a">Technology Use and Procedures</p></li>
+<li><span class="n">28</span><p class="q">NIMS is applicable to all stakeholders with incident related responsibilities.</p><p class="a">True</p></li></ol>
+<footer class="gfoot">Answers match the test banks captured November 2026. If a question on screen reads differently, the screen governs. Real-world rules come from the current publications, not this sheet.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.0</span></footer>
+</section>
+<section class="guide" id="is800" data-title="IS-800">
+<header class="ghead"><p class="kick">FEMA Independent Study</p><h1>IS-800 &middot; National Response Framework</h1><p class="by">NRF &middot; always in effect, a guide for how the nation responds</p><p class="where">Take it at <a href="https://training.fema.gov/is/courseoverview.aspx?code=IS-800.d">training.fema.gov/is</a> (IS-800.d). You need a FEMA SID to submit the exam. 75% passes.</p></header>
+<h2>Core essentials</h2>
+<figure><div class="flow "><div class="step"><span class="sn">1</span><b>Local and tribal</b><span>First to arrive, last to leave. Police, fire, EMS. IC relays needs to the local EOC.</span></div><div class="step"><span class="sn">2</span><b>State</b><span>Governor and state EOC. Other states help through EMAC.</span></div><div class="step"><span class="sn">3</span><b>Federal</b><span>Stafford Act: FEMA leads, JFO with Unified Coordination Group. Non-Stafford: agency with primary legal authority.</span></div></div><figcaption>Tiered response: incidents begin and end locally</figcaption></figure>
+<figure><div class="tiles c5"><div class="tile"><b>Prevention</b><span>Stop imminent terrorism</span></div><div class="tile"><b>Protection</b><span>Secure people and assets</span></div><div class="tile"><b>Mitigation</b><span>Reduce loss of life and property by lessening disaster impact</span></div><div class="tile"><b>Response</b><span>Save lives, protect property and environment, meet basic needs</span></div><div class="tile"><b>Recovery</b><span>Restore and rebuild</span></div></div><figcaption>Five mission areas</figcaption></figure>
+<figure><div class="tiles c7"><div class="tile"><b>Safety and Security</b><span></span></div><div class="tile"><b>Food, Water, Shelter</b><span></span></div><div class="tile"><b>Health and Medical</b><span></span></div><div class="tile"><b>Energy</b><span></span></div><div class="tile"><b>Communications</b><span></span></div><div class="tile"><b>Transportation</b><span></span></div><div class="tile"><b>Hazardous Materials</b><span></span></div></div><figcaption>Seven community lifelines: keep critical government and business functions running</figcaption></figure>
+<div class="cols2">
+<ul class="ess"><li>Three core capabilities cross all mission areas and lifelines: Planning; Public Information and Warning; Operational Coordination.</li><li>NRF guiding principles include engaged partnership (whole community, information sharing) and scalable, flexible, adaptable capabilities.</li><li>NRF aligns with NIMS. National Preparedness Goal sets the vision and core capabilities.</li><li>Unified Command benefit: joint priorities.</li></ul>
+<ul class="ess"><li>NOC: DHS principal operations center. RRCC: FEMA regional center.</li><li>MAC Group: senior officials who can commit agency resources and funds.</li><li>ESFs: government and private-sector groups, not only federal. ESF #6 works with NCMEC to reunify children.</li><li>Tribal governments may deal directly with the federal government.</li><li>CAP supports ESF #9, Search and Rescue. Not on the test.</li></ul>
+</div>
+<p class="note">The test says seven lifelines. FEMA added an eighth, Water Systems, in 2023; answer the test as written.</p>
+<div class="pb"></div>
+<h2>Answer key <span class="ct">35 questions</span></h2><ol class="key"><li><span class="n">1</span><p class="q">Which partner is often the first to arrive and last to leave the incident site of a disaster?</p><p class="a">Local government</p></li>
+<li><span class="n">2</span><p class="q">In order to help form a common operating picture of the incident and secure additional resources the Incident Commander relays requirements to:</p><p class="a">Local emergency operations center</p></li>
+<li><span class="n">3</span><p class="q">Scalable, flexible, and adaptable operational capabilities are included in?</p><p class="a">The NRF guiding principles</p></li>
+<li><span class="n">4</span><p class="q">Which of the following sets the vision for preparedness nationwide and identifies core capabilities?</p><p class="a">National Preparedness Goal</p></li>
+<li><span class="n">5</span><p class="q">Which organization serves as the principal operations center for the Department of Homeland Security?</p><p class="a">National Operations Center (NOC)</p></li>
+<li><span class="n">6</span><p class="q">A MAC Group is:</p><p class="a">Composed of senior officials, such as agency administrators, executives, or their designees, who are authorized to represent or commit agency resources and funds in support of incident activities.</p></li>
+<li><span class="n">7</span><p class="q">Which of the following is a mission area?</p><p class="a">Recovery</p></li>
+<li><span class="n">8</span><p class="q">All agencies with jurisdictional authority and/or functional responsibility for the incident provide joint support through mutually developed incident objectives and strategies. This is an example of:</p><p class="a">Unified Command</p></li>
+<li><span class="n">9</span><p class="q">The National Response Framework:</p><p class="a">Outlines how the Response mission area relates to other mission areas.</p></li>
+<li><span class="n">10</span><p class="q">Which government entity can elect to deal directly with the Federal Government for federal disaster assistance?</p><p class="a">Tribal government</p></li>
+<li><span class="n">11</span><p class="q">Why is it important to engage communities in preparedness efforts?</p><p class="a">Provide opportunities for sharing information</p></li>
+<li><span class="n">12</span><p class="q">Which of the following are part of the DHS/FEMA Federal Operations Centers?</p><p class="a">Regional Response Coordination Center (RRCC)</p></li>
+<li><span class="n">13</span><p class="q">Which Response core capability involves ensuring the capacity for timely communications in support of security, situational awareness, and operations by any and all means available, among and between affected communities in the impact area and all response forces?</p><p class="a">Operational Communications</p></li>
+<li><span class="n">14</span><p class="q">Many jurisdictions/organizations configure their EOCs using the standard _______ organizational structure?</p><p class="a">Incident Command System (ICS)</p></li>
+<li><span class="n">15</span><p class="q">Emergency Support Functions (ESF) are organized groups of?</p><p class="a">government and private-sector entities.</p></li>
+<li><span class="n">16</span><p class="q">For non-Stafford Act Incidents, who activates the appropriate coordinating structures?</p><p class="a">Agency with primary legal authority</p></li>
+<li><span class="n">17</span><p class="q">One premise of the National Response Framework is Tiered Response. Tiered Response can best be described as:</p><p class="a">Incidents are generally handled at the lowest jurisdictional level. Incidents begin and end locally.</p></li>
+<li><span class="n">18</span><p class="q">Which of the following are part of the community lifelines that represent the most basic services a community relies on?</p><p class="a">Food, Water, Shelter</p></li>
+<li><span class="n">19</span><p class="q">Which group of core capabilities spans all seven Community Lifelines?</p><p class="a">Planning; public information and warning; and operational coordination</p></li>
+<li><span class="n">20</span><p class="q">Which of the following is a benefit of Unified Command?</p><p class="a">Joint Priorities</p></li>
+<li><span class="n">21</span><p class="q">What is the correct function for the National Center for Missing &amp; Exploited Children (NCMEC)?</p><p class="a">Facilitates the identification of children and their reunification</p></li>
+<li><span class="n">22</span><p class="q">Which of the following statements about Emergency Support Functions (ESFs) is correct?</p><p class="a">ESFs are not exclusively federal coordinating mechanism</p></li>
+<li><span class="n">23</span><p class="q">The response protocols and structures described in the National Response Framework align with what doctrine to support a unified approach to response?</p><p class="a">National Incident Management System (NIMS)</p></li>
+<li><span class="n">24</span><p class="q">States request assistance from other states through interstate mutual aid and assistance agreements such as:</p><p class="a">Emergency Management Assistance Compacts (EMAC)</p></li>
+<li><span class="n">25</span><p class="q">A basic premise of the National Response Framework is that:</p><p class="a">Most incidents begin and end locally and are managed at the local or tribal level.</p></li>
+<li><span class="n">26</span><p class="q">A guiding principle of the National Response Framework is that:</p><p class="a">Effective partnership relies on engaging all elements of the whole community.</p></li>
+<li><span class="n">27</span><p class="q">Operational Coordination is considered a cross cutting capability. In this sense, cross cutting means?</p><p class="a">Is used in all five of the mission area</p></li>
+<li><span class="n">28</span><p class="q">The National Response Framework is:</p><p class="a">Always in effect, and elements can be implemented as needed on a flexible, scalable basis to improve response.</p></li>
+<li><span class="n">29</span><p class="q">What is defined as enabling the continuous operation of critical government and business functions?</p><p class="a">a community lifeline</p></li>
+<li><span class="n">30</span><p class="q">The term &quot;response&quot; as used in the National Response Framework includes:</p><p class="a">Actions to save lives, protect property and the environment, stabilize communities, and meet basic human needs following an incident.</p></li>
+<li><span class="n">31</span><p class="q">The five Mission Areas outlined in the National Response Framework are Prevention, Protection, Mitigation, Response, and ____________?</p><p class="a">Recovery</p></li>
+<li><span class="n">32</span><p class="q">The Unified Coordination Group:</p><p class="a">Provides coordination leadership at the Joint Field Office.</p></li>
+<li><span class="n">33</span><p class="q">The police, fire, and emergency medical services are usually categorized inside which government?</p><p class="a">Local government</p></li>
+<li><span class="n">34</span><p class="q">Select one of the three core capabilities that spans all Mission Areas?</p><p class="a">Operational Coordination</p></li>
+<li><span class="n">35</span><p class="q">What is the definition for &quot;Mitigation&quot; mission area?</p><p class="a">Reduce loss of life and property by lessening the impact of disasters.</p></li></ol>
+<footer class="gfoot">Answers match the test banks captured November 2026. If a question on screen reads differently, the screen governs. Real-world rules come from the current publications, not this sheet.<span class="ver">NER-VT014 &middot; ES &amp; FEMA Test Guides v1.0.0</span></footer>
+</section>
+</main>
+<script>
+(function(){
+  var guides=[].slice.call(document.querySelectorAll('.guide'));
+  var navs=[].slice.call(document.querySelectorAll('nav a'));
+  var find=document.getElementById('find'), hits=document.getElementById('hits');
+  var tools=document.getElementById('tools'), printOne=document.getElementById('printOne');
+  function show(){
+    var id=(location.hash||'#home').slice(1);
+    if(!document.getElementById(id)||!document.getElementById(id).classList.contains('guide')) id='home';
+    guides.forEach(function(g){g.classList.toggle('on',g.id===id)});
+    navs.forEach(function(a){ if(a.dataset.id===id) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+    var g=document.getElementById(id);
+    document.title=(id==='home'?'':g.dataset.title+' · ')+'ES & FEMA Test Guides';
+    var hasKey=!!g.querySelector('ol.key');
+    find.style.display=hasKey?'':'none'; hits.style.display=hasKey?'':'none';
+    printOne.style.display=id==='home'?'none':'';
+    find.value=''; filter();
+    window.scrollTo(0,0);
+  }
+  function filter(){
+    var g=document.querySelector('.guide.on'); if(!g) return;
+    var t=find.value.trim().toLowerCase(), items=g.querySelectorAll('ol.key li'), n=0;
+    [].forEach.call(items,function(li){var m=!t||li.textContent.toLowerCase().indexOf(t)>-1; li.classList.toggle('hide',!m); if(m)n++;});
+    hits.textContent=t?(n+' of '+items.length):'';
+  }
+  find.addEventListener('input',filter);
+  printOne.addEventListener('click',function(){document.body.classList.remove('printall');window.print();});
+  document.getElementById('printAll').addEventListener('click',function(){document.body.classList.add('printall');window.print();});
+  window.addEventListener('afterprint',function(){document.body.classList.remove('printall');});
+  window.addEventListener('hashchange',show);
+  show();
+})();
+</script>
+</body>
+</html>
