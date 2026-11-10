@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.1 - 2026-11-10
+- IS-200 leader titles: arrows replaced with nested stair-step bars (each level's bar spans every level beneath it). Division/Group and Strike Team/Task Force each get their own line.
+
 ## 2.2.0 - 2026-11-10
 - Essentials restructured into concept blocks on every test sheet: bold blue concept name with a quiet subtitle, its diagram, then the bullets that support it, separated by rules. Bullets without a diagram grouped into text-only blocks.
 - Print: practice test follows the essentials without a forced page break; answers still start on their own page.
