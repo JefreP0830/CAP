@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.0 - 2026-11-10
+- Essentials restructured into concept blocks on every test sheet: bold blue concept name with a quiet subtitle, its diagram, then the bullets that support it, separated by rules. Bullets without a diagram grouped into text-only blocks.
+- Print: practice test follows the essentials without a forced page break; answers still start on their own page.
+
 ## 2.1.6 - 2026-11-10
 - IS-200: "Titles by level" rebuilt as a left-to-right ladder of leader titles (Commander, Chief, Director, Supervisor, Leader) with Deputy allowed / No deputy chips. Transfer of command gets its own full-width row. More space between diagrams on every sheet.
 

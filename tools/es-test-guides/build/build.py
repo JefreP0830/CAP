@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.1.6"
+VERSION = "2.2.0"
 
 LET = "ABCD"
 
@@ -59,6 +59,12 @@ def keyterm(x):
 
 def bullets(items, cls=""):
     return f'<ul class="ess {cls}">' + "".join(f"<li>{keyterm(x)}</li>" for x in items) + "</ul>"
+
+def block(caption, inner="", items=None, two=False):
+    # One concept: bold name (text before ":"), quiet subtitle, its diagram, then its supporting bullets.
+    name, _, sub = caption.partition(": ")
+    h = f'<div class="chead"><span class="cname">{name}</span>' + (f'<span class="csub">{sub}</span>' if sub else "") + '</div>'
+    return f'<section class="concept">{h}{inner}{bullets(items, "two" if two else "") if items else ""}</section>'
 
 def head(kicker, title, byline, where):
     return (f'<header class="ghead"><p class="kick">{kicker}</p><h1>{title}</h1>'
@@ -128,28 +134,29 @@ C116 = f"""
 {head("Online test &middot; eServices", "CAPT 116 &middot; General Emergency Services", "CAPR 60-3(I), Emergency Services Training and Operational Missions (26 Dec 12)",
  "Take it in eServices. It is the starting point for every emergency services qualification.")}
 <h2>Core essentials</h2>
-{fig("Support priority when resources are short (§1-4)", flow([
+{block("Support priority: when resources are short (§1-4)", flow([
  ("Air Force", "Highest"), ("Other DoD", ""), ("Federal civil", "FEMA, FAA"), ("State", ""), ("Local", "Lowest")], "rank"))}
-{fig("Minimum team makeup", tiles([
+{block("Minimum team makeup: before release", tiles([
  ("Aircrew of 3", "Mission Pilot flies. Mission Observer helps with navigation, radios and the search. Mission Scanner watches outside for the search objective."),
  ("Ground team of 4+", "Qualified Ground Team Leader plus at least 3 qualified members or supervised trainees. Works at the level of its <i>lowest</i> qualified member.")], 2))}
-
-{bullets([
+{block("On a mission: rules in the field", "", [
  "[[Safety]] must always be a primary concern (§1-1b).",
  "[[CAPR 60-3]] gives direction for mission training, qualification and actual missions. Where it is silent, use common sense and prudent judgment.",
  "[[C911]] missions are imminently serious, where life may be at stake. Only the wing commander or the commander&rsquo;s designee may authorize one (§1-9a).",
  "Air Force-assigned missions: Federal Tort Claims Act (FTCA) liability protection for members; FECA injury benefits for members 18 and older, so a cadet under 18 is not covered by FECA (§1-24a, b).",
  "Private property: entry may be justified to save life, but make every effort to get the controlling agency&rsquo;s approval and the owner&rsquo;s consent (§1-24c).",
+ "Night vision devices: on foot or as a passenger, never by a driver (§1-30a). [[Patient transport]]: only in an emergency when other suitable transport is not readily available (§1-22).",
+ "[[Never alter]], separate or misuse communications or advanced technology equipment (§1-36a).",
+], True)}
+{block("Qualifications and records: paperwork that keeps you mission-ready", "", [
  "[[CAPF 101]] shows what you may do, as trainee or qualified. [[Ratings]] stay valid through the last day of the 36th month (§2-2d).",
+ "Every emergency services member completes [[OPSEC training]] and signs the [[nondisclosure agreement]] (§1-35).",
  "Alert rosters: update at least annually, and reissue after major changes (§1-5c(6)).",
  'Each wing sends its [[annual operations training plan]] to the liaison region in WMIRS by <span class="red">31 July</span> for the next fiscal year (§1-7).',
- "Every emergency services member completes [[OPSEC training]] and signs the [[nondisclosure agreement]] (§1-35).",
- "[[Never alter]], separate or misuse communications or advanced technology equipment (§1-36a).",
  "The IC makes sure [[WMIRS]] entries and approvals are complete before any sortie (§1-15a). [[Electronic records]] are fine if backed up (§1-5b(3)(b)).",
- "Night vision devices: on foot or as a passenger, never by a driver (§1-30a). [[Patient transport]]: only in an emergency when other suitable transport is not readily available (§1-22).",
  "Supplements to CAPR 60-3: wing level or higher only (Congressional Squadron excepted), with region commander, national operations and Air Force liaison approval (§1-2).",
-])}
-<div class="pb"></div>
+], True)}
+<div class="pb soft"></div>
 {practice(P.CAPT116)}
 {FOOT}
 </section>"""
@@ -160,41 +167,36 @@ C117 = f"""
 {head("Online test &middot; eServices", "CAPT 117 &middot; ES Continuing Education", "Part 1 Critical Incident Stress (CAPR 60-5) &middot; Part 2 Crew Resource Management &middot; Part 3 Mission Base",
  "Take it in eServices. Three parts.")}
 <h2>Core essentials</h2>
-{fig("CISM timeline: sooner beats later", flow([
+{block("CISM timeline: Part 1, sooner beats later", flow([
  ("Before", "Pre-incident education. Reduces the harmful effects of trauma."),
  ("Within hours", "Defusing"),
  ("24 to 72 hours", "Debriefing (CISD)"),
- ("After", "Peer support and referral")]))}
-{fig("Four places stress shows up", tiles([
- ("Cognitive", "Confusion, poor memory"), ("Emotional", "Anxiety, grief, guilt"),
- ("Physical", "Fatigue, rapid pulse"), ("Behavioral", "Withdrawal, pacing")], 4))}
-<div class="cols3">
-<div><p class="lab">Part 1 &middot; Critical incident stress</p>
-{bullets([
+ ("After", "Peer support and referral")]), [
  "[[CAPR 60-5]] (3 Nov 06) covers critical incident stress management.",
  "[[CISM]] is many tools, not one procedure. Sooner is better.",
  "[[Crisis intervention]] is short-term emotional first aid, a &ldquo;psychological Band-Aid&rdquo;, not therapy.",
+])}
+{block("Stress reactions: Part 1, four places stress shows up", tiles([
+ ("Cognitive", "Confusion, poor memory"), ("Emotional", "Anxiety, grief, guilt"),
+ ("Physical", "Fatigue, rapid pulse"), ("Behavioral", "Withdrawal, pacing")], 4), [
  "[[Critical incident stress]] is not new: shell shock (World War I), combat fatigue, PTSD.",
  "[[Long-term stress]] accelerates aging and harms health.",
-])}</div>
-<div><p class="lab">Part 2 &middot; Crew resource management</p>
-{bullets([
+])}
+{block("Crew resource management: Part 2, the whole crew flies the mission", "", [
  "[[CRM]] is every crew member&rsquo;s job, not just the pilot in command&rsquo;s. It is about teamwork, communication, attitudes and behavior, not stick skills.",
  "Accidents come from a [[chain of factors]], not one bad decision.",
  "[[Split the workload]] to limit fatigue and keep the crew effective longer. Announce what you are doing. Acknowledge, do it, report it done.",
  "Prioritize: aviate (fly the aircraft first), navigate, communicate. Sterile cockpit applies to everyone aboard.",
  "Decision makers need [[correct, relevant information]] they can control, not everything.",
- "[[Standard terms and signals]] exist for aircrew and flightline so everyone hears the same message."
-])}</div>
-<div><p class="lab">Part 3 &middot; Mission base</p>
-{bullets([
+ "[[Standard terms and signals]] exist for aircrew and flightline so everyone hears the same message.",
+], True)}
+{block("Mission base: Part 3, arriving, working and leaving", "", [
  "Before you leave: know where and when to report, and to whom. Check in at any designated location (command post, base, camp, staging area, helibase).",
  "Sent straight to a [[tactical assignment]]? Report to the division or group supervisor, or the operations chief or IC.",
  "[[Unit log (ICS 214)]]: kept by supervisors, updated every operational period. Use 24-hour time. Radio: clear text, short messages.",
  "[[Pack for an extended stay]]; supplies at the incident may be limited. Finish your assignments, return gear as directed and check out before you leave.",
-])}</div>
-</div>
-<div class="pb"></div>
+], True)}
+<div class="pb soft"></div>
 {practice_parts(P.CAPT117)}
 {FOOT}
 </section>"""
@@ -225,22 +227,23 @@ I100 = f"""
 {head("FEMA Independent Study", "IS-100 &middot; Introduction to the Incident Command System", "ICS-100 &middot; who does what, and the rules that keep it orderly",
  fema_link("IS-100.c"))}
 <h2>Core essentials</h2>
-{fig("The ICS organization", ORG)}
-{bullets([
+{block("The ICS organization: who does what", ORG, [
+ "The [[IC sets objectives]] (or Unified Command), and establishes and expands the organization only as needed (modular).",
+ "Unified Command: agencies set shared incident objectives and keep their own authority.",
+ "[[Transfer of command]] always includes a briefing.",
+ "Incident Command sets up [[support facilities]] as the incident needs them.",
+], True)}
+{block("Rules that keep it orderly: NIMS management characteristics", "", [
  "[[ICS]] works for any incident or planned event, of any size. It sits in the NIMS Command and Coordination component.",
  "Span of control: one supervisor manages 3 to 7 people; 5 is best. Too many? Add a supervisor and reorganize.",
  "Unity of command: each person reports to one supervisor.",
  "Common terminology: standard names for positions, facilities and resources. Plain language on the radio; no 10-codes or agency jargon.",
- "The [[IC sets objectives]] (or Unified Command), and establishes and expands the organization only as needed (modular).",
- "Unified Command: agencies set shared incident objectives and keep their own authority.",
- "[[Transfer of command]] always includes a briefing.",
  "Dispatch/deployment: resources go only when requested through established systems. No self-dispatching.",
  "[[Integrated communications]] supports shared situational awareness. [[Information and intelligence management]] covers gathering data, such as weather from technical specialists.",
- "Incident Command sets up [[support facilities]] as the incident needs them.",
  "[[Accountability]] = check-in, incident action planning, personal responsibility, resource tracking.",
  "Coordination is not command: directing, ordering or controlling is command.",
-])}
-<div class="pb"></div>
+], True)}
+<div class="pb soft"></div>
 {practice(P.IS100)}
 {FOOT}
 </section>"""
@@ -278,26 +281,29 @@ I200 = f"""
 {head("FEMA Independent Study", "IS-200 &middot; Basic ICS for Initial Response", "ICS-200 &middot; growing the organization, briefings and transfer of command",
  fema_link("IS-200.c"))}
 <h2>Core essentials</h2>
-{fig("Incident types: complexity sets the structure", TYPEBARS)}
-{fig("Leader titles: each level has its own title, top to bottom", TITLES)}
-{fig("Transfer of command: four steps", flow([
+{block("Incident types: complexity sets the structure", TYPEBARS, [
+ "[[Complexity]] rises with factors such as the number of jurisdictions, threat to life and property, and size of the area.",
+ "Predicting resource needs to choose the structure is [[complexity analysis]].",
+], True)}
+{block("Leader titles: each level has its own title, top to bottom", TITLES, [
+ "Only the [[functions and positions needed]] are filled. Span of control is kept by organizing resources into teams, divisions, groups, branches or sections.",
+ "[[Chain of command]] governs orders, not information. People still share information across the organization.",
+], True)}
+{block("Transfer of command: four steps", flow([
  ("Assess", "Incoming IC checks the situation"),
  ("Brief", "Outgoing IC briefs face to face, using ICS Form 201"),
  ("Decide", "Who takes command, and when"),
- ("Announce", "Tell everyone the effective time and date")]))}
-{bullets([
- "Only the [[functions and positions needed]] are filled. Span of control is kept by organizing resources into teams, divisions, groups, branches or sections.",
- "[[Complexity]] rises with factors such as the number of jurisdictions, threat to life and property, and size of the area.",
- "[[Objectives]] are specific and measurable, not broad.",
+ ("Announce", "Tell everyone the effective time and date")]), [
  "A [[more qualified arrival]] has options: assume command, keep it as is, or request a more qualified IC.",
- "[[Operational Period Briefing]] presents the IAP to supervisors; the Planning Section Chief runs it. Field-level briefings go to crews.",
  "[[IC authority]] comes from law, agency policy, and delegation of authority. The IC approves the IAP and resource orders and releases.",
- "Predicting resource needs to choose the structure is [[complexity analysis]].",
- "[[Chain of command]] governs orders, not information. People still share information across the organization.",
+], True)}
+{block("Planning and leading: objectives, briefings, duty", "", [
+ "[[Objectives]] are specific and measurable, not broad.",
+ "[[Operational Period Briefing]] presents the IAP to supervisors; the Planning Section Chief runs it. Field-level briefings go to crews.",
  "Leaders show [[commitment to duty]] by stepping into leadership when needed and developing subordinates.",
  "[[Emergency Operations Plans]] give a community a uniform response to all hazards.",
-], "two")}
-<div class="pb"></div>
+], True)}
+<div class="pb soft"></div>
 {practice(P.IS200)}
 {FOOT}
 </section>"""
@@ -318,33 +324,30 @@ I700 = f"""
 {head("FEMA Independent Study", "IS-700 &middot; Introduction to NIMS", "National Incident Management System &middot; a systematic approach for everyone with incident duties",
  fema_link("IS-700.b"))}
 <h2>Core essentials</h2>
-<div class="figrow">
-{fig("NIMS in one view", '<p class="lab">Guiding principles</p>' + tiles([("Flexibility",""),("Standardization","Supports interoperability"),("Unity of Effort","")],3)
- + '<p class="lab">Components</p>' + tiles([("Resource Management",""),("Command and Coordination","Includes ICS"),("Communications and Information Management","")],3))}
-{fig("Command and coordination structures", CC)}
-</div>
-{fig("Resource management during an incident", flow([
+{block("NIMS in one view: principles and components", '<p class="lab">Guiding principles</p>' + tiles([("Flexibility",""),("Standardization","Supports interoperability"),("Unity of Effort","")],3)
+ + '<p class="lab">Components</p>' + tiles([("Resource Management",""),("Command and Coordination","Includes ICS"),("Communications and Information Management","")],3), [
+ "[[NIMS]] applies to every stakeholder with incident duties, at every level. [[Unity of effort]]: organizations work toward shared objectives and keep their own authority.",
+])}
+{block("Command and coordination: on scene, off site, and policy", CC, [
+ "An [[ICS-like EOC]] starts fast because field staff already know the structure.",
+])}
+{block("Resource management: during an incident", flow([
  ("Identify requirements","Type, quantity, location, users"),("Order and acquire","Local first, if available"),
  ("Mobilize","Deploy or activate"),("Track and report","Coordinate throughout"),
- ("Demobilize","Orderly release"),("Reimburse and restock","")]))}
-<div class="cols2">
-{bullets([
- "[[NIMS]] applies to every stakeholder with incident duties, at every level. [[Unity of effort]]: organizations work toward shared objectives and keep their own authority.",
+ ("Demobilize","Orderly release"),("Reimburse and restock","")]), [
+ "[[Inventorying]] happens outside incident response. Resources are typed by capability.",
+ "EMAC: state-to-state resource sharing.",
+], True)}
+{block("Management characteristics and communications: terms the test uses", "", [
  "[[Chain of Command and Unity of Command]]: ends conflicting instructions.",
  "Common Terminology: standard names for functions and units.",
  "Comprehensive Resource Management: up-to-date inventories.",
  "Information and Intelligence Management: gather, analyze, share data.",
-])}
-{bullets([
  "Interoperability: people and systems working well together.",
  "Resilience and Redundancy: uninterrupted flow of information.",
  "Technology Use: social media, maps, visualizations.",
- "[[Inventorying]] happens outside incident response. Resources are typed by capability.",
- "An [[ICS-like EOC]] starts fast because field staff already know the structure.",
- "EMAC: state-to-state resource sharing.",
-])}
-</div>
-<div class="pb"></div>
+], True)}
+<div class="pb soft"></div>
 {practice(P.IS700)}
 {FOOT}
 </section>"""
@@ -355,37 +358,36 @@ I800 = f"""
 {head("FEMA Independent Study", "IS-800 &middot; National Response Framework", "NRF &middot; always in effect, a guide for how the nation responds",
  fema_link("IS-800.d"))}
 <h2>Core essentials</h2>
-{fig("Tiered response: begin and end locally", flow([
+{block("Tiered response: begin and end locally", flow([
  ("Local and tribal", "First to arrive, last to leave. Police, fire, EMS. IC relays needs to the local EOC."),
  ("State", "Governor and state EOC. Other states help through EMAC (interstate mutual aid)."),
- ("Federal", "Stafford Act: FEMA leads; the Unified Coordination Group leads at the Joint Field Office (JFO). Non-Stafford: agency with primary legal authority.")]))}
-{fig("Five mission areas", tiles([
- ("Prevention","Stop imminent terrorism"),("Protection","Secure people and assets"),
- ("Mitigation","Reduce loss of life and property by lessening disaster impact"),
- ("Response","Save lives, protect property and environment, meet basic needs"),("Recovery","Restore and rebuild")],5))}
-{fig("Seven community lifelines", tiles([
- ("Safety and Security",""),("Food, Water, Shelter",""),("Health and Medical",""),("Energy",""),
- ("Communications",""),("Transportation",""),("Hazardous Materials","")],4))}
-<div class="cols2">
-{bullets([
+ ("Federal", "Stafford Act: FEMA leads; the Unified Coordination Group leads at the Joint Field Office (JFO). Non-Stafford: agency with primary legal authority.")]), [
  "[[Tiered response]]: incidents are handled at the lowest jurisdictional level possible.",
- "[[Community lifelines]]: services that keep critical government and business functions running.",
- "[[Three core capabilities]] cross all mission areas and lifelines: Planning; Public Information and Warning; Operational Coordination.",
- "[[NRF guiding principles]] include engaged partnership (whole community, information sharing) and scalable, flexible, adaptable capabilities.",
- "The [[NRF]] is always in effect and scales to the incident. It covers the Response mission area and how it ties to the others, and aligns with NIMS.",
- "The [[National Preparedness Goal]] sets the vision and names the core capabilities. [[Operational Communications]] means timely communications among responders and affected communities.",
- "[[Engaging communities]] shares information and builds readiness.",
- "Unified Command benefit: joint priorities.",
-])}
-{bullets([
+ "[[Tribal governments]] may deal directly with the federal government.",
  "NOC: DHS principal operations center. RRCC: FEMA regional center. Many EOCs use the ICS structure.",
  "MAC Group: senior officials who can commit agency resources and funds.",
- "ESFs: government and private-sector groups, not only federal. ESF #6 works with the National Center for Missing &amp; Exploited Children (NCMEC) to identify children and reunite them with families.",
- "[[Tribal governments]] may deal directly with the federal government.",
+ "Unified Command benefit: joint priorities.",
+], True)}
+{block("Five mission areas: what the nation does", tiles([
+ ("Prevention","Stop imminent terrorism"),("Protection","Secure people and assets"),
+ ("Mitigation","Reduce loss of life and property by lessening disaster impact"),
+ ("Response","Save lives, protect property and environment, meet basic needs"),("Recovery","Restore and rebuild")],5), [
+ "[[Three core capabilities]] cross all mission areas and lifelines: Planning; Public Information and Warning; Operational Coordination.",
+ "The [[National Preparedness Goal]] sets the vision and names the core capabilities. [[Operational Communications]] means timely communications among responders and affected communities.",
+], True)}
+{block("Seven community lifelines: the basics a community runs on", tiles([
+ ("Safety and Security",""),("Food, Water, Shelter",""),("Health and Medical",""),("Energy",""),
+ ("Communications",""),("Transportation",""),("Hazardous Materials","")],4), [
+ "[[Community lifelines]]: services that keep critical government and business functions running.",
+ "The course teaches seven lifelines. FEMA added an eighth, Water Systems, in 2023.",
 ])}
-</div>
-<p class="note">The course teaches seven lifelines. FEMA added an eighth, Water Systems, in 2023.</p>
-<div class="pb"></div>
+{block("The NRF itself: how the framework works", "", [
+ "The [[NRF]] is always in effect and scales to the incident. It covers the Response mission area and how it ties to the others, and aligns with NIMS.",
+ "[[NRF guiding principles]] include engaged partnership (whole community, information sharing) and scalable, flexible, adaptable capabilities.",
+ "[[Engaging communities]] shares information and builds readiness.",
+ "ESFs: government and private-sector groups, not only federal. ESF #6 works with the National Center for Missing &amp; Exploited Children (NCMEC) to identify children and reunite them with families.",
+], True)}
+<div class="pb soft"></div>
 {practice(P.IS800)}
 {FOOT}
 </section>"""
