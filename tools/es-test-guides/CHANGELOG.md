@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.2 - 2026-11-10
+- Key terms in the essentials are full-strength black (not bold) so each bullet's concept stands out; body stays 70% black. Paragraph citations no longer break across lines.
+
 ## 2.1.1 - 2026-11-10
 - Diagram titles and labels: body-text color in spaced capitals, so they stand apart from the gray section titles without going darker than the content.
 
