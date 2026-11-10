@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ES &amp; FEMA Study Companion</title>
+<meta name="description" content="Study companion for CAPT 116, CAPT 117, IS-100, IS-200, IS-700 and IS-800: core essentials, diagrams and original practice tests.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap">
+<style>
+/* Colour tokens from shared/brand/cap-brand.css. */
+:root{
+  --paper:#FFFFFF; --ink:#4D4D4D; --head:#63666A; --rule:#9EA2A2; --hair:#D9DBDB; --tint:#F1F2F2;
+  --blue:#001489; --blue-t:#E8EBF6; --red:#BA0C2F;
+  --f-title:"Rajdhani", Arial, sans-serif; --f-body:Arial, Helvetica, sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink)}
+body{font-family:var(--f-body);font-size:14.67px;line-height:1.2}
+a{color:var(--blue)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* top bar (screen only) */
+.bar{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:3px solid var(--blue)}
+.barin{max-width:1000px;margin:0 auto;padding:12px max(16px,env(safe-area-inset-left,0px)) 10px}
+.brand{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px}
+.brand a{text-decoration:none}
+.brand h1{font-family:var(--f-title);font-weight:700;font-size:26px;color:var(--blue);margin:0;letter-spacing:.02em;text-transform:uppercase}
+.brand p{margin:0;font-size:13.33px;color:var(--ink)}
+nav{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+nav a{font-size:13.33px;text-decoration:none;color:var(--blue);border:1px solid var(--rule);border-radius:3px;padding:7px 10px;min-height:34px;display:inline-flex;align-items:center;white-space:nowrap}
+nav a[aria-current="page"]{background:var(--blue);border-color:var(--blue);color:#fff}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;align-items:center}
+.tools input{flex:1 1 220px;min-width:0;font:inherit;color:var(--ink);border:1px solid var(--rule);border-radius:3px;padding:7px 10px;min-height:36px}
+.btn{font:inherit;font-size:13.33px;height:36px;color:var(--blue);background:var(--paper);border:1px solid var(--blue);border-radius:3px;padding:0 12px;cursor:pointer}
+.btn:hover{background:var(--tint)}
+.hits{font-size:12px;color:var(--head);min-width:7ch}
+
+main{max-width:1000px;margin:0 auto;padding:18px max(16px,env(safe-area-inset-left,0px)) 48px}
+.guide{display:none}
+.guide.on{display:block}
+
+/* sheet header */
+.ghead{border-bottom:1.5px solid var(--hair);padding-bottom:10px;margin-bottom:4px}
+.kick{margin:0;font-size:12px;color:var(--head);letter-spacing:.06em;text-transform:uppercase}
+.ghead h1{font-family:var(--f-title);font-weight:700;font-size:28px;line-height:1.05;color:var(--blue);margin:4px 0 0}
+.by{margin:4px 0 0;font-size:14.67px;color:var(--ink)}
+.where{margin:8px 0 0;font-size:14.67px;color:var(--ink)}
+/* FEMA SID sheet: instructions, so nothing smaller than body size (11pt) */
+.sid .kick,.sid .step span:last-child,.sid figcaption,.sid .tile span,.sid .gfoot,.sid .mono{font-size:14.67px}
+.sid .step b{font-size:16px}
+.lead{font-family:var(--f-title);font-weight:700;color:var(--blue);margin-right:6px}
+ul.ess.two{columns:2;column-gap:28px}ul.ess.two li{break-inside:avoid}
+h2{font-weight:400;font-size:18.67px;color:var(--head);margin:18px 0 8px;padding-bottom:3px;border-bottom:1px solid var(--hair)}
+h2 .ct{font-size:12px;color:var(--head);margin-left:8px}
+h3{font-weight:400;font-size:14.67px;color:var(--head);margin:14px 0 6px;letter-spacing:.02em;break-after:avoid-page}
+.note{font-size:12px;color:var(--ink);margin:6px 0 8px;max-width:90ch}
+.red{color:var(--red)}
+.mono{font-family:"Courier New",monospace;font-size:13px;white-space:nowrap}
+
+/* essentials */
+ul.ess{margin:6px 0 0;padding-left:18px;line-height:1.3}
+ul.ess li{margin:0 0 5px}
+ol.steps{margin:6px 0 0;padding-left:20px;line-height:1.3}
+ol.steps li{margin:0 0 6px}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:4px 28px}
+.cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 24px}
+.figrow{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+figure{margin:10px 0 6px;break-inside:avoid}
+figcaption{font-size:12px;color:var(--head);margin-top:6px;letter-spacing:.02em}
+.lab{font-size:12px;color:var(--head);margin:8px 0 4px;letter-spacing:.03em}
+
+/* diagram: flow */
+.flow{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:18px;counter-reset:s}
+.step{position:relative;border:1px solid var(--rule);border-top:3px solid var(--blue);border-radius:3px;padding:8px 10px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.step+.step::before{content:"";position:absolute;left:-18px;top:50%;width:18px;border-top:1.5px solid var(--rule)}
+.step+.step::after{content:"";position:absolute;left:-7px;top:calc(50% - 4px);border:4px solid transparent;border-left:6px solid var(--rule)}
+.sn{font-family:var(--f-title);font-weight:700;font-size:20px;color:var(--blue);line-height:1}
+.step b{font-weight:400;color:#000;font-size:14.67px}
+.step span:last-child{font-size:12px;color:var(--ink)}
+.flow.rank .step{padding:6px 8px}
+.flow.vert{grid-auto-flow:row;gap:10px}
+.flow.vert .step{flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:2px 10px}
+.flow.vert .step span:last-child{flex-basis:100%}
+.flow.vert .step+.step::before{left:24px;top:-10px;width:0;height:10px;border-top:0;border-left:1.5px solid var(--rule)}
+.flow.vert .step+.step::after{display:none}
+
+/* diagram: tiles */
+.tiles{display:grid;gap:8px}
+.tiles.c2{grid-template-columns:repeat(2,minmax(0,1fr))}.tiles.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.tiles.c4{grid-template-columns:repeat(4,minmax(0,1fr))}.tiles.c5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.tiles.c7{grid-template-columns:repeat(7,minmax(0,1fr))}
+.tile{border:1px solid var(--rule);border-radius:3px;padding:8px 10px;display:flex;flex-direction:column;gap:3px;min-width:0;background:var(--paper)}
+.tile b{font-weight:400;color:#000}
+.tile span{font-size:12px;color:var(--ink)}
+.tile span:empty{display:none}
+
+/* diagram: ICS org */
+.node{border:1px solid var(--rule);border-radius:3px;padding:7px 9px;display:flex;flex-direction:column;gap:2px;background:var(--paper);min-width:0}
+.node b{font-weight:400;color:#000}
+.node span{font-size:12px;color:var(--ink)}
+.org{max-width:860px}
+.orgtop{display:grid;grid-template-columns:1fr minmax(0,250px) 1.3fr;gap:0 28px;align-items:stretch}
+.iccol{display:flex;flex-direction:column;align-items:center}
+.node.ic{border:1.5px solid var(--blue);width:100%;position:relative;margin-top:44px}
+.node.ic::after{content:"";position:absolute;right:-29px;top:50%;width:28px;border-top:1.5px solid var(--rule)}
+.spine{flex:1;min-height:16px;border-left:1.5px solid var(--rule)}
+.cstaff{display:grid;gap:6px;border-left:1.5px solid var(--rule);padding-left:12px;margin-bottom:16px}
+.cstaff .lab{margin:0}
+.gsl{margin:6px 0 0}
+.gstaff{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;position:relative;padding-top:14px}
+.gstaff::before{content:"";position:absolute;top:0;left:12.5%;right:12.5%;border-top:1.5px solid var(--rule)}
+.gstaff .node{position:relative}
+.gstaff .node::before{content:"";position:absolute;top:-15px;left:50%;height:14px;border-left:1.5px solid var(--rule)}
+
+/* diagram: incident types */
+.types{display:grid;gap:6px}
+.trow{display:grid;grid-template-columns:62px minmax(0,220px) 1fr;gap:10px;align-items:center}
+.tl{font-family:var(--f-title);font-weight:700;font-size:17px;color:var(--blue)}
+.tbar{height:14px;background:var(--blue);border-radius:2px;opacity:.85}
+.td{font-size:12.5px;color:var(--ink)}
+.tscale{display:flex;justify-content:space-between;max-width:292px;margin:2px 0 0;padding-left:72px;font-size:11px;color:var(--head)}
+
+/* diagram: title staircase */
+.stair{display:grid;gap:5px}
+.lvl{margin-left:calc(var(--i) * 14px);border:1px solid var(--rule);border-left:3px solid var(--blue);border-radius:3px;padding:6px 9px;display:grid;grid-template-columns:1fr auto;gap:1px 10px}
+.lvl b{font-weight:400;color:#000;font-size:13.33px}
+.lvl span{font-family:var(--f-title);font-weight:700;color:var(--blue);font-size:16px;text-align:right}
+.lvl em{grid-column:1/-1;font-style:normal;font-size:11.5px;color:var(--ink)}
+
+/* diagram: command & coordination */
+.cc{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+.ccstack{display:grid;gap:14px}
+.ccstack .node{position:relative}
+.ccstack .node+.node::before{content:"";position:absolute;left:50%;top:-15px;height:14px;border-left:1.5px solid var(--rule)}
+.node.jis{border-style:dashed;justify-content:center}
+
+/* practice test */
+ol.pq{list-style:none;margin:0;padding:0;columns:2;column-gap:28px}
+ol.pq>li{break-inside:avoid;display:grid;grid-template-columns:24px 1fr;gap:0 6px;padding:7px 0 8px;border-bottom:1px solid var(--hair)}
+ol.pq .n{grid-row:span 2;font-size:12px;color:var(--head);padding-top:1px;font-variant-numeric:tabular-nums}
+ol.pq .q{margin:0 0 4px;line-height:1.25;color:#000}
+ol.opts{list-style:none;margin:0;padding:0;grid-column:2}
+ol.opts li{display:grid;grid-template-columns:18px 1fr;gap:0 4px;padding:1px 0;line-height:1.25}
+ol.opts .l{color:var(--head)}
+body.reveal ol.opts li.ok{color:var(--blue)}
+body.reveal ol.opts li.ok .l{color:var(--blue);font-weight:700}
+ol.pq>li.hide{display:none}
+.akey{display:none}
+body.reveal .akey{display:block}
+ol.ak{list-style:none;margin:0 0 6px;padding:0;columns:2;column-gap:28px}
+ol.ak li{break-inside:avoid;display:grid;grid-template-columns:24px 18px 1fr;gap:0 4px;padding:3px 0;border-bottom:1px solid var(--hair);line-height:1.25}
+ol.ak .n{font-size:12px;color:var(--head)}
+ol.ak b{color:var(--blue)}
+
+/* answer key */
+ol.key{list-style:none;margin:0;padding:0;columns:2;column-gap:28px}
+ol.key li{break-inside:avoid;display:grid;grid-template-columns:24px 1fr;gap:0 6px;padding:7px 0 8px;border-bottom:1px solid var(--hair)}
+ol.key .n{grid-row:span 2;font-size:12px;color:var(--head);padding-top:1px;font-variant-numeric:tabular-nums}
+ol.key .q{margin:0;line-height:1.25}
+ol.key .a{margin:4px 0 0;color:var(--blue);border-left:3px solid var(--blue);padding:1px 0 1px 8px;line-height:1.25}
+ol.key li.hide{display:none}
+
+/* home */
+.pickgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
+.card{border:1px solid var(--rule);border-radius:3px;padding:12px 14px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:4px}
+.card:hover,.card:focus-visible{border-color:var(--blue)}
+.card b{font-weight:400;color:var(--blue);font-size:15.5px}
+.card span{font-size:13.33px}.card em{font-style:normal;font-size:12px;color:var(--head)}
+
+.gfoot{margin-top:20px;padding-top:8px;border-top:1px solid var(--hair);font-size:11.5px;color:var(--head);display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 20px}
+.pb{height:0}
+
+@media (max-width:760px){
+  .bar{position:static}
+  .gstaff{margin-top:10px}
+  .cols2,.cols3,.figrow{grid-template-columns:1fr}
+  ul.ess.two{columns:1}
+  ol.key,ol.pq,ol.ak{columns:1}
+  .flow{grid-auto-flow:row}
+  .step+.step::before{left:24px;top:-18px;width:0;height:18px;border-top:0;border-left:1.5px solid var(--rule)}
+  .step+.step::after{display:none}
+  .flow.rank{grid-auto-flow:row;gap:8px}
+  .flow.rank .step{flex-direction:row;gap:10px;align-items:baseline}
+  .flow.rank .step+.step::before{top:-8px;height:8px}
+  .tiles.c4,.tiles.c5,.tiles.c7{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tiles.c3{grid-template-columns:1fr}
+  .orgtop{grid-template-columns:1fr;gap:10px}.spacer,.spine{display:none}.node.ic{margin-top:0}.node.ic::after{display:none}.cstaff{margin-bottom:0}
+  .gstaff{grid-template-columns:repeat(2,minmax(0,1fr));padding-top:0}.gstaff::before,.gstaff .node::before{display:none}
+  .cc{grid-template-columns:1fr}
+  .trow{grid-template-columns:52px 1fr;}.trow .td{grid-column:1/-1}.tscale{display:none}
+  .lvl{margin-left:calc(var(--i) * 8px)}
+}
+
+@media print{
+  @page{size:letter;margin:0.45in 0.5in}
+  .bar,.home{display:none!important}
+  main{max-width:none;padding:0}
+  body{font-size:13.33px}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body.printall .guide:not(.home){display:block}
+  body.printall .guide:not(.home)+.guide{break-before:page}
+  .pb{break-before:page}
+  .ghead h1{font-size:24px}
+  h2{margin:12px 0 6px;font-size:16px}
+  ol.key{column-gap:22px}
+  ol.key li{padding:5px 0 6px}
+  ol.pq>li.hide{display:grid}
+  .akey{display:block!important}
+  body.reveal ol.opts li.ok,body.reveal ol.opts li.ok .l{color:inherit;font-weight:400}
+  ol.pq>li{padding:4px 0 5px}
+  .note{font-size:11px}
+  ul.ess li{margin-bottom:3px}
+  a{color:inherit;text-decoration:none}
+  .where a{color:var(--blue)}
+  .gfoot{font-size:10px}
+  figure{margin:8px 0 4px}
+}
+</style>
+</head>
+<body>
+<header class="bar">
+ <div class="barin">
+  <div class="brand"><a href="#home"><h1>ES &amp; FEMA Study Companion</h1></a><p>Essentials and practice tests &middot; v{{VERSION}}</p></div>
+  <nav aria-label="Test sheets">{{NAV}}</nav>
+  <div class="tools" id="tools">
+   <input type="search" id="find" placeholder="Find a question by any word" aria-label="Find a question on this sheet">
+   <span class="hits" id="hits" aria-live="polite"></span>
+   <button type="button" class="btn" id="reveal" aria-pressed="false">Show answers</button>
+   <button type="button" class="btn" id="printOne">Print this sheet</button>
+   <button type="button" class="btn" id="printAll">Print all</button>
+  </div>
+ </div>
+</header>
+<main id="main">
+{{BODY}}
+</main>
+<script>
+(function(){
+  var guides=[].slice.call(document.querySelectorAll('.guide'));
+  var navs=[].slice.call(document.querySelectorAll('nav a'));
+  var find=document.getElementById('find'), hits=document.getElementById('hits');
+  var tools=document.getElementById('tools'), printOne=document.getElementById('printOne'), rev=document.getElementById('reveal');
+  function show(){
+    var id=(location.hash||'#home').slice(1);
+    if(!document.getElementById(id)||!document.getElementById(id).classList.contains('guide')) id='home';
+    guides.forEach(function(g){g.classList.toggle('on',g.id===id)});
+    navs.forEach(function(a){ if(a.dataset.id===id) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+    var g=document.getElementById(id);
+    document.title=(id==='home'?'':g.dataset.title+' · ')+'ES & FEMA Study Companion';
+    var hasKey=!!g.querySelector('ol.pq');
+    find.style.display=hasKey?'':'none'; hits.style.display=hasKey?'':'none'; rev.style.display=hasKey?'':'none'; setReveal(false);
+    printOne.style.display=id==='home'?'none':'';
+    find.value=''; filter();
+    window.scrollTo(0,0);
+  }
+  function filter(){
+    var g=document.querySelector('.guide.on'); if(!g) return;
+    var t=find.value.trim().toLowerCase(), items=g.querySelectorAll('ol.pq > li'), n=0;
+    [].forEach.call(items,function(li){var m=!t||li.textContent.toLowerCase().indexOf(t)>-1; li.classList.toggle('hide',!m); if(m)n++;});
+    hits.textContent=t?(n+' of '+items.length):'';
+  }
+  function setReveal(on){document.body.classList.toggle('reveal',on);rev.setAttribute('aria-pressed',on?'true':'false');rev.textContent=on?'Hide answers':'Show answers';}
+  rev.addEventListener('click',function(){setReveal(!document.body.classList.contains('reveal'));});
+  find.addEventListener('input',filter);
+  printOne.addEventListener('click',function(){document.body.classList.remove('printall');window.print();});
+  document.getElementById('printAll').addEventListener('click',function(){document.body.classList.add('printall');window.print();});
+  window.addEventListener('afterprint',function(){document.body.classList.remove('printall');});
+  window.addEventListener('hashchange',show);
+  show();
+})();
+</script>
+</body>
+</html>
