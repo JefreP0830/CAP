@@ -4,7 +4,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.0.2"
+VERSION = "2.0.3"
 
 LET = "ABCD"
 
@@ -45,7 +45,7 @@ def tiles(items, cols=4):
     return f'<div class="tiles c{cols}">{s}</div>'
 
 def fig(caption, inner):
-    return f'<figure>{inner}<figcaption>{caption}</figcaption></figure>'
+    return f'<figure><figcaption>{caption}</figcaption>{inner}</figure>'
 
 def bullets(items):
     return '<ul class="ess">' + "".join(f"<li>{x}</li>" for x in items) + "</ul>"
@@ -333,7 +333,7 @@ I800 = f"""
  ("Response","Save lives, protect property and environment, meet basic needs"),("Recovery","Restore and rebuild")],5))}
 {fig("Seven community lifelines: keep critical government and business functions running", tiles([
  ("Safety and Security",""),("Food, Water, Shelter",""),("Health and Medical",""),("Energy",""),
- ("Communications",""),("Transportation",""),("Hazardous Materials","")],7))}
+ ("Communications",""),("Transportation",""),("Hazardous Materials","")],4))}
 <div class="cols2">
 {bullets([
  "Three core capabilities cross all mission areas and lifelines: Planning; Public Information and Warning; Operational Coordination.",

@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.3 - 2026-11-10
+- All diagrams: no text under 11pt; box titles 12pt; diagram titles moved above each diagram; connector lines 2px dark gray; boxes get a soft shadow; Incident Commander box tinted.
+
 ## 2.0.2 - 2026-11-10
 - FEMA SID sheet: wider gap between the two Have ready columns.
 
