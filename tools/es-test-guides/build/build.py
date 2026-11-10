@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.1.4"
+VERSION = "2.1.5"
 
 LET = "ABCD"
 
@@ -247,15 +247,19 @@ I100 = f"""
 
 # ---------------------------------------------------------------- IS-200
 TYPES = [
- ("5", 20, "1 to 2 single resources, up to 6 people. Hours. No written IAP."),
- ("4", 38, "Several resources, one operational period. IC covers the staff jobs. No written IAP."),
- ("3", 58, "Some or all Command and General Staff, division/group supervisors. Multiple periods. Written IAP."),
- ("2", 78, "Regional or national resources, up to 200 people per operational period. Written IAP."),
- ("1", 100, "National resources, all positions and branches, 500+ per period. Disaster declaration possible."),
+ ("5", 20, "1 to 2 single resources, up to 6 people", "IC only", "Hours", False),
+ ("4", 38, "Several single resources; the IC covers the staff jobs", "IC covers the staff jobs", "One operational period", False),
+ ("3", 58, "Some or all Command and General Staff; division or group supervisors", "Some or all", "Multiple periods", True),
+ ("2", 78, "Regional or national resources, up to 200 people per period", "Most positions", "Multiple periods", True),
+ ("1", 100, "National resources, all positions and branches, 500+ per period. Disaster declaration possible.", "All, plus branches", "Multiple periods", True),
 ]
-TYPEBARS = '<div class="types">' + "".join(
-    f'<div class="trow"><span class="tl">Type {t}</span><div class="tbar" style="width:{w}%"></div><span class="td">{d}</span></div>'
-    for t, w, d in TYPES) + '<p class="tscale"><span>Least complex</span><span>Most complex</span></p></div>'
+TYPEBARS = ('<div class="types"><div class="trow th"><span>Type</span><span>Complexity</span><span>Who responds</span>'
+    '<span>How long</span><span class="iap">Written IAP</span></div>'
+    + "".join(
+    f'<div class="trow"><span class="tl">Type {t}</span><span class="tbw"><span class="tbar" style="width:{w}%"></span></span>'
+    f'<span class="td">{who}</span><span class="td">{dur}</span>'
+    f'<span class="iap {"yes" if iap else "no"}"><span class="mob">Written IAP: </span>{"Required" if iap else "Not required"}</span></div>'
+    for t, w, who, staff, dur, iap in TYPES) + '</div>')
 
 TITLES = """
 <div class="stair">

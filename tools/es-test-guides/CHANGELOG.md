@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.5 - 2026-11-10
+- IS-200 incident types rebuilt as a ruled table: Type, Complexity, Who responds, How long, and Written IAP as its own emphasized column (solid blue Required vs dashed Not required).
+
 ## 2.1.4 - 2026-11-10
 - IS-100 lessons carried to every sheet: bolder flow arrows, real connectors in the IS-200 transfer-of-command flow, CAPT 116 priority flow at full width, short diagram titles (long ones moved into the bullets), missing IS-700 key term marked.
 
