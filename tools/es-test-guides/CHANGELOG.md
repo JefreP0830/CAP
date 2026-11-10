@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.1.0 - 2026-11-10
+- Coverage pass: every practice question now has supporting content in its sheet's essentials. About 35 gaps closed, mostly CAPT 117 CRM and mission base, and NIMS terms in IS-100 and IS-200.
+- CAPT 117 essentials split into Part 1, 2 and 3 columns. IS-200 bullets in two columns.
+- Print tightened so each sheet's essentials still fit page 1.
+
 ## 2.0.4 - 2026-11-10
 - IS-100 org chart: more space above the General Staff label; connector bar now ends cleanly at the outer boxes.
 

@@ -4,7 +4,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.0.4"
+VERSION = "2.1.0"
 
 LET = "ABCD"
 
@@ -47,8 +47,8 @@ def tiles(items, cols=4):
 def fig(caption, inner):
     return f'<figure><figcaption>{caption}</figcaption>{inner}</figure>'
 
-def bullets(items):
-    return '<ul class="ess">' + "".join(f"<li>{x}</li>" for x in items) + "</ul>"
+def bullets(items, cls=""):
+    return f'<ul class="ess {cls}">' + "".join(f"<li>{x}</li>" for x in items) + "</ul>"
 
 def head(kicker, title, byline, where):
     return (f'<header class="ghead"><p class="kick">{kicker}</p><h1>{title}</h1>'
@@ -122,13 +122,14 @@ C116 = f"""
 {fig("Support priority when resources are short (§1-4)", flow([
  ("Air Force", "Highest"), ("Other DoD", ""), ("Federal civil", "FEMA, FAA"), ("State", ""), ("Local", "Lowest")], "rank"))}
 {fig("Minimum team makeup", tiles([
- ("Aircrew of 3", "Mission Pilot, Mission Observer, Mission Scanner"),
+ ("Aircrew of 3", "Mission Pilot flies. Mission Observer helps with navigation, radios and the search. Mission Scanner watches outside for the search objective."),
  ("Ground team of 4+", "Qualified Ground Team Leader plus at least 3 qualified members or supervised trainees. Works at the level of its <i>lowest</i> qualified member.")], 2))}
 </div>
 {bullets([
  "Safety must always be a primary concern (§1-1b).",
- "C911 (imminently serious) missions: only the wing commander or the commander&rsquo;s designee may authorize (§1-9a).",
- "Air Force-assigned missions: FTCA liability protection for members; FECA injury benefits for members 18 and older (§1-24a, b).",
+ "CAPR 60-3 gives direction for mission training, qualification and actual missions. Where it is silent, use common sense and prudent judgment.",
+ "C911 missions are imminently serious, where life may be at stake. Only the wing commander or the commander&rsquo;s designee may authorize one (§1-9a).",
+ "Air Force-assigned missions: Federal Tort Claims Act (FTCA) liability protection for members; FECA injury benefits for members 18 and older, so a cadet under 18 is not covered by FECA (§1-24a, b).",
  "Private property: entry may be justified to save life, but make every effort to get the controlling agency&rsquo;s approval and the owner&rsquo;s consent (§1-24c).",
  "CAPF 101 shows what you may do, as trainee or qualified. Ratings stay valid through the last day of the 36th month (§2-2d).",
  "Alert rosters: update at least annually, and reissue after major changes (§1-5c(6)).",
@@ -151,29 +152,38 @@ C117 = f"""
  "Take it in eServices. Three parts.")}
 <h2>Core essentials</h2>
 {fig("Critical incident stress care is a continuum, and sooner beats later", flow([
- ("Before", "Pre-incident education. Proven to reduce trauma."),
+ ("Before", "Pre-incident education. Reduces the harmful effects of trauma."),
  ("Within hours", "Defusing"),
  ("24 to 72 hours", "Debriefing (CISD)"),
  ("After", "Peer support and referral")]))}
 {fig("Four places stress shows up", tiles([
  ("Cognitive", "Confusion, poor memory"), ("Emotional", "Anxiety, grief, guilt"),
  ("Physical", "Fatigue, rapid pulse"), ("Behavioral", "Withdrawal, pacing")], 4))}
-<div class="cols2">
+<div class="cols3">
+<div><p class="lab">Part 1 &middot; Critical incident stress</p>
 {bullets([
  "CAPR 60-5 (3 Nov 06) covers critical incident stress management.",
  "CISM is many tools, not one procedure. Sooner is better.",
- "Crisis intervention is called a psychological Band-Aid.",
- "Critical incident stress is not new: shell shock, combat fatigue, PTSD.",
- "Stress accelerates aging.",
-])}
+ "Crisis intervention is short-term emotional first aid, a &ldquo;psychological Band-Aid&rdquo;, not therapy.",
+ "Critical incident stress is not new: shell shock (World War I), combat fatigue, PTSD.",
+ "Long-term stress accelerates aging and harms health.",
+])}</div>
+<div><p class="lab">Part 2 &middot; Crew resource management</p>
 {bullets([
- "CRM is every crew member&rsquo;s job, not just the pilot in command&rsquo;s.",
+ "CRM is every crew member&rsquo;s job, not just the pilot in command&rsquo;s. It is about teamwork, communication, attitudes and behavior, not stick skills.",
  "Accidents come from a chain of factors, not one bad decision.",
- "Split the workload. Announce what you are doing. Acknowledge, do it, report it done.",
- "Prioritize: aviate, navigate, communicate. Sterile cockpit applies to everyone aboard.",
- "Unit log (ICS 214): kept by supervisors, updated every operational period. Use 24-hour time.",
- "Pack for an extended stay. Finish your work and return gear before you leave.",
-])}
+ "Split the workload to limit fatigue and keep the crew effective longer. Announce what you are doing. Acknowledge, do it, report it done.",
+ "Prioritize: aviate (fly the aircraft first), navigate, communicate. Sterile cockpit applies to everyone aboard.",
+ "Decision makers need correct, relevant information they can control, not everything.",
+ "Standard terms and signals exist for aircrew and flightline so everyone hears the same message."
+])}</div>
+<div><p class="lab">Part 3 &middot; Mission base</p>
+{bullets([
+ "Before you leave: know where and when to report, and to whom. Check in at any designated location (command post, base, camp, staging area, helibase).",
+ "Sent straight to a tactical assignment? Report to the division or group supervisor, or the operations chief or IC.",
+ "Unit log (ICS 214): kept by supervisors, updated every operational period. Use 24-hour time. Radio: clear text, short messages.",
+ "Pack for an extended stay; supplies at the incident may be limited. Finish your assignments, return gear as directed and check out before you leave.",
+])}</div>
 </div>
 <div class="pb"></div>
 {practice_parts(P.CAPT117)}
@@ -208,13 +218,16 @@ I100 = f"""
 <h2>Core essentials</h2>
 {fig("The ICS organization", ORG)}
 {bullets([
- "Span of control: one supervisor manages 3 to 7 people; 5 is best.",
+ "ICS works for any incident or planned event, of any size. It sits in the NIMS Command and Coordination component.",
+ "Span of control: one supervisor manages 3 to 7 people; 5 is best. Too many? Add a supervisor and reorganize.",
  "Unity of command: each person reports to one supervisor.",
- "Plain language on the radio. No 10-codes or agency jargon.",
- "The IC sets objectives (or Unified Command), and establishes and expands the organization.",
+ "Common terminology: standard names for positions, facilities and resources. Plain language on the radio; no 10-codes or agency jargon.",
+ "The IC sets objectives (or Unified Command), and establishes and expands the organization only as needed (modular).",
  "Unified Command: agencies set shared incident objectives and keep their own authority.",
  "Transfer of command always includes a briefing.",
- "No self-dispatching. Come only when requested through proper channels.",
+ "Dispatch/deployment: resources go only when requested through established systems. No self-dispatching.",
+ "Integrated communications supports shared situational awareness. Information and intelligence management covers gathering data, such as weather from technical specialists.",
+ "Incident Command sets up support facilities as the incident needs them.",
  "Accountability = check-in, incident action planning, personal responsibility, resource tracking.",
  "Coordination is not command: directing, ordering or controlling is command.",
 ])}
@@ -259,13 +272,17 @@ I200 = f"""
  ("Announce", "Tell everyone the effective time and date")], "vert"))}
 </div>
 {bullets([
- "Only the functions and positions needed are filled.",
+ "Only the functions and positions needed are filled. Span of control is kept by organizing resources into teams, divisions, groups, branches or sections.",
+ "Complexity rises with factors such as the number of jurisdictions, threat to life and property, and size of the area.",
  "Objectives are specific and measurable, not broad.",
  "A more qualified arrival has options: assume command, keep it as is, or request a more qualified IC.",
  "Operational Period Briefing presents the IAP to supervisors; the Planning Section Chief runs it. Field-level briefings go to crews.",
  "IC authority comes from law, agency policy, and delegation of authority. The IC approves the IAP and resource orders and releases.",
  "Predicting resource needs to choose the structure is complexity analysis.",
-])}
+ "Chain of command governs orders, not information. People still share information across the organization.",
+ "Leaders show commitment to duty by stepping into leadership when needed and developing subordinates.",
+ "Emergency Operations Plans give a community a uniform response to all hazards.",
+], "two")}
 <div class="pb"></div>
 {practice(P.IS200)}
 {FOOT}
@@ -298,17 +315,18 @@ I700 = f"""
  ("Demobilize","Orderly release"),("Reimburse and restock","")]))}
 <div class="cols2">
 {bullets([
+ "NIMS applies to every stakeholder with incident duties, at every level. Unity of effort: organizations work toward shared objectives and keep their own authority.",
  "Chain of Command and Unity of Command: ends conflicting instructions.",
  "Common Terminology: standard names for functions and units.",
  "Comprehensive Resource Management: up-to-date inventories.",
  "Information and Intelligence Management: gather, analyze, share data.",
- "NIMS lists 14 management characteristics; these four come up most.",
 ])}
 {bullets([
  "Interoperability: people and systems working well together.",
  "Resilience and Redundancy: uninterrupted flow of information.",
  "Technology Use: social media, maps, visualizations.",
  "Inventorying happens outside incident response. Resources are typed by capability.",
+ "An ICS-like EOC starts fast because field staff already know the structure.",
  "EMAC: state-to-state resource sharing.",
 ])}
 </div>
@@ -323,10 +341,10 @@ I800 = f"""
 {head("FEMA Independent Study", "IS-800 &middot; National Response Framework", "NRF &middot; always in effect, a guide for how the nation responds",
  fema_link("IS-800.d"))}
 <h2>Core essentials</h2>
-{fig("Tiered response: incidents begin and end locally", flow([
+{fig("Tiered response: incidents begin and end locally, handled at the lowest jurisdictional level possible", flow([
  ("Local and tribal", "First to arrive, last to leave. Police, fire, EMS. IC relays needs to the local EOC."),
- ("State", "Governor and state EOC. Other states help through EMAC."),
- ("Federal", "Stafford Act: FEMA leads, JFO with Unified Coordination Group. Non-Stafford: agency with primary legal authority.")]))}
+ ("State", "Governor and state EOC. Other states help through EMAC (interstate mutual aid)."),
+ ("Federal", "Stafford Act: FEMA leads; the Unified Coordination Group leads at the Joint Field Office (JFO). Non-Stafford: agency with primary legal authority.")]))}
 {fig("Five mission areas", tiles([
  ("Prevention","Stop imminent terrorism"),("Protection","Secure people and assets"),
  ("Mitigation","Reduce loss of life and property by lessening disaster impact"),
@@ -338,13 +356,15 @@ I800 = f"""
 {bullets([
  "Three core capabilities cross all mission areas and lifelines: Planning; Public Information and Warning; Operational Coordination.",
  "NRF guiding principles include engaged partnership (whole community, information sharing) and scalable, flexible, adaptable capabilities.",
- "NRF aligns with NIMS. National Preparedness Goal sets the vision and core capabilities.",
+ "The NRF is always in effect and scales to the incident. It covers the Response mission area and how it ties to the others, and aligns with NIMS.",
+ "The National Preparedness Goal sets the vision and names the core capabilities. Operational Communications means timely communications among responders and affected communities.",
+ "Engaging communities shares information and builds readiness.",
  "Unified Command benefit: joint priorities.",
 ])}
 {bullets([
- "NOC: DHS principal operations center. RRCC: FEMA regional center.",
+ "NOC: DHS principal operations center. RRCC: FEMA regional center. Many EOCs use the ICS structure.",
  "MAC Group: senior officials who can commit agency resources and funds.",
- "ESFs: government and private-sector groups, not only federal. ESF #6 works with NCMEC to reunify children.",
+ "ESFs: government and private-sector groups, not only federal. ESF #6 works with the National Center for Missing &amp; Exploited Children (NCMEC) to identify children and reunite them with families.",
  "Tribal governments may deal directly with the federal government.",
 ])}
 </div>
