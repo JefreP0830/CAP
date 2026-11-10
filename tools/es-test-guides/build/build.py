@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.1.5"
+VERSION = "2.1.6"
 
 LET = "ABCD"
 
@@ -261,14 +261,17 @@ TYPEBARS = ('<div class="types"><div class="trow th"><span>Type</span><span>Comp
     f'<span class="iap {"yes" if iap else "no"}"><span class="mob">Written IAP: </span>{"Required" if iap else "Not required"}</span></div>'
     for t, w, who, staff, dur, iap in TYPES) + '</div>')
 
-TITLES = """
-<div class="stair">
- <div class="lvl" style="--i:0"><b>Incident Command</b><span>Incident Commander</span><em>Deputy allowed</em></div>
- <div class="lvl" style="--i:1"><b>Section</b><span>Chief</span><em>Deputy allowed</em></div>
- <div class="lvl" style="--i:2"><b>Branch</b><span>Director</span><em>Deputy allowed. Added when span of control is exceeded.</em></div>
- <div class="lvl" style="--i:3"><b>Division (area) or Group (function)</b><span>Supervisor</span><em>No deputy</em></div>
- <div class="lvl" style="--i:4"><b>Strike Team (same kind and type) or Task Force (mixed)</b><span>Leader</span><em>No deputy</em></div>
-</div>"""
+LEVELS = [
+ ("Incident Command", "Commander", "Runs the whole incident", True),
+ ("Section", "Chief", "Operations, Planning, Logistics, Finance/Admin", True),
+ ("Branch", "Director", "Added when span of control is exceeded", True),
+ ("Division or Group", "Supervisor", "Division = a geographic area. Group = a function.", False),
+ ("Strike Team or Task Force", "Leader", "Strike Team = same kind and type. Task Force = mixed.", False),
+]
+TITLES = ('<div class="ladder">' + "".join(
+    f'<div class="rung"><span class="rl">{lvl}</span><span class="rt">{title}</span><span class="rd">{d}</span>'
+    f'<span class="iap {"yes" if dep else "no"}">{"Deputy allowed" if dep else "No deputy"}</span></div>'
+    for lvl, title, d, dep in LEVELS) + '</div>')
 
 I200 = f"""
 <section class="guide" id="is200" data-title="IS-200">
@@ -276,14 +279,12 @@ I200 = f"""
  fema_link("IS-200.c"))}
 <h2>Core essentials</h2>
 {fig("Incident types: complexity sets the structure", TYPEBARS)}
-<div class="figrow">
-{fig("Titles by level", TITLES)}
-{fig("Transfer of command", flow([
+{fig("Leader titles: each level has its own title, top to bottom", TITLES)}
+{fig("Transfer of command: four steps", flow([
  ("Assess", "Incoming IC checks the situation"),
  ("Brief", "Outgoing IC briefs face to face, using ICS Form 201"),
  ("Decide", "Who takes command, and when"),
- ("Announce", "Tell everyone the effective time and date")], "vert"))}
-</div>
+ ("Announce", "Tell everyone the effective time and date")]))}
 {bullets([
  "Only the [[functions and positions needed]] are filled. Span of control is kept by organizing resources into teams, divisions, groups, branches or sections.",
  "[[Complexity]] rises with factors such as the number of jurisdictions, threat to life and property, and size of the area.",

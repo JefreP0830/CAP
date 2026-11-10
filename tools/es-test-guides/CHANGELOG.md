@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.6 - 2026-11-10
+- IS-200: "Titles by level" rebuilt as a left-to-right ladder of leader titles (Commander, Chief, Director, Supervisor, Leader) with Deputy allowed / No deputy chips. Transfer of command gets its own full-width row. More space between diagrams on every sheet.
+
 ## 2.1.5 - 2026-11-10
 - IS-200 incident types rebuilt as a ruled table: Type, Complexity, Who responds, How long, and Written IAP as its own emphasized column (solid blue Required vs dashed Not required).
 
