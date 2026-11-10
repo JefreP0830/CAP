@@ -4,7 +4,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.1.0"
+VERSION = "2.1.1"
 
 LET = "ABCD"
 
