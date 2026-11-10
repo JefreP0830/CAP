@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.2 - 2026-11-10
+- FEMA SID sheet: wider gap between the two Have ready columns.
+
 ## 2.0.1 - 2026-11-10
 - FEMA SID sheet: divider under Have ready; the flow is now three wide Step 1 to 3 boxes holding their own instructions. Box 4 and the arrows removed.
 
