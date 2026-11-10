@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.3 - 2026-11-10
+- Key terms now Ultramarine Blue bold (the brand emphasis style) so they pop.
+
 ## 2.1.2 - 2026-11-10
 - Key terms in the essentials are full-strength black (not bold) so each bullet's concept stands out; body stays 70% black. Paragraph citations no longer break across lines.
 
