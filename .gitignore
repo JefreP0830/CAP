@@ -26,3 +26,4 @@ node_modules/
 !tools/drill-test/metadata.json
 !tools/drill-test/public/manifest.json
 !tools/drill-test/app/manifest.json
+__pycache__/
