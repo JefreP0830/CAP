@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.4.2"
+VERSION = "2.5.0"
 
 LET = "ABCD"
 
@@ -352,22 +352,45 @@ CC = """
  <div class="node jis"><b>Joint Information System</b><span>One coordinated public message across all levels. The JIC is where PIOs work together.</span></div>
 </div>"""
 
+HOUSE = """
+<div class="house">
+ <div class="roof"><b>NIMS</b><span>A systematic approach for everyone with incident duties</span></div>
+ <div class="pillars">
+  <div class="pillar"><b>Resource Management</b><span class="q">&ldquo;Do we have what we need?&rdquo;</span></div>
+  <div class="pillar"><b>Command and Coordination</b><span class="q">&ldquo;Who leads, and how do we work together?&rdquo;</span><span>Includes ICS</span></div>
+  <div class="pillar"><b>Communications and Information Management</b><span class="q">&ldquo;Does everyone know what they need to?&rdquo;</span></div>
+ </div>
+ <div class="found">
+  <p class="flab">Foundation &middot; guiding principles</p>
+  <div><b>Flexibility</b><span>Any incident, any size, any hazard</span></div>
+  <div><b>Standardization</b><span>Same terms and structures, so groups can work together (interoperability)</span></div>
+  <div><b>Unity of Effort</b><span>Shared objectives; each group keeps its own authority</span></div>
+ </div>
+</div>"""
+
+LAYERS = """
+<div class="layers">
+ <div class="flowcol"><div class="fup"><span>Needs and information flow up</span></div><div class="fdn"><span>Priorities and support flow down</span></div></div>
+ <div class="layer lp"><span class="where">Policy</span><div class="lbox"><b>MAC Group</b><span>Senior officials. Set priorities and settle resource conflicts. Do not replace EOCs or dispatch.</span></div><span class="ask">&ldquo;What matters most?&rdquo;</span></div>
+ <div class="layer ls"><span class="where">Off site</span><div class="lbox"><b>Emergency Operations Center (EOC)</b><span>Information sharing, resource coordination, policy direction. Activates when local response grows large or complex.</span></div><span class="ask">&ldquo;What do they need?&rdquo;</span></div>
+ <div class="layer lt"><span class="where">On scene</span><div class="lbox"><b>Incident Command (ICS)</b><span>IC or Unified Command directs the tactics. The Planning Section writes the IAP.</span></div><span class="ask">&ldquo;What do we do now?&rdquo;</span></div>
+ <div class="jisrail"><b>Joint Information System</b><span>One coordinated public message for all three levels. PIOs work together in the Joint Information Center (JIC).</span></div>
+</div>"""
+
+RING = """<div class="ring"><div class="rcircle"></div><span class="rarr" style="left:65.5%;top:23.2%;--r:22deg"></span><span class="rarr" style="left:81.0%;top:50.0%;--r:90deg"></span><span class="rarr" style="left:65.5%;top:76.8%;--r:158deg"></span><span class="rarr" style="left:34.5%;top:76.8%;--r:-158deg"></span><span class="rarr" style="left:19.0%;top:50.0%;--r:-90deg"></span><span class="rarr" style="left:34.5%;top:23.2%;--r:-22deg"></span><div class="rcenter"><b>Before any incident</b><span>Inventory resources and type them by capability (preparedness)</span></div><div class="rnode" style="left:50.0%;top:11.0%"><span class="sn">1</span><b>Identify requirements</b><span>Type, quantity, location, users</span></div><div class="rnode" style="left:83.8%;top:30.5%"><span class="sn">2</span><b>Order and acquire</b><span>Local first, if available</span></div><div class="rnode" style="left:83.8%;top:69.5%"><span class="sn">3</span><b>Mobilize</b><span>Deploy or activate</span></div><div class="rnode" style="left:50.0%;top:89.0%"><span class="sn">4</span><b>Track and report</b><span>Coordinate throughout</span></div><div class="rnode" style="left:16.2%;top:69.5%"><span class="sn">5</span><b>Demobilize</b><span>Orderly release</span></div><div class="rnode" style="left:16.2%;top:30.5%"><span class="sn">6</span><b>Reimburse and restock</b><span>Ready for next time</span></div></div>"""
+
 I700 = f"""
 <section class="guide" id="is700" data-title="IS-700">
 {head("FEMA Independent Study", "IS-700 &middot; Introduction to NIMS", "National Incident Management System &middot; a systematic approach for everyone with incident duties",
  fema_link("IS-700.b"))}
 <h2>Core essentials</h2>
-{block("NIMS in one view: principles and components", '<p class="lab">Guiding principles</p>' + tiles([("Flexibility",""),("Standardization","Supports interoperability"),("Unity of Effort","")],3)
- + '<p class="lab">Components</p>' + tiles([("Resource Management",""),("Command and Coordination","Includes ICS"),("Communications and Information Management","")],3), [
+{block("NIMS in one view: principles hold up the components", HOUSE, [
  "[[NIMS]] applies to every stakeholder with incident duties, at every level. [[Unity of effort]]: organizations work toward shared objectives and keep their own authority.",
 ])}
-{block("Command and coordination: on scene, off site, and policy", CC, [
+{block("Command and coordination: three levels, one response", LAYERS, [
  "An [[ICS-like EOC]] starts fast because field staff already know the structure.",
 ])}
-{block("Resource management: during an incident", flow([
- ("Identify requirements","Type, quantity, location, users"),("Order and acquire","Local first, if available"),
- ("Mobilize","Deploy or activate"),("Track and report","Coordinate throughout"),
- ("Demobilize","Orderly release"),("Reimburse and restock","")]), [
+{block("Resource management: a cycle that returns to ready", RING, [
  "[[Inventorying]] happens outside incident response. Resources are typed by capability.",
  "EMAC: state-to-state resource sharing.",
 ], True)}
