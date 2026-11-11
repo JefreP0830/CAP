@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.8.0 - 2026-11-11
+- IS-800 The NRF itself: "always on" dimmer track from small local incident to catastrophe, and a board of all 15 ESFs with ESF #6 and NCMEC highlighted.
+
 ## 2.7.0 - 2026-11-10
 - IS-800 coordinating structures: zoom-out of four panels (Unified Command, EOC, MAC Group, RRCC and NOC), each with a plain description and a sports comparison for cadets, over a Closer to the scene / Wider view arrow.
 

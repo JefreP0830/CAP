@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.7.0"
+VERSION = "2.8.0"
 
 LET = "ABCD"
 
@@ -442,6 +442,17 @@ ZOOM = ('<div class="zoom">' + "".join(
     for n, (w, t, d, a) in enumerate(ZOOM_PANELS))
     + '<div class="zbar"><span>Closer to the scene</span><span>Wider view</span></div></div>')
 
+DIMMER = """
+<div class="dim">
+ <div class="dtrack"><span class="don">Always on</span></div>
+ <div class="dlabels"><span>Small local incident</span><span>Catastrophe</span></div>
+ <p class="dnote">The NRF never switches off. More of it engages as the incident grows. It covers the Response mission area, ties it to the other four, and aligns with NIMS.</p>
+</div>"""
+
+ESFS = """
+<p class="lab esfl">Emergency Support Functions &middot; government and private partners, not only federal</p>
+<div class="esfg"><div class="esf"><span class="en">ESF #1</span><span class="et">Transportation</span></div><div class="esf"><span class="en">ESF #2</span><span class="et">Communications</span></div><div class="esf"><span class="en">ESF #3</span><span class="et">Public Works and Engineering</span></div><div class="esf"><span class="en">ESF #4</span><span class="et">Firefighting</span></div><div class="esf"><span class="en">ESF #5</span><span class="et">Information and Planning</span></div><div class="esf hl"><span class="en">ESF #6</span><span class="et">Mass Care, Emergency Assistance, Temporary Housing and Human Services</span><span class="enote">Works with the National Center for Missing &amp; Exploited Children (NCMEC) to identify children and reunite them with families</span></div><div class="esf"><span class="en">ESF #7</span><span class="et">Logistics</span></div><div class="esf"><span class="en">ESF #8</span><span class="et">Public Health and Medical Services</span></div><div class="esf"><span class="en">ESF #9</span><span class="et">Search and Rescue</span></div><div class="esf"><span class="en">ESF #10</span><span class="et">Oil and Hazardous Materials Response</span></div><div class="esf"><span class="en">ESF #11</span><span class="et">Agriculture and Natural Resources</span></div><div class="esf"><span class="en">ESF #12</span><span class="et">Energy</span></div><div class="esf"><span class="en">ESF #13</span><span class="et">Public Safety and Security</span></div><div class="esf"><span class="en">ESF #14</span><span class="et">Cross-Sector Business and Infrastructure</span></div><div class="esf"><span class="en">ESF #15</span><span class="et">External Affairs</span></div></div>"""
+
 I800 = f"""
 <section class="guide" id="is800" data-title="IS-800">
 {head("FEMA Independent Study", "IS-800 &middot; National Response Framework", "NRF &middot; always in effect, a guide for how the nation responds",
@@ -458,11 +469,9 @@ I800 = f"""
 {block("Seven community lifelines: the basics a community runs on", WHEEL, [
  "The course teaches seven lifelines. FEMA added an eighth, Water Systems, in 2023.",
 ])}
-{block("The NRF itself: how the framework works", "", [
- "The [[NRF]] is always in effect and scales to the incident. It covers the Response mission area and how it ties to the others, and aligns with NIMS.",
+{block("The NRF itself: always on, scaled to the incident", DIMMER + ESFS, [
  "[[NRF guiding principles]] include engaged partnership (whole community, information sharing) and scalable, flexible, adaptable capabilities.",
  "[[Engaging communities]] shares information and builds readiness.",
- "ESFs: government and private-sector groups, not only federal. ESF #6 works with the National Center for Missing &amp; Exploited Children (NCMEC) to identify children and reunite them with families.",
 ], True)}
 <div class="pb soft"></div>
 {practice(P.IS800)}

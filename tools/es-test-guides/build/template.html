@@ -302,6 +302,22 @@ h2+.concept{margin-top:8px;padding-top:4px;border-top:0}
 .zbar::after{content:"";position:absolute;right:-8px;top:-9px;border:7px solid transparent;border-left:12px solid var(--head);border-right:0}
 .zbar span{font-size:14.67px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
 
+/* diagram: NRF dimmer + ESF board */
+.dim{margin-top:4px}
+.dtrack{height:30px;border-radius:15px;background:linear-gradient(90deg,#CFD5EE 0%,#7F8CCB 50%,var(--blue) 100%);position:relative;border:1px solid var(--rule)}
+.don{position:absolute;left:4px;top:3px;height:22px;padding:0 12px;border-radius:11px;background:#FFCD00;color:var(--blue);font-weight:700;font-size:14.67px;display:flex;align-items:center}
+.dlabels{display:flex;justify-content:space-between;margin-top:5px}
+.dlabels span{font-size:14.67px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.dnote{margin:6px 0 0;font-size:14.67px;color:#000}
+.esfl{margin-top:18px}
+.esfg{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.esf{border:1px solid var(--rule);border-radius:3px;padding:6px 9px;display:flex;flex-direction:column;gap:2px;box-shadow:0 2px 5px rgba(0,20,137,.16)}
+.en{font-weight:700;font-size:14.67px;color:var(--blue)}
+.et{font-size:14.67px;color:#000;line-height:1.2}
+.esf.hl{grid-column:span 2;grid-row:span 2;background:var(--blue);border-color:var(--blue)}
+.esf.hl .en,.esf.hl .et,.esf.hl .enote{color:#fff}
+.enote{font-size:14.67px;margin-top:6px;border-top:1px dashed rgba(255,255,255,.6);padding-top:6px}
+
 /* diagram: command & coordination */
 .cc{display:grid;grid-template-columns:2fr 1fr;gap:10px}
 .ccstack{display:grid;gap:14px}
@@ -365,6 +381,7 @@ ol.key li.hide{display:none}
   .cc{grid-template-columns:1fr}
   .trow{grid-template-columns:70px 1fr 170px;gap:4px 12px}.trow .td{grid-column:1/-1}.trow.th{display:none}.trow .iap{grid-column:3;grid-row:1}.mob{display:inline}
   .lvl{margin-left:calc(var(--i) * 8px)}
+  .esfg{grid-template-columns:repeat(2,minmax(0,1fr))}
   .zoom{grid-template-columns:1fr}.zp{min-height:0}
   .tlab,.t2>.tlab,.t1>.tlab{grid-template-columns:1fr}.tring{padding:10px 12px 12px;border-radius:12px}
   .mtl{grid-template-columns:1fr}.mph{display:none}
@@ -416,6 +433,7 @@ ol.key li.hide{display:none}
   .mtile{padding:5px 8px}.mtile b{font-size:12px}.mtile span,.mph,.mcore em,.mcore span{font-size:11px}.mcore{padding:4px 10px}
   .wheel{width:520px}.hub b{font-size:16px}.hub span{font-size:10px}.lnode{font-size:11px;padding:4px 10px}
   .zp{padding:5px 8px;gap:2px;min-height:0}.zp b{font-size:15px}.zw,.zd,.zp em,.zbar span{font-size:11px}
+  .dtrack{height:20px}.don{height:14px;top:2px;font-size:10px}.dlabels span,.dnote{font-size:11px}.esfg{gap:4px}.esf{padding:3px 6px}.en,.et,.enote{font-size:10.5px}
   .ladder{gap:10px}.rung{padding:4px 7px;gap:2px}.rung::before{width:calc(var(--k) * (100% + 2px) + (var(--k) - 1) * 10px)}.rt{font-size:19px}.rl,.rd,.rung .iap{font-size:11.5px}
   .stair{gap:3px}.lvl{padding:3px 8px}.flow.vert{gap:12px}.flow.vert .step{padding:4px 8px}.flow.vert .step+.step::before{top:-16px;height:13px}
 }
