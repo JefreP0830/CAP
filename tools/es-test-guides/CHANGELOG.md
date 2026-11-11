@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.4 - 2026-11-10
+- IS-200: Deputies bullet notes a position may have one or more deputies.
+
 ## 2.2.3 - 2026-11-10
 - IS-200 leader titles: chips name the real positions (Deputy Incident Commander, Deputy Section Chief, Deputy Branch Director). Added bullets on where deputies apply and why a deputy is used instead of a transfer of command.
 

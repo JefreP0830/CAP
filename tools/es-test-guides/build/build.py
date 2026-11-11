@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.2.3"
+VERSION = "2.2.4"
 
 LET = "ABCD"
 
@@ -289,7 +289,7 @@ I200 = f"""
 {block("Leader titles: each bar is the span of the level to its left", TITLES, [
  "Only the [[functions and positions needed]] are filled. Span of control is kept by organizing resources into teams, divisions, groups, branches or sections.",
  "[[Chain of command]] governs orders, not information. People still share information across the organization.",
- "[[Deputies]]: only at IC, Section and Branch, and fully qualified for that position. A deputy is a second holder of the same box; the next title down owns a smaller box.",
+ "[[Deputies]] (one or more): only at IC, Section and Branch, and fully qualified for that position. A deputy is a second holder of the same box; the next title down owns a smaller box.",
  "[[Why a deputy]]: share the command workload while the IC stays responsible, have a briefed successor ready, relieve the IC without a full transfer of command, give an assisting agency a seat, or develop the next IC.",
 ], True)}
 {block("Transfer of command: four steps", flow([
