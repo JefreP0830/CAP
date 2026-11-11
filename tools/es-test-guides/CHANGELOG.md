@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.5.4 - 2026-11-10
+- IS-700 resource cycle: stage titles 18px Rajdhani, between body text and section titles.
+
 ## 2.5.3 - 2026-11-10
 - IS-700 resource cycle: stage titles set to 11pt, still bold blue.
 
