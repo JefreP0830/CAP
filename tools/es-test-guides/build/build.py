@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.2.5"
+VERSION = "2.3.0"
 
 LET = "ABCD"
 
@@ -277,6 +277,25 @@ TITLES = ('<div class="ladder">' + "".join(
     f'<span class="iap {"yes" if dep else "no"}">{"Deputy allowed" if dep else "No deputy"}</span></div>'
     for n, (lvl, title, d, dep) in enumerate(LEVELS)) + '</div>')
 
+TOC = """
+<div class="toc">
+ <div class="th0"></div>
+ <div class="tsh"><span class="sn">1</span>Assess</div><div class="tsh"><span class="sn">2</span>Brief</div>
+ <div class="tsh"><span class="sn">3</span>Decide</div><div class="tsh"><span class="sn">4</span>Announce</div>
+
+ <div class="lane l1">Outgoing IC</div>
+ <div class="tcell quiet r1 c1">Keeps running the incident</div>
+ <div class="tcell both c2"><span class="who">Both, face to face</span>Outgoing IC briefs the incoming IC using ICS Form 201</div>
+ <div class="tcell both c3"><span class="who">Both</span>Who takes command, and when. A more qualified arrival may:<span class="opt">assume command</span><span class="opt">keep it as is</span><span class="opt">request a more qualified IC</span></div>
+ <div class="tcell both c4"><span class="who">Both</span>Tell everyone the effective time and date of the transfer</div>
+
+ <div class="lane l2">Incoming IC</div>
+ <div class="tcell r2 c1"><span class="who">Incoming IC</span>Checks the situation</div>
+
+ <div class="lane l3">In command</div>
+ <div class="cmdbar"><span class="out">Outgoing IC</span><span class="eff">Effective time</span><span class="in">Incoming IC</span></div>
+</div>"""
+
 I200 = f"""
 <section class="guide" id="is200" data-title="IS-200">
 {head("FEMA Independent Study", "IS-200 &middot; Basic ICS for Initial Response", "ICS-200 &middot; growing the organization, briefings and transfer of command",
@@ -292,12 +311,7 @@ I200 = f"""
  "[[Deputies]] (one or more): only at IC, Section and Branch, and fully qualified for that position. A deputy is a second holder of the same box; the next title down owns a smaller box.",
  "[[Why a deputy]]: share the command workload while the IC stays responsible, have a briefed successor ready, relieve the IC without a full transfer of command, give an assisting agency a seat, or develop the next IC.",
 ], True)}
-{block("Transfer of command: four steps", flow([
- ("Assess", "Incoming IC checks the situation"),
- ("Brief", "Outgoing IC briefs face to face, using ICS Form 201"),
- ("Decide", "Who takes command, and when"),
- ("Announce", "Tell everyone the effective time and date")]), [
- "A [[more qualified arrival]] has options: assume command, keep it as is, or request a more qualified IC.",
+{block("Transfer of command: a handoff between two people", TOC, [
  "[[IC authority]] comes from law, agency policy, and delegation of authority. The IC approves the IAP and resource orders and releases.",
 ], True)}
 {block("Planning and leading: objectives, briefings, duty", "", [

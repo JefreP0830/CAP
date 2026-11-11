@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.3.0 - 2026-11-10
+- IS-200 transfer of command redrawn as a handoff: Outgoing IC and Incoming IC lanes, shared steps spanning both, the three options for a more qualified arrival inside Decide, and an In command bar that switches at the effective time.
+
 ## 2.2.5 - 2026-11-10
 - IS-200: chips back to "Deputy allowed"; the Deputies and Why a deputy bullets stay.
 

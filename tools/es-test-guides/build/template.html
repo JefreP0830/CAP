@@ -165,6 +165,24 @@ h2+.concept{margin-top:8px;padding-top:4px;border-top:0}
 .rd{font-size:14.67px;color:var(--ink);flex:1;display:flex;flex-direction:column;gap:3px}
 .rung .iap{text-align:center;font-size:14.67px}
 
+/* diagram: transfer of command handoff */
+.toc{display:grid;grid-template-columns:120px repeat(4,minmax(0,1fr));grid-template-rows:auto auto auto auto;gap:8px 12px;align-items:stretch}
+.tsh{font-size:16px;color:#000;display:flex;align-items:baseline;gap:8px;border-bottom:3px solid var(--blue);padding-bottom:4px}
+.tsh .sn{font-size:20px}
+.lane{font-size:14.67px;color:var(--ink);letter-spacing:.05em;text-transform:uppercase;align-self:center}
+.l1{grid-column:1;grid-row:2}.l2{grid-column:1;grid-row:3}.l3{grid-column:1;grid-row:4}
+.tcell{border:1px solid var(--rule);border-radius:3px;padding:8px 10px;font-size:14.67px;color:var(--ink);background:var(--paper);box-shadow:0 2px 5px rgba(0,20,137,.16);display:flex;flex-direction:column;gap:3px}
+.tcell .who{font-size:14.67px;letter-spacing:.05em;text-transform:uppercase;color:var(--blue)}
+.tcell .opt{display:block;padding-left:12px;position:relative}
+.tcell .opt::before{content:"";position:absolute;left:2px;top:.55em;width:5px;height:5px;background:var(--blue);border-radius:50%}
+.tcell.quiet{box-shadow:none;border-style:dashed;color:var(--head);justify-content:center}
+.r1{grid-row:2}.r2{grid-row:3}.c1{grid-column:2}.c2{grid-column:3;grid-row:2/4}.c3{grid-column:4;grid-row:2/4}.c4{grid-column:5;grid-row:2/4}
+.tcell.both{border-top:3px solid var(--blue)}
+.cmdbar{grid-column:2/6;grid-row:4;display:grid;grid-template-columns:3fr auto 1fr;align-items:stretch;border-radius:3px;overflow:hidden;font-size:14.67px}
+.cmdbar .out{background:var(--tint);color:#000;padding:7px 10px;border:1px solid var(--rule);border-right:0}
+.cmdbar .eff{background:#FFCD00;color:var(--blue);padding:7px 12px;font-weight:700;letter-spacing:.03em}
+.cmdbar .in{background:var(--blue);color:#fff;padding:7px 10px;font-weight:700}
+
 /* diagram: command & coordination */
 .cc{display:grid;grid-template-columns:2fr 1fr;gap:10px}
 .ccstack{display:grid;gap:14px}
@@ -228,6 +246,8 @@ ol.key li.hide{display:none}
   .cc{grid-template-columns:1fr}
   .trow{grid-template-columns:70px 1fr 170px;gap:4px 12px}.trow .td{grid-column:1/-1}.trow.th{display:none}.trow .iap{grid-column:3;grid-row:1}.mob{display:inline}
   .lvl{margin-left:calc(var(--i) * 8px)}
+  .toc{grid-template-columns:1fr;grid-template-rows:none}.toc>*{grid-column:1!important;grid-row:auto!important}.th0,.tsh,.lane{display:none}
+  .cmdbar{grid-template-columns:1fr;}.cmdbar .out{border-right:1px solid var(--rule)}
   .ladder{grid-template-columns:1fr;gap:10px;padding-top:0}.rung{margin-top:0;margin-left:calc(var(--i) * 12px);min-height:0}.rung::before{display:none}.rl{min-height:0}
 }
 
