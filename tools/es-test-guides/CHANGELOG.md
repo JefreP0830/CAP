@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.6.3 - 2026-11-10
+- IS-800: MAC Group, Unified Command and NOC/RRCC bullets moved out of Tiered response into a Coordinating structures block.
+
 ## 2.6.2 - 2026-11-10
 - IS-800 tiered response: "Local and tribal" wraps; the three text columns line up across all rings.
 - Fixed: the "Take it at" line on every sheet had turned all caps (a class name collision from 2.5.0).

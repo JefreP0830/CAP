@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.6.2"
+VERSION = "2.6.3"
 
 LET = "ABCD"
 
@@ -439,9 +439,11 @@ I800 = f"""
 {block("Tiered response: begin and end locally", TIERS, [
  "[[Tiered response]]: incidents are handled at the lowest jurisdictional level possible.",
  "[[Tribal governments]] may deal directly with the federal government.",
- "NOC: DHS principal operations center. RRCC: FEMA regional center. Many EOCs use the ICS structure.",
+], True)}
+{block("Coordinating structures: who works together, and where", "", [
  "MAC Group: senior officials who can commit agency resources and funds.",
  "Unified Command benefit: joint priorities.",
+ "NOC: DHS principal operations center. RRCC: FEMA regional center. Many EOCs use the ICS structure.",
 ], True)}
 {block("Five mission areas: what the nation does, before, during and after", MISSIONS, [
  "The [[National Preparedness Goal]] sets the vision and names the core capabilities. [[Operational Communications]] means timely communications among responders and affected communities.",
