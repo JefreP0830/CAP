@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.4.2 - 2026-11-10
+- IS-200 funnel: "Incident Action Plan (IAP)"; side text shortened so no tier wraps.
+
 ## 2.4.1 - 2026-11-10
 - IS-200 funnel: equal tier heights, titles centered on one axis, side text pushed to the edges with space around the title.
 
