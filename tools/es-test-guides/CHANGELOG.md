@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.5.1 - 2026-11-10
+- IS-700 house: guiding principles stacked as full-width foundation layers under all three pillars, so no principle reads as paired with one component.
+
 ## 2.5.0 - 2026-11-10
 - IS-700 visuals rebuilt to teach relationships: NIMS as a building (principles as foundation, components as pillars with the question each answers); command and coordination as three levels by distance from the scene with needs flowing up, priorities flowing down and the JIS alongside; resource management as a cycle around preparedness.
 

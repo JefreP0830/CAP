@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.5.0"
+VERSION = "2.5.1"
 
 LET = "ABCD"
 
@@ -361,10 +361,10 @@ HOUSE = """
   <div class="pillar"><b>Communications and Information Management</b><span class="q">&ldquo;Does everyone know what they need to?&rdquo;</span></div>
  </div>
  <div class="found">
-  <p class="flab">Foundation &middot; guiding principles</p>
-  <div><b>Flexibility</b><span>Any incident, any size, any hazard</span></div>
-  <div><b>Standardization</b><span>Same terms and structures, so groups can work together (interoperability)</span></div>
-  <div><b>Unity of Effort</b><span>Shared objectives; each group keeps its own authority</span></div>
+  <div class="course"><b>Flexibility</b><span>Any incident, any size, any hazard</span></div>
+  <div class="course"><b>Standardization</b><span>Same terms and structures, so groups can work together (interoperability)</span></div>
+  <div class="course"><b>Unity of Effort</b><span>Shared objectives; each group keeps its own authority</span></div>
+  <p class="flab">Foundation &middot; each guiding principle supports all three components</p>
  </div>
 </div>"""
 
