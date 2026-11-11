@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.6.3"
+VERSION = "2.6.4"
 
 LET = "ABCD"
 
@@ -230,8 +230,6 @@ I100 = f"""
 {block("The ICS organization: who does what", ORG, [
  "The [[IC sets objectives]] (or Unified Command), and establishes and expands the organization only as needed (modular).",
  "Unified Command: agencies set shared incident objectives and keep their own authority.",
- "[[Transfer of command]] always includes a briefing.",
- "Incident Command sets up [[support facilities]] as the incident needs them.",
 ], True)}
 {block("Rules that keep it orderly: NIMS management characteristics", "", [
  "[[ICS]] works for any incident or planned event, of any size. It sits in the NIMS Command and Coordination component.",
@@ -241,6 +239,8 @@ I100 = f"""
  "Dispatch/deployment: resources go only when requested through established systems. No self-dispatching.",
  "[[Integrated communications]] supports shared situational awareness. [[Information and intelligence management]] covers gathering data, such as weather from technical specialists.",
  "[[Accountability]] = check-in, incident action planning, personal responsibility, resource tracking.",
+ "[[Transfer of command]] always includes a briefing.",
+ "Incident Command sets up [[support facilities]] as the incident needs them.",
  "Coordination is not command: directing, ordering or controlling is command.",
 ], True)}
 <div class="pb soft"></div>

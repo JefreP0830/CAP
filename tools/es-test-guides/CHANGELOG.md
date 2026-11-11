@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.6.4 - 2026-11-10
+- IS-100: transfer of command and support facilities bullets moved from the org chart block to Rules that keep it orderly.
+
 ## 2.6.3 - 2026-11-10
 - IS-800: MAC Group, Unified Command and NOC/RRCC bullets moved out of Tiered response into a Coordinating structures block.
 
