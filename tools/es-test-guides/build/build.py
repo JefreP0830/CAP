@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.2.2"
+VERSION = "2.2.3"
 
 LET = "ABCD"
 
@@ -265,16 +265,16 @@ TYPEBARS = ('<div class="types"><div class="trow th"><span>Type</span><span>Comp
     for t, w, who, staff, dur, iap in TYPES) + '</div>')
 
 LEVELS = [
- ("Incident Command", "Commander", ["Runs the whole incident"], True),
- ("Section", "Chief", ["Operations, Planning, Logistics, Finance/Admin"], True),
- ("Branch", "Director", ["Added when span of control is exceeded"], True),
+ ("Incident Command", "Commander", ["Runs the whole incident"], "Deputy Incident Commander"),
+ ("Section", "Chief", ["Operations, Planning, Logistics, Finance/Admin"], "Deputy Section Chief"),
+ ("Branch", "Director", ["Added when span of control is exceeded"], "Deputy Branch Director"),
  ("Division or Group", "Supervisor", ["Division: a geographic area", "Group: a function"], False),
  ("Strike Team or Task Force", "Leader", ["Strike Team: same kind and type", "Task Force: mixed resources"], False),
 ]
 TITLES = ('<div class="ladder">' + "".join(
     f'<div class="rung" style="--i:{n};--k:{len(LEVELS)-n}"><span class="rl">{lvl}</span><span class="rt">{title}</span>'
     f'<span class="rd">{"".join(f"<span>{x}</span>" for x in d)}</span>'
-    f'<span class="iap {"yes" if dep else "no"}">{"Deputy allowed" if dep else "No deputy"}</span></div>'
+    f'<span class="iap {"yes" if dep else "no"}">{dep or "No deputy"}</span></div>'
     for n, (lvl, title, d, dep) in enumerate(LEVELS)) + '</div>')
 
 I200 = f"""
@@ -289,6 +289,8 @@ I200 = f"""
 {block("Leader titles: each bar is the span of the level to its left", TITLES, [
  "Only the [[functions and positions needed]] are filled. Span of control is kept by organizing resources into teams, divisions, groups, branches or sections.",
  "[[Chain of command]] governs orders, not information. People still share information across the organization.",
+ "[[Deputies]]: only at IC, Section and Branch, and fully qualified for that position. A deputy is a second holder of the same box; the next title down owns a smaller box.",
+ "[[Why a deputy]]: share the command workload while the IC stays responsible, have a briefed successor ready, relieve the IC without a full transfer of command, give an assisting agency a seat, or develop the next IC.",
 ], True)}
 {block("Transfer of command: four steps", flow([
  ("Assess", "Incoming IC checks the situation"),

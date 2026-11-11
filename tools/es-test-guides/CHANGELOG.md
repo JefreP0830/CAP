@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.3 - 2026-11-10
+- IS-200 leader titles: chips name the real positions (Deputy Incident Commander, Deputy Section Chief, Deputy Branch Director). Added bullets on where deputies apply and why a deputy is used instead of a transfer of command.
+
 ## 2.2.2 - 2026-11-10
 - IS-200 leader titles: removed the bar over the Commander; each bar now reads as the span of the level to its left.
 
