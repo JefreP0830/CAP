@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.5.3 - 2026-11-10
+- IS-700 resource cycle: stage titles set to 11pt, still bold blue.
+
 ## 2.5.2 - 2026-11-10
 - IS-700 resource cycle: stage titles in Rajdhani bold Ultramarine so they pop.
 
