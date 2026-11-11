@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.6.2 - 2026-11-10
+- IS-800 tiered response: "Local and tribal" wraps; the three text columns line up across all rings.
+- Fixed: the "Take it at" line on every sheet had turned all caps (a class name collision from 2.5.0).
+
 ## 2.6.1 - 2026-11-10
 - IS-800 visuals: tiered response as nested rings (local at the center, state and federal around it, each labeled with when it is reached); mission areas on a before / during / after timeline with Response marked as the NRF focus and the three core capabilities as a band across all five; community lifelines as a wheel around the community.
 

@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.6.1"
+VERSION = "2.6.2"
 
 LET = "ABCD"
 
@@ -371,9 +371,9 @@ HOUSE = """
 LAYERS = """
 <div class="layers">
  <div class="flowcol"><div class="fup"><span>Needs and information flow up</span></div><div class="fdn"><span>Priorities and support flow down</span></div></div>
- <div class="layer lp"><span class="where">Policy</span><div class="lbox"><b>MAC Group</b><span>Senior officials. Set priorities and settle resource conflicts. Do not replace EOCs or dispatch.</span></div><span class="ask">&ldquo;What matters most?&rdquo;</span></div>
- <div class="layer ls"><span class="where">Off site</span><div class="lbox"><b>Emergency Operations Center (EOC)</b><span>Information sharing, resource coordination, policy direction. Activates when local response grows large or complex.</span></div><span class="ask">&ldquo;What do they need?&rdquo;</span></div>
- <div class="layer lt"><span class="where">On scene</span><div class="lbox"><b>Incident Command (ICS)</b><span>IC or Unified Command directs the tactics. The Planning Section writes the IAP.</span></div><span class="ask">&ldquo;What do we do now?&rdquo;</span></div>
+ <div class="layer lp"><span class="lwhere">Policy</span><div class="lbox"><b>MAC Group</b><span>Senior officials. Set priorities and settle resource conflicts. Do not replace EOCs or dispatch.</span></div><span class="ask">&ldquo;What matters most?&rdquo;</span></div>
+ <div class="layer ls"><span class="lwhere">Off site</span><div class="lbox"><b>Emergency Operations Center (EOC)</b><span>Information sharing, resource coordination, policy direction. Activates when local response grows large or complex.</span></div><span class="ask">&ldquo;What do they need?&rdquo;</span></div>
+ <div class="layer lt"><span class="lwhere">On scene</span><div class="lbox"><b>Incident Command (ICS)</b><span>IC or Unified Command directs the tactics. The Planning Section writes the IAP.</span></div><span class="ask">&ldquo;What do we do now?&rdquo;</span></div>
  <div class="jisrail"><b>Joint Information System</b><span>One coordinated public message for all three levels. PIOs work together in the Joint Information Center (JIC).</span></div>
 </div>"""
 
@@ -413,7 +413,7 @@ TIERS = """
 <div class="tiers">
  <div class="tring t3"><div class="tlab"><b>Federal</b><em>When the state needs more</em><span>Stafford Act: FEMA leads; the Unified Coordination Group leads at the Joint Field Office (JFO). Non-Stafford: the agency with primary legal authority.</span></div>
   <div class="tring t2"><div class="tlab"><b>State</b><em>When local needs more</em><span>Governor and state EOC. Other states help through EMAC (interstate mutual aid).</span></div>
-   <div class="tring t1"><div class="tlab"><b>Local and tribal</b><em>Every incident starts here</em><span>First to arrive, last to leave. Police, fire, EMS. The IC relays needs to the local EOC.</span></div></div>
+   <div class="tring t1"><div class="tlab"><b>Local and<br>tribal</b><em>Every incident starts here</em><span>First to arrive, last to leave. Police, fire, EMS. The IC relays needs to the local EOC.</span></div></div>
   </div>
  </div>
 </div>"""
