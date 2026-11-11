@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.3.0"
+VERSION = "2.3.1"
 
 LET = "ABCD"
 
@@ -312,6 +312,7 @@ I200 = f"""
  "[[Why a deputy]]: share the command workload while the IC stays responsible, have a briefed successor ready, relieve the IC without a full transfer of command, give an assisting agency a seat, or develop the next IC.",
 ], True)}
 {block("Transfer of command: a handoff between two people", TOC, [
+ "[[Effective time]]: the exact time and date command passes, agreed by both ICs and announced to everyone. Until then the outgoing IC is still in charge, so there is never a gap or two people giving orders.",
  "[[IC authority]] comes from law, agency policy, and delegation of authority. The IC approves the IAP and resource orders and releases.",
 ], True)}
 {block("Planning and leading: objectives, briefings, duty", "", [
