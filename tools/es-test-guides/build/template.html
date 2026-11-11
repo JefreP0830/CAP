@@ -185,7 +185,9 @@ h2+.concept{margin-top:8px;padding-top:4px;border-top:0}
 
 /* diagram: planning funnel */
 .funnel{display:grid;gap:6px}
-.tier{width:calc(100% - var(--i) * 8%);margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr) minmax(0,1.4fr);gap:12px;align-items:center;padding:9px 14px;border-radius:3px}
+.tier{width:calc(100% - var(--i) * 6%);margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 310px minmax(0,1fr);gap:24px;align-items:center;height:66px;padding:0 18px;border-radius:3px}
+.tier .tt{text-align:center;white-space:nowrap}
+.tier .td2{text-align:right}
 .tier:nth-child(1){background:#E8EBF6}.tier:nth-child(2){background:#CFD5EE}.tier:nth-child(3){background:#A9B3DF}
 .tier:nth-child(4){background:#3D4FA6;color:#fff}.tier:nth-child(5){background:var(--blue);color:#fff}
 .tw{font-size:14.67px;letter-spacing:.03em}
@@ -268,7 +270,7 @@ ol.key li.hide{display:none}
   .cc{grid-template-columns:1fr}
   .trow{grid-template-columns:70px 1fr 170px;gap:4px 12px}.trow .td{grid-column:1/-1}.trow.th{display:none}.trow .iap{grid-column:3;grid-row:1}.mob{display:inline}
   .lvl{margin-left:calc(var(--i) * 8px)}
-  .tier{width:100%;grid-template-columns:1fr;gap:2px}.vs{grid-template-columns:1fr}
+  .tier{width:100%;grid-template-columns:1fr;gap:2px;height:auto;padding:8px 12px}.tier .tt,.tier .td2{text-align:left;white-space:normal}.vs{grid-template-columns:1fr}
   .toc{grid-template-columns:1fr;grid-template-rows:none}.toc>*{grid-column:1!important;grid-row:auto!important}.th0,.tsh,.lane{display:none}
   .cmdbar{grid-template-columns:1fr;}.cmdbar .out{border-right:1px solid var(--rule)}
   .ladder{grid-template-columns:1fr;gap:10px;padding-top:0}.rung{margin-top:0;margin-left:calc(var(--i) * 12px);min-height:0}.rung::before{display:none}.rl{min-height:0}
@@ -305,7 +307,7 @@ ol.key li.hide{display:none}
   .concept{margin-top:10px;padding-top:8px}.chead{margin-bottom:5px}.cname{font-size:17px}.concept ul.ess{margin-top:6px}
   .trow{grid-template-columns:60px 90px minmax(0,2fr) minmax(0,1fr) 96px;gap:0 10px;padding:2px 0}.trow.th{padding:2px 0}.trow.th span{font-size:11px;letter-spacing:.03em}
   .lvl{display:flex;align-items:baseline;gap:8px}.lvl em{flex:1;font-size:12px}.lvl span{order:3}
-  .tier{padding:5px 10px;gap:8px}.tt{font-size:16px}.tw,.td2{font-size:11.5px}.vq{font-size:13px}.vcard{padding:6px 10px}.vn,.vt{font-size:11px}
+  .tier{padding:0 10px;gap:12px;height:44px;grid-template-columns:minmax(0,1fr) 230px minmax(0,1fr)}.tt{font-size:16px}.tw,.td2{font-size:11.5px}.vq{font-size:13px}.vcard{padding:6px 10px}.vn,.vt{font-size:11px}
   .ladder{gap:10px}.rung{padding:4px 7px;gap:2px}.rung::before{width:calc(var(--k) * (100% + 2px) + (var(--k) - 1) * 10px)}.rt{font-size:19px}.rl,.rd,.rung .iap{font-size:11.5px}
   .stair{gap:3px}.lvl{padding:3px 8px}.flow.vert{gap:12px}.flow.vert .step{padding:4px 8px}.flow.vert .step+.step::before{top:-16px;height:13px}
 }

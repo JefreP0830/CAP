@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.4.1 - 2026-11-10
+- IS-200 funnel: equal tier heights, titles centered on one axis, side text pushed to the edges with space around the title.
+
 ## 2.4.0 - 2026-11-10
 - IS-200 Planning and leading: new funnel from Emergency Operations Plan to field-level briefing (who owns each step, darkening as it gets specific), plus a too-broad vs specific-and-measurable objective comparison. Added management by objectives.
 

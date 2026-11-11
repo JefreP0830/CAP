@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.4.0"
+VERSION = "2.4.1"
 
 LET = "ABCD"
 
@@ -297,11 +297,11 @@ TOC = """
 </div>"""
 
 FUNNEL_TIERS = [
- ("Before any incident", "Emergency Operations Plan", "A uniform response to all hazards a community may face"),
+ ("Before any incident", "Emergency Operations Plan", "Uniform response to all hazards"),
  ("IC or Unified Command sets", "Incident objectives", "Specific and measurable, not broad"),
  ("Planning writes, IC approves", "Incident Action Plan", "The plan for one operational period"),
  ("Planning Section Chief runs it", "Operational Period Briefing", "Presents the IAP to supervisors"),
- ("Supervisor to crew, at the work site", "Field-level briefing", "Assignments for the people doing the work"),
+ ("Supervisor to crew, on site", "Field-level briefing", "Assignments for each crew"),
 ]
 FUNNEL = ('<div class="funnel">' + "".join(
     f'<div class="tier" style="--i:{n}"><span class="tw">{who}</span><span class="tt">{what}</span><span class="td2">{d}</span></div>'
