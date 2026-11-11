@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.5.6 - 2026-11-10
+- IS-700 resource cycle: stage titles bold.
+
 ## 2.5.5 - 2026-11-10
 - IS-700 resource cycle: stage titles 11pt Arial in Ultramarine Blue.
 
