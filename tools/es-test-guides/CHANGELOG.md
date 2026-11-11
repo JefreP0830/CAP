@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.9.0 - 2026-11-11
+- IS-800 ESFs: the number board is replaced by a worked example (a river flood), each incident need connected to the ESF that answers it, plus the ESFs supporting the whole response and the rest on standby. All 15 still shown.
+
 ## 2.8.1 - 2026-11-11
 - IS-800: ESF board moved to its own Emergency Support Functions block, with the true link to the NRF dimmer stated (activated only as needed).
 

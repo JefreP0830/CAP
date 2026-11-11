@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.8.1"
+VERSION = "2.9.0"
 
 LET = "ABCD"
 
@@ -449,8 +449,7 @@ DIMMER = """
  <p class="dnote">The NRF never switches off. More of it engages as the incident grows. It covers the Response mission area, ties it to the other four, and aligns with NIMS.</p>
 </div>"""
 
-ESFS = """
-<div class="esfg"><div class="esf"><span class="en">ESF #1</span><span class="et">Transportation</span></div><div class="esf"><span class="en">ESF #2</span><span class="et">Communications</span></div><div class="esf"><span class="en">ESF #3</span><span class="et">Public Works and Engineering</span></div><div class="esf"><span class="en">ESF #4</span><span class="et">Firefighting</span></div><div class="esf"><span class="en">ESF #5</span><span class="et">Information and Planning</span></div><div class="esf hl"><span class="en">ESF #6</span><span class="et">Mass Care, Emergency Assistance, Temporary Housing and Human Services</span><span class="enote">Works with the National Center for Missing &amp; Exploited Children (NCMEC) to identify children and reunite them with families</span></div><div class="esf"><span class="en">ESF #7</span><span class="et">Logistics</span></div><div class="esf"><span class="en">ESF #8</span><span class="et">Public Health and Medical Services</span></div><div class="esf"><span class="en">ESF #9</span><span class="et">Search and Rescue</span></div><div class="esf"><span class="en">ESF #10</span><span class="et">Oil and Hazardous Materials Response</span></div><div class="esf"><span class="en">ESF #11</span><span class="et">Agriculture and Natural Resources</span></div><div class="esf"><span class="en">ESF #12</span><span class="et">Energy</span></div><div class="esf"><span class="en">ESF #13</span><span class="et">Public Safety and Security</span></div><div class="esf"><span class="en">ESF #14</span><span class="et">Cross-Sector Business and Infrastructure</span></div><div class="esf"><span class="en">ESF #15</span><span class="et">External Affairs</span></div></div>"""
+ESFS = """<p class="escen">Example incident: <b>a river flood hits a town</b></p><div class="emap"><div class="eh">The incident needs</div><div></div><div class="eh">The ESF that answers</div><div class="eneed">People need shelter, food and water</div><div class="econ"></div><div class="eans"><span class="echip on"><b>ESF #6</b> Mass Care, Emergency Assistance, Temporary Housing and Human Services</span></div><div class="eneed">Children separated from their families</div><div class="econ"></div><div class="eans"><span class="echip on"><b>ESF #6</b> Mass Care, the same function</span><span class="enote2">Working with the National Center for Missing &amp; Exploited Children (NCMEC) to identify children and reunite them with families</span></div><div class="eneed">People trapped by rising water</div><div class="econ"></div><div class="eans"><span class="echip on"><b>ESF #9</b> Search and Rescue</span></div><div class="eneed">Roads and bridges washed out</div><div class="econ"></div><div class="eans"><span class="echip on"><b>ESF #1</b> Transportation</span><span class="echip on"><b>ESF #3</b> Public Works and Engineering</span></div><div class="eneed">Power out across town</div><div class="econ"></div><div class="eans"><span class="echip on"><b>ESF #12</b> Energy</span></div><div class="eneed">Fuel tanks leaking into the river</div><div class="econ"></div><div class="eans"><span class="echip on"><b>ESF #10</b> Oil and Hazardous Materials Response</span></div><div class="eneed">The hospital is flooded</div><div class="econ"></div><div class="eans"><span class="echip on"><b>ESF #8</b> Public Health and Medical Services</span></div><div class="eneed">The public needs clear information</div><div class="econ"></div><div class="eans"><span class="echip on"><b>ESF #15</b> External Affairs</span></div></div><p class="lab esub">Supporting the whole response</p><div class="erow"><span class="echip on"><b>ESF #5</b> Information and Planning</span><span class="echip on"><b>ESF #7</b> Logistics</span></div><p class="lab esub">Standby: activated only if this incident needs them</p><div class="erow"><span class="echip off"><b>ESF #2</b> Communications</span><span class="echip off"><b>ESF #4</b> Firefighting</span><span class="echip off"><b>ESF #11</b> Agriculture and Natural Resources</span><span class="echip off"><b>ESF #13</b> Public Safety and Security</span><span class="echip off"><b>ESF #14</b> Cross-Sector Business and Infrastructure</span></div>"""
 
 I800 = f"""
 <section class="guide" id="is800" data-title="IS-800">
@@ -472,7 +471,7 @@ I800 = f"""
  "[[NRF guiding principles]] include engaged partnership (whole community, information sharing) and scalable, flexible, adaptable capabilities.",
  "[[Engaging communities]] shares information and builds readiness.",
 ], True)}
-{block("Emergency Support Functions: 15 partner groups, by function", ESFS, [
+{block("Emergency Support Functions: each need gets the function that answers it", ESFS, [
  "[[ESFs]] are government and private-sector partners, not only federal. They are activated only as needed, so more of them engage as an incident grows.",
 ])}
 <div class="pb soft"></div>
