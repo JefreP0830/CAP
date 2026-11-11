@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.3.1"
+VERSION = "2.4.0"
 
 LET = "ABCD"
 
@@ -296,6 +296,23 @@ TOC = """
  <div class="cmdbar"><span class="out">Outgoing IC</span><span class="eff">Effective time</span><span class="in">Incoming IC</span></div>
 </div>"""
 
+FUNNEL_TIERS = [
+ ("Before any incident", "Emergency Operations Plan", "A uniform response to all hazards a community may face"),
+ ("IC or Unified Command sets", "Incident objectives", "Specific and measurable, not broad"),
+ ("Planning writes, IC approves", "Incident Action Plan", "The plan for one operational period"),
+ ("Planning Section Chief runs it", "Operational Period Briefing", "Presents the IAP to supervisors"),
+ ("Supervisor to crew, at the work site", "Field-level briefing", "Assignments for the people doing the work"),
+]
+FUNNEL = ('<div class="funnel">' + "".join(
+    f'<div class="tier" style="--i:{n}"><span class="tw">{who}</span><span class="tt">{what}</span><span class="td2">{d}</span></div>'
+    for n, (who, what, d) in enumerate(FUNNEL_TIERS)) + '<p class="fcap">Broad at the top, specific at the bottom</p></div>')
+OBJ = """
+<p class="lab objl">Writing an objective</p>
+<div class="vs">
+ <div class="vcard no"><span class="vt">Too broad</span><span class="vq">&ldquo;Find the missing hiker.&rdquo;</span><span class="vn">No place, no time, no way to know when it&rsquo;s done.</span></div>
+ <div class="vcard yes"><span class="vt">Specific and measurable</span><span class="vq">&ldquo;Search segments 3 and 4 by 1800 hours and report to the Division Supervisor.&rdquo;</span><span class="vn">Where, by when, and what done looks like.</span></div>
+</div>"""
+
 I200 = f"""
 <section class="guide" id="is200" data-title="IS-200">
 {head("FEMA Independent Study", "IS-200 &middot; Basic ICS for Initial Response", "ICS-200 &middot; growing the organization, briefings and transfer of command",
@@ -315,11 +332,9 @@ I200 = f"""
  "[[Effective time]]: the exact time and date command passes, agreed by both ICs and announced to everyone. Until then the outgoing IC is still in charge, so there is never a gap or two people giving orders.",
  "[[IC authority]] comes from law, agency policy, and delegation of authority. The IC approves the IAP and resource orders and releases.",
 ], True)}
-{block("Planning and leading: objectives, briefings, duty", "", [
- "[[Objectives]] are specific and measurable, not broad.",
- "[[Operational Period Briefing]] presents the IAP to supervisors; the Planning Section Chief runs it. Field-level briefings go to crews.",
+{block("Planning and leading: how a plan reaches the field", FUNNEL + OBJ, [
+ "[[Management by objectives]]: every assignment, plan and procedure traces back to the incident objectives.",
  "Leaders show [[commitment to duty]] by stepping into leadership when needed and developing subordinates.",
- "[[Emergency Operations Plans]] give a community a uniform response to all hazards.",
 ], True)}
 <div class="pb soft"></div>
 {practice(P.IS200)}

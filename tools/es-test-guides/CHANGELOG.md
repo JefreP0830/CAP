@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.4.0 - 2026-11-10
+- IS-200 Planning and leading: new funnel from Emergency Operations Plan to field-level briefing (who owns each step, darkening as it gets specific), plus a too-broad vs specific-and-measurable objective comparison. Added management by objectives.
+
 ## 2.3.1 - 2026-11-10
 - IS-200: added an Effective time bullet under the transfer of command diagram.
 
