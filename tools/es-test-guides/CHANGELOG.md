@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.8.1 - 2026-11-11
+- IS-800: ESF board moved to its own Emergency Support Functions block, with the true link to the NRF dimmer stated (activated only as needed).
+
 ## 2.8.0 - 2026-11-11
 - IS-800 The NRF itself: "always on" dimmer track from small local incident to catastrophe, and a board of all 15 ESFs with ESF #6 and NCMEC highlighted.
 
