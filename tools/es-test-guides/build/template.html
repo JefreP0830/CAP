@@ -159,6 +159,7 @@ h2+.concept{margin-top:8px;padding-top:4px;border-top:0}
 .rung{position:relative;margin-top:calc(var(--i) * 12px);border:1px solid var(--rule);border-radius:3px;padding:8px 10px;display:flex;flex-direction:column;gap:4px;box-shadow:0 2px 5px rgba(0,20,137,.16);min-height:calc(100% - var(--i) * 12px)}
 .rung::before{content:"";position:absolute;left:-1px;top:-12px;height:6px;background:var(--blue);border-radius:1px;
   width:calc(var(--k) * (100% + 2px) + (var(--k) - 1) * 14px)}
+.rung:first-child::before{display:none}
 .rl{font-size:14.67px;color:var(--ink);letter-spacing:.04em;text-transform:uppercase;min-height:2.5em}
 .rt{font-family:var(--f-title);font-weight:700;font-size:24px;color:var(--blue);line-height:1}
 .rd{font-size:14.67px;color:var(--ink);flex:1;display:flex;flex-direction:column;gap:3px}

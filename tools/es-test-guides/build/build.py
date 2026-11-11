@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.2.1"
+VERSION = "2.2.2"
 
 LET = "ABCD"
 
@@ -286,7 +286,7 @@ I200 = f"""
  "[[Complexity]] rises with factors such as the number of jurisdictions, threat to life and property, and size of the area.",
  "Predicting resource needs to choose the structure is [[complexity analysis]].",
 ], True)}
-{block("Leader titles: each level sits under the one above it", TITLES, [
+{block("Leader titles: each bar is the span of the level to its left", TITLES, [
  "Only the [[functions and positions needed]] are filled. Span of control is kept by organizing resources into teams, divisions, groups, branches or sections.",
  "[[Chain of command]] governs orders, not information. People still share information across the organization.",
 ], True)}

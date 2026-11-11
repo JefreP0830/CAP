@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.2 - 2026-11-10
+- IS-200 leader titles: removed the bar over the Commander; each bar now reads as the span of the level to its left.
+
 ## 2.2.1 - 2026-11-10
 - IS-200 leader titles: arrows replaced with nested stair-step bars (each level's bar spans every level beneath it). Division/Group and Strike Team/Task Force each get their own line.
 
