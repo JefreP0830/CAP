@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.5 - 2026-11-10
+- IS-200: chips back to "Deputy allowed"; the Deputies and Why a deputy bullets stay.
+
 ## 2.2.4 - 2026-11-10
 - IS-200: Deputies bullet notes a position may have one or more deputies.
 
