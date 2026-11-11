@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.5.2 - 2026-11-10
+- IS-700 resource cycle: stage titles in Rajdhani bold Ultramarine so they pop.
+
 ## 2.5.1 - 2026-11-10
 - IS-700 house: guiding principles stacked as full-width foundation layers under all three pillars, so no principle reads as paired with one component.
 
