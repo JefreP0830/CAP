@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.5.6"
+VERSION = "2.6.1"
 
 LET = "ABCD"
 
@@ -409,32 +409,44 @@ I700 = f"""
 </section>"""
 
 # ---------------------------------------------------------------- IS-800
+TIERS = """
+<div class="tiers">
+ <div class="tring t3"><div class="tlab"><b>Federal</b><em>When the state needs more</em><span>Stafford Act: FEMA leads; the Unified Coordination Group leads at the Joint Field Office (JFO). Non-Stafford: the agency with primary legal authority.</span></div>
+  <div class="tring t2"><div class="tlab"><b>State</b><em>When local needs more</em><span>Governor and state EOC. Other states help through EMAC (interstate mutual aid).</span></div>
+   <div class="tring t1"><div class="tlab"><b>Local and tribal</b><em>Every incident starts here</em><span>First to arrive, last to leave. Police, fire, EMS. The IC relays needs to the local EOC.</span></div></div>
+  </div>
+ </div>
+</div>"""
+
+MISSIONS = """
+<div class="mtl">
+ <div class="mph" style="grid-column:1/4">Before an incident</div><div class="mph dur">During</div><div class="mph">After</div>
+ <div class="mtile"><b>Prevention</b><span>Stop imminent terrorism</span></div>
+ <div class="mtile"><b>Protection</b><span>Secure people and assets</span></div>
+ <div class="mtile"><b>Mitigation</b><span>Reduce loss of life and property by lessening disaster impact</span></div>
+ <div class="mtile focus"><em>NRF focus</em><b>Response</b><span>Save lives, protect property and environment, meet basic needs</span></div>
+ <div class="mtile"><b>Recovery</b><span>Restore and rebuild</span></div>
+ <div class="mcore"><em>Three core capabilities across all five, and every lifeline</em><span>Planning</span><span>Public Information and Warning</span><span>Operational Coordination</span></div>
+</div>"""
+
+WHEEL = """<div class="wheel"><span class="spoke" style="width:22.4%;--a:-90.0deg"></span><span class="spoke" style="width:32.8%;--a:-25.1deg"></span><span class="spoke" style="width:37.4%;--a:7.6deg"></span><span class="spoke" style="width:26.0%;--a:50.7deg"></span><span class="spoke" style="width:26.0%;--a:129.3deg"></span><span class="spoke" style="width:37.4%;--a:172.4deg"></span><span class="spoke" style="width:32.8%;--a:-154.9deg"></span><div class="hub"><b>Community</b><span>Lifelines keep critical government and business functions running</span></div><div class="lnode" style="left:50.0%;top:12.0%">Safety and Security</div><div class="lnode" style="left:79.7%;top:26.3%">Food, Water, Shelter</div><div class="lnode" style="left:87.0%;top:58.5%">Health and Medical</div><div class="lnode" style="left:66.5%;top:84.2%">Energy</div><div class="lnode" style="left:33.5%;top:84.2%">Communications</div><div class="lnode" style="left:13.0%;top:58.5%">Transportation</div><div class="lnode" style="left:20.3%;top:26.3%">Hazardous Materials</div></div>"""
+
 I800 = f"""
 <section class="guide" id="is800" data-title="IS-800">
 {head("FEMA Independent Study", "IS-800 &middot; National Response Framework", "NRF &middot; always in effect, a guide for how the nation responds",
  fema_link("IS-800.d"))}
 <h2>Core essentials</h2>
-{block("Tiered response: begin and end locally", flow([
- ("Local and tribal", "First to arrive, last to leave. Police, fire, EMS. IC relays needs to the local EOC."),
- ("State", "Governor and state EOC. Other states help through EMAC (interstate mutual aid)."),
- ("Federal", "Stafford Act: FEMA leads; the Unified Coordination Group leads at the Joint Field Office (JFO). Non-Stafford: agency with primary legal authority.")]), [
+{block("Tiered response: begin and end locally", TIERS, [
  "[[Tiered response]]: incidents are handled at the lowest jurisdictional level possible.",
  "[[Tribal governments]] may deal directly with the federal government.",
  "NOC: DHS principal operations center. RRCC: FEMA regional center. Many EOCs use the ICS structure.",
  "MAC Group: senior officials who can commit agency resources and funds.",
  "Unified Command benefit: joint priorities.",
 ], True)}
-{block("Five mission areas: what the nation does", tiles([
- ("Prevention","Stop imminent terrorism"),("Protection","Secure people and assets"),
- ("Mitigation","Reduce loss of life and property by lessening disaster impact"),
- ("Response","Save lives, protect property and environment, meet basic needs"),("Recovery","Restore and rebuild")],5), [
- "[[Three core capabilities]] cross all mission areas and lifelines: Planning; Public Information and Warning; Operational Coordination.",
+{block("Five mission areas: what the nation does, before, during and after", MISSIONS, [
  "The [[National Preparedness Goal]] sets the vision and names the core capabilities. [[Operational Communications]] means timely communications among responders and affected communities.",
 ], True)}
-{block("Seven community lifelines: the basics a community runs on", tiles([
- ("Safety and Security",""),("Food, Water, Shelter",""),("Health and Medical",""),("Energy",""),
- ("Communications",""),("Transportation",""),("Hazardous Materials","")],4), [
- "[[Community lifelines]]: services that keep critical government and business functions running.",
+{block("Seven community lifelines: the basics a community runs on", WHEEL, [
  "The course teaches seven lifelines. FEMA added an eighth, Water Systems, in 2023.",
 ])}
 {block("The NRF itself: how the framework works", "", [

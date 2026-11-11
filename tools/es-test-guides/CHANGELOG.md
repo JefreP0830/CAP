@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.6.1 - 2026-11-10
+- IS-800 visuals: tiered response as nested rings (local at the center, state and federal around it, each labeled with when it is reached); mission areas on a before / during / after timeline with Response marked as the NRF focus and the three core capabilities as a band across all five; community lifelines as a wheel around the community.
+
 ## 2.5.6 - 2026-11-10
 - IS-700 resource cycle: stage titles bold.
 
