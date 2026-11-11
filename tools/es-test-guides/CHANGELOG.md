@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.7.0 - 2026-11-10
+- IS-800 coordinating structures: zoom-out of four panels (Unified Command, EOC, MAC Group, RRCC and NOC), each with a plain description and a sports comparison for cadets, over a Closer to the scene / Wider view arrow.
+
 ## 2.6.4 - 2026-11-10
 - IS-100: transfer of command and support facilities bullets moved from the org chart block to Rules that keep it orderly.
 

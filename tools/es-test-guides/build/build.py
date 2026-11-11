@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.6.4"
+VERSION = "2.7.0"
 
 LET = "ABCD"
 
@@ -431,6 +431,17 @@ MISSIONS = """
 
 WHEEL = """<div class="wheel"><span class="spoke" style="width:22.4%;--a:-90.0deg"></span><span class="spoke" style="width:32.8%;--a:-25.1deg"></span><span class="spoke" style="width:37.4%;--a:7.6deg"></span><span class="spoke" style="width:26.0%;--a:50.7deg"></span><span class="spoke" style="width:26.0%;--a:129.3deg"></span><span class="spoke" style="width:37.4%;--a:172.4deg"></span><span class="spoke" style="width:32.8%;--a:-154.9deg"></span><div class="hub"><b>Community</b><span>Lifelines keep critical government and business functions running</span></div><div class="lnode" style="left:50.0%;top:12.0%">Safety and Security</div><div class="lnode" style="left:79.7%;top:26.3%">Food, Water, Shelter</div><div class="lnode" style="left:87.0%;top:58.5%">Health and Medical</div><div class="lnode" style="left:66.5%;top:84.2%">Energy</div><div class="lnode" style="left:33.5%;top:84.2%">Communications</div><div class="lnode" style="left:13.0%;top:58.5%">Transportation</div><div class="lnode" style="left:20.3%;top:26.3%">Hazardous Materials</div></div>"""
 
+ZOOM_PANELS = [
+ ("On scene", "Unified Command", "Leaders from each responsible agency set one set of objectives together. Each keeps its own authority. Benefit: joint priorities.", "Like co-captains agreeing on one game plan."),
+ ("Off site", "Emergency Operations Center", "Gets the scene what it needs: resources, information, policy direction. Many EOCs use the ICS structure.", "Like the support staff in the building: they don’t play, they supply."),
+ ("Policy level", "MAC Group", "Senior officials who can commit agency resources and funds, and decide who gets what when there isn’t enough.", "Like league officials deciding which game gets the only bus."),
+ ("Region and nation", "RRCC and NOC", "RRCC: FEMA’s regional center coordinates federal help. NOC: DHS’s principal operations center watches the whole nation.", "Like the league’s regional office and national headquarters."),
+]
+ZOOM = ('<div class="zoom">' + "".join(
+    f'<div class="zp" style="--i:{n}"><span class="zw">{w}</span><b>{t}</b><span class="zd">{d}</span><em>{a}</em></div>'
+    for n, (w, t, d, a) in enumerate(ZOOM_PANELS))
+    + '<div class="zbar"><span>Closer to the scene</span><span>Wider view</span></div></div>')
+
 I800 = f"""
 <section class="guide" id="is800" data-title="IS-800">
 {head("FEMA Independent Study", "IS-800 &middot; National Response Framework", "NRF &middot; always in effect, a guide for how the nation responds",
@@ -440,11 +451,7 @@ I800 = f"""
  "[[Tiered response]]: incidents are handled at the lowest jurisdictional level possible.",
  "[[Tribal governments]] may deal directly with the federal government.",
 ], True)}
-{block("Coordinating structures: who works together, and where", "", [
- "MAC Group: senior officials who can commit agency resources and funds.",
- "Unified Command benefit: joint priorities.",
- "NOC: DHS principal operations center. RRCC: FEMA regional center. Many EOCs use the ICS structure.",
-], True)}
+{block("Coordinating structures: zooming out from the scene", ZOOM)}
 {block("Five mission areas: what the nation does, before, during and after", MISSIONS, [
  "The [[National Preparedness Goal]] sets the vision and names the core capabilities. [[Operational Communications]] means timely communications among responders and affected communities.",
 ], True)}
