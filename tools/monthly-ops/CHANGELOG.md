@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.3 - 2026-11-12
+
+- App icon (clipboard of checked tasks) for the CAP Tools menu, favicon and home screen.
+
 ## 1.1.2 - 2026-11-09
 - Print: the small SUI area tiles print in one row; the large tiles stay on screen only.
 

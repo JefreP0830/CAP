@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.2 - 2026-11-12
+
+- App icon (uniform shirt with a gold grade tab) for the CAP Tools menu, favicon and home screen.
+- Utility cap drawing replaced with the supplied cap graphic, in the worksheet's gray.
+
 ## 1.0.1 - 2026-11-12
 
 - Item names: T-shirt (Tan 499), Shirt (was Coat), Grade insignia (x2).

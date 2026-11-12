@@ -2,7 +2,7 @@
 
     python build.py
 
-Uses utility-cap-gray.png beside this script if present (local print copy only);
+Uses utility-cap-gray.png beside this script for the utility cap when present;
 otherwise draws the utility cap. Rajdhani (SIL OFL) is embedded from fonts/.
 """
 import pathlib
@@ -245,7 +245,9 @@ html,body{{margin:0;background:#EEF0F0;font-family:Arial,Helvetica,sans-serif;co
 """
 html = ("<!doctype html><html lang='en'><head><meta charset='utf-8'>"
         "<meta name='viewport' content='width=device-width, initial-scale=1'>"
-        "<title>OCP Uniform Worksheet</title><style>" + CSS + "</style></head><body>"
+        "<title>OCP Uniform Worksheet</title>"
+        "<link rel='icon' type='image/png' sizes='32x32' href='icons/favicon-32.png'>"
+        "<link rel='apple-touch-icon' href='icons/apple-touch-icon.png'><style>" + CSS + "</style></head><body>"
         "<div class='bar'><a href='../../'>CAP Tools</a><h1>OCP Uniform Worksheet</h1>"
         "<button type='button' onclick='window.print()'>Print</button></div>"
         "<div class='sheet'>" + svg + "</div></body></html>")
