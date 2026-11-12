@@ -143,53 +143,53 @@ SECTIONS = [
      [("T-shirt (Tan 499)", ["chest"]), ("Shirt", ["chest"]), ("Fleece jacket", ["chest"])],
      [("Name tapes (x3)", []), ("CIVIL AIR PATROL tape", []), ("US flag", []), ("Squadron patch", []),
       ("CAP AUX tab", []), ("Wing patch", []), ("Grade insignia (x2)", [])],
-     [(coat, 408, 104, 0.98), (tee, 364, 252, 1.2), (fleece, 452, 252, 1.2)], 296),
+     [(coat, 408, 94, 0.86), (tee, 368, 226, 1.1), (fleece, 450, 226, 1.1)], 258),
     ("LOWER BODY",
      [("Pants", ["waist", "length"])],
      [("Belt", ["waist"])],
-     [(pants, 374, 70, 0.4), (belt, 466, 70, 0.62)], 140),
+     [(pants, 378, 56, 0.34), (belt, 462, 56, 0.6)], 112),
     ("HANDS AND FEET",
      [("Gloves", ["hand"]), ("Boot socks", ["shoe size"])],
      [("Boots", ["shoe size, width"])],
      [(glove, 336, 52, 1.15), (sock, 408, 52, 1.0), (boot, 484, 52, 1.0)], 0),
 ]
 
-COL_W = 226
+COL_W = 240
 LX, RX = MARGIN, W - MARGIN - COL_W
-RH_SIZED, RH_PLAIN = 72, 38
+RH_SIZED, RH_PLAIN = 76, 36
 out = []
 
 
 def box(x, y, letter):
     return (f'<rect x="{x}" y="{y - 13}" width="16" height="16" rx="1.5" fill="none" stroke="{BLACK70}" stroke-width="1"/>'
-            f'<text x="{x + 20}" y="{y}" font-size="12.5" fill="{BLACK70}">{letter}</text>')
+            f'<text x="{x + 20}" y="{y}" font-size="14.67" fill="{BLACK70}">{letter}</text>')
 
 
 def item(name, sizes, top, x0):
     """Title with Y/N on the same line; size field(s) underneath. Returns (svg, height)."""
     x_end = x0 + COL_W
     ty = top + 18
-    s = (f'<text x="{x0}" y="{ty}" font-size="14" fill="#000000">{name}</text>'
-         + box(x_end - 64, ty, "Y") + box(x_end - 30, ty, "N"))
+    s = (f'<text x="{x0}" y="{ty}" font-size="14.67" fill="#000000">{name}</text>'
+         + box(x_end - 68, ty, "Y") + box(x_end - 32, ty, "N"))
     if not sizes:
         return s, RH_PLAIN
     fy = ty + 10
     if sizes == ["one size"]:
-        s += f'<text x="{x0}" y="{fy + 15}" font-size="10" fill="{BLACK70}">one size, no measurement needed</text>'
+        s += f'<text x="{x0}" y="{fy + 16}" font-size="14.67" fill="{BLACK70}">one size, no measurement needed</text>'
         return s, RH_SIZED
     w = (COL_W - 6 * (len(sizes) - 1)) / len(sizes)
     for k, lab in enumerate(sizes):
         x = x0 + k * (w + 6)
-        s += (f'<rect x="{x:.1f}" y="{fy}" width="{w:.1f}" height="26" rx="2" fill="{FIELD}"/>'
-              f'<text x="{x + 5:.1f}" y="{fy + 10}" font-size="8.5" fill="{BLACK70}">{lab}</text>')
+        s += (f'<rect x="{x:.1f}" y="{fy}" width="{w:.1f}" height="28" rx="2" fill="{FIELD}"/>'
+              f'<text x="{x + 5:.1f}" y="{fy + 19}" font-size="14.67" fill="{BLACK70}">{lab}</text>')
     return s, RH_SIZED
 
 
-y = 190
+y = 252
 for title, left, right, art, min_h in SECTIONS:
-    out.append(f'<text x="{MARGIN}" y="{y}" font-size="11" fill="{ULTRA}" letter-spacing="1.2">{title}</text>'
+    out.append(f'<text x="{MARGIN}" y="{y}" font-size="14.67" fill="{ULTRA}" letter-spacing="1.2">{title}</text>'
                f'<line x1="{MARGIN}" y1="{y + 7}" x2="{W - MARGIN}" y2="{y + 7}" stroke="{ULTRA}" stroke-width="0.9"/>')
-    top = y + 24
+    top = y + 22
     heights = []
     for col, x0 in ((left, LX), (right, RX)):
         t = top
@@ -200,25 +200,25 @@ for title, left, right, art, min_h in SECTIONS:
         heights.append(t - top)
     for piece, pcx, dy, sc in art:
         out.append(piece.place(pcx, top + dy, sc))
-    y = top + max(heights + [min_h]) + 20
+    y = top + max(heights + [min_h]) + 14
 
 
 def field(x, y, w, lab):
-    return (f'<text x="{x}" y="{y}" font-size="10" fill="{ULTRA}" letter-spacing="0.4">{lab}</text>'
+    return (f'<text x="{x}" y="{y}" font-size="14.67" fill="{ULTRA}" letter-spacing="0.4">{lab}</text>'
             f'<rect x="{x}" y="{y + 6}" width="{w}" height="28" rx="2" fill="{FIELD}"/>')
 
 
-FY = 128
+FY = 126
 header = (
-    f'<text x="{MARGIN}" y="62" font-family="Rajdhani, Arial, sans-serif" font-weight="600" font-size="30" fill="{ULTRA}">OCP Uniform Self-Check</text>'
-    f'<text x="{W - MARGIN}" y="62" font-family="Rajdhani, Arial, sans-serif" font-weight="600" font-size="18" fill="{ULTRA}" text-anchor="end">VT-014</text>'
+    f'<text x="{MARGIN}" y="62" font-family="Rajdhani, Arial, sans-serif" font-weight="600" font-size="26.67" fill="{ULTRA}">OCP Uniform Self-Check</text>'
+    f'<text x="{W - MARGIN}" y="62" font-size="14.67" fill="{ULTRA}" text-anchor="end">VT-014</text>'
     f'<line x1="{MARGIN}" y1="74" x2="{W - MARGIN}" y2="74" stroke="{ULTRA}" stroke-width="1.5"/>'
-    f'<text x="{MARGIN}" y="100" font-size="13" fill="{BLACK70}">Print legibly. Mark everything completely. '
+    f'<text x="{MARGIN}" y="100" font-size="14.67" fill="{BLACK70}">Print legibly. Mark everything completely. '
     f'All sizes in inches. Return completed sheet to Supply Officer.</text>'
-    + field(MARGIN, FY, 196, "MEMBER LAST NAME") + field(MARGIN + 212, FY, 110, "MEMBER CAPID")
-    + field(MARGIN + 338, FY, 110, "DATE COMPLETED")
-    + f'<line x1="{MARGIN + 466}" y1="{FY - 12}" x2="{MARGIN + 466}" y2="{FY + 32}" stroke="{SILVER}" stroke-width="1"/>'
-    + field(MARGIN + 484, FY, 140, "SUPPLY OFFICER CAPID") + field(MARGIN + 640, FY, W - 2 * MARGIN - 640, "DATE RECEIVED"))
+    + field(MARGIN, FY, 330, "MEMBER LAST NAME") + field(MARGIN + 348, FY, 180, "MEMBER CAPID")
+    + field(MARGIN + 546, FY, W - 2 * MARGIN - 546, "DATE COMPLETED")
+    + field(MARGIN, FY + 58, 330, "SUPPLY OFFICER CAPID")
+    + field(MARGIN + 546, FY + 58, W - 2 * MARGIN - 546, "DATE RECEIVED"))
 
 svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" '
        f'font-family="Arial, Helvetica, sans-serif">' + header + "".join(out) + "</svg>")
@@ -228,9 +228,9 @@ CSS = f"""
 @font-face{{font-family:Rajdhani;font-weight:600;src:url(data:font/woff2;base64,{FONT}) format('woff2')}}
 html,body{{margin:0;background:#EEF0F0;font-family:Arial,Helvetica,sans-serif;color:{BLACK70}}}
 .bar{{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#FFFFFF;border-bottom:3px solid {ULTRA}}}
-.bar a{{color:{ULTRA};text-decoration:none;font-size:14px}}
+.bar a{{color:{ULTRA};text-decoration:none;font-size:11pt}}
 .bar h1{{flex:1;margin:0;font:600 22px Rajdhani,Arial,sans-serif;color:{ULTRA}}}
-.bar button{{font:15px Arial,Helvetica,sans-serif;color:#FFFFFF;background:{ULTRA};border:0;border-radius:4px;
+.bar button{{font:11pt Arial,Helvetica,sans-serif;color:#FFFFFF;background:{ULTRA};border:0;border-radius:4px;
   padding:10px 22px;cursor:pointer}}
 .bar button:focus-visible{{outline:3px solid #FFCD00;outline-offset:2px}}
 .sheet{{width:816px;max-width:calc(100% - 32px);margin:20px auto;background:#FFFFFF;

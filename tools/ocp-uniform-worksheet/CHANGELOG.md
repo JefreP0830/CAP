@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0 - 2026-11-12
+
+- All text 11pt (title stays the 20pt Rajdhani brand title). Header fields in two rows: member, then supply officer.
+
 ## 1.0.2 - 2026-11-12
 
 - App icon (uniform shirt with a gold grade tab) for the CAP Tools menu, favicon and home screen.
