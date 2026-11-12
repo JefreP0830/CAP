@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1 - 2026-11-12
+
+- Header: member name and CAPID on the left, dates in the center, supply officer last name and CAPID on the right.
+
 ## 1.1.0 - 2026-11-12
 
 - All text 11pt (title stays the 20pt Rajdhani brand title). Header fields in two rows: member, then supply officer.

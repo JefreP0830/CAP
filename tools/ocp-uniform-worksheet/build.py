@@ -215,10 +215,10 @@ header = (
     f'<line x1="{MARGIN}" y1="74" x2="{W - MARGIN}" y2="74" stroke="{ULTRA}" stroke-width="1.5"/>'
     f'<text x="{MARGIN}" y="100" font-size="14.67" fill="{BLACK70}">Print legibly. Mark everything completely. '
     f'All sizes in inches. Return completed sheet to Supply Officer.</text>'
-    + field(MARGIN, FY, 330, "MEMBER LAST NAME") + field(MARGIN + 348, FY, 180, "MEMBER CAPID")
-    + field(MARGIN + 546, FY, W - 2 * MARGIN - 546, "DATE COMPLETED")
-    + field(MARGIN, FY + 58, 330, "SUPPLY OFFICER CAPID")
-    + field(MARGIN + 546, FY + 58, W - 2 * MARGIN - 546, "DATE RECEIVED"))
+    + field(MARGIN, FY, 260, "MEMBER LAST NAME") + field(MARGIN, FY + 58, 260, "MEMBER CAPID")
+    + field(MARGIN + 278, FY, 180, "DATE COMPLETED") + field(MARGIN + 278, FY + 58, 180, "DATE RECEIVED")
+    + field(MARGIN + 476, FY, W - 2 * MARGIN - 476, "SUPPLY OFFICER LAST NAME")
+    + field(MARGIN + 476, FY + 58, W - 2 * MARGIN - 476, "SUPPLY OFFICER CAPID"))
 
 svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" '
        f'font-family="Arial, Helvetica, sans-serif">' + header + "".join(out) + "</svg>")
