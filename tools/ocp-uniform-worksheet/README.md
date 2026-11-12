@@ -12,7 +12,7 @@ top bar do not print.
 | Section | Items |
 |---|---|
 | Head | Utility cap, Duty cap (watch cap) |
-| Upper body | T-shirt, Coat, Fleece jacket; Name tapes (x3), CIVIL AIR PATROL tape, US flag, Squadron patch, CAP AUX tab, Wing patch, Grade insignia |
+| Upper body | T-shirt (Tan 499), Shirt, Fleece jacket; Name tapes (x3), CIVIL AIR PATROL tape, US flag, Squadron patch, CAP AUX tab, Wing patch, Grade insignia (x2) |
 | Lower body | Pants, Belt |
 | Hands and feet | Gloves, Boot socks, Boots |
 

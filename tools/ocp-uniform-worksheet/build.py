@@ -92,11 +92,11 @@ patch(coat, cx - 106, 302, 20, 14)
 for k in range(1, 4):
     coat.raw(f'<line x1="{cx - 106}" y1="{302 + k * 3.5}" x2="{cx - 86}" y2="{302 + k * 3.5}" stroke="{ULTRA}" stroke-width="0.5"/>')
 shield(coat, cx - 106, 324, 20, 26)
-patch(coat, cx + 86, 300, 20, 9, text="AUX", size=5.5)
-shield(coat, cx + 86, 318, 20, 26)
-patch(coat, cx - 76, 318, 62, 13, text="LAST NAME")
-patch(coat, cx + 14, 318, 62, 13, text="CIVIL AIR PATROL", size=5)
-patch(coat, cx - 9, 340, 18, 18, rx=2)
+patch(coat, cx + 86, 302, 20, 14, text="AUX", size=6)
+shield(coat, cx + 86, 324, 20, 26)
+patch(coat, cx - 76, 324, 62, 13, text="LAST NAME")
+patch(coat, cx + 14, 324, 62, 13, text="CIVIL AIR PATROL", size=5)
+patch(coat, cx - 9, 348, 18, 18, rx=2)
 
 # ---- pants (no belt) and belt (separate)
 pants = Piece((0, 0, 164, 318))
@@ -140,9 +140,9 @@ SECTIONS = [
      [("Duty cap (watch cap)", ["one size"])],
      [(ucap, 360, 38, UCAP_SCALE), (wcap, 458, 40, 1.1)], 72),
     ("UPPER BODY",
-     [("T-shirt", ["chest"]), ("Coat", ["chest"]), ("Fleece jacket", ["chest"])],
+     [("T-shirt (Tan 499)", ["chest"]), ("Shirt", ["chest"]), ("Fleece jacket", ["chest"])],
      [("Name tapes (x3)", []), ("CIVIL AIR PATROL tape", []), ("US flag", []), ("Squadron patch", []),
-      ("CAP AUX tab", []), ("Wing patch", []), ("Grade insignia", [])],
+      ("CAP AUX tab", []), ("Wing patch", []), ("Grade insignia (x2)", [])],
      [(coat, 408, 104, 0.98), (tee, 364, 252, 1.2), (fleece, 452, 252, 1.2)], 296),
     ("LOWER BODY",
      [("Pants", ["waist", "length"])],
