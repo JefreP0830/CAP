@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.0 - 2026-11-13
+
+- Page title NER-VTWG Publication Changes, shown on screen and in print; Last checked under it.
+- OPR tiles: count of posted changes per OPR; select a tile to filter posted and forthcoming rows by that OPR (select again or All to clear).
+
 ## 0.8.0 - 2026-11-13
 
 - Headings: POSTED CHANGES for FY2027 Q1 (Oct - Dec); FORTHCOMING CHANGES.

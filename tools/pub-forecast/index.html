@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CAP Rule Changes - Vermont Wing</title>
+<title>NER-VTWG Publication Changes</title>
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <style>
@@ -25,7 +25,19 @@
   body { background: #FFFFFF; }
   main { max-width: 900px; margin: 0 auto; padding: 0 20px 32px; }
   p { margin: 0 0 6pt; }
-  .lead { margin-top: 12pt; }
+  .lead { margin-top: 6pt; }
+  .spacer { flex: 1; }
+  .title { font: 600 20pt/1.2 'Rajdhani', Arial, sans-serif; color: var(--u); margin: 16pt 0 2pt; }
+  .tiles { display: flex; flex-wrap: wrap; gap: 10px; margin: 12pt 0 0; }
+  .tile { font: 11pt/1.2 Arial, Helvetica, sans-serif; color: var(--body); background: #FFFFFF;
+          border: 1px solid var(--rule); border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,.12);
+          padding: 8px 14px; min-width: 88px; text-align: left; cursor: pointer; }
+  .tile .n { display: block; font: 600 20pt/1.1 'Rajdhani', Arial, sans-serif; color: var(--u); }
+  .tile[aria-pressed="true"] { background: var(--u); border-color: var(--u); color: #FFFFFF; }
+  .tile[aria-pressed="true"] .n { color: #FFFFFF; }
+  .tile:focus-visible { outline: 3px solid #FFCD00; outline-offset: 2px; }
+  .filtered { color: var(--section); margin: 0 0 12pt; }
+
   h2 { font: 600 20pt/1.2 'Rajdhani', Arial, sans-serif; color: var(--section);
        margin: 24pt 0 12pt; padding-bottom: 4pt; border-bottom: 2px solid var(--u); }
   .note { margin: -6pt 0 12pt; }
@@ -62,12 +74,14 @@
 <body>
 <div class="bar">
   <a href="../../">CAP Tools</a>
-  <h1>CAP Rule Changes</h1>
+  <span class="spacer"></span>
   <button type="button" onclick="window.print()">Print</button>
 </div>
 <main>
-  <p class="lead" id="lead"></p>
+  <h1 class="title">NER-VTWG Publication Changes</h1>
   <p id="checked"></p>
+  <p class="lead" id="lead"></p>
+  <div class="tiles" id="tiles" role="group" aria-label="Filter by OPR"></div>
 
   <h2 id="h-now"></h2>
   <div id="now"></div>
@@ -310,7 +324,7 @@ function forecastCard(c) {
 }
 
 document.getElementById("lead").innerHTML =
-  "What changed in CAP rules, and what may change next. BLUF means bottom line up front. Start dates are in <span class=\"date\">bold</span>; phase-out deadlines are in <span class=\"phaseout\">red</span>.";
+  "BLUF means bottom line up front. Start dates are in <span class=\"date\">bold</span>; phase-out deadlines are in <span class=\"phaseout\">red</span>.";
 document.getElementById("checked").textContent = "Last checked: " + DATA.checked + ".";
 document.getElementById("h-now").textContent = DATA.heading;
 const MONTHS = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
@@ -319,9 +333,27 @@ function startKey(s) {
   if (p.length === 3) return new Date(+p[2], MONTHS[p[1]], +p[0]).getTime();
   return new Date(+p[1], MONTHS[p[0]] + 1, 0).getTime(); // month only: last day
 }
-document.getElementById("now").innerHTML = DATA.changes.slice()
-  .sort((a, b) => startKey(a.starts) - startKey(b.starts)).map(changeCard).join("");
-document.getElementById("next").innerHTML = DATA.next.map(forecastCard).join("");
+const posted = DATA.changes.slice().sort((a, b) => startKey(a.starts) - startKey(b.starts));
+let opr = "";
+function render() {
+  const p = opr ? posted.filter(c => c.opr === opr) : posted;
+  const f = opr ? DATA.next.filter(c => c.opr === opr) : DATA.next;
+  document.getElementById("now").innerHTML = p.map(changeCard).join("");
+  document.getElementById("next").innerHTML = f.length ? f.map(forecastCard).join("")
+    : `<p class="filtered">No forthcoming changes for ${esc(opr)}.</p>`;
+  const counts = {};
+  posted.forEach(c => counts[c.opr] = (counts[c.opr] || 0) + 1);
+  const tiles = [["", posted.length, "All posted"]].concat(
+    Object.keys(counts).sort((a, b) => counts[b] - counts[a] || a.localeCompare(b))
+      .map(k => [k, counts[k], "OPR " + k]));
+  document.getElementById("tiles").innerHTML = tiles.map(([k, n, label]) =>
+    `<button type="button" class="tile" data-opr="${k}" aria-pressed="${k === opr}"><span class="n">${n}</span>${esc(label)}</button>`).join("");
+}
+document.getElementById("tiles").addEventListener("click", e => {
+  const b = e.target.closest(".tile"); if (!b) return;
+  opr = (b.dataset.opr === opr) ? "" : b.dataset.opr; render();
+});
+render();
 document.getElementById("how").innerHTML = DATA.how
   .map(([t, u]) => u ? `<li><a href="${u}" target="_blank" rel="noopener">${esc(t)}</a></li>` : `<li>${esc(t)}</li>`).join("");
 document.getElementById("foot").textContent =
