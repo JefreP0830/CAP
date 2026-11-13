@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.8.0 - 2026-11-13
+
+- Headings: POSTED CHANGES for FY2027 Q1 (Oct - Dec); FORTHCOMING CHANGES.
+- BLUF explained once in the intro, not on every row.
+- Forecast rows use the posted-row panel (publication, dated, signed Pending, OPR, starts No date announced); First Seen line with source and odds.
+- NHQ being-revised list split into one row per regulation with current date and OPR.
+
 ## 0.7.1 - 2026-11-13
 
 - OPR line (bold black) between Dated and Starts on each change.
