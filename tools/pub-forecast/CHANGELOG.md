@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.5 - 2026-11-13
+
+- Unofficial-communication disclaimer under the title.
+- Progressive Discipline Handbook OPR: CC, DC, CS. OPR shows as code only in panels.
+
 ## 0.9.4 - 2026-11-13
 
 - OPR tiles show the code only.

@@ -36,6 +36,7 @@
   .tile[aria-pressed="true"] { background: var(--u); border-color: var(--u); color: #FFFFFF; }
   .tile[aria-pressed="true"] .n { color: #FFFFFF; }
   .tile:focus-visible { outline: 3px solid #FFCD00; outline-offset: 2px; }
+  .disclaimer { color: var(--section); margin: 0 0 6pt; }
   .filtered { color: var(--section); margin: 0 0 12pt; }
 
   h2 { font: 600 20pt/1.2 'Rajdhani', Arial, sans-serif; color: var(--section);
@@ -80,6 +81,7 @@
 <main>
   <h1 class="title">NER-VTWG Publication Changes</h1>
   <p id="checked"></p>
+  <p class="disclaimer">Unofficial communication within NER-VTWG. Not an official CAP publication.</p>
   <p class="lead" id="lead"></p>
   <div class="tiles" id="tiles" role="group" aria-label="Filter by OPR"></div>
 
@@ -169,7 +171,7 @@ const DATA = {
       title: "Discipline guide for commanders",
       doc: "Progressive Discipline Handbook (special publication).",
       dated: "Oct 2026",
-      opr: "CCC",
+      opr: "CC, DC, CS",
       starts: "Oct 2026",
       changed: [
         "A leadership guide, not a new rule.",
@@ -297,7 +299,7 @@ const DATA = {
 };
 /* ===== End of monthly content ===== */
 
-const OPRS = {AE: "Aerospace Education", CCC: "Command Chief", CP: "Cadet Programs", DO: "Operations", DP: "Personnel", IT: "Information Technology", LG: "Logistics"};
+const OPRS = {AE: "Aerospace Education", CP: "Cadet Programs", DO: "Operations", DP: "Personnel", IT: "Information Technology", LG: "Logistics"};
 const oprName = k => OPRS[k] ? k + " (" + OPRS[k] + ")" : k;
 const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const dates = s => esc(s)
@@ -312,7 +314,7 @@ function changeCard(c) {
       <a class="read" href="${c.link}" target="_blank" rel="noopener">${esc(c.linkText || "Official letter")}</a>
       <p>${esc(c.doc)}</p>
       <p>Dated ${esc(c.dated)}.</p>
-      <p>OPR: <span class="opr">${esc(oprName(c.opr))}</span></p>
+      <p>OPR: <span class="opr">${esc(c.opr)}</span></p>
       <p>Starts: <span class="date">${esc(c.starts)}</span></p>
     </div>
     <div class="body">
@@ -331,7 +333,7 @@ function forecastCard(c) {
       <p>${esc(c.doc)}</p>
       <p>Dated ${esc(c.current)}.</p>
       <p>Signed: Pending</p>
-      <p>OPR: <span class="opr">${esc(oprName(c.opr))}</span></p>
+      <p>OPR: <span class="opr">${esc(c.opr)}</span></p>
       <p>Starts: <span class="date">No date announced</span></p>
     </div>
     <div class="body">
