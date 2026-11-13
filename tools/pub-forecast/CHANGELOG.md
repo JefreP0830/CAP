@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1 - 2026-11-13
+
+- BLUF, Application, Why and Expect labels in bold black.
+
 ## 0.6.0 - 2026-11-13
 
 - Brief layout from Jef's mockup: month headers (November 2026, October 2026), each change a row with a gray side panel (title, official letter, publication, signed, starts) and the BLUF, Application and caution beside it. Stacks on phones.

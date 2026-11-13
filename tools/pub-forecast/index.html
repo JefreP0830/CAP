@@ -42,6 +42,7 @@
   .unclear { padding: 2pt 10px; border-left: 3px solid var(--red); }
   .caution { color: var(--red); }
   .read, .key { color: var(--u); }
+  .lbl { color: #000000; font-weight: bold; }
   .label-inline { color: var(--section); }
   .bar-sep { color: var(--section); padding: 0 4px; }
   .how { padding-left: 1.2em; }
@@ -202,8 +203,8 @@ function changeCard(c) {
       <p>Starts: <span class="date">${esc(c.starts)}</span></p>
     </div>
     <div class="body">
-      <p><span class="key">BLUF</span> <span class="label-inline">(bottom line up front)</span> <span class="bar-sep">|</span> ${para(c.changed)}</p>
-      <p><span class="key">Application</span> <span class="bar-sep">|</span> ${dates(c.who)}</p>
+      <p><span class="lbl">BLUF</span> <span class="label-inline">(bottom line up front)</span> <span class="bar-sep">|</span> ${para(c.changed)}</p>
+      <p><span class="lbl">Application</span> <span class="bar-sep">|</span> ${dates(c.who)}</p>
       ${c.unclear ? `<p class="unclear"><span class="caution">AI Detected Caution</span> <span class="bar-sep">|</span> ${dates(c.unclear)}</p>` : ""}
     </div>
   </article>`;
@@ -219,8 +220,8 @@ function forecastCard(c) {
       <p>Odds: <span class="key">${esc(c.odds)}</span></p>
     </div>
     <div class="body">
-      <p><span class="key">Why</span> <span class="bar-sep">|</span> ${para(c.why)}</p>
-      <p><span class="key">Expect</span> <span class="bar-sep">|</span> ${dates(c.expect)}</p>
+      <p><span class="lbl">Why</span> <span class="bar-sep">|</span> ${para(c.why)}</p>
+      <p><span class="lbl">Expect</span> <span class="bar-sep">|</span> ${dates(c.expect)}</p>
     </div>
   </article>`;
 }
