@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.10.0 - 2026-11-13
+
+- Optional rate table under the BLUF (`table: {head, rows}`); mission pay rates shown as a table.
+- Optional `also` field: "Also affects" line in the panel; those offices get a tile and filter too. Mission pay: also affects FM.
+
 ## 0.9.9 - 2026-11-13
 
 - App icon: white quill pen with a gold nib.
