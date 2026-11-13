@@ -9,13 +9,13 @@ One page, updated monthly, that tells members in plain words:
 
 Written for readers aged 55-70 at a 3rd-6th grade reading level: CAP brand standard type
 (nothing below 11pt), short bullets, one change per card, three questions per card (what changed, who it touches, what Vermont should do),
-and a link to the official letter. Dates set by a regulation print in red.
+and a link to the official letter. Dates print bold; phase-out deadlines print bold red.
 
 ## Monthly update
 
 Edit only the `DATA` block at the top of the script in `index.html`:
 
-- `now`, `last`: one object per change. Wrap any regulation date in `{braces}` to print it in red.
+- `now`, `last`: one object per change. Wrap a date in `{braces}` for bold black, or `{{double braces}}` for a phase-out deadline in bold red.
 - `next`: `odds` is `Likely` or `Possible`; `why` lists the evidence.
 - `unclear`: optional; use when the official letter conflicts with itself.
 

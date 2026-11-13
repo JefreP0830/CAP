@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.0 - 2026-11-13
+
+- Dates in bold black; phase-out deadlines in bold red (`{{date}}` in the data block).
+- BLUF, Why and Expect run inline after a bar as short sentences instead of bullets.
+
 ## 0.3.1 - 2026-11-13
 
 - "Vermont action" label in blue, inline after a bar, on every card.
