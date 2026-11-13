@@ -195,7 +195,7 @@ function changeCard(c) {
     <p>${esc(c.ref)} Starts: <span class="date">${esc(c.starts)}</span> <span class="nowrap"><span class="bar-sep">|</span> <a class="read" href="${c.link}" target="_blank" rel="noopener">Official letter</a></span></p>
     <p class="label"><span class="key">BLUF</span> (bottom line up front)</p>${list(c.changed)}
     <p><span class="key">Application</span> <span class="bar-sep">|</span> ${dates(c.who)}</p>
-    <p class="label">Vermont action</p><p>${dates(c.vermont)}</p>
+    <p><span class="key">Vermont action</span> <span class="bar-sep">|</span> ${dates(c.vermont)}</p>
     ${c.unclear ? `<div class="unclear"><p class="label">Not clear yet</p><p>${dates(c.unclear)}</p></div>` : ""}
   </article>`;
 }
@@ -207,7 +207,7 @@ function forecastCard(c) {
     <p>${esc(c.ref)} <span class="bar-sep">|</span> <a class="read" href="${c.link}" target="_blank" rel="noopener">Current rules</a></p>
     <p class="label">Why</p>${list(c.why)}
     <p class="label">Expect</p><p>${dates(c.expect)}</p>
-    <p class="label">Vermont action</p><p>${dates(c.vermont)}</p>
+    <p><span class="key">Vermont action</span> <span class="bar-sep">|</span> ${dates(c.vermont)}</p>
   </article>`;
 }
 

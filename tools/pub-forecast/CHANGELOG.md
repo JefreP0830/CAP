@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1 - 2026-11-13
+
+- "Vermont action" label in blue, inline after a bar, on every card.
+
 ## 0.3.0 - 2026-11-13
 
 - Card header: start date and official-letter link on the reference line.
