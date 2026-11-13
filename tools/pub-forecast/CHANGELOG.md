@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.9 - 2026-11-13
+
+- App icon: white quill pen with a gold nib.
+
 ## 0.9.8 - 2026-11-13
 
 - Forthcoming rows link to each current regulation's PDF (CAPR 70-10 links to the CAPP 70-10 pamphlet, its only current form).

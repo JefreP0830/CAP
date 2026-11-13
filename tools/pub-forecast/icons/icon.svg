@@ -1,12 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <!-- CAP Rule Changes app icon: a rule page with a gold folded corner, on CAP Ultramarine.
+  <!-- CAP Rule Changes app icon: a white quill pen with a gold nib, on CAP Ultramarine.
        Generic mark; not a CAP official emblem. Matches the other CAP Tools icons. -->
   <rect width="512" height="512" rx="96" fill="#001489"/>
-  <path d="M136 92 H316 L376 152 V420 H136 Z" fill="#FFFFFF"/>
-  <path d="M316 92 V152 H376 Z" fill="#FFCD00"/>
-  <g stroke="#001489" stroke-width="22" stroke-linecap="round">
-    <line x1="180" y1="210" x2="332" y2="210"/>
-    <line x1="180" y1="268" x2="332" y2="268"/>
-    <line x1="180" y1="326" x2="280" y2="326"/>
+  <path d="M398 88 C300 110 214 178 176 292 L218 334 C330 296 400 208 398 88 Z" fill="#FFFFFF"/>
+  <path d="M398 88 C330 170 262 240 196 312" fill="none" stroke="#001489" stroke-width="10" stroke-linecap="round"/>
+  <g stroke="#001489" stroke-width="8" stroke-linecap="round">
+    <line x1="300" y1="150" x2="262" y2="170"/>
+    <line x1="262" y1="198" x2="226" y2="214"/>
+    <line x1="334" y1="178" x2="318" y2="214"/>
+    <line x1="296" y1="224" x2="282" y2="258"/>
   </g>
+  <path d="M176 292 L218 334 L170 360 L150 340 Z" fill="#FFCD00"/>
+  <path d="M150 340 L170 360 L118 412 Z" fill="#FFCD00"/>
+  <line x1="196" y1="312" x2="134" y2="394" stroke="#001489" stroke-width="6" stroke-linecap="round"/>
 </svg>
