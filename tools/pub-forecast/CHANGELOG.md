@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.1 - 2026-11-13
+
+- OPR line (bold black) between Dated and Starts on each change.
+- Faint gray rule between rows.
+
 ## 0.7.0 - 2026-11-13
 
 - Quarterly running record: "CHANGES for FY2027 Q1 (Oct - Dec)", one list sorted by start date.

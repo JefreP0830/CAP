@@ -42,7 +42,8 @@
   .unclear { padding: 2pt 10px; border-left: 3px solid var(--red); }
   .caution { color: var(--red); }
   .read, .key { color: var(--u); }
-  .lbl { color: #000000; font-weight: bold; }
+  .lbl, .opr { color: #000000; font-weight: bold; }
+  .row + .row { border-top: 1px solid #E4E6E6; padding-top: 16pt; }
   .label-inline { color: var(--section); }
   .bar-sep { color: var(--section); padding: 0 4px; }
   .how { padding-left: 1.2em; }
@@ -95,6 +96,7 @@ const DATA = {
       title: "Retention program added; two staff jobs dropped",
       doc: "ICL 26-12 to CAPR 30-1, Organization of CAP.",
       dated: "15 Sep 2026",
+      opr: "DP",
       starts: "15 Sep 2026",
       changed: [
         "Commanders own member retention.",
@@ -109,6 +111,7 @@ const DATA = {
       title: "New mission pay rates",
       doc: "ICL 26-15 to CAPR 103-1, Payment for Mission Support.",
       dated: "6 Nov 2026",
+      opr: "DO",
       starts: "1 Oct 2026",
       changed: [
         "New hourly rates for CAP planes and drones.",
@@ -122,6 +125,7 @@ const DATA = {
       title: "Sample job descriptions for staff",
       doc: "CAPP 30-1, CAP Sample Position Descriptions.",
       dated: "8 Oct 2026",
+      opr: "DP",
       starts: "8 Oct 2026",
       changed: [
         "Sample duties for each standard staff job, region down to squadron, plus cadet jobs.",
@@ -136,6 +140,7 @@ const DATA = {
       title: "Overnight rooms and staff",
       doc: "ICL 26-13 to CAPR 60-2, Cadet Protection.",
       dated: "14 Oct 2026",
+      opr: "CP",
       starts: "14 Oct 2026",
       changed: [
         "Male and female cadets sleep apart, by their eServices record.",
@@ -149,6 +154,7 @@ const DATA = {
       title: "Discipline guide for commanders",
       doc: "Progressive Discipline Handbook (special publication).",
       dated: "Oct 2026",
+      opr: "CCC",
       starts: "Oct 2026",
       changed: [
         "A leadership guide, not a new rule.",
@@ -163,6 +169,7 @@ const DATA = {
       title: "OCP uniform is in",
       doc: "ICL 26-14 to CAPR 39-1, Uniforms.",
       dated: "2 Nov 2026",
+      opr: "DP",
       starts: "30 Nov 2026",
       changed: [
         "OCP camouflage is now an approved uniform.",
@@ -228,6 +235,7 @@ function changeCard(c) {
       <a class="read" href="${c.link}" target="_blank" rel="noopener">${esc(c.linkText || "Official letter")}</a>
       <p>${esc(c.doc)}</p>
       <p>Dated ${esc(c.dated)}.</p>
+      <p>OPR: <span class="opr">${esc(c.opr)}</span></p>
       <p>Starts: <span class="date">${esc(c.starts)}</span></p>
     </div>
     <div class="body">
