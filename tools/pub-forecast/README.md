@@ -8,16 +8,16 @@ One page, updated monthly, that tells members in plain words:
    A forecast never states new rule text as fact.
 
 Written for readers aged 55-70 at a 3rd-6th grade reading level: CAP brand standard type
-(nothing below 11pt), short bullets, one change per card, three questions per card (what changed, who it touches, what Vermont should do),
+(nothing below 11pt), short bullets, one change per card, each card gives the BLUF (bottom line up front) and who it applies to,
 and a link to the official letter. Dates print bold; phase-out deadlines print bold red.
 
 ## Monthly update
 
 Edit only the `DATA` block at the top of the script in `index.html`:
 
-- `now`, `last`: one object per change. Wrap a date in `{braces}` for bold black, or `{{double braces}}` for a phase-out deadline in bold red.
+- `now`, `last`: one object per change. Wrap a start date in `{braces}` for bold black, or `{{double braces}}` for a phase-out deadline in bold red.
 - `next`: `odds` is `Likely` or `Possible`; `why` lists the evidence.
-- `unclear`: optional; use when the official letter conflicts with itself.
+- `unclear`: optional; shown as "AI Detected Caution" when the official letter conflicts with itself.
 
 Sources checked each month are listed in the page's "How we check" section.
 

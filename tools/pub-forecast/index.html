@@ -30,18 +30,21 @@
   .card { background: #FFFFFF; border: 1px solid var(--rule); border-radius: 8px;
           box-shadow: 0 1px 4px rgba(0,0,0,.12); padding: 14px 18px; margin: 0 0 12px;
           break-inside: avoid; }
-  .card h3 { font: 14pt/1.2 Arial, Helvetica, sans-serif; color: var(--u); margin: 0 0 6pt; }
+  .card h3 { font: bold 14pt/1.2 Arial, Helvetica, sans-serif; color: var(--u); margin: 0 0 8pt; }
+  .card p { margin: 0 0 12pt; }
+  .card > :last-child { margin-bottom: 0; }
   .label { color: var(--section); margin: 6pt 0 0; }
   .card ul { margin: 0 0 6pt; padding-left: 1.2em; }
   .card li { margin: 0 0 6pt; }
   .date { color: #000000; font-weight: bold; white-space: nowrap; }
   .phaseout { color: var(--red); font-weight: bold; white-space: nowrap; }
-  .unclear { margin: 6pt 0; padding: 6pt 10px; border-left: 3px solid var(--red); border-radius: 0; }
+  .unclear { padding: 4pt 10px; border-left: 3px solid var(--red); border-radius: 0; }
+  .caution { color: var(--red); }
+  .card .ref { color: var(--section); }
   .read { color: var(--u); }
   .key { color: var(--u); }
   .label-inline { color: var(--section); }
   .nowrap { white-space: nowrap; }
-  .unclear p:last-child { margin-bottom: 0; }
   .bar-sep { color: var(--section); padding: 0 4px; }
   .odds { color: var(--u); }
   .how { padding-left: 1.2em; }
@@ -90,13 +93,13 @@
 const DATA = {
   month: "November 2026",
   checked: "13 November 2026",
-  editor: "NER-VT-014 Champlain Composite Squadron",
+  editor: "NER-VTWG DA",
 
   // Official changes posted this month. Dates in "date" fields print in red.
   now: [
     {
       title: "OCP uniform is in",
-      ref: "ICL 26-14 to CAPR 39-1, Uniforms. Signed {2 Nov 2026}.",
+      ref: "ICL 26-14 to CAPR 39-1, Uniforms. Signed 2 Nov 2026.",
       starts: "30 Nov 2026",
       changed: [
         "OCP camouflage is now an approved uniform.",
@@ -105,19 +108,17 @@ const DATA = {
         "Blue Beret: unit meetings only."
       ],
       who: "Anyone in camouflage or a flight suit.",
-      vermont: "Check that the Northeast Region uniform add-on still agrees.",
       link: "https://www.gocivilairpatrol.com/media/cms/CAPR_391_90e08bf91538b.pdf"
     },
     {
       title: "New mission pay rates",
-      ref: "ICL 26-15 to CAPR 103-1, Payment for Mission Support. Signed {6 Nov 2026}.",
+      ref: "ICL 26-15 to CAPR 103-1, Payment for Mission Support. Signed 6 Nov 2026.",
       starts: "1 Oct 2026",
       changed: [
         "New hourly rates for CAP planes and drones.",
         "Example: Cessna 182 is $100 an hour."
       ],
       who: "Pilots, drone crews, finance officers.",
-      vermont: "Check that the Vermont mission-pay add-on still agrees.",
       unclear: "The start date and the drone rate conflict inside the letter. Ask National HQ before paying a drone claim.",
       link: "https://www.gocivilairpatrol.com/media/cms/ICL_2615_to_1031_c1df4e37c6b36.pdf"
     }
@@ -126,7 +127,7 @@ const DATA = {
   last: [
     {
       title: "Overnight rooms and staff",
-      ref: "ICL 26-13 to CAPR 60-2, Cadet Protection. Signed {14 Oct 2026}.",
+      ref: "ICL 26-13 to CAPR 60-2, Cadet Protection. Signed 14 Oct 2026.",
       starts: "14 Oct 2026",
       changed: [
         "Male and female cadets sleep apart, by their eServices record.",
@@ -134,7 +135,6 @@ const DATA = {
         "Think about age when picking roommates."
       ],
       who: "Anyone who staffs an overnight cadet activity.",
-      vermont: "Check encampment plans and CAPF 60-80 forms.",
       link: "https://www.gocivilairpatrol.com/media/cms/ICL_2613_to_CAPR_602_a069a9c933513.pdf"
     }
   ],
@@ -144,35 +144,32 @@ const DATA = {
     {
       odds: "Likely",
       title: "New uniform rulebook",
-      ref: "CAPR 39-1, Uniforms. Current book: {3 Mar 2020}.",
+      ref: "CAPR 39-1, Uniforms. Current book: 3 Mar 2020.",
       why: [
         "ICL 26-14 says OCP rules go into the next version.",
         "4 change letters since 2021."
       ],
       expect: "No date announced.",
-      vermont: "Start a list of local uniform questions.",
       link: "https://www.gocivilairpatrol.com/members/publications/indexes-regulations-and-manuals-1700"
     },
     {
       odds: "Possible",
       title: "New aircraft maintenance rulebook",
-      ref: "CAPR 130-2, Aircraft Maintenance. Current book: {4 Oct 2021}.",
+      ref: "CAPR 130-2, Aircraft Maintenance. Current book: 4 Oct 2021.",
       why: [
-        "3 change letters since 2023, latest {June 2026}."
+        "3 change letters since 2023, latest June 2026."
       ],
       expect: "Nothing announced.",
-      vermont: "Watch only.",
       link: "https://www.gocivilairpatrol.com/members/publications/indexes-regulations-and-manuals-1700"
     },
     {
       odds: "Possible",
       title: "New rulebook on how CAP is organized",
-      ref: "CAPR 30-1, Organization of CAP. Current book: {13 Jan 2020}.",
+      ref: "CAPR 30-1, Organization of CAP. Current book: 13 Jan 2020.",
       why: [
-        "3 change letters since 2024, latest {September 2026}."
+        "3 change letters since 2024, latest September 2026."
       ],
       expect: "Nothing announced.",
-      vermont: "Watch only.",
       link: "https://www.gocivilairpatrol.com/members/publications/indexes-regulations-and-manuals-1700"
     }
   ],
@@ -197,11 +194,10 @@ const list = items => "<ul>" + items.map(i => "<li>" + dates(i) + "</li>").join(
 function changeCard(c) {
   return `<article class="card">
     <h3>${esc(c.title)}</h3>
-    <p>${dates(c.ref)} Starts: <span class="date">${esc(c.starts)}</span> <span class="nowrap"><span class="bar-sep">|</span> <a class="read" href="${c.link}" target="_blank" rel="noopener">Official letter</a></span></p>
+    <p class="ref">${dates(c.ref)} Starts: <span class="date">${esc(c.starts)}</span> <span class="nowrap"><span class="bar-sep">|</span> <a class="read" href="${c.link}" target="_blank" rel="noopener">Official letter</a></span></p>
     <p><span class="key">BLUF</span> <span class="label-inline">(bottom line up front)</span> <span class="bar-sep">|</span> ${para(c.changed)}</p>
     <p><span class="key">Application</span> <span class="bar-sep">|</span> ${dates(c.who)}</p>
-    <p><span class="key">Vermont action</span> <span class="bar-sep">|</span> ${dates(c.vermont)}</p>
-    ${c.unclear ? `<div class="unclear"><p class="label">Not clear yet</p><p>${dates(c.unclear)}</p></div>` : ""}
+    ${c.unclear ? `<p class="unclear"><span class="caution">AI Detected Caution</span> <span class="bar-sep">|</span> ${dates(c.unclear)}</p>` : ""}
   </article>`;
 }
 
@@ -209,16 +205,15 @@ function forecastCard(c) {
   return `<article class="card">
     <h3>${esc(c.title)}</h3>
     <p class="odds">Odds: ${esc(c.odds)}</p>
-    <p>${dates(c.ref)} <span class="bar-sep">|</span> <a class="read" href="${c.link}" target="_blank" rel="noopener">Current rules</a></p>
+    <p class="ref">${dates(c.ref)} <span class="bar-sep">|</span> <a class="read" href="${c.link}" target="_blank" rel="noopener">Current rules</a></p>
     <p><span class="key">Why</span> <span class="bar-sep">|</span> ${para(c.why)}</p>
     <p><span class="key">Expect</span> <span class="bar-sep">|</span> ${dates(c.expect)}</p>
-    <p><span class="key">Vermont action</span> <span class="bar-sep">|</span> ${dates(c.vermont)}</p>
   </article>`;
 }
 
 document.getElementById("lead").textContent =
   "What changed in CAP rules in " + DATA.month + ", and what may change next.";
-document.getElementById("checked").innerHTML = "Last checked: " + dates("{" + DATA.checked + "}") + ".";
+document.getElementById("checked").textContent = "Last checked: " + DATA.checked + ".";
 document.getElementById("now").innerHTML = DATA.now.map(changeCard).join("");
 document.getElementById("last").innerHTML = DATA.last.map(changeCard).join("");
 document.getElementById("next").innerHTML = DATA.next.map(forecastCard).join("");

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.0 - 2026-11-13
+
+- Prepared by NER-VTWG DA.
+- Only start dates (bold black) and phase-out dates (bold red) are emphasized; other dates plain.
+- Bold card titles; more space between BLUF, Application and other lines.
+- Removed Vermont action. Conflicts in an official letter show as "AI Detected Caution |" with a red bar.
+
 ## 0.4.0 - 2026-11-13
 
 - Dates in bold black; phase-out deadlines in bold red (`{{date}}` in the data block).
