@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.1 - 2026-11-13
+
+- Rate table columns match CAPR 103-1 para 5.1.2.1-5.1.2.2 (CAP, USAF or member-funded vs other agency-funded MIPR); optional table note: dry rates, fuel separate, VT supplement up to 10%.
+
 ## 0.10.0 - 2026-11-13
 
 - Optional rate table under the BLUF (`table: {head, rows}`); mission pay rates shown as a table.

@@ -40,6 +40,8 @@
   .rates th, .rates td { border-bottom: 1px solid #E4E6E6; padding: 4px 16px 4px 0; text-align: left; }
   .rates th { color: var(--section); font-weight: normal; }
   .rates td + td, .rates th + th { text-align: right; }
+  .rates td:first-child { white-space: nowrap; }
+  .tnote { color: var(--section); margin: -6pt 0 12pt; }
   .disclaimer { color: var(--section); margin: 0 0 6pt; }
   .filtered { color: var(--section); margin: 0 0 12pt; }
 
@@ -138,13 +140,14 @@ const DATA = {
         "Drones: $40 an hour (rotor), $50 (fixed wing)."
       ],
       table: {
-        head: ["Airplane", "CAP pays", "Outside agency pays"],
+        head: ["Airplane", "CAP, USAF or member-funded", "Other agency-funded (MIPR)"],
         rows: [
           ["Cessna 172", "$82", "$100"],
           ["Cessna 182", "$100", "$140"],
           ["Cessna 206", "$137", "$213"],
           ["GA-8", "$167", "$284"]
-        ]
+        ],
+        note: "Dry rates. Fuel billed separately. Vermont's supplement may add up to 10%."
       },
       also: "FM",
       who: "Pilots, drone crews and finance officers.",
@@ -335,7 +338,7 @@ function changeCard(c) {
     </div>
     <div class="body">
       <p><span class="lbl">BLUF</span> <span class="bar-sep">|</span> ${para(c.changed)}</p>
-      ${c.table ? `<table class="rates"><thead><tr>${c.table.head.map(x => `<th>${esc(x)}</th>`).join("")}</tr></thead><tbody>${c.table.rows.map(r => `<tr>${r.map(x => `<td>${esc(x)}</td>`).join("")}</tr>`).join("")}</tbody></table>` : ""}
+      ${c.table ? `<table class="rates"><thead><tr>${c.table.head.map(x => `<th>${esc(x)}</th>`).join("")}</tr></thead><tbody>${c.table.rows.map(r => `<tr>${r.map(x => `<td>${esc(x)}</td>`).join("")}</tr>`).join("")}</tbody></table>${c.table.note ? `<p class="tnote">${esc(c.table.note)}</p>` : ""}` : ""}
       <p><span class="lbl">Application</span> <span class="bar-sep">|</span> ${dates(c.who)}</p>
       ${c.unclear ? `<p class="unclear"><span class="caution">AI Detected Caution</span> <span class="bar-sep">|</span> ${dates(c.unclear)}</p>` : ""}
     </div>
