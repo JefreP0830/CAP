@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.3 - 2026-11-13
+
+- Readability pass: plainer wording, shorter Why lines, glossary of BLUF, ICL, OPR and supplement in the intro, OPR office names on tiles and panels.
+- Mission pay row lists the actual new rates instead of one example.
+
 ## 0.9.2 - 2026-11-13
 
 - Forecast Why lines rebuilt from research: current rule age, change-letter history, NHQ renames. Inferences marked "Our read".
