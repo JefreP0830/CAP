@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.0 - 2026-11-13
+
+- Quarterly running record: "CHANGES for FY2027 Q1 (Oct - Dec)", one list sorted by start date.
+- Added from NHQ Pubs Rundowns: ICL 26-12 (CAPR 30-1), CAPP 30-1 Sample Position Descriptions, Progressive Discipline Handbook.
+- Forecasts: NHQ-announced rewrites (CAPR 50-1, 70-1, 70-10, 120-1, 130-1) replace the 130-2 and 30-1 guesses; CAPR 39-1 stays Likely.
+- Data block: `changes` (single list), `dated`, optional `linkText`; forecasts may carry `unclear`.
+
 ## 0.6.1 - 2026-11-13
 
 - BLUF, Application, Why and Expect labels in bold black.

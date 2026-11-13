@@ -2,9 +2,10 @@
 
 One page, updated monthly, that tells members in plain words:
 
-1. **Changed this month**: official CAP publication changes posted this month (ICLs, regulations, pamphlets).
-2. **Changed last month**: a short recap so nothing is missed.
-3. **May change next**: forecasts, marked *Likely* or *Possible*, each with the evidence behind it.
+1. **Changes for the fiscal quarter**: a running record of official CAP publication changes
+   (ICLs, regulations, pamphlets, handbooks) for the current FY quarter, sorted by start date.
+   Main source: NHQ's monthly Pubs Rundown email, checked against the publication pages.
+2. **May change next**: forecasts, marked *Likely* or *Possible*, each with the evidence behind it.
    A forecast never states new rule text as fact.
 
 Written for readers aged 55-70 at a 3rd-6th grade reading level: CAP brand standard type
@@ -15,7 +16,8 @@ and a link to the official letter. Dates print bold; phase-out deadlines print b
 
 Edit only the `DATA` block at the top of the script in `index.html`:
 
-- `now`, `last`: one object per change. Wrap a start date in `{braces}` for bold black, or `{{double braces}}` for a phase-out deadline in bold red.
+- `heading`: the quarter, e.g. `CHANGES for FY2027 Q1 (Oct - Dec)`.
+- `changes`: one object per change, any order (the page sorts by `starts`). Wrap a start date in `{braces}` for bold black, or `{{double braces}}` for a phase-out deadline in bold red.
 - `next`: `odds` is `Likely` or `Possible`; `why` lists the evidence.
 - `unclear`: optional; shown as "AI Detected Caution" when the official letter conflicts with itself.
 

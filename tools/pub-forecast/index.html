@@ -26,7 +26,7 @@
   main { max-width: 900px; margin: 0 auto; padding: 0 20px 32px; }
   p { margin: 0 0 6pt; }
   .lead { margin-top: 12pt; }
-  h2 { font: 600 20pt/1.2 'Rajdhani', Arial, sans-serif; color: var(--section); text-transform: uppercase;
+  h2 { font: 600 20pt/1.2 'Rajdhani', Arial, sans-serif; color: var(--section);
        margin: 24pt 0 12pt; padding-bottom: 4pt; border-bottom: 2px solid var(--u); }
   .note { margin: -6pt 0 12pt; }
   .row { display: grid; grid-template-columns: 2fr 3fr; gap: 0 20px; margin: 0 0 16pt; break-inside: avoid; }
@@ -71,14 +71,11 @@
   <h2 id="h-now"></h2>
   <div id="now"></div>
 
-  <h2 id="h-last"></h2>
-  <div id="last"></div>
-
-  <h2>May change next</h2>
-  <p class="note">Our best guess. Not official.</p>
+  <h2>MAY CHANGE NEXT</h2>
+  <p class="note">Forecasts. Odds show how sure we are. Only NHQ can announce a change.</p>
   <div id="next"></div>
 
-  <h2>How we check</h2>
+  <h2>HOW WE CHECK</h2>
   <ul class="how" id="how"></ul>
 
   <footer id="foot"></footer>
@@ -87,17 +84,85 @@
 <script>
 /* ===== Monthly content: edit this block only ===== */
 const DATA = {
-  month: "November 2026",
-  lastMonth: "October 2026",
+  heading: "CHANGES for FY2027 Q1 (Oct - Dec)",
   checked: "13 November 2026",
   editor: "NER-VTWG DA",
 
-  // Official changes. {{date}} = phase-out deadline (bold red).
-  now: [
+  // Official changes this quarter, any order: the page sorts by "starts".
+  // {{date}} = phase-out deadline (bold red). A start date with no day (e.g. "Oct 2026") sorts at month end.
+  changes: [
+    {
+      title: "Retention program added; two staff jobs dropped",
+      doc: "ICL 26-12 to CAPR 30-1, Organization of CAP.",
+      dated: "15 Sep 2026",
+      starts: "15 Sep 2026",
+      changed: [
+        "Commanders own member retention.",
+        "Units may appoint retention officers to help.",
+        "Diversity Officer removed from region and wing charts.",
+        "Legal Officer removed from group and squadron charts."
+      ],
+      who: "All commanders, and members in those staff jobs.",
+      link: "https://www.gocivilairpatrol.com/media/cms/CAPR_301_473d4bd943e0a.pdf"
+    },
+    {
+      title: "New mission pay rates",
+      doc: "ICL 26-15 to CAPR 103-1, Payment for Mission Support.",
+      dated: "6 Nov 2026",
+      starts: "1 Oct 2026",
+      changed: [
+        "New hourly rates for CAP planes and drones.",
+        "Example: Cessna 182 is $100 an hour."
+      ],
+      who: "Pilots, drone crews, finance officers.",
+      unclear: "The start date and the drone rate conflict inside the letter. Ask National HQ before paying a drone claim.",
+      link: "https://www.gocivilairpatrol.com/media/cms/ICL_2615_to_1031_c1df4e37c6b36.pdf"
+    },
+    {
+      title: "Sample job descriptions for staff",
+      doc: "CAPP 30-1, CAP Sample Position Descriptions.",
+      dated: "8 Oct 2026",
+      starts: "8 Oct 2026",
+      changed: [
+        "Sample duties for each standard staff job, region down to squadron, plus cadet jobs.",
+        "Includes the new retention officer.",
+        "Guidance only. Commanders may write more detailed ones."
+      ],
+      who: "Commanders and anyone holding a staff job.",
+      link: "https://www.gocivilairpatrol.com/media/cms/P_301_482AFDA40CDF8.pdf",
+      linkText: "Official pamphlet"
+    },
+    {
+      title: "Overnight rooms and staff",
+      doc: "ICL 26-13 to CAPR 60-2, Cadet Protection.",
+      dated: "14 Oct 2026",
+      starts: "14 Oct 2026",
+      changed: [
+        "Male and female cadets sleep apart, by their eServices record.",
+        "Staff should match the cadets' sex when possible. If not, note it on the CAPF 60-80.",
+        "Think about age when picking roommates."
+      ],
+      who: "Anyone who staffs an overnight cadet activity.",
+      link: "https://www.gocivilairpatrol.com/media/cms/ICL_2613_to_CAPR_602_a069a9c933513.pdf"
+    },
+    {
+      title: "Discipline guide for commanders",
+      doc: "Progressive Discipline Handbook (special publication).",
+      dated: "Oct 2026",
+      starts: "Oct 2026",
+      changed: [
+        "A leadership guide, not a new rule.",
+        "Four levels: talk it out, written counseling, administrative action, membership action (CAPR 35-3).",
+        "Not a required order. Some problems must be reported right away."
+      ],
+      who: "Commanders at every level, senior and cadet.",
+      link: "https://www.gocivilairpatrol.com/media/cms/Progressive_Discipline_Handbook_3a68dd73d5c8b.pdf",
+      linkText: "Official handbook"
+    },
     {
       title: "OCP uniform is in",
       doc: "ICL 26-14 to CAPR 39-1, Uniforms.",
-      signed: "2 Nov 2026",
+      dated: "2 Nov 2026",
       starts: "30 Nov 2026",
       changed: [
         "OCP camouflage is now an approved uniform.",
@@ -107,40 +172,23 @@ const DATA = {
       ],
       who: "Anyone in camouflage or a flight suit.",
       link: "https://www.gocivilairpatrol.com/media/cms/CAPR_391_90e08bf91538b.pdf"
-    },
-    {
-      title: "New mission pay rates",
-      doc: "ICL 26-15 to CAPR 103-1, Payment for Mission Support.",
-      signed: "6 Nov 2026",
-      starts: "1 Oct 2026",
-      changed: [
-        "New hourly rates for CAP planes and drones.",
-        "Example: Cessna 182 is $100 an hour."
-      ],
-      who: "Pilots, drone crews, finance officers.",
-      unclear: "The start date and the drone rate conflict inside the letter. Ask National HQ before paying a drone claim.",
-      link: "https://www.gocivilairpatrol.com/media/cms/ICL_2615_to_1031_c1df4e37c6b36.pdf"
     }
   ],
 
-  last: [
-    {
-      title: "Overnight rooms and staff",
-      doc: "ICL 26-13 to CAPR 60-2, Cadet Protection.",
-      signed: "14 Oct 2026",
-      starts: "14 Oct 2026",
-      changed: [
-        "Male and female cadets sleep apart, by their eServices record.",
-        "Staff should match the cadets' sex when possible. If not, note it on the CAPF 60-80.",
-        "Think about age when picking roommates."
-      ],
-      who: "Anyone who staffs an overnight cadet activity.",
-      link: "https://www.gocivilairpatrol.com/media/cms/ICL_2613_to_CAPR_602_a069a9c933513.pdf"
-    }
-  ],
-
-  // Forecasts: odds is "Likely" or "Possible". Never state new rule text as fact.
+  // Forecasts. Never state new rule text as fact.
   next: [
+    {
+      odds: "Announced by NHQ",
+      title: "Five rulebooks being rewritten",
+      doc: "NHQ Pubs Rundown, Oct and Nov 2026.",
+      why: [
+        "NHQ says these are being revised: CAPR 50-1 Aerospace Engineering, CAPR 70-1 Operational Missions, CAPR 70-10 Flight Operations, CAPR 120-1 IT Security, CAPR 130-1 Aircraft Maintenance Management."
+      ],
+      expect: "No dates announced. NHQ says keep recertifying supplements to these, but hold any new or revised ones until the new rulebooks come out.",
+      unclear: "NHQ lists \"CAPR 130-1, Aircraft Maintenance Management.\" The national index lists that title as CAPR 130-2. Confirm which one with NHQ.",
+      link: "https://www.gocivilairpatrol.com/members/publications/indexes-regulations-and-manuals-1700",
+      linkText: "Current rules"
+    },
     {
       odds: "Likely",
       title: "New uniform rulebook",
@@ -151,37 +199,17 @@ const DATA = {
         "4 change letters since 2021."
       ],
       expect: "No date announced.",
-      link: "https://www.gocivilairpatrol.com/members/publications/indexes-regulations-and-manuals-1700"
-    },
-    {
-      odds: "Possible",
-      title: "New aircraft maintenance rulebook",
-      doc: "CAPR 130-2, Aircraft Maintenance.",
-      current: "4 Oct 2021",
-      why: [
-        "3 change letters since 2023, latest June 2026."
-      ],
-      expect: "Nothing announced.",
-      link: "https://www.gocivilairpatrol.com/members/publications/indexes-regulations-and-manuals-1700"
-    },
-    {
-      odds: "Possible",
-      title: "New rulebook on how CAP is organized",
-      doc: "CAPR 30-1, Organization of CAP.",
-      current: "13 Jan 2020",
-      why: [
-        "3 change letters since 2024, latest September 2026."
-      ],
-      expect: "Nothing announced.",
-      link: "https://www.gocivilairpatrol.com/members/publications/indexes-regulations-and-manuals-1700"
+      link: "https://www.gocivilairpatrol.com/members/publications/indexes-regulations-and-manuals-1700",
+      linkText: "Current rules"
     }
   ],
 
   how: [
+    ["NHQ monthly Pubs Rundown email (CAP/DA)", ""],
     ["National change letters (ICLs)", "https://www.gocivilairpatrol.com/members/publications/interim-change-letters-1708"],
     ["National regulations", "https://www.gocivilairpatrol.com/members/publications/indexes-regulations-and-manuals-1700"],
-    ["Rules posted for preview (drafts). This month: nothing new.", "https://www.gocivilairpatrol.com/members/publications/regulations-for-preview/"],
-    ["Pamphlets", "https://www.gocivilairpatrol.com/members/publications/pamphlets-1702"],
+    ["Pamphlets and special publications", "https://www.gocivilairpatrol.com/members/publications/pamphlets-1702"],
+    ["Rules posted for preview (drafts). Nothing new this quarter.", "https://www.gocivilairpatrol.com/members/publications/regulations-for-preview/"],
     ["Northeast Region and Vermont add-on rules (supplements)", "https://www.gocivilairpatrol.com/members/publications/approved-supplements-and-ois-by-region/northeast-region-supplments-and-ois"]
   ]
 };
@@ -197,9 +225,9 @@ function changeCard(c) {
   return `<article class="row">
     <div class="side">
       <h3>${esc(c.title)}</h3>
-      <a class="read" href="${c.link}" target="_blank" rel="noopener">Official letter</a>
+      <a class="read" href="${c.link}" target="_blank" rel="noopener">${esc(c.linkText || "Official letter")}</a>
       <p>${esc(c.doc)}</p>
-      <p>Signed ${esc(c.signed)}.</p>
+      <p>Dated ${esc(c.dated)}.</p>
       <p>Starts: <span class="date">${esc(c.starts)}</span></p>
     </div>
     <div class="body">
@@ -214,28 +242,33 @@ function forecastCard(c) {
   return `<article class="row">
     <div class="side">
       <h3>${esc(c.title)}</h3>
-      <a class="read" href="${c.link}" target="_blank" rel="noopener">Current rules</a>
+      <a class="read" href="${c.link}" target="_blank" rel="noopener">${esc(c.linkText || "Current rules")}</a>
       <p>${esc(c.doc)}</p>
-      <p>Current book: ${esc(c.current)}.</p>
+      ${c.current ? `<p>Current book: ${esc(c.current)}.</p>` : ""}
       <p>Odds: <span class="key">${esc(c.odds)}</span></p>
     </div>
     <div class="body">
       <p><span class="lbl">Why</span> <span class="bar-sep">|</span> ${para(c.why)}</p>
       <p><span class="lbl">Expect</span> <span class="bar-sep">|</span> ${dates(c.expect)}</p>
+      ${c.unclear ? `<p class="unclear"><span class="caution">AI Detected Caution</span> <span class="bar-sep">|</span> ${dates(c.unclear)}</p>` : ""}
     </div>
   </article>`;
 }
 
 document.getElementById("lead").innerHTML =
   "What changed in CAP rules, and what may change next. Start dates are in <span class=\"date\">bold</span>; phase-out deadlines are in <span class=\"phaseout\">red</span>.";
-document.getElementById("h-now").textContent = DATA.month;
-document.getElementById("h-last").textContent = DATA.lastMonth;
-document.getElementById("checked").textContent = "Last checked: " + DATA.checked + ".";
-document.getElementById("now").innerHTML = DATA.now.map(changeCard).join("");
-document.getElementById("last").innerHTML = DATA.last.map(changeCard).join("");
+document.getElementById("h-now").textContent = DATA.heading;
+const MONTHS = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+function startKey(s) {
+  const p = s.split(" ");
+  if (p.length === 3) return new Date(+p[2], MONTHS[p[1]], +p[0]).getTime();
+  return new Date(+p[1], MONTHS[p[0]] + 1, 0).getTime(); // month only: last day
+}
+document.getElementById("now").innerHTML = DATA.changes.slice()
+  .sort((a, b) => startKey(a.starts) - startKey(b.starts)).map(changeCard).join("");
 document.getElementById("next").innerHTML = DATA.next.map(forecastCard).join("");
 document.getElementById("how").innerHTML = DATA.how
-  .map(([t, u]) => `<li><a href="${u}" target="_blank" rel="noopener">${esc(t)}</a></li>`).join("");
+  .map(([t, u]) => u ? `<li><a href="${u}" target="_blank" rel="noopener">${esc(t)}</a></li>` : `<li>${esc(t)}</li>`).join("");
 document.getElementById("foot").textContent =
   "Short summaries only. The official letter always wins. Prepared by " + DATA.editor + ".";
 </script>
