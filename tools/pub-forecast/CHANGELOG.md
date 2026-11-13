@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.1 - 2026-11-13
+
+- Page title 30pt. "OCP uniform ratified". CAPR 70-10 forecast shows OPR DO (from CAPR 70-1).
+
 ## 0.9.0 - 2026-11-13
 
 - Page title NER-VTWG Publication Changes, shown on screen and in print; Last checked under it.
