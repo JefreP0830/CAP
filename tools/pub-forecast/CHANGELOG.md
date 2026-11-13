@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0 - 2026-11-13
+
+- Card header: start date and official-letter link on the reference line.
+- "What changed" renamed "BLUF (bottom line up front)"; "Who" renamed "Application", inline after a bar.
+
 ## 0.2.0 - 2026-11-13
 
 - Brand standard: body Arial 11pt 70% black, title Rajdhani 20pt, section titles Arial 16pt gray, card titles Arial 14pt Ultramarine, line spacing 1.2, no bold, nothing below 11pt.

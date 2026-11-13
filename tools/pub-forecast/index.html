@@ -37,6 +37,10 @@
   .date { color: var(--red); white-space: nowrap; }
   .unclear { margin: 6pt 0; padding: 6pt 10px; border-left: 3px solid var(--red); border-radius: 0; }
   .read { color: var(--u); }
+  .key { color: var(--u); }
+  .nowrap { white-space: nowrap; }
+  .unclear p:last-child { margin-bottom: 0; }
+  .bar-sep { color: var(--section); padding: 0 4px; }
   .odds { color: var(--u); }
   .how { padding-left: 1.2em; }
   .how li { margin: 0 0 6pt; }
@@ -188,12 +192,11 @@ const list = items => "<ul>" + items.map(i => "<li>" + dates(i) + "</li>").join(
 function changeCard(c) {
   return `<article class="card">
     <h3>${esc(c.title)}</h3>
-    <p class="ref">${esc(c.ref)}<br>Starts: <span class="date">${esc(c.starts)}</span></p>
-    <p class="label">What changed</p>${list(c.changed)}
-    <p class="label">Who</p><p>${dates(c.who)}</p>
+    <p>${esc(c.ref)} Starts: <span class="date">${esc(c.starts)}</span> <span class="nowrap"><span class="bar-sep">|</span> <a class="read" href="${c.link}" target="_blank" rel="noopener">Official letter</a></span></p>
+    <p class="label"><span class="key">BLUF</span> (bottom line up front)</p>${list(c.changed)}
+    <p><span class="key">Application</span> <span class="bar-sep">|</span> ${dates(c.who)}</p>
     <p class="label">Vermont action</p><p>${dates(c.vermont)}</p>
     ${c.unclear ? `<div class="unclear"><p class="label">Not clear yet</p><p>${dates(c.unclear)}</p></div>` : ""}
-    <a class="read" href="${c.link}" target="_blank" rel="noopener">Official letter</a>
   </article>`;
 }
 
@@ -201,11 +204,10 @@ function forecastCard(c) {
   return `<article class="card">
     <h3>${esc(c.title)}</h3>
     <p class="odds">Odds: ${esc(c.odds)}</p>
-    <p class="ref">${esc(c.ref)}</p>
+    <p>${esc(c.ref)} <span class="bar-sep">|</span> <a class="read" href="${c.link}" target="_blank" rel="noopener">Current rules</a></p>
     <p class="label">Why</p>${list(c.why)}
     <p class="label">Expect</p><p>${dates(c.expect)}</p>
     <p class="label">Vermont action</p><p>${dates(c.vermont)}</p>
-    <a class="read" href="${c.link}" target="_blank" rel="noopener">Current rules</a>
   </article>`;
 }
 
