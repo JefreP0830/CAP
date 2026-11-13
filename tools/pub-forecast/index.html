@@ -300,6 +300,7 @@ const DATA = {
 /* ===== End of monthly content ===== */
 
 const OPRS = {AE: "Aerospace Education", CP: "Cadet Programs", DO: "Operations", DP: "Personnel", IT: "Information Technology", LG: "Logistics"};
+const oprList = c => c.opr.split(",").map(s => s.trim());
 const oprName = k => OPRS[k] ? k + " (" + OPRS[k] + ")" : k;
 const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const dates = s => esc(s)
@@ -358,13 +359,13 @@ function startKey(s) {
 const posted = DATA.changes.slice().sort((a, b) => startKey(a.starts) - startKey(b.starts));
 let opr = "";
 function render() {
-  const p = opr ? posted.filter(c => c.opr === opr) : posted;
-  const f = opr ? DATA.next.filter(c => c.opr === opr) : DATA.next;
+  const p = opr ? posted.filter(c => oprList(c).includes(opr)) : posted;
+  const f = opr ? DATA.next.filter(c => oprList(c).includes(opr)) : DATA.next;
   document.getElementById("now").innerHTML = p.map(changeCard).join("");
   document.getElementById("next").innerHTML = f.length ? f.map(forecastCard).join("")
     : `<p class="filtered">No forthcoming changes for ${esc(opr)}.</p>`;
   const counts = {};
-  posted.forEach(c => counts[c.opr] = (counts[c.opr] || 0) + 1);
+  posted.forEach(c => oprList(c).forEach(k => counts[k] = (counts[k] || 0) + 1));
   const tiles = [["", posted.length, "All posted"]].concat(
     Object.keys(counts).sort((a, b) => counts[b] - counts[a] || a.localeCompare(b))
       .map(k => [k, counts[k], k]));

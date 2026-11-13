@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.6 - 2026-11-13
+
+- A change with several OPRs counts under each; one tile per OPR.
+
 ## 0.9.5 - 2026-11-13
 
 - Unofficial-communication disclaimer under the title.
