@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.4 - 2026-11-13
+
+- OPR tiles show the code only.
+
 ## 0.9.3 - 2026-11-13
 
 - Readability pass: plainer wording, shorter Why lines, glossary of BLUF, ICL, OPR and supplement in the intro, OPR office names on tiles and panels.

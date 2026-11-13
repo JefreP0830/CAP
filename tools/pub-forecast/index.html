@@ -365,7 +365,7 @@ function render() {
   posted.forEach(c => counts[c.opr] = (counts[c.opr] || 0) + 1);
   const tiles = [["", posted.length, "All posted"]].concat(
     Object.keys(counts).sort((a, b) => counts[b] - counts[a] || a.localeCompare(b))
-      .map(k => [k, counts[k], oprName(k)]));
+      .map(k => [k, counts[k], k]));
   document.getElementById("tiles").innerHTML = tiles.map(([k, n, label]) =>
     `<button type="button" class="tile" data-opr="${k}" aria-pressed="${k === opr}"><span class="n">${n}</span>${esc(label)}</button>`).join("");
 }
