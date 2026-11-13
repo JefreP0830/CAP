@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.8 - 2026-11-13
+
+- Forthcoming rows link to each current regulation's PDF (CAPR 70-10 links to the CAPP 70-10 pamphlet, its only current form).
+
 ## 0.9.7 - 2026-11-13
 
 - Title: NER-VTWG Publication Changes - Exec Summary.
