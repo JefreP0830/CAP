@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.0 - 2026-11-13
+
+- Brief layout from Jef's mockup: month headers (November 2026, October 2026), each change a row with a gray side panel (title, official letter, publication, signed, starts) and the BLUF, Application and caution beside it. Stacks on phones.
+- Data block: `ref` split into `doc` plus `signed` (changes) or `current` (forecasts).
+
 ## 0.5.0 - 2026-11-13
 
 - Prepared by NER-VTWG DA.

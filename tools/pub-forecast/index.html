@@ -13,7 +13,7 @@
     --body: #4D4D4D; --rule: #D9DBDB; --page: #EEF0F0;
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--page); color: var(--body);
+  body { margin: 0; color: var(--body);
          font: 11pt/1.2 Arial, Helvetica, sans-serif; }
   .bar { display: flex; align-items: center; gap: 16px; padding: 12px 20px;
          background: #FFFFFF; border-bottom: 3px solid var(--u); }
@@ -22,41 +22,38 @@
   .bar button { font: 11pt Arial, Helvetica, sans-serif; color: #FFFFFF; background: var(--u);
                 border: 0; border-radius: 4px; padding: 10px 22px; cursor: pointer; }
   .bar button:focus-visible, a:focus-visible { outline: 3px solid #FFCD00; outline-offset: 2px; }
-  main { max-width: 760px; margin: 0 auto; padding: 0 20px 32px; }
+  body { background: #FFFFFF; }
+  main { max-width: 900px; margin: 0 auto; padding: 0 20px 32px; }
   p { margin: 0 0 6pt; }
   .lead { margin-top: 12pt; }
-  h2 { font: 16pt/1.2 Arial, Helvetica, sans-serif; color: var(--section);
-       margin: 12pt 0 6pt; padding-top: 12pt; border-top: 1px solid var(--silver); }
-  .card { background: #FFFFFF; border: 1px solid var(--rule); border-radius: 8px;
-          box-shadow: 0 1px 4px rgba(0,0,0,.12); padding: 14px 18px; margin: 0 0 12px;
-          break-inside: avoid; }
-  .card h3 { font: bold 14pt/1.2 Arial, Helvetica, sans-serif; color: var(--u); margin: 0 0 8pt; }
-  .card p { margin: 0 0 12pt; }
-  .card > :last-child { margin-bottom: 0; }
-  .label { color: var(--section); margin: 6pt 0 0; }
-  .card ul { margin: 0 0 6pt; padding-left: 1.2em; }
-  .card li { margin: 0 0 6pt; }
+  h2 { font: 600 20pt/1.2 'Rajdhani', Arial, sans-serif; color: var(--section); text-transform: uppercase;
+       margin: 24pt 0 12pt; padding-bottom: 4pt; border-bottom: 2px solid var(--u); }
+  .note { margin: -6pt 0 12pt; }
+  .row { display: grid; grid-template-columns: 2fr 3fr; gap: 0 20px; margin: 0 0 16pt; break-inside: avoid; }
+  .side { background: #F1F2F2; padding: 12px 16px; }
+  .side h3 { font: bold 14pt/1.2 Arial, Helvetica, sans-serif; color: var(--u); margin: 0 0 4pt; }
+  .side p { margin: 0; }
+  .side .read { display: inline-block; margin-bottom: 8pt; }
+  .body { padding: 12px 0; }
+  .body p { margin: 0 0 12pt; }
+  .body > :last-child { margin-bottom: 0; }
   .date { color: #000000; font-weight: bold; white-space: nowrap; }
   .phaseout { color: var(--red); font-weight: bold; white-space: nowrap; }
-  .unclear { padding: 4pt 10px; border-left: 3px solid var(--red); border-radius: 0; }
+  .unclear { padding: 2pt 10px; border-left: 3px solid var(--red); }
   .caution { color: var(--red); }
-  .card .ref { color: var(--section); }
-  .read { color: var(--u); }
-  .key { color: var(--u); }
+  .read, .key { color: var(--u); }
   .label-inline { color: var(--section); }
-  .nowrap { white-space: nowrap; }
   .bar-sep { color: var(--section); padding: 0 4px; }
-  .odds { color: var(--u); }
   .how { padding-left: 1.2em; }
   .how li { margin: 0 0 6pt; }
   .how a { color: var(--u); }
   footer { margin-top: 12pt; }
+  @media (max-width: 640px) { .row { grid-template-columns: 1fr; } .body { padding: 12px 4px 0; } }
   @page { size: Letter; margin: 0.6in; }
   @media print {
-    body { background: #FFFFFF; }
     .bar { display: none; }
     main { max-width: none; padding: 0; }
-    .card { box-shadow: none; }
+    .side { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 </style>
 </head>
@@ -68,18 +65,16 @@
 </div>
 <main>
   <p class="lead" id="lead"></p>
-  <p class="checked" id="checked"></p>
+  <p id="checked"></p>
 
-  <h2>Changed this month</h2>
-  <p>Official. Red dates are phase-out deadlines.</p>
+  <h2 id="h-now"></h2>
   <div id="now"></div>
 
-  <h2>Changed last month</h2>
-  <p>Still new.</p>
+  <h2 id="h-last"></h2>
   <div id="last"></div>
 
   <h2>May change next</h2>
-  <p>Our best guess. Not official.</p>
+  <p class="note">Our best guess. Not official.</p>
   <div id="next"></div>
 
   <h2>How we check</h2>
@@ -92,14 +87,16 @@
 /* ===== Monthly content: edit this block only ===== */
 const DATA = {
   month: "November 2026",
+  lastMonth: "October 2026",
   checked: "13 November 2026",
   editor: "NER-VTWG DA",
 
-  // Official changes posted this month. Dates in "date" fields print in red.
+  // Official changes. {{date}} = phase-out deadline (bold red).
   now: [
     {
       title: "OCP uniform is in",
-      ref: "ICL 26-14 to CAPR 39-1, Uniforms. Signed 2 Nov 2026.",
+      doc: "ICL 26-14 to CAPR 39-1, Uniforms.",
+      signed: "2 Nov 2026",
       starts: "30 Nov 2026",
       changed: [
         "OCP camouflage is now an approved uniform.",
@@ -112,7 +109,8 @@ const DATA = {
     },
     {
       title: "New mission pay rates",
-      ref: "ICL 26-15 to CAPR 103-1, Payment for Mission Support. Signed 6 Nov 2026.",
+      doc: "ICL 26-15 to CAPR 103-1, Payment for Mission Support.",
+      signed: "6 Nov 2026",
       starts: "1 Oct 2026",
       changed: [
         "New hourly rates for CAP planes and drones.",
@@ -127,7 +125,8 @@ const DATA = {
   last: [
     {
       title: "Overnight rooms and staff",
-      ref: "ICL 26-13 to CAPR 60-2, Cadet Protection. Signed 14 Oct 2026.",
+      doc: "ICL 26-13 to CAPR 60-2, Cadet Protection.",
+      signed: "14 Oct 2026",
       starts: "14 Oct 2026",
       changed: [
         "Male and female cadets sleep apart, by their eServices record.",
@@ -144,7 +143,8 @@ const DATA = {
     {
       odds: "Likely",
       title: "New uniform rulebook",
-      ref: "CAPR 39-1, Uniforms. Current book: 3 Mar 2020.",
+      doc: "CAPR 39-1, Uniforms.",
+      current: "3 Mar 2020",
       why: [
         "ICL 26-14 says OCP rules go into the next version.",
         "4 change letters since 2021."
@@ -155,7 +155,8 @@ const DATA = {
     {
       odds: "Possible",
       title: "New aircraft maintenance rulebook",
-      ref: "CAPR 130-2, Aircraft Maintenance. Current book: 4 Oct 2021.",
+      doc: "CAPR 130-2, Aircraft Maintenance.",
+      current: "4 Oct 2021",
       why: [
         "3 change letters since 2023, latest June 2026."
       ],
@@ -165,7 +166,8 @@ const DATA = {
     {
       odds: "Possible",
       title: "New rulebook on how CAP is organized",
-      ref: "CAPR 30-1, Organization of CAP. Current book: 13 Jan 2020.",
+      doc: "CAPR 30-1, Organization of CAP.",
+      current: "13 Jan 2020",
       why: [
         "3 change letters since 2024, latest September 2026."
       ],
@@ -189,30 +191,44 @@ const dates = s => esc(s)
   .replace(/\{\{([^}]+)\}\}/g, '<span class="phaseout">$1</span>')
   .replace(/\{([^}]+)\}/g, '<span class="date">$1</span>');
 const para = items => items.map(dates).join(" ");
-const list = items => "<ul>" + items.map(i => "<li>" + dates(i) + "</li>").join("") + "</ul>";
 
 function changeCard(c) {
-  return `<article class="card">
-    <h3>${esc(c.title)}</h3>
-    <p class="ref">${dates(c.ref)} Starts: <span class="date">${esc(c.starts)}</span> <span class="nowrap"><span class="bar-sep">|</span> <a class="read" href="${c.link}" target="_blank" rel="noopener">Official letter</a></span></p>
-    <p><span class="key">BLUF</span> <span class="label-inline">(bottom line up front)</span> <span class="bar-sep">|</span> ${para(c.changed)}</p>
-    <p><span class="key">Application</span> <span class="bar-sep">|</span> ${dates(c.who)}</p>
-    ${c.unclear ? `<p class="unclear"><span class="caution">AI Detected Caution</span> <span class="bar-sep">|</span> ${dates(c.unclear)}</p>` : ""}
+  return `<article class="row">
+    <div class="side">
+      <h3>${esc(c.title)}</h3>
+      <a class="read" href="${c.link}" target="_blank" rel="noopener">Official letter</a>
+      <p>${esc(c.doc)}</p>
+      <p>Signed ${esc(c.signed)}.</p>
+      <p>Starts: <span class="date">${esc(c.starts)}</span></p>
+    </div>
+    <div class="body">
+      <p><span class="key">BLUF</span> <span class="label-inline">(bottom line up front)</span> <span class="bar-sep">|</span> ${para(c.changed)}</p>
+      <p><span class="key">Application</span> <span class="bar-sep">|</span> ${dates(c.who)}</p>
+      ${c.unclear ? `<p class="unclear"><span class="caution">AI Detected Caution</span> <span class="bar-sep">|</span> ${dates(c.unclear)}</p>` : ""}
+    </div>
   </article>`;
 }
 
 function forecastCard(c) {
-  return `<article class="card">
-    <h3>${esc(c.title)}</h3>
-    <p class="odds">Odds: ${esc(c.odds)}</p>
-    <p class="ref">${dates(c.ref)} <span class="bar-sep">|</span> <a class="read" href="${c.link}" target="_blank" rel="noopener">Current rules</a></p>
-    <p><span class="key">Why</span> <span class="bar-sep">|</span> ${para(c.why)}</p>
-    <p><span class="key">Expect</span> <span class="bar-sep">|</span> ${dates(c.expect)}</p>
+  return `<article class="row">
+    <div class="side">
+      <h3>${esc(c.title)}</h3>
+      <a class="read" href="${c.link}" target="_blank" rel="noopener">Current rules</a>
+      <p>${esc(c.doc)}</p>
+      <p>Current book: ${esc(c.current)}.</p>
+      <p>Odds: <span class="key">${esc(c.odds)}</span></p>
+    </div>
+    <div class="body">
+      <p><span class="key">Why</span> <span class="bar-sep">|</span> ${para(c.why)}</p>
+      <p><span class="key">Expect</span> <span class="bar-sep">|</span> ${dates(c.expect)}</p>
+    </div>
   </article>`;
 }
 
-document.getElementById("lead").textContent =
-  "What changed in CAP rules in " + DATA.month + ", and what may change next.";
+document.getElementById("lead").innerHTML =
+  "What changed in CAP rules, and what may change next. Start dates are in <span class=\"date\">bold</span>; phase-out deadlines are in <span class=\"phaseout\">red</span>.";
+document.getElementById("h-now").textContent = DATA.month;
+document.getElementById("h-last").textContent = DATA.lastMonth;
 document.getElementById("checked").textContent = "Last checked: " + DATA.checked + ".";
 document.getElementById("now").innerHTML = DATA.now.map(changeCard).join("");
 document.getElementById("last").innerHTML = DATA.last.map(changeCard).join("");
