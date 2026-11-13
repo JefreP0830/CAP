@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- CAP Rule Changes app icon: a rule page with a gold folded corner, on CAP Ultramarine.
+       Generic mark; not a CAP official emblem. Matches the other CAP Tools icons. -->
+  <rect width="512" height="512" rx="96" fill="#001489"/>
+  <path d="M136 92 H316 L376 152 V420 H136 Z" fill="#FFFFFF"/>
+  <path d="M316 92 V152 H376 Z" fill="#FFCD00"/>
+  <g stroke="#001489" stroke-width="22" stroke-linecap="round">
+    <line x1="180" y1="210" x2="332" y2="210"/>
+    <line x1="180" y1="268" x2="332" y2="268"/>
+    <line x1="180" y1="326" x2="280" y2="326"/>
+  </g>
+</svg>
