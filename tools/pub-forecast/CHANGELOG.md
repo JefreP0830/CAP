@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.2 - 2026-11-13
+
+- Forecast Why lines rebuilt from research: current rule age, change-letter history, NHQ renames. Inferences marked "Our read".
+
 ## 0.9.1 - 2026-11-13
 
 - Page title 30pt. "OCP uniform ratified". CAPR 70-10 forecast shows OPR DO (from CAPR 70-1).
