@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1 - 2026-11-17
+
+- Setup renamed Trip Editor.
+- Section jump links removed.
+
 ## 0.3.0 - 2026-11-17
 
 - Split the plan into a fixed core and a trip file. Setup view edits the trip: NLD date, sites, schedule days, lodging, drive legs, Metro, hospitals, side trips, budget, size, fee, and email highlights. The plan redraws as you type.

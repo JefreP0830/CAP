@@ -24,9 +24,6 @@
   .bar button.quiet { background: #FFFFFF; color: var(--u); border: 1px solid var(--u); }
   button:focus-visible, a:focus-visible, label.btn:focus-within { outline: 3px solid #FFCD00; outline-offset: 2px; }
   #file { position: absolute; opacity: 0; width: 1px; height: 1px; }
-  nav.toc { max-width: 960px; margin: 0 auto; padding: 8px 20px 0; display: flex; flex-wrap: wrap; gap: 4px 14px; }
-  nav.toc a { color: var(--u); text-decoration: none; font-size: 10.5pt; }
-  nav.toc a:hover { text-decoration: underline; }
   main { max-width: 960px; margin: 0 auto; padding: 0 20px 40px; }
   p { margin: 0 0 6pt; }
   .title { font: 600 30pt/1.2 'Rajdhani', Arial, sans-serif; color: var(--u); margin: 14pt 0 2pt; }
@@ -73,7 +70,7 @@
   @media (max-width: 640px) { .form160 { grid-template-columns: 1fr; } .form160 .w2 { grid-column: auto; } td.t { width: 64px; } .glance td:first-child { width: 120px; } }
   @page { size: Letter; margin: 0.6in; }
   @media print {
-    .bar, nav.toc { display: none; }
+    .bar { display: none; }
     main { max-width: none; padding: 0; }
     h2 { break-after: avoid; }
     tr, .card, .email { break-inside: avoid; }
@@ -114,16 +111,9 @@
   <span id="status" class="disclaimer">No participant file loaded</span>
   <label class="btn" for="file">Load participant file<input type="file" id="file" accept=".csv,text/csv"></label>
   <button type="button" class="quiet" id="template">Blank participant file</button>
-  <button type="button" class="quiet" id="mode">Setup</button>
+  <button type="button" class="quiet" id="mode">Trip Editor</button>
   <button type="button" onclick="window.print()">Print</button>
 </div>
-<nav class="toc" id="toc" aria-label="Sections">
-  <a href="#glance">At a glance</a><a href="#confirm">To confirm</a><a href="#dates">Key dates</a>
-  <a href="#goals">Goals</a><a href="#who">Who goes</a><a href="#schedule">Schedule</a>
-  <a href="#lodging">Lodging</a><a href="#transport">Transport</a><a href="#safety">Safety</a>
-  <a href="#people">People and rooms</a><a href="#packing">Packing</a><a href="#forms">Forms</a>
-  <a href="#budget">Budget</a><a href="#messages">Messages</a><a href="#aar">AAR</a>
-</nav>
 
 <main id="plan">
   <h1 class="title" data-t="title"></h1>
@@ -301,7 +291,7 @@
 </main>
 
 <main id="setup" hidden>
-  <h1 class="title">Trip setup</h1>
+  <h1 class="title">Trip Editor</h1>
   <p class="byline">Everything that changes from year to year or squadron to squadron. The plan redraws as you type.</p>
   <div class="alert"><span class="h">Nothing here is saved by the page.</span> Use Save trip file and keep the file on the wing share. Next year, Load trip file, change the NLD date, and update what changed.</div>
   <div class="setbar">
@@ -397,7 +387,7 @@
   });
 })();
 </script>
-<!-- Built-in trip file (2027). Edit through Setup; save and load your own trip file. -->
+<!-- Built-in trip file (2027). Edit through the Trip Editor; save and load your own trip file. -->
 <script type="application/json" id="trip-default">
 {
   "format": "nld-trip/1",
@@ -1315,8 +1305,8 @@ document.getElementById('f-activity').addEventListener('input', function () { F1
 document.getElementById('f-date').addEventListener('input', function () { F160_TOUCHED = true; });
 document.getElementById('mode').addEventListener('click', function () {
   var s = document.getElementById('setup').hidden;
-  document.getElementById('setup').hidden = !s; document.getElementById('plan').hidden = s; document.getElementById('toc').hidden = s;
-  this.textContent = s ? 'Back to plan' : 'Setup'; window.scrollTo(0, 0);
+  document.getElementById('setup').hidden = !s; document.getElementById('plan').hidden = s;
+  this.textContent = s ? 'Back to plan' : 'Trip Editor'; window.scrollTo(0, 0);
 });
 document.getElementById('save-trip').addEventListener('click', function () {
   var a = document.createElement('a'), y = (TRIP.nldDate || '').slice(0, 4) || 'trip';

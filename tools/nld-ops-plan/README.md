@@ -11,7 +11,7 @@ Two layers:
 - **Trip file** (changes each year or squadron): NLD date, sign-in sites, schedule days,
   lodging, drive legs, Metro trips, hospitals, side trips, size, fee, budget, lessons.
 
-Click **Setup** to edit the trip. Set the NLD date and every date follows. Rows tagged with
+Click **Trip Editor** to edit the trip. Set the NLD date and every date follows. Rows tagged with
 a side trip name hide when that side trip is off. **Save trip file** downloads
 `nld-trip-YYYY.json`; keep it on the wing share and **Load trip file** next year. The page
 stores nothing. The 2027 trip is built in (`trip-default` block), so the page works with no
