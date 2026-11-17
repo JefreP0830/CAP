@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.1 - 2026-11-17
+
+- Budget built on the maximum party: 6 cadets and 4 adults in 6 rooms, 2 per room, split by sex; odd cadet takes a rollaway. Metro fares and pullovers sized for 10.
+- Rooming rules rewritten around the 6-room maximum; savings only from an even adult split.
+- Participant file adds a sex column; People and rooms shows rooms needed against rooms budgeted.
+- Open item: confirm the van seats 10.
+
 ## 0.4.0 - 2026-11-17
 
 - Plan rewritten as a short brief (at a glance, concept of operations, personnel, lodging and rooming, transport, safety, budget, timeline, open items) with details in Appendices A-L.

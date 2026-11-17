@@ -339,7 +339,7 @@
 <script>
 (function () {
   // Participant file: read in the browser only. Nothing is stored or sent.
-  var COLS = ['role','rank','name','phone','unit','hotel_room','lodge_room','room_lead','wingman','allergies'];
+  var COLS = ['role','rank','name','sex','phone','unit','hotel_room','lodge_room','room_lead','wingman','allergies'];
   var ROLES = 'Activity Director | Lead SM | Trail SM | Senior | Cadet';
 
   function parseCSV(text) {
@@ -386,11 +386,20 @@
         return '<div class="card"><h4>' + esc(r) + '</h4>' + m[r].map(function (p) { return '<p>' + who(p) + (yes(p.room_lead) ? ' &middot; room lead' : '') + '</p>'; }).join('') + '</div>';
       }).join('') + '</div>';
     }
+    function roomMath(cadets, sms) {
+      function bySex(list) { var m = 0, f = 0, u = 0; list.forEach(function (p) { var x = String(p.sex || '').trim().toUpperCase(); if (x === 'M') m++; else if (x === 'F') f++; else u++; }); return { m: m, f: f, u: u }; }
+      var c = bySex(cadets), a = bySex(sms), q = (window.TRIP && TRIP.rates) || {};
+      var cr = Math.min(Math.ceil(c.m / 2) + Math.ceil(c.f / 2), (c.m ? Math.max(1, Math.floor(c.m / 2)) : 0) + (c.f ? Math.max(1, Math.floor(c.f / 2)) : 0));
+      var ar = Math.ceil(a.m / 2) + Math.ceil(a.f / 2), need = cr + ar, budget = (+q.cadetRooms || 0) + (+q.adultRooms || 0);
+      var note = c.u || a.u ? ' <span class="em">' + (c.u + a.u) + ' without M or F in the sex column; counts are incomplete.</span>' : '';
+      return '<h3>Rooms needed at the DC hotel</h3><p>Cadets: ' + c.m + ' M, ' + c.f + ' F = ' + cr + ' room' + (cr === 1 ? '' : 's') + ' (odd cadet takes a rollaway). Adults: ' + a.m + ' M, ' + a.f + ' F = ' + ar + ' room' + (ar === 1 ? '' : 's') + ' (a married couple can share one fewer). ' +
+        'Total ' + need + ' against ' + budget + ' budgeted' + (need < budget ? ': release ' + (budget - need) + '.' : need > budget ? ': <span class="em">' + (need - budget) + ' over budget.</span>' : '.') + note + '</p>';
+    }
     var html = '<h3>Roster</h3><table><tr><th>Role</th><th>Name</th><th>Unit</th><th>Phone</th><th>Wingman</th></tr>' +
       sms.concat(cadets).map(function (p) { return '<tr><td>' + esc(p.role) + '</td><td>' + who(p) + '</td><td>' + esc(p.unit) + '</td><td>' + esc(p.phone) + '</td><td>' + esc(p.wingman) + '</td></tr>'; }).join('') + '</table>' +
       '<p>' + cadets.length + ' cadets, ' + sms.length + ' senior members. ' +
       (function () { var c = (window.TRIP && TRIP.capacity) || {}; return (cadets.length > c.cadetsMax || sms.length > c.seniorsMax || cadets.length < c.cadetsMin || sms.length < c.seniorsMin) ? '<span class="em">Outside the ' + c.cadetsMin + '-' + c.cadetsMax + ' cadet and ' + c.seniorsMin + '-' + c.seniorsMax + ' senior member limits.</span>' : 'Within size limits.'; })() + '</p>' +
-      rooms('hotel_room', 'DC hotel rooms') + rooms('lodge_room', 'Lodge rooms');
+      roomMath(cadets, sms) + rooms('hotel_room', 'DC hotel rooms') + rooms('lodge_room', 'Lodge rooms');
     document.getElementById('people-out').innerHTML = html;
   }
 
@@ -411,7 +420,7 @@
   });
 
   document.getElementById('template').addEventListener('click', function () {
-    var csv = COLS.join(',') + '\n' + '# role: ' + ROLES + ' / room_lead: Y or blank,,,,,,,,,\n';
+    var csv = COLS.join(',') + '\n' + '# role: ' + ROLES + ' / sex: M or F / room_lead: Y or blank,,,,,,,,,,\n';
     var a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
     a.download = 'nld-participants.csv';
@@ -433,12 +442,12 @@
   "where": "Capitol Hill, Washington, DC; lodging in Arlington, VA",
   "signIn": "1730-2000 on day 1. All forms due at sign-in.",
   "fee": 250,
-  "headcount": 8,
+  "headcount": 10,
   "capacity": {
     "cadetsMin": 2,
     "cadetsMax": 6,
     "seniorsMin": 2,
-    "seniorsMax": 3
+    "seniorsMax": 4
   },
   "funding": "No USAF funding. Units may sponsor their cadets (in 2025: Capital, Green Mountain, and Rutland squadrons).",
   "vehicle": "Van VT-085 (Ford Transit, radio removed)",
@@ -456,13 +465,14 @@
   ],
   "confirm": [
     "NLD date, the All-Hands Advance Information Briefing (AIB), and the reception venue: NHQ Government Relations NLD page.",
-    "DC hotel: 3 rooms, 2 nights. NHQ week fills Crystal City hotels early.",
+    "DC hotel: hold 6 rooms (refundable), 2 nights; release extras once the cadet and adult mix is known. NHQ week fills Crystal City hotels early.",
     "Lodge and overnight sites booked; building use confirmed with host squadrons.",
     "Office meetings: request times with both Senators and the Representative; ask one Senate office for a Capitol tour.",
     "Van reserved for every trip day.",
     "Metro: check WMATA service changes the week before.",
     "National GRA guidance for this year (talking points, Impact Report, appropriations ask): fold into cadet prep.",
-    "Lodge rate: Camp Allegheny does not publish it; call for the February rate."
+    "Lodge rate: Camp Allegheny does not publish it; call for the February rate.",
+    "Van seats: the maximum party is 10 (6 cadets, 4 adults). Confirm VT-085 seats 10 with luggage, or cap adults at 3."
   ],
   "days": [
     {
@@ -1010,15 +1020,15 @@
       "tag": ""
     },
     {
-      "item": "Metro fares, 8 people",
+      "item": "Metro fares, 10 people",
       "prior": "189.55",
-      "plan": "189.55",
+      "plan": "236.94",
       "tag": ""
     },
     {
-      "item": "Pullovers, 8",
+      "item": "Pullovers, 10",
       "prior": "280.00",
-      "plan": "280.00",
+      "plan": "350.00",
       "tag": ""
     },
     {
@@ -1034,7 +1044,7 @@
       "tag": "Flight 93"
     }
   ],
-  "budgetNote": "Prior column is 2025 actual cost for 8 people. Hotel and fuel are worked out from the rates in the Trip Editor. A blank plan amount means re-quote.",
+  "budgetNote": "Plan is the maximum party: 6 cadets and 4 adults in 6 rooms. Prior column is 2025 actual cost for 8 people. Hotel and fuel are worked out from the rates in the Trip Editor. A blank plan amount means re-quote.",
   "nominationHighlights": "On past trips, cadets met all three members of our delegation in person and talked about crewing at the Adirondack Balloon Festival, flight academies, and encampment.",
   "lessons": [
     "Flight 93 visit was cancelled by weather in 2025: treat it as weather-dependent with a go/no-go the night before.",
@@ -1044,17 +1054,19 @@
     "hotelRate": 200,
     "hotelTaxPct": 14.25,
     "hotelNights": 2,
-    "cadetRooms": 2,
-    "adultRooms": 1,
+    "cadetRooms": 3,
+    "adultRooms": 3,
     "fuelPrice": 3.91,
     "mpg": 15,
     "miles": 1150,
     "source": "Hotel: online listings $164-$208/night (Nov 2026) for the 2025 hotel; planned at $200 for NLD week. Tax: Arlington lodging tax 8.25% plus 6% sales tax. Fuel: AAA national average $3.91 (12 Nov 2026)."
   },
   "rooming": [
-    "Cadets room by sex, 3 to 4 per room (two queen beds plus cot or rollaway as needed), one room lead per room.",
-    "Adults never room with cadets. Adults share a room only if the same sex or spouses; otherwise add a room.",
-    "2025: 2 cadet rooms of 3, 1 adult room of 2 at the hotel; same split at the lodge."
+    "Budget is built on the maximum: 6 rooms at 2 people per room, split by sex (3 cadet rooms, 3 adult rooms).",
+    "Cadets room by sex, 2 per room, one room lead per room. An odd cadet (3 and 3, or 5 and 1 split) takes a rollaway in a same-sex room so cadets never need more than 3 rooms.",
+    "Adults never room with cadets. Adults room by sex, 2 per room; married couples may share.",
+    "Savings come only from the adult mix: an even split (or a married couple) frees a room. Book refundable rooms and release extras once nominees accept.",
+    "2025: 2 cadet rooms of 3, 1 adult room of 2."
   ]
 }
 </script>
@@ -1199,7 +1211,7 @@ function renderPlan() {
   var q = rates();
   document.getElementById('lodging-b').innerHTML = shown(t.lodging).filter(function (l) { return offsets(l.nights).length; }).map(function (l) {
     var ns = offsets(l.nights); return '<li>' + esc(l.name) + ': ' + ns.length + (ns.length > 1 ? ' nights' : ' night') + (l.status ? ' <span class="tbc">(' + esc(l.status) + ')</span>' : '') + '</li>';
-  }).join('') + '<li>Rooms budgeted at the DC hotel: ' + q.cadetRooms + ' cadet, ' + q.adultRooms + ' adult.</li>' +
+  }).join('') + '<li>Rooms budgeted at the DC hotel: ' + (+q.cadetRooms + +q.adultRooms) + ' (' + q.cadetRooms + ' cadet, ' + q.adultRooms + ' adult).</li>' +
     (t.rooming || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('');
   document.getElementById('transport-b').innerHTML = [
     esc(t.vehicle) + '; about ' + esc(q.miles) + ' miles round trip.',

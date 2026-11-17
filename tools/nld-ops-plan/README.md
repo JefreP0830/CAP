@@ -25,7 +25,7 @@ Click **Blank participant file** for the CSV columns, fill it on the wing share,
 **Load participant file**. It fills the Activity Director line, senior member phones, the
 allergy note in the safety brief, the roster, and room cards. Nothing is saved.
 
-Columns: `role, rank, name, phone, unit, hotel_room, lodge_room, room_lead, wingman, allergies`.
+Columns: `role, rank, name, sex, phone, unit, hotel_room, lodge_room, room_lead, wingman, allergies`.
 Roles: Activity Director, Lead SM, Trail SM, Senior, Cadet. `room_lead`: Y or blank.
 
 ## CAPF 160
