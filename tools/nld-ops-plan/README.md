@@ -19,8 +19,17 @@ Roles: Activity Director, Lead SM, Trail SM, Senior, Cadet. `room_lead`: Y or bl
 
 ## CAPF 160
 
-The official risk worksheet keeps its CAP form layout and is kept outside this repo
-(it carries names and signatures). The Safety section mirrors its rows.
+The Safety section holds the common risks for this trip and event (13 rows, the same
+each year). Fill blocks 1-3 on the page and click **Download CAPF 160 (PDF)**: the page
+fills the official form (CAPF 160, 01 Apr 2022, layout untouched) with blocks 1-3, every
+risk row, block 10 (LOW) and block 11. The preparer signs 3g; the approval authority
+completes block 12. Row 14 stays open for any side trip or risk unique to that year.
+
+To change a risk, edit the `RISKS` list near the end of `index.html`; the page table and
+the PDF both read from it. If NHQ revises the CAPF 160, replace the embedded blank form
+(the `capf160-blank` script block, base64) and re-check the field names in `fill160`.
+
+Embedded: pdf-lib 1.17.1 (MIT), stored base64 so `pii-scan.sh` does not misread its number tables as CAPIDs. Works offline.
 
 ## Files
 
