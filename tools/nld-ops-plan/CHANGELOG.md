@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.0 - 2026-11-17
+
+- Budget restated in today's costs by category: lodging, travel, per diem (meals), gear. Brief shows per person and total for the maximum and the best case, plus pay-to-play cost per person.
+- Per diem added: group meals ($40/person) and personal meals ($125/person), estimated from the schedule.
+- Fee field replaced by computed pay-to-play cost; At a glance and nomination email use it.
+- Budget detail grouped by category with subtotals; editor adds a Category column.
+
 ## 0.4.2 - 2026-11-17
 
 - Budget of record is the maximum (6 cadets, 4 adults, 6 rooms); brief adds a best-case callout (core assumption: 6 cadets, 2 adults sharing, 4 rooms) with the per-person refund.

@@ -150,7 +150,8 @@
   </ul>
 
   <h2 id="brief-budget">6. Budget</h2>
-  <ul id="budget-b"></ul>
+  <ul id="budget-b" hidden></ul>
+  <table id="budget-sum"></table>
   <div class="side" id="budget-best"></div>
 
   <h2 id="brief-timeline">7. Timeline</h2>
@@ -255,7 +256,7 @@
       <li>2 sets of comfortable travel clothes</li><li>4 pairs of socks</li></ul></div>
     <div><h3>Separate bag</h3><ul>
       <li>Warm blanket for sleeping and the van (sheets are provided)</li><li>Pillow</li><li>Snacks and drinks for the van (check the allergy brief)</li></ul>
-      <h3>Money</h3><ul><li>Lunches, some dinners, and souvenirs</li></ul>
+      <h3>Money</h3><ul><li>Souvenirs, plus personal meal money if it was not paid in with the trip cost</li></ul>
       <h3>Leave at the hotel</h3><ul><li>Knives and multitools, aerosol cans, and anything sharp: Capitol and office building security will stop them</li></ul></div>
   </div>
 
@@ -442,7 +443,6 @@
   "activityDirector": "Named by the Wing Commander",
   "where": "Capitol Hill, Washington, DC; lodging in Arlington, VA",
   "signIn": "1730-2000 on day 1. All forms due at sign-in.",
-  "fee": 400,
   "capacity": {
     "cadetsMin": 2,
     "cadetsMax": 6,
@@ -1000,55 +1000,88 @@
   "sleep": "Lights out 2130-2200 every night, room check 5 minutes before. The drive day starts at 0400, so cadets may sleep in the van. Drivers do not.",
   "budget": [
     {
+      "cat": "Lodging",
       "item": "DC hotel",
+      "calc": "hotel",
       "prior": "976.04",
       "plan": "",
-      "tag": "",
-      "calc": "hotel"
-    },
-    {
-      "item": "Fuel",
-      "prior": "227.32",
-      "plan": "",
-      "tag": "",
-      "calc": "fuel"
-    },
-    {
-      "item": "Parking, Greenbelt Metro",
-      "prior": "8.95",
-      "plan": "26.85",
+      "unit": "",
       "tag": ""
     },
     {
-      "item": "Metro fares",
-      "prior": "189.55",
-      "plan": "",
-      "tag": "",
-      "calc": "person",
-      "unit": "23.70"
+      "cat": "Lodging",
+      "item": "Camp Allegheny lodge, 1 night (2025 price; rate not published, ask the camp)",
+      "calc": "",
+      "prior": "200.00",
+      "plan": "200.00",
+      "unit": "",
+      "tag": "Flight 93"
     },
     {
-      "item": "Pullovers",
-      "prior": "280.00",
+      "cat": "Travel",
+      "item": "Fuel",
+      "calc": "fuel",
+      "prior": "227.32",
       "plan": "",
-      "tag": "",
-      "calc": "person",
-      "unit": "35.00"
+      "unit": "",
+      "tag": ""
     },
     {
+      "cat": "Travel",
+      "item": "Parking, Greenbelt Metro",
+      "calc": "",
+      "prior": "8.95",
+      "plan": "26.85",
+      "unit": "",
+      "tag": ""
+    },
+    {
+      "cat": "Travel",
       "item": "Parking, Udvar-Hazy",
+      "calc": "",
       "prior": "15.00",
       "plan": "15.00",
+      "unit": "",
       "tag": "Udvar-Hazy"
     },
     {
-      "item": "Camp Allegheny lodge, 1 night (2025 price; rate not published, ask the camp)",
-      "prior": "200.00",
-      "plan": "200.00",
-      "tag": "Flight 93"
+      "cat": "Travel",
+      "item": "Metro fares",
+      "calc": "person",
+      "prior": "189.55",
+      "plan": "",
+      "unit": "23.70",
+      "tag": ""
+    },
+    {
+      "cat": "Per diem",
+      "item": "Group meals: 3 breakfasts, lodge dinner, water and van snacks",
+      "calc": "person",
+      "prior": "",
+      "plan": "",
+      "unit": "40.00",
+      "tag": ""
+    },
+    {
+      "cat": "Per diem",
+      "item": "Personal meals: 3 lunches, 3 dinners, snacks",
+      "calc": "person",
+      "prior": "",
+      "plan": "",
+      "unit": "125.00",
+      "tag": ""
+    },
+    {
+      "cat": "Gear",
+      "item": "Pullovers",
+      "calc": "person",
+      "prior": "280.00",
+      "plan": "",
+      "unit": "35.00",
+      "tag": ""
     }
   ],
-  "budgetNote": "Maximum (worst case) is the budget of record; best case is the core assumption. Prior column is 2025 actual cost for 8 people. A blank plan amount means re-quote.",
+  "budgetNote": "Today's costs. Maximum (6 cadets, 4 adults, 6 rooms) is the budget of record; best case (6 cadets, 2 adults sharing, 4 rooms) is the core assumption. Prior column is 2025 actual for 8 people; 2025 meals were paid by members and not recorded.",
   "nominationHighlights": "On past trips, cadets met all three members of our delegation in person and talked about crewing at the Adirondack Balloon Festival, flight academies, and encampment.",
   "lessons": [
     "Flight 93 visit was cancelled by weather in 2025: treat it as weather-dependent with a go/no-go the night before.",
@@ -1063,7 +1096,7 @@
     "fuelPrice": 3.91,
     "mpg": 15,
     "miles": 1150,
-    "source": "Hotel: online listings $164-$208/night (Nov 2026) for the 2025 hotel; planned at $200 for NLD week. Tax: Arlington lodging tax 8.25% plus 6% sales tax. Fuel: AAA national average $3.91 (12 Nov 2026).",
+    "source": "Hotel: $200/night, within online listings of $164-$208 (Nov 2026) for the 2025 hotel. Tax: Arlington lodging tax 8.25% plus 6% sales tax. Fuel: AAA national average $3.91 (12 Nov 2026). Meals: estimates from the schedule (federal meal allowance FY2027 is $68-$92/day for comparison).",
     "bestCadetRooms": 3,
     "bestAdultRooms": 1
   },
@@ -1178,11 +1211,15 @@ function calcNote(r) {
   if (r.calc === 'person') return ' ($' + r.unit + ' per person)';
   return '';
 }
+var CATS = ['Lodging', 'Travel', 'Per diem', 'Gear'];
 function budgetTotals(sc) {
-  var rows = shown(TRIP.budget), prior = 0, plan = 0, open = 0;
-  rows.forEach(function (r) { var p = parseFloat(r.prior), v = calcAmt(r, sc); if (!isNaN(p)) prior += p; if (!isNaN(v)) plan += v; else open++; });
-  return { rows: rows, prior: prior, plan: plan, open: open, pp: plan / (sc.people || 1) };
+  var rows = shown(TRIP.budget), prior = 0, plan = 0, open = 0, cat = {};
+  CATS.forEach(function (c) { cat[c] = 0; });
+  rows.forEach(function (r) { var p = parseFloat(r.prior), v = calcAmt(r, sc); if (!isNaN(p)) prior += p; if (!isNaN(v)) { plan += v; cat[r.cat || 'Gear'] = (cat[r.cat || 'Gear'] || 0) + v; } else open++; });
+  var n = sc.people || 1;
+  return { rows: rows, prior: prior, plan: plan, open: open, pp: plan / n, cat: cat, tl: cat['Lodging'] + cat['Travel'], n: n };
 }
+function payToPlay() { return budgetTotals(scenarios().max).pp; }
 function money(n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 
 // ---- render the plan ----
@@ -1207,7 +1244,7 @@ function renderPlan() {
     ['Sign-in', esc(t.signIn)],
     ['Size', c.cadetsMin + '-' + c.cadetsMax + ' cadets and ' + c.seniorsMin + '-' + c.seniorsMax + ' senior members'],
     ['Side trips', on.length ? esc(on.join(', ')) : 'None'],
-    ['Cost', 'Up to $' + esc(t.fee) + ' per person for lodging and travel (best case about ' + money(budgetTotals(scenarios().best).pp) + '). Bring money for lunches, some dinners, and souvenirs.'],
+    ['Cost', 'Up to ' + money(payToPlay()) + ' per person to pay to play (best case ' + money(budgetTotals(scenarios().best).pp) + '), including about $' + esc(((shown(t.budget).filter(function (r) { return /^Personal meals/.test(r.item); })[0]) || {}).unit || 0) + ' in personal meal money.'],
     ['Funding', esc(t.funding)]
   ].map(function (r) { return '<tr><td>' + r[0] + '</td><td>' + r[1] + '</td></tr>'; }).join('');
   if (window.PEOPLE_RENDER) window.PEOPLE_RENDER();
@@ -1235,15 +1272,19 @@ function renderPlan() {
     'In DC the group parks once and rides Metro, with a lead and trail senior member on every boarding.',
     'Legs, routes, and Metro lines: Appendix D.'
   ].map(function (x) { return '<li>' + x + '</li>'; }).join('');
-  var S = scenarios(), mx = budgetTotals(S.max), bs = budgetTotals(S.best), sug = Math.ceil(mx.pp / 25) * 25;
-  var toq = mx.open ? ' plus ' + mx.open + ' item' + (mx.open > 1 ? 's' : '') + ' to quote' : '';
-  document.getElementById('budget-b').innerHTML = [
-    '<span class="em">Budget (maximum):</span> ' + S.max.cadets + ' cadets and ' + S.max.adults + ' adults in ' + S.max.rooms + ' rooms (' + S.max.cr + ' cadet, ' + S.max.ar + ' adult). ' + money(mx.plan) + toq + ', ' + money(mx.pp) + ' per person.',
-    'Fee: $' + esc(t.fee) + ' per person, set to cover the maximum.' + (mx.pp > +t.fee ? ' <span class="em">Short ' + money(mx.plan - S.max.people * t.fee) + '; a fee of $' + sug + ' covers it.</span>' : ''),
-    'Rates: hotel $' + esc(q.hotelRate) + '/night plus ' + esc(q.hotelTaxPct) + '% tax; fuel $' + esc(q.fuelPrice) + '/gal at ' + esc(q.mpg) + ' mpg. Each hotel room adds ' + money((+q.hotelNights) * (+q.hotelRate) * (1 + (+q.hotelTaxPct || 0) / 100)) + '. Line items: Appendix I.'
-  ].map(function (x) { return '<li>' + x + '</li>'; }).join('');
-  document.getElementById('budget-best').innerHTML = '<p class="em">Best case (core assumption)</p><p>' + S.best.cadets + ' cadets and ' + S.best.adults + ' adults sharing a room: ' + S.best.rooms + ' rooms (' + S.best.cr + ' cadet, ' + S.best.ar + ' adult). ' +
-    money(bs.plan) + ', ' + money(bs.pp) + ' per person' + (+t.fee > bs.pp ? '; about ' + money(t.fee - bs.pp) + ' per person comes back after the trip.' : '.') + '</p>';
+  var S = scenarios(), mx = budgetTotals(S.max), bs = budgetTotals(S.best);
+  function row(lbl, key, strong) {
+    var vb = key === 'tl' ? bs.tl : key === 'all' ? bs.plan : bs.cat[key], vm = key === 'tl' ? mx.tl : key === 'all' ? mx.plan : mx.cat[key];
+    var o = strong ? '<span class="em">' : '', c = strong ? '</span>' : '';
+    return '<tr><td>' + o + lbl + c + '</td><td class="n">' + o + money(vm / mx.n) + c + '</td><td class="n">' + o + money(vm) + c + '</td><td class="n">' + money(vb / bs.n) + '</td><td class="n">' + money(vb) + '</td></tr>';
+  }
+  document.getElementById('budget-b').innerHTML = '';
+  document.getElementById('budget-sum').innerHTML =
+    '<tr><th></th><th class="n" colspan="2">Maximum (budget)<br>' + mx.n + ' people, ' + S.max.rooms + ' rooms</th><th class="n" colspan="2">Best case (core assumption)<br>' + bs.n + ' people, ' + S.best.rooms + ' rooms</th></tr>' +
+    '<tr><th>In today\'s costs</th><th class="n">Per person</th><th class="n">Total</th><th class="n">Per person</th><th class="n">Total</th></tr>' +
+    row('Lodging', 'Lodging') + row('Travel', 'Travel') + row('Travel and lodging', 'tl', true) + row('Per diem (meals)', 'Per diem') + row('Gear (pullovers)', 'Gear') + row('Total trip cost', 'all', true);
+  document.getElementById('budget-best').innerHTML = '<p><span class="em">Pay to play: ' + money(mx.pp) + ' per person</span> at the maximum; ' + money(bs.pp) + ' in the best case. Of that, personal meals can be carried as cash instead of paid in. ' +
+    'Rates: hotel $' + esc(q.hotelRate) + '/night plus ' + esc(q.hotelTaxPct) + '% tax; fuel $' + esc(q.fuelPrice) + '/gal at ' + esc(q.mpg) + ' mpg. Each extra hotel room adds ' + money((+q.hotelNights) * (+q.hotelRate) * (1 + (+q.hotelTaxPct || 0) / 100)) + '. Line items: Appendix I.' + (mx.open ? ' <span class="em">' + mx.open + ' item(s) still to quote.</span>' : '') + '</p>';
   document.getElementById('milestones-t').innerHTML = b ? MILESTONES.map(function (m) {
     return '<tr><td class="t">' + fmt(dateById(m[0])) + '</td><td>' + esc(m[1]) + '</td></tr>';
   }).join('') : '';
@@ -1285,17 +1326,19 @@ function renderPlan() {
   }).join('') + '<div class="card"><h4>Any emergency</h4><p>Call 911 first, then a senior member. On Metro, tell any Metro Transit Police officer, station manager, or train operator.</p></div>';
 
   var S2 = scenarios(), M = budgetTotals(S2.max), B = budgetTotals(S2.best);
-  h = '<tr><th>Item</th><th class="n">Prior year</th><th class="n">Best case<br>' + S2.best.people + ' people, ' + S2.best.rooms + ' rooms</th><th class="n">Maximum<br>' + S2.max.people + ' people, ' + S2.max.rooms + ' rooms</th></tr>';
-  M.rows.forEach(function (r) {
-    var p = parseFloat(r.prior), vb = calcAmt(r, S2.best), vm = calcAmt(r, S2.max);
-    function cell(v) { return '<td class="n">' + (isNaN(v) ? '<span class="tbc">re-quote</span>' : money(v)) + '</td>'; }
-    h += '<tr><td>' + esc(r.item) + '<span class="src">' + esc(calcNote(r)) + '</span></td><td class="n">' + (isNaN(p) ? '' : money(p)) + '</td>' + cell(vb) + cell(vm) + '</tr>';
+  h = '<tr><th>Item</th><th class="n">Prior year</th><th class="n">Best case<br>' + B.n + ' people, ' + S2.best.rooms + ' rooms</th><th class="n">Maximum<br>' + M.n + ' people, ' + S2.max.rooms + ' rooms</th></tr>';
+  function cell(v) { return '<td class="n">' + (isNaN(v) ? '<span class="tbc">re-quote</span>' : money(v)) + '</td>'; }
+  CATS.forEach(function (c) {
+    var rs = M.rows.filter(function (r) { return (r.cat || 'Gear') === c; }); if (!rs.length) return;
+    h += '<tr class="day"><td colspan="4"><h3>' + c + '</h3></td></tr>';
+    rs.forEach(function (r) { var p = parseFloat(r.prior); h += '<tr><td>' + esc(r.item) + '<span class="src">' + esc(calcNote(r)) + '</span></td><td class="n">' + (isNaN(p) ? '' : money(p)) + '</td>' + cell(calcAmt(r, S2.best)) + cell(calcAmt(r, S2.max)) + '</tr>'; });
+    h += '<tr><td>' + c + ' subtotal</td><td></td>' + cell(B.cat[c]) + cell(M.cat[c]) + '</tr>';
   });
-  h += '<tr><td class="em">Total</td><td class="n">' + money(M.prior) + '</td><td class="n">' + money(B.plan) + '</td><td class="n em">' + money(M.plan) + '</td></tr>';
+  h += '<tr><td class="em">Total trip cost</td><td class="n">' + money(M.prior) + '</td><td class="n">' + money(B.plan) + '</td><td class="n em">' + money(M.plan) + '</td></tr>';
   h += '<tr><td>Per person</td><td></td><td class="n">' + money(B.pp) + '</td><td class="n em">' + money(M.pp) + '</td></tr>';
   document.getElementById('budget-t').innerHTML = h;
   document.getElementById('budget-p').innerHTML = (rates().source ? '<span class="src">Rate sources: ' + esc(rates().source) + '</span><br>' : '') +
-    'The fee ($' + esc(t.fee) + ') is set against the maximum. Rooms are booked refundable and released once the cadet and adult mix is known.';
+    'Rooms are booked refundable and released once the cadet and adult mix is known.';
 
   var trips = (t.sideTrips || []).filter(function (s) { return s.on && s.describe; }).map(function (s) { return s.describe; });
   var accept = dateById('accept');
@@ -1303,7 +1346,7 @@ function renderPlan() {
     'Because of your strong work in your squadron and at wing events, you\'ve been nominated to join our delegation to CAP National Legislative Day, ' + (b ? esc(fmtLong(b.start)) + ' to ' + esc(fmtLong(b.end)) : '') + '.\n\n' +
     'National Legislative Day is when CAP wings from across the country meet in Washington, DC. It is our chance to tell our members of Congress what CAP members do. ' + esc(t.nominationHighlights || '') + '\n\n' +
     'The trip may also include a tour of the Capitol, a CAP reception' + (trips.length ? ', ' + esc(trips.join(', ')) : '') + '.\n\n' +
-    'The cost is up to $' + esc(t.fee) + ' for lodging and travel; the final amount is set by the payment date once rooms are known, and any difference is returned. Bring spending money for lunches, some dinners, and souvenirs. Sign-in is the evening of ' + (b ? esc(fmtLong(b.start)) : '') + '.\n\n' +
+    'The cost is up to ' + esc(money(payToPlay())) + ' per person, covering lodging, travel, meals, and a pullover; the final amount is set by the payment date once rooms are known, and any difference is returned. Bring money for souvenirs. Sign-in is the evening of ' + (b ? esc(fmtLong(b.start)) : '') + '.\n\n' +
     'Please reply by ' + esc(fmtLong(accept)) + ' to hold your spot. If your squadron will sponsor you, let your commander know by the same date.\n\nLet me know if you have any questions.';
   document.getElementById('aar-email').innerHTML = '<span class="em">Subject:</span> ' + esc(title()) + ' after action survey\n\nGood evening,\n\nI hope you caught up on rest after our trip.\n\n' +
     'Please fill out the after action survey by ' + esc(fmtLong(dateById('survey'))) + ' so we can finish our review on time.\n\n' +
@@ -1392,7 +1435,6 @@ function renderSetup() {
     el.addEventListener('input', function () { t.capacity[k] = +el.value; changed(); }); sz.lastChild.appendChild(el);
   });
   g.appendChild(sz);
-  g.appendChild(field('Cost: fee per person ($)', t, 'fee', 'number'));
   g.appendChild(field('Funding', t, 'funding', 'text'));
 
   g = section(out, 'Open items'); g.appendChild(linesField('Open items', t, 'confirm'));
@@ -1449,7 +1491,7 @@ function renderSetup() {
   g.appendChild(field('Food plan', t, 'food', 'textarea', true));
   g.appendChild(field('Sleep plan', t, 'sleep', 'textarea', true));
   section(out, 'Budget', 'Leave Plan blank for anything that still needs a quote.', true)
-    .appendChild(listTable(t.budget = t.budget || [], [{ k: 'item', label: 'Item' }, { k: 'prior', label: 'Prior year', w: '100px' }, { k: 'plan', label: 'Plan (fixed items; blank = quote)', w: '150px' }, { k: 'unit', label: 'Per person ($)', w: '110px' }, { k: 'tag', label: 'Side trip', w: '110px' }], { item: '', prior: '', plan: '', tag: '' }));
+    .appendChild(listTable(t.budget = t.budget || [], [{ k: 'cat', label: 'Category', w: '100px' }, { k: 'item', label: 'Item' }, { k: 'prior', label: 'Prior year', w: '100px' }, { k: 'plan', label: 'Plan (fixed items; blank = quote)', w: '150px' }, { k: 'unit', label: 'Per person ($)', w: '110px' }, { k: 'tag', label: 'Side trip', w: '110px' }], { cat: 'Travel', item: '', prior: '', plan: '', unit: '', tag: '' }));
   g = section(out, ''); g.appendChild(field('Note above the budget', t, 'budgetNote', 'text', true));
   g = section(out, 'Messages and lessons');
   g.appendChild(field('Nomination email: past-trip highlights', t, 'nominationHighlights', 'textarea', true));
