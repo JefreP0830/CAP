@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0 - 2026-11-17
+
+- Split the plan into a fixed core and a trip file. Setup view edits the trip: NLD date, sites, schedule days, lodging, drive legs, Metro, hospitals, side trips, budget, size, fee, and email highlights. The plan redraws as you type.
+- Every date follows the NLD date: trip days, key dates (backward plan stepping around federal holidays and Thanksgiving week), emails, forms, and the CAPF 160 date.
+- Side trips switch on and off; tagged rows hide everywhere.
+- Trip file saves and loads as JSON (nothing is stored by the page). The 2027 trip is built in.
+- Budget shows what the fee leaves for items still to quote.
+- Safety brief adds street crossings, crowds, and lodging cards to match the CAPF 160 risks.
+
 ## 0.2.0 - 2026-11-17
 
 - CAPF 160 built into the page: fill blocks 1-3 on screen, download the official form filled (layout untouched). Preparer left blank for whoever prepares it.

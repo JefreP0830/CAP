@@ -4,8 +4,18 @@ The wing's plan for CAP National Legislative Day 2027 as one printable page:
 at-a-glance facts, open items, key dates, day-by-day schedule, lodging, routes and Metro,
 safety (mirrors the CAPF 160), packing, forms, budget, message templates, and the AAR survey.
 
-Folds in the 2025 operations plan, safety brief, and route maps. Built to be reused each year:
-change the dates, re-check the "To confirm" list, and carry lessons into the AAR section.
+Two layers:
+
+- **Core** (fixed in the page): goals, who goes, safety brief, CAPF 160 risks, Metro rules,
+  packing, forms, AAR survey, message wording, and the backward-plan rules for key dates.
+- **Trip file** (changes each year or squadron): NLD date, sign-in sites, schedule days,
+  lodging, drive legs, Metro trips, hospitals, side trips, size, fee, budget, lessons.
+
+Click **Setup** to edit the trip. Set the NLD date and every date follows. Rows tagged with
+a side trip name hide when that side trip is off. **Save trip file** downloads
+`nld-trip-YYYY.json`; keep it on the wing share and **Load trip file** next year. The page
+stores nothing. The 2027 trip is built in (`trip-default` block), so the page works with no
+setup.
 
 ## Participant file
 

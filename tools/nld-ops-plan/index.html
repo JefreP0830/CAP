@@ -83,6 +83,28 @@
     .form160 input::-webkit-calendar-picker-indicator { display: none; }
     .form160 input { border: 0; border-bottom: 1px solid var(--silver); border-radius: 0; padding: 2px 0; }
   }
+  [hidden] { display: none !important; }
+  main#setup { max-width: 1240px; }
+  .daybox > .fields { grid-template-columns: 120px 1fr auto; }
+  .daybox > .fields button.x { justify-self: start; }
+  table.edit { width: 100%; }
+  .setbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 0 0 8pt; }
+  .setbar button, .setbar label.btn, button.add, button.x { font: 11pt Arial, Helvetica, sans-serif; border-radius: 4px; padding: 8px 14px; cursor: pointer; }
+  .setbar button, .setbar label.btn { color: #FFFFFF; background: var(--u); border: 0; }
+  .setbar .quiet, .setbar label.btn.quiet, button.quiet.add { background: #FFFFFF; color: var(--u); border: 1px solid var(--u); }
+  #tripin { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  button.x { background: #FFFFFF; color: var(--section); border: 1px solid var(--silver); padding: 4px 10px; font-size: 10pt; }
+  button.add { margin: 0 0 10pt; }
+  .fields { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px 14px; align-items: end; margin: 0 0 8pt; }
+  .fld { display: flex; flex-direction: column; gap: 3px; color: var(--section); font-size: 10pt; }
+  .fld.wide { grid-column: 1 / -1; }
+  .fld input, .fld textarea, .fld select, table.edit input[type=text] { font: 10.5pt Arial, Helvetica, sans-serif; color: #000000; padding: 5px 7px; border: 1px solid var(--silver); border-radius: 4px; width: 100%; }
+  table.edit td { padding: 3px 6px 3px 0; border: 0; }
+  table.edit th { font-size: 10pt; }
+  .daybox { border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; margin: 0 0 12pt; }
+  #setup h2:empty { display: none; }
+  @media (max-width: 640px) { .fields { grid-template-columns: 1fr 1fr; } }
+  @media print { #setup { display: none; } }
 </style>
 </head>
 <body>
@@ -92,223 +114,67 @@
   <span id="status" class="disclaimer">No participant file loaded</span>
   <label class="btn" for="file">Load participant file<input type="file" id="file" accept=".csv,text/csv"></label>
   <button type="button" class="quiet" id="template">Blank participant file</button>
+  <button type="button" class="quiet" id="mode">Setup</button>
   <button type="button" onclick="window.print()">Print</button>
 </div>
-<nav class="toc" aria-label="Sections">
+<nav class="toc" id="toc" aria-label="Sections">
   <a href="#glance">At a glance</a><a href="#confirm">To confirm</a><a href="#dates">Key dates</a>
   <a href="#goals">Goals</a><a href="#who">Who goes</a><a href="#schedule">Schedule</a>
   <a href="#lodging">Lodging</a><a href="#transport">Transport</a><a href="#safety">Safety</a>
   <a href="#people">People and rooms</a><a href="#packing">Packing</a><a href="#forms">Forms</a>
   <a href="#budget">Budget</a><a href="#messages">Messages</a><a href="#aar">AAR</a>
 </nav>
-<main>
-  <h1 class="title">National Legislative Day 2027 Operations Plan</h1>
-  <p class="byline">NER-VTWG Cadet Programs and Government Relations &middot; Draft for review &middot; Updated 17 Nov 2026</p>
+
+<main id="plan">
+  <h1 class="title" data-t="title"></h1>
+  <p class="byline"><span data-t="sponsor"></span> &middot; Draft for review &middot; <span id="tripfile">Built-in trip</span></p>
   <p class="disclaimer">Unofficial wing planning document. The signed CAPF 160 is the official risk record for this activity.</p>
 
   <h2 id="glance">At a glance</h2>
-  <table class="glance">
-    <tr><td>Activity</td><td>Vermont Wing delegation to CAP National Legislative Day (NLD) 2027</td></tr>
-    <tr><td>Purpose</td><td>Tell Vermont's members of Congress, in person, what CAP volunteers do for the state and the nation.</td></tr>
-    <tr><td>Trip dates</td><td><span class="em">Tue 23 Feb - Sat 27 Feb 2027</span> <span class="tbc">(set from expected NLD date)</span></td></tr>
-    <tr><td>Day on Capitol Hill</td><td><span class="em">Thu 25 Feb 2027</span> <span class="tbc">(expected; confirm on the NHQ NLD 2027 page)</span></td></tr>
-    <tr><td>Where</td><td>Capitol Hill, Washington, DC; lodging in Arlington, VA</td></tr>
-    <tr><td>Sponsor</td><td>NER-VTWG Cadet Programs and Government Relations</td></tr>
-    <tr><td>Activity Director</td><td data-fill="director"><span class="placeholder">Load participant file</span></td></tr>
-    <tr><td>Sign-in</td><td>Tue 23 Feb 2027, 1730-2000. All forms due at sign-in.</td></tr>
-    <tr><td>Size</td><td>2-6 cadets and 2-3 senior members (one van)</td></tr>
-    <tr><td>Cost</td><td>About $250 per person for hotel and travel. Bring money for lunches, some dinners, and souvenirs.</td></tr>
-    <tr><td>Funding</td><td>No USAF funding. Units may sponsor their cadets (in 2025: Capital, Green Mountain, and Rutland squadrons).</td></tr>
-  </table>
+  <table class="glance" id="glance-t"></table>
 
   <h2 id="confirm">To confirm</h2>
   <p class="note">Open items before this plan is final. Each one changes a date, a cost, or a place below.</p>
-  <ol>
-    <li>NLD 2027 date, the All-Hands Advance Information Briefing (AIB), and the reception venue: NHQ Government Relations NLD 2027 page.</li>
-    <li>DC hotel: book 3 rooms, 2 nights (Wed 24, Thu 25 Feb). NHQ week fills Crystal City hotels early.</li>
-    <li>Camp Allegheny, Hawthorn Lodge: book the night of Fri 26 Feb.</li>
-    <li>Catamount Composite Squadron, Hartness State Airport: overnight use Tue 23 Feb.</li>
-    <li>Office meetings: request times with both Senators and the Representative; ask one Senate office for a Capitol tour.</li>
-    <li>Van VT-085 reserved for 23-27 Feb (by Fri 20 Nov).</li>
-    <li>Budget: re-quote hotel and lodge; the $250 fee holds if the DC hotel is $1,061 or less.</li>
-    <li>Metro: check WMATA service changes on the Green and Yellow lines the week before.</li>
-    <li>National GRA guidance for 2027 (talking points, Impact Report, appropriations ask): fold into the cadet prep session.</li>
-  </ol>
+  <ol id="confirm-l"></ol>
 
   <h2 id="dates">Key dates</h2>
-  <p class="note">Backward plan from sign-in. Wing planning deadlines, not regulation dates. Federal holidays (Thanksgiving, MLK Day, Presidents Day) avoided for anything that needs a congressional office or a hotel to answer.</p>
-  <table>
-    <tr><th>Date</th><th>What</th><th>Who</th></tr>
-    <tr class="day"><td colspan="3"><h3>Set up &middot; 14 weeks out</h3></td></tr>
-    <tr><td class="t">Fri 20 Nov 2026</td><td>Wing Commander approves the trip concept and names the Activity Director. Confirm NLD date on the NHQ page. Reserve van VT-085.</td><td>Activity Director</td></tr>
-    <tr><td class="t">Fri 20 Nov 2026</td><td>Nomination emails sent, before the Thanksgiving week</td><td>Cadet Programs</td></tr>
-    <tr><td class="t">Fri 4 Dec 2026</td><td>Nominees accept; sponsoring units say yes or no</td><td>Nominees; unit commanders</td></tr>
-    <tr><td class="t">Fri 11 Dec 2026</td><td>DC hotel, lodge, and overnight sites booked (refundable rates)</td><td>Activity Director</td></tr>
-    <tr class="day"><td colspan="3"><h3>Commit &middot; 6-10 weeks out</h3></td></tr>
-    <tr><td class="t">Fri 8 Jan 2027</td><td>Applications in (CAPF 31 or CAPF 17, signed by unit commander); event registration done</td><td>All participants</td></tr>
-    <tr><td class="t">Fri 15 Jan 2027</td><td>Payment due; final headcount locks room count</td><td>Participants or sponsoring unit</td></tr>
-    <tr><td class="t">Tue 19 Jan 2027</td><td>Meeting requests to both Senators and the Representative; Capitol tour request to one Senate office</td><td>Government Relations</td></tr>
-    <tr><td class="t">Fri 22 Jan 2027</td><td>Ops plan and CAPF 160 to the approval authority (30 days out)</td><td>Activity Director</td></tr>
-    <tr class="day"><td colspan="3"><h3>Prepare &middot; 2-5 weeks out</h3></td></tr>
-    <tr><td class="t">Sun 31 Jan 2027</td><td>Cadet prep 1: your CAP story, NHQ talking points, how an office meeting runs</td><td>Government Relations</td></tr>
-    <tr><td class="t">Mon 1 Feb 2027</td><td>Follow up on any meeting request with no answer</td><td>Government Relations</td></tr>
-    <tr><td class="t">Fri 12 Feb 2027</td><td>CAPF 160 signed. Meetings confirmed. CAPF 161 and 163 copies in (allergy and medication brief). Participant file final: rooms, room leads, wingmen.</td><td>Activity Director</td></tr>
-    <tr><td class="t">Sun 14 Feb 2027</td><td>Cadet prep 2: practice meetings, safety pre-brief, packing check</td><td>Activity Director; Government Relations</td></tr>
-    <tr class="day"><td colspan="3"><h3>Go &middot; trip week</h3></td></tr>
-    <tr><td class="t">Mon 22 Feb 2027</td><td>Weather and news go/no-go; parents get the final schedule and contact numbers</td><td>Activity Director</td></tr>
-    <tr><td class="t">Tue 23 Feb 2027</td><td>Sign-in; original forms collected; safety brief</td><td>All participants</td></tr>
-    <tr><td class="t">Thu 25 Feb 2027</td><td>National Legislative Day <span class="tbc">(expected)</span></td><td>Delegation</td></tr>
-    <tr class="day"><td colspan="3"><h3>Close out &middot; 1-3 weeks after</h3></td></tr>
-    <tr><td class="t">Fri 5 Mar 2027</td><td>Thank-you notes to each office we met</td><td>Cadets</td></tr>
-    <tr><td class="t">Sun 7 Mar 2027</td><td>After action survey due</td><td>All participants</td></tr>
-    <tr><td class="t">Fri 12 Mar 2027</td><td>Receipts in; budget reconciled; refunds or balances settled</td><td>Activity Director</td></tr>
-    <tr><td class="t">Fri 19 Mar 2027</td><td>AAR results written; CAPF 160 block 14 (lessons learned) filled</td><td>Activity Director</td></tr>
-    <tr><td class="t">Wing Conference 2027</td><td>Cadet brief to senior members on NLD</td><td>Cadet leads</td></tr>
-  </table>
+  <p class="note">Backward plan from sign-in, recalculated from the NLD date. Wing planning deadlines, not regulation dates. Federal holidays and Thanksgiving week are stepped around.</p>
+  <table id="dates-t"></table>
 
   <h2 id="goals">Goals</h2>
-  <p>Hundreds of CAP members meet with Congress on NLD. The aim is to inform Congress about CAP's volunteers, operations, and programs, with a focus on state and local impact. Each member's own story shows members of Congress how CAP serves the nation, the state, and thousands of communities.</p>
+  <p>Hundreds of CAP members meet with Congress on National Legislative Day. The aim is to inform Congress about CAP's volunteers, operations, and programs, with a focus on state and local impact. Each member's own story shows members of Congress how CAP serves the nation, the state, and thousands of communities.</p>
   <h3>What participants learn</h3>
   <ul>
     <li>Leadership in a real setting</li>
     <li>How the federal government works, first-hand</li>
     <li>Teamwork</li>
     <li>Communication: telling a short, true CAP story</li>
-    <li>Representing CAP and Vermont Wing</li>
+    <li>Representing CAP and the wing</li>
   </ul>
 
   <h2 id="who">Who goes</h2>
   <ul>
-    <li><span class="em">Selection:</span> Cadet Programs nominates active members who take part in wing activities and represent Vermont Wing well. Notice goes by email.</li>
-    <li><span class="em">Size:</span> no more than 6 cadets and 3 senior members; no fewer than 2 cadets and 2 senior members.</li>
+    <li><span class="em">Selection:</span> Cadet Programs nominates active members who take part in wing activities and represent the wing well. Notice goes by email.</li>
+    <li><span class="em">Size:</span> <span id="size-t"></span></li>
     <li><span class="em">Fitness:</span> expect long walks around Capitol Hill and DC (several miles a day). Anyone who cannot walk that far should tell the Activity Director early so arrangements can be made.</li>
   </ul>
 
   <h2 id="schedule" class="pb">Schedule</h2>
   <p class="note">Subject to change. Hill meeting times are set when each office confirms. UOD is uniform of the day.</p>
-  <table>
-    <tr><th>Time</th><th>Event</th><th>Where</th></tr>
-    <tr class="day"><td colspan="3"><h3>Day 1 &middot; Tue 23 Feb 2027 &middot; Sign-in</h3></td></tr>
-    <tr><td class="t">1730</td><td>Sign-in, northern group</td><td>Capital Composite Squadron, Edward F. Knapp State Airport, Berlin, VT</td></tr>
-    <tr><td class="t">1800</td><td>Depart for Springfield</td><td></td></tr>
-    <tr><td class="t">1930-2000</td><td>Sign-in, southern group</td><td>Catamount Composite Squadron, Hartness State Airport, North Springfield, VT</td></tr>
-    <tr><td class="t">2000-2030</td><td>Activity safety brief</td><td>Catamount</td></tr>
-    <tr><td class="t">2030-2100</td><td>Final details</td><td>Catamount</td></tr>
-    <tr><td class="t">2100-2125</td><td>Personal time</td><td>Catamount</td></tr>
-    <tr><td class="t">2125</td><td>Senior member room check</td><td>Catamount</td></tr>
-    <tr><td class="t">2130</td><td>Lights out</td><td>Catamount</td></tr>
-
-    <tr class="day"><td colspan="3"><h3>Day 2 &middot; Wed 24 Feb 2027 &middot; Drive to DC</h3></td></tr>
-    <tr><td class="t">0400</td><td>Reveille. UOD: comfortable travel clothes</td><td>Catamount</td></tr>
-    <tr><td class="t">0400-0430</td><td>Pack, clean up, load van</td><td>Catamount</td></tr>
-    <tr><td class="t">0430</td><td>Depart</td><td></td></tr>
-    <tr><td class="t">0700-0730</td><td>Rest stop</td><td>Taconic State Parkway southbound rest area, Ghent, NY</td></tr>
-    <tr><td class="t">0945-1015</td><td>Rest stop</td><td>I-84 westbound rest area, Greentown, PA</td></tr>
-    <tr><td class="t">1215-1300</td><td>Rest stop and lunch</td><td>I-81 southbound rest stop, Grantville, PA</td></tr>
-    <tr><td class="t">1500</td><td>Park; Metro to Crystal City (Green Line, then Yellow Line)</td><td>Greenbelt Metro, Greenbelt, MD</td></tr>
-    <tr><td class="t">1620</td><td>Arrive Crystal City; walk to hotel</td><td>Crystal City Metro, Arlington, VA</td></tr>
-    <tr><td class="t">1645</td><td>Check in. Change to khakis and pullovers</td><td>DC hotel</td></tr>
-    <tr><td class="t">1715</td><td>Meet the Wing Commander</td><td>Crystal Gateway Marriott</td></tr>
-    <tr><td class="t">1730</td><td>Dinner with the Wing Commander</td><td>Crystal City</td></tr>
-    <tr><td class="t">1900</td><td>NLD All-Hands Advance Information Briefing (AIB)</td><td>NHQ venue <span class="tbc">(2025: Crystal Gateway Marriott)</span></td></tr>
-    <tr><td class="t">2000</td><td>Return to hotel</td><td></td></tr>
-    <tr><td class="t">2155</td><td>Senior member room check</td><td>DC hotel</td></tr>
-    <tr><td class="t">2200</td><td>Lights out</td><td>DC hotel</td></tr>
-
-    <tr class="day"><td colspan="3"><h3>Day 3 &middot; Thu 25 Feb 2027 &middot; National Legislative Day</h3></td></tr>
-    <tr><td class="t">0630</td><td>Reveille. UOD: Class A</td><td>DC hotel</td></tr>
-    <tr><td class="t">0645</td><td>Breakfast</td><td>Senior member room</td></tr>
-    <tr><td class="t">0730</td><td>Dress</td><td></td></tr>
-    <tr><td class="t">0800</td><td>Walk to Crystal Gateway Marriott; meet the Wing Commander</td><td>Crystal Gateway Marriott</td></tr>
-    <tr><td class="t">0830</td><td>Metro: Yellow Line to L'Enfant Plaza, then Orange, Silver or Blue to Capitol South</td><td>Crystal City Metro</td></tr>
-    <tr><td class="t">0915</td><td>Security screening</td><td>First Senate office building</td></tr>
-    <tr><td class="t">1000-1300</td><td>Meetings with both Senators and the Representative, or their staff</td><td>Senate and House office buildings <span class="tbc">(rooms and times set by each office)</span></td></tr>
-    <tr><td class="t">After meetings</td><td>Guided Capitol tour</td><td>U.S. Capitol <span class="tbc">(requested through a Senate office)</span></td></tr>
-    <tr><td class="t">1400</td><td>Lunch</td><td>James Madison Memorial Building, Library of Congress, 6th floor cafeteria</td></tr>
-    <tr><td class="t">1500</td><td>Metro back to Crystal City</td><td>Capitol South Metro</td></tr>
-    <tr><td class="t">1600</td><td>Arrive hotel. Change to khakis and pullovers</td><td>DC hotel</td></tr>
-    <tr><td class="t">1630</td><td>Debrief: what we heard, what we promised, thank-you notes</td><td>Senior member room</td></tr>
-    <tr><td class="t">1815-2000</td><td>CAP reception</td><td>NHQ venue <span class="tbc">(2025: Crystal Gateway Marriott)</span></td></tr>
-    <tr><td class="t">2155</td><td>Senior member room check</td><td>DC hotel</td></tr>
-    <tr><td class="t">2200</td><td>Lights out</td><td>DC hotel</td></tr>
-
-    <tr class="day"><td colspan="3"><h3>Day 4 &middot; Fri 26 Feb 2027 &middot; Udvar-Hazy and Pennsylvania</h3></td></tr>
-    <tr><td class="t">0900</td><td>Reveille. UOD: khakis and pullovers</td><td>DC hotel</td></tr>
-    <tr><td class="t">0915</td><td>Breakfast</td><td>Senior member room</td></tr>
-    <tr><td class="t">1030</td><td>Check out; walk to Crystal City Metro</td><td></td></tr>
-    <tr><td class="t">1105</td><td>Metro: Yellow Line to L'Enfant Plaza, Green Line to Greenbelt</td><td>Crystal City Metro</td></tr>
-    <tr><td class="t">1215</td><td>Load van; drive to Udvar-Hazy</td><td>Greenbelt Metro</td></tr>
-    <tr><td class="t">1330-1700</td><td>Smithsonian National Air and Space Museum, Steven F. Udvar-Hazy Center. Planned early check-outs happen here.</td><td>14390 Air and Space Museum Pkwy, Chantilly, VA</td></tr>
-    <tr><td class="t">1700</td><td>Drive toward Shanksville, PA</td><td></td></tr>
-    <tr><td class="t">1915</td><td>Buy dinner and breakfast supplies</td><td>Weis Markets, 16 Bedford Square Plaza, Everett, PA</td></tr>
-    <tr><td class="t">2030</td><td>Arrive lodge; dinner</td><td>Camp Allegheny, Hawthorn Lodge</td></tr>
-    <tr><td class="t">2155</td><td>Senior member room check</td><td>Lodge</td></tr>
-    <tr><td class="t">2200</td><td>Lights out</td><td>Lodge</td></tr>
-
-    <tr class="day"><td colspan="3"><h3>Day 5 &middot; Sat 27 Feb 2027 &middot; Flight 93 and home</h3></td></tr>
-    <tr><td class="t">0700</td><td>Reveille; breakfast</td><td>Lodge</td></tr>
-    <tr><td class="t">0730-0830</td><td>Dress (Class A); prep</td><td>Lodge</td></tr>
-    <tr><td class="t">0830</td><td>Drive to the memorial</td><td></td></tr>
-    <tr><td class="t">0900-1030</td><td>Flight 93 National Memorial. Weather-dependent: cancelled by weather in 2025.</td><td>6424 Lincoln Hwy, Stoystown, PA</td></tr>
-    <tr><td class="t">1100-1200</td><td>Change, pack, clean. UOD: comfortable travel clothes</td><td>Lodge</td></tr>
-    <tr><td class="t">1200</td><td>Depart for Vermont</td><td></td></tr>
-    <tr><td class="t">1430-1500</td><td>Rest stop</td><td>I-80 eastbound rest area, Loganton, PA</td></tr>
-    <tr><td class="t">1730-1800</td><td>Rest stop and dinner</td><td>McDonald's, 30 N Rd, Windsor, NY</td></tr>
-    <tr><td class="t">2000-2030</td><td>Rest stop and food</td><td>Five Guys, 1512 Western Ave, Albany, NY</td></tr>
-    <tr><td class="t">2230</td><td>Southern group released</td><td>Catamount, Hartness State Airport</td></tr>
-    <tr><td class="t">About 2400</td><td>Arrive; unload, clear van, release</td><td>Capital Composite Squadron, Berlin, VT</td></tr>
-  </table>
+  <table id="schedule-t"></table>
 
   <h2 id="lodging">Lodging</h2>
-  <div class="grid">
-    <div class="card"><h4>Night 1 &middot; Tue 23 Feb</h4>
-      <p>Catamount Composite Squadron</p><p>Hartness State Airport, 15 Airport Rd, North Springfield, VT 05150</p>
-      <p class="tbc">Confirm building use</p></div>
-    <div class="card"><h4>Nights 2-3 &middot; Wed 24, Thu 25 Feb</h4>
-      <p>Hilton Garden Inn Reagan National Airport</p><p>2020 Richmond Hwy, Arlington, VA 22202</p><p>703-892-1050</p>
-      <p class="tbc">2025 hotel; not yet booked for 2027</p></div>
-    <div class="card"><h4>Night 4 &middot; Fri 26 Feb</h4>
-      <p>Camp Allegheny, Hawthorn Lodge</p><p>100 Camp Allegheny Dr, Stoystown, PA 15563</p>
-      <p class="tbc">Not yet booked for 2027</p></div>
-    <div class="card"><h4>NHQ events</h4>
-      <p>Crystal Gateway Marriott</p><p>1700 Richmond Hwy, Arlington, VA 22202</p>
-      <p class="tbc">2025 venue for the AIB and reception; confirm for 2027. Five minutes on foot from the hotel.</p></div>
-  </div>
+  <div class="grid" id="lodging-g"></div>
   <p>One cadet in each room is the room lead. Room lists build from the participant file (see <a class="key" href="#people">People and rooms</a>).</p>
   <h3>Equipment</h3>
-  <ul>
-    <li>Van VT-085 (Ford Transit, radio removed)</li>
-    <li>8 sets of sheets in marked bags, one set per person for each overnight site that needs them</li>
-    <li>Griddle for breakfasts</li>
-    <li>Pullovers to issue to participants</li>
-    <li>Small first aid kit, carried by a senior member at all times</li>
-  </ul>
+  <ul id="equip-l"></ul>
 
   <h2 id="transport">Transport</h2>
-  <p>The group drives the van to and from DC and uses Metro inside DC. Drivers swap at every stop; no one drives more than about 3 hours in a stretch. Gas stops take only the time needed to fuel.</p>
-  <table>
-    <tr><th>Leg</th><th class="n">Distance</th><th class="n">Drive time</th><th>Planned stops</th></tr>
-    <tr><td>Hartness State Airport to Greenbelt Metro</td><td class="n">515 mi</td><td class="n">8 h 39 min</td><td>Ghent, NY; Greentown, PA; Grantville, PA</td></tr>
-    <tr><td>Greenbelt Metro to Udvar-Hazy</td><td class="n"></td><td class="n">about 1 h</td><td></td></tr>
-    <tr><td>Udvar-Hazy to Camp Allegheny</td><td class="n"></td><td class="n">about 2 h 45 min</td><td>Everett, PA (groceries)</td></tr>
-    <tr><td>Flight 93 Memorial to Hartness State Airport</td><td class="n">526 mi</td><td class="n">8 h 55 min</td><td>Loganton, PA; Windsor, NY; Albany, NY</td></tr>
-  </table>
-  <p class="src">Times without traffic, from the 2025 route maps. Berlin to Springfield adds about 1.5 h each way for the northern group.</p>
-  <h3>Route outline</h3>
-  <div class="cols3">
-    <div><p class="em">To DC</p>
-      <ol><li>VT-11 W and US-7 S to NY-7 W</li><li>NY-22 S, US-20 W, NY-295 W to the Taconic Pkwy</li><li>Taconic S to I-84 W into Pennsylvania</li><li>I-81 S to I-83 S, then I-695 W</li><li>MD-295 S (Baltimore-Washington Pkwy) to I-495, exit 23 to Greenbelt Metro</li></ol></div>
-    <div><p class="em">Home</p>
-      <ol><li>US-30 E and PA-56 to I-99 N / US-220 N</li><li>I-80 E to I-81 N into New York</li><li>I-86 E / NY-17 E to Windsor, then I-88 E</li><li>US-20 E to Albany, then I-87 N and NY-7 E</li><li>VT-279 E, US-7 N, VT-11 E to Springfield</li></ol></div>
-  </div>
+  <p>The group drives to and from DC and uses Metro inside DC. Drivers swap at every stop; no one drives more than about 3 hours in a stretch. Gas stops take only the time needed to fuel.</p>
+  <table id="legs-t"></table>
+  <p class="src" data-t="legsNote"></p>
   <h3>Metro trips</h3>
-  <table>
-    <tr><th>Day</th><th>From</th><th>To</th><th>Lines</th></tr>
-    <tr><td>Wed 24 Feb</td><td>Greenbelt</td><td>Crystal City</td><td>Green toward Branch Ave to Mt Vernon Sq; Yellow toward Huntington</td></tr>
-    <tr><td>Thu 25 Feb</td><td>Crystal City</td><td>Capitol South</td><td>Yellow to L'Enfant Plaza; Orange, Silver or Blue to Capitol South</td></tr>
-    <tr><td>Thu 25 Feb</td><td>Capitol South</td><td>Crystal City</td><td>Orange, Silver or Blue to L'Enfant Plaza; Yellow toward Huntington</td></tr>
-    <tr><td>Fri 26 Feb</td><td>Crystal City</td><td>Greenbelt</td><td>Yellow to L'Enfant Plaza; Green toward Greenbelt</td></tr>
-  </table>
+  <table id="metro-t"></table>
   <div class="side">
     <p class="em">Metro boarding order, every station and every train</p>
     <ol><li>Lead senior member enters or boards first.</li><li>Cadets follow.</li><li>Trail senior member enters or boards last.</li></ol>
@@ -319,8 +185,8 @@
   <h3>Risk assessment (CAPF 160)</h3>
   <p class="note">Common risks for this trip and event, the same each year. Fill in blocks 1-3, then download the official CAPF 160 with everything filled. The approval authority signs block 12. Nothing typed here is saved.</p>
   <div class="form160">
-    <label class="w2">1. Activity<input id="f-activity" value="National Legislative Day 2027"></label>
-    <label>2. Date<input id="f-date" type="date" value="2027-02-23"></label>
+    <label class="w2">1. Activity<input id="f-activity"></label>
+    <label>2. Date<input id="f-date" type="date"></label>
     <label class="w2">3a. Name (last, first, middle initial)<input id="f-name" autocomplete="off"></label>
     <label>3b. Rank<input id="f-rank" autocomplete="off"></label>
     <label>3c. Duty title / position<input id="f-duty" autocomplete="off"></label>
@@ -334,18 +200,22 @@
   </table>
   <p>Highest residual risk: <span class="em">LOW</span>. Add a row on the downloaded form for any side trip or risk unique to this year (one row is left open).</p>
 
-  <h3>Safety brief &middot; Tue 23 Feb 2027, 2000</h3>
+  <h3>Safety brief &middot; <span data-d="start"></span>, at sign-in</h3>
   <div class="grid">
     <div class="card"><h4>Metro</h4>
       <p>Stay behind the granite edge and its lights until the train stops and the doors open. Let riders off first. Step over the gap. Never block, force, or lean on doors. No running, no eating or drinking, no sitting on the platform edge or escalator handrail.</p>
-      <p>If someone falls onto the tracks: do not go after them. Use the platform emergency intercom (blue lights, every 800 ft) and call for help. If you fall, stay clear of the third rail (750 volts) and get into the recess under the platform edge. Do not lie down between the rails.</p></div>
+      <p>If someone falls onto the tracks: do not go after them. Use the platform emergency intercom and call for help. If you fall, stay clear of the third rail and get into the recess under the platform edge. Do not lie down between the rails.</p></div>
     <div class="card"><h4>Long drive and weather</h4>
       <p>Seatbelt on the whole trip; the lap belt stays across your waist. Headphones for any sound. Ask before touching anyone or taking food or gear that is not offered. Do not wake sleepers unless a senior member asks. In bad weather, keep quiet so the driver can focus; we pull over if it is unsafe.</p></div>
+    <div class="card"><h4>Street crossings and crowds</h4>
+      <p>Cross only at signals, as one group, behind a senior member. No phones while walking. Know the day's rally point. If you are separated, stay where you are, call a senior member, and wait.</p></div>
     <div class="card"><h4>Food allergies</h4>
-      <p>Report every allergy on your forms. Do not eat food you cannot identify. Do not share food. Update this part of the brief from the participant file before sign-in.</p>
+      <p>Report every allergy on your forms. Do not eat food you cannot identify. Do not share food.</p>
       <p data-fill="allergies" class="placeholder">Load participant file to list reported allergies.</p></div>
     <div class="card"><h4>Crime</h4>
       <p>Stay together. Keep your wingman in sight. Wallet in an inside pocket. If robbed, hand it over. Lock the room door. After the senior member room check, no one leaves the room unless there is an emergency.</p></div>
+    <div class="card"><h4>Lodging</h4>
+      <p>Find the two nearest exits when you check in. Adults and cadets room apart. Senior members do room checks in pairs. Keep your door locked.</p></div>
     <div class="card"><h4>Political conduct</h4>
       <p>Do not engage with demonstrations. In uniform, do not endorse or criticize any party, candidate, or commentator, and do not give opinions on political issues. Tell your CAP story; that is the job.</p></div>
     <div class="card"><h4>Who to tell</h4>
@@ -354,17 +224,13 @@
   </div>
 
   <h3>Emergency medical</h3>
-  <div class="grid">
-    <div class="card"><h4>Washington, DC</h4><p>George Washington University Hospital</p><p>900 23rd St NW, Washington, DC 20037</p><p>202-715-4000</p></div>
-    <div class="card"><h4>Shanksville area</h4><p>UPMC Somerset</p><p>225 S Center Ave, Somerset, PA 15501</p><p>814-443-5000</p></div>
-    <div class="card"><h4>Any emergency</h4><p>Call 911 first, then a senior member. On Metro, tell any Metro Transit Police officer, station manager, or train operator.</p></div>
-  </div>
+  <div class="grid" id="hosp-g"></div>
 
   <h3>Water, food, and sleep</h3>
   <ul>
     <li><span class="em">Water:</span> every cadet carries a refillable water bottle in their backpack for the whole trip. Refill at every stop.</li>
-    <li><span class="em">Food:</span> breakfasts in the senior member room at the hotel and at the lodge (griddle); lunch at rest stops and the Library of Congress cafeteria; dinner with the Wing Commander on day 2; lodge dinner bought at Weis Markets on day 4; fast food on the drive home. Cadets pay for their own lunches and some dinners.</li>
-    <li><span class="em">Sleep:</span> lights out 2130-2200 every night, room check 5 minutes before. Day 2 starts at 0400, so cadets may sleep in the van. Drivers do not.</li>
+    <li><span class="em">Food:</span> <span data-t="food"></span></li>
+    <li><span class="em">Sleep:</span> <span data-t="sleep"></span></li>
   </ul>
 
   <h2 id="people" class="pb">People and rooms</h2>
@@ -389,60 +255,26 @@
   </div>
 
   <h2 id="forms">Forms</h2>
-  <p>All forms are due at sign-in, Tue 23 Feb 2027. Use the current revision from the CAP Publication Library.</p>
+  <p>All forms are due at sign-in, <span data-d="start"></span>. Use the current revision from the CAP Publication Library.</p>
   <table>
     <tr><th>Form</th><th>Who</th></tr>
     <tr><td>CAPF 31, activity application</td><td>Cadets</td></tr>
     <tr><td>CAPF 17, activity application</td><td>Senior members</td></tr>
     <tr><td>CAPF 161, emergency information</td><td>Everyone</td></tr>
     <tr><td>CAPF 163, permission for over-the-counter medication</td><td>Cadets under 18</td></tr>
-    <tr><td>CAPF 160, deliberate risk assessment</td><td>Activity Director prepares; approval authority signs by Tue 9 Feb 2027</td></tr>
+    <tr><td>CAPF 160, deliberate risk assessment</td><td>Activity Director prepares; approval authority signs by <span data-d="final"></span></td></tr>
   </table>
 
   <h2 id="budget">Budget</h2>
-  <p class="note">2027 plan uses 2025 actual costs for 8 people. Hotel and lodge must be re-quoted.</p>
-  <table>
-    <tr><th>Item</th><th class="n">2025 planned</th><th class="n">2025 actual</th><th class="n">2027 plan</th></tr>
-    <tr><td>DC hotel, 3 rooms, 2 nights</td><td class="n">$970.68</td><td class="n">$976.04</td><td class="n tbc">re-quote</td></tr>
-    <tr><td>Fuel, 2 legs of about 575 mi (15 mpg)</td><td class="n">$300.30</td><td class="n">$227.32</td><td class="n">$227.32</td></tr>
-    <tr><td>Parking, Greenbelt Metro</td><td class="n">$26.85</td><td class="n">$8.95</td><td class="n">$26.85</td></tr>
-    <tr><td>Metro fares, 8 people</td><td class="n">$188.00</td><td class="n">$189.55</td><td class="n">$189.55</td></tr>
-    <tr><td>Pullovers, 8</td><td class="n">$280.00</td><td class="n">$280.00</td><td class="n">$280.00</td></tr>
-    <tr><td>Parking, Udvar-Hazy</td><td class="n">$15.00</td><td class="n">$15.00</td><td class="n">$15.00</td></tr>
-    <tr><td>Camp Allegheny lodge, 1 night</td><td class="n">$200.00</td><td class="n">$200.00</td><td class="n tbc">re-quote</td></tr>
-    <tr><td class="em">Total</td><td class="n">$1,980.83</td><td class="n">$1,896.86</td><td class="n">$738.72 + hotel + lodge</td></tr>
-  </table>
-  <p>At $250 per person (8 people, $2,000), the fee covers a DC hotel up to <span class="em">$1,061</span> for 3 rooms, 2 nights, with the lodge at its 2025 price. Greenbelt parking is planned at 3 days even though 2025 charged once.</p>
+  <p class="note" data-t="budgetNote"></p>
+  <table id="budget-t"></table>
+  <p id="budget-p"></p>
 
   <h2 id="messages">Messages</h2>
   <h3>Nomination email</h3>
-  <div class="email"><span class="em">Subject:</span> You've been nominated for National Legislative Day 2027
-
-Good morning,
-
-Because of your strong work in your squadron and at wing events, you've been nominated to join the Vermont Wing delegation to CAP National Legislative Day, Tuesday 23 February to Saturday 27 February 2027.
-
-National Legislative Day is when CAP wings from across the country meet in Washington, DC. It is our chance to tell Vermont's members of Congress what CAP members do. On past trips, cadets met all three members of our delegation in person and talked about crewing at the Adirondack Balloon Festival, flight academies, and encampment.
-
-The trip may also include a tour of the Capitol, a CAP reception, the Smithsonian Udvar-Hazy Center, and a visit to the Flight 93 National Memorial.
-
-The cost is about $250 for hotel and travel. Bring spending money for lunches, some dinners, and souvenirs. We leave Vermont on the evening of 23 February and drive down early on the 24th.
-
-Please reply by Friday, 4 December 2026 to hold your spot. If your squadron will sponsor you, let your commander know by the same date.
-
-Let me know if you have any questions.</div>
+  <div class="email" id="nom-email"></div>
   <h3>After action email</h3>
-  <div class="email"><span class="em">Subject:</span> NLD 2027 after action survey
-
-Good evening,
-
-I hope you caught up on rest after our trip.
-
-Please fill out the NLD 2027 after action survey by Sunday, 7 March 2027 so we can finish our review on time.
-
-Cadet leads: please set a time for the cadets to meet and build a short presentation for Wing Conference. You will brief the senior members on your experience and what National Legislative Day did for Vermont Wing.
-
-Let me know if you have any questions.</div>
+  <div class="email" id="aar-email"></div>
 
   <h2 id="aar">After action review</h2>
   <p>Participants rate each item 1-5 (1 strongly disagree, 5 strongly agree), then name one part of the trip they really enjoyed and one thing to change next year.</p>
@@ -450,7 +282,7 @@ Let me know if you have any questions.</div>
     <div><h3>Overall</h3><ol>
       <li>The trip met its goals (leadership, networking, education).</li><li>The trip was well organized.</li><li>The trip was a valuable experience.</li><li>I would recommend this trip.</li></ol>
       <h3>Logistics</h3><ol>
-      <li>Transport was efficient and on time.</li><li>Rest stops were well spaced.</li><li>The hotel was good enough.</li><li>The lodge was good enough.</li><li>There was enough time for rest, meals, and downtime.</li><li>The schedule was reasonable, not exhausting.</li></ol></div>
+      <li>Transport was efficient and on time.</li><li>Rest stops were well spaced.</li><li>Lodging was good enough.</li><li>There was enough time for rest, meals, and downtime.</li><li>The schedule was reasonable, not exhausting.</li></ol></div>
     <div><h3>Safety</h3><ol>
       <li>The safety brief was clear.</li><li>I felt safe the whole trip.</li><li>Headcounts and check-ins worked.</li></ol>
       <h3>Meetings and events</h3><ol>
@@ -459,16 +291,26 @@ Let me know if you have any questions.</div>
       <li>Everyone stayed professional and met CAP standards.</li><li>Leaders and participants communicated well.</li><li>There was a good balance of structure and downtime.</li><li>The debrief covered the key takeaways.</li></ol></div>
     <div><h3>Food</h3><ol>
       <li>There was enough food.</li><li>The food was good quality.</li><li>Meal stops were good choices.</li><li>There was enough time to eat.</li><li>There was enough water.</li></ol>
-      <h3>History and culture</h3><ol>
-      <li>Udvar-Hazy supported CAP's aerospace education goals.</li><li>The Capitol tour added value.</li><li>The Flight 93 visit was meaningful (or would have been, if cancelled).</li></ol>
+      <h3>Side trips</h3><ol>
+      <li>The Capitol tour added value.</li><li>Each side trip was worth the time.</li><li>Side trips supported CAP's aerospace education or citizenship goals.</li></ol>
       <h3>Next year</h3><ol>
       <li>The travel schedule should change.</li><li>Leader communication could improve.</li><li>Time per event was right.</li><li>More preparation would have helped.</li></ol></div>
   </div>
-  <h3>2025 lessons carried forward</h3>
-  <ul>
-    <li>Flight 93 visit was cancelled by weather: the plan now treats it as weather-dependent with a go/no-go the night before.</li>
-    <li>Greenbelt parking charged once, not daily: watch the 2027 charge before changing the budget.</li>
-  </ul>
+  <h3>Lessons carried forward</h3>
+  <ul id="lessons-l"></ul>
+</main>
+
+<main id="setup" hidden>
+  <h1 class="title">Trip setup</h1>
+  <p class="byline">Everything that changes from year to year or squadron to squadron. The plan redraws as you type.</p>
+  <div class="alert"><span class="h">Nothing here is saved by the page.</span> Use Save trip file and keep the file on the wing share. Next year, Load trip file, change the NLD date, and update what changed.</div>
+  <div class="setbar">
+    <button type="button" id="save-trip">Save trip file</button>
+    <label class="btn quiet" for="tripin">Load trip file<input type="file" id="tripin" accept=".json,application/json"></label>
+    <button type="button" class="quiet" id="reset-trip">Start from built-in 2027 trip</button>
+    <span id="dirty" class="src"></span>
+  </div>
+  <div id="setup-out"></div>
 </main>
 
 <script>
@@ -498,9 +340,12 @@ Let me know if you have any questions.</div>
     var sms = people.filter(function (p) { return !/cadet/i.test(p.role); });
     var cadets = people.filter(function (p) { return /cadet/i.test(p.role); });
     var dir = people.filter(function (p) { return /director/i.test(p.role); })[0];
-    document.querySelectorAll('[data-fill="director"]').forEach(function (el) {
-      el.className = 'loaded'; el.innerHTML = dir ? who(dir) + (dir.phone ? ' &middot; ' + esc(dir.phone) : '') : 'No Activity Director in file';
-    });
+    window.PEOPLE_RENDER = function () {
+      document.querySelectorAll('[data-fill="director"]').forEach(function (el) {
+        el.className = 'loaded'; el.innerHTML = dir ? who(dir) + (dir.phone ? ' &middot; ' + esc(dir.phone) : '') : 'No Activity Director in file';
+      });
+    };
+    window.PEOPLE_RENDER();
     document.querySelectorAll('[data-fill="sms"]').forEach(function (el) {
       el.className = ''; el.innerHTML = sms.map(function (p) { return '<p>' + who(p) + (p.role ? ' (' + esc(p.role) + ')' : '') + ': ' + esc(p.phone) + '</p>'; }).join('') || '<p>No senior members in file</p>';
     });
@@ -521,7 +366,7 @@ Let me know if you have any questions.</div>
     var html = '<h3>Roster</h3><table><tr><th>Role</th><th>Name</th><th>Unit</th><th>Phone</th><th>Wingman</th></tr>' +
       sms.concat(cadets).map(function (p) { return '<tr><td>' + esc(p.role) + '</td><td>' + who(p) + '</td><td>' + esc(p.unit) + '</td><td>' + esc(p.phone) + '</td><td>' + esc(p.wingman) + '</td></tr>'; }).join('') + '</table>' +
       '<p>' + cadets.length + ' cadets, ' + sms.length + ' senior members. ' +
-      ((cadets.length > 6 || sms.length > 3 || cadets.length < 2 || sms.length < 2) ? '<span class="em">Outside the 2-6 cadet and 2-3 senior member limits.</span>' : 'Within size limits.') + '</p>' +
+      (function () { var c = (window.TRIP && TRIP.capacity) || {}; return (cadets.length > c.cadetsMax || sms.length > c.seniorsMax || cadets.length < c.cadetsMin || sms.length < c.seniorsMin) ? '<span class="em">Outside the ' + c.cadetsMin + '-' + c.cadetsMax + ' cadet and ' + c.seniorsMin + '-' + c.seniorsMax + ' senior member limits.</span>' : 'Within size limits.'; })() + '</p>' +
       rooms('hotel_room', 'DC hotel rooms') + rooms('lodge_room', 'Lodge rooms');
     document.getElementById('people-out').innerHTML = html;
   }
@@ -551,6 +396,950 @@ Let me know if you have any questions.</div>
     setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
   });
 })();
+</script>
+<!-- Built-in trip file (2027). Edit through Setup; save and load your own trip file. -->
+<script type="application/json" id="trip-default">
+{
+  "format": "nld-trip/1",
+  "title": "National Legislative Day",
+  "nldDate": "2027-02-25",
+  "nldStatus": "expected",
+  "sponsor": "NER-VTWG Cadet Programs and Government Relations",
+  "where": "Capitol Hill, Washington, DC; lodging in Arlington, VA",
+  "signIn": "1730-2000 on day 1. All forms due at sign-in.",
+  "fee": 250,
+  "headcount": 8,
+  "capacity": {
+    "cadetsMin": 2,
+    "cadetsMax": 6,
+    "seniorsMin": 2,
+    "seniorsMax": 3
+  },
+  "funding": "No USAF funding. Units may sponsor their cadets (in 2025: Capital, Green Mountain, and Rutland squadrons).",
+  "vehicle": "Van VT-085 (Ford Transit, radio removed)",
+  "sideTrips": [
+    {
+      "name": "Udvar-Hazy",
+      "on": true,
+      "describe": "the Smithsonian Udvar-Hazy Center"
+    },
+    {
+      "name": "Flight 93",
+      "on": true,
+      "describe": "the Flight 93 National Memorial"
+    }
+  ],
+  "confirm": [
+    "NLD date, the All-Hands Advance Information Briefing (AIB), and the reception venue: NHQ Government Relations NLD page.",
+    "DC hotel: 3 rooms, 2 nights. NHQ week fills Crystal City hotels early.",
+    "Lodge and overnight sites booked; building use confirmed with host squadrons.",
+    "Office meetings: request times with both Senators and the Representative; ask one Senate office for a Capitol tour.",
+    "Van reserved for every trip day.",
+    "Budget: re-quote hotel and lodge.",
+    "Metro: check WMATA service changes the week before.",
+    "National GRA guidance for this year (talking points, Impact Report, appropriations ask): fold into cadet prep."
+  ],
+  "days": [
+    {
+      "offset": -2,
+      "title": "Sign-in",
+      "rows": [
+        {
+          "time": "1730",
+          "event": "Sign-in, northern group",
+          "where": "Capital Composite Squadron, Edward F. Knapp State Airport, Berlin, VT",
+          "tag": ""
+        },
+        {
+          "time": "1800",
+          "event": "Depart for Springfield",
+          "where": "",
+          "tag": ""
+        },
+        {
+          "time": "1930-2000",
+          "event": "Sign-in, southern group",
+          "where": "Catamount Composite Squadron, Hartness State Airport, North Springfield, VT",
+          "tag": ""
+        },
+        {
+          "time": "2000-2030",
+          "event": "Activity safety brief",
+          "where": "Catamount",
+          "tag": ""
+        },
+        {
+          "time": "2030-2100",
+          "event": "Final details",
+          "where": "Catamount",
+          "tag": ""
+        },
+        {
+          "time": "2100-2125",
+          "event": "Personal time",
+          "where": "Catamount",
+          "tag": ""
+        },
+        {
+          "time": "2125",
+          "event": "Senior member room check",
+          "where": "Catamount",
+          "tag": ""
+        },
+        {
+          "time": "2130",
+          "event": "Lights out",
+          "where": "Catamount",
+          "tag": ""
+        }
+      ]
+    },
+    {
+      "offset": -1,
+      "title": "Drive to DC",
+      "rows": [
+        {
+          "time": "0400",
+          "event": "Reveille. UOD: comfortable travel clothes",
+          "where": "Catamount",
+          "tag": ""
+        },
+        {
+          "time": "0400-0430",
+          "event": "Pack, clean up, load van",
+          "where": "Catamount",
+          "tag": ""
+        },
+        {
+          "time": "0430",
+          "event": "Depart",
+          "where": "",
+          "tag": ""
+        },
+        {
+          "time": "0700-0730",
+          "event": "Rest stop",
+          "where": "Taconic State Parkway southbound rest area, Ghent, NY",
+          "tag": ""
+        },
+        {
+          "time": "0945-1015",
+          "event": "Rest stop",
+          "where": "I-84 westbound rest area, Greentown, PA",
+          "tag": ""
+        },
+        {
+          "time": "1215-1300",
+          "event": "Rest stop and lunch",
+          "where": "I-81 southbound rest stop, Grantville, PA",
+          "tag": ""
+        },
+        {
+          "time": "1500",
+          "event": "Park; Metro to Crystal City (Green Line, then Yellow Line)",
+          "where": "Greenbelt Metro, Greenbelt, MD",
+          "tag": ""
+        },
+        {
+          "time": "1620",
+          "event": "Arrive Crystal City; walk to hotel",
+          "where": "Crystal City Metro, Arlington, VA",
+          "tag": ""
+        },
+        {
+          "time": "1645",
+          "event": "Check in. Change to khakis and pullovers",
+          "where": "DC hotel",
+          "tag": ""
+        },
+        {
+          "time": "1715",
+          "event": "Meet the Wing Commander",
+          "where": "Crystal Gateway Marriott",
+          "tag": ""
+        },
+        {
+          "time": "1730",
+          "event": "Dinner with the Wing Commander",
+          "where": "Crystal City",
+          "tag": ""
+        },
+        {
+          "time": "1900",
+          "event": "NLD All-Hands Advance Information Briefing (AIB)",
+          "where": "NHQ venue (2025: Crystal Gateway Marriott)",
+          "tag": ""
+        },
+        {
+          "time": "2000",
+          "event": "Return to hotel",
+          "where": "",
+          "tag": ""
+        },
+        {
+          "time": "2155",
+          "event": "Senior member room check",
+          "where": "DC hotel",
+          "tag": ""
+        },
+        {
+          "time": "2200",
+          "event": "Lights out",
+          "where": "DC hotel",
+          "tag": ""
+        }
+      ]
+    },
+    {
+      "offset": 0,
+      "title": "National Legislative Day",
+      "rows": [
+        {
+          "time": "0630",
+          "event": "Reveille. UOD: Class A",
+          "where": "DC hotel",
+          "tag": ""
+        },
+        {
+          "time": "0645",
+          "event": "Breakfast",
+          "where": "Senior member room",
+          "tag": ""
+        },
+        {
+          "time": "0730",
+          "event": "Dress",
+          "where": "",
+          "tag": ""
+        },
+        {
+          "time": "0800",
+          "event": "Walk to Crystal Gateway Marriott; meet the Wing Commander",
+          "where": "Crystal Gateway Marriott",
+          "tag": ""
+        },
+        {
+          "time": "0830",
+          "event": "Metro: Yellow Line to L'Enfant Plaza, then Orange, Silver or Blue to Capitol South",
+          "where": "Crystal City Metro",
+          "tag": ""
+        },
+        {
+          "time": "0915",
+          "event": "Security screening",
+          "where": "First Senate office building",
+          "tag": ""
+        },
+        {
+          "time": "1000-1300",
+          "event": "Meetings with both Senators and the Representative, or their staff",
+          "where": "Senate and House office buildings (rooms and times set by each office)",
+          "tag": ""
+        },
+        {
+          "time": "After meetings",
+          "event": "Guided Capitol tour",
+          "where": "U.S. Capitol (requested through a Senate office)",
+          "tag": ""
+        },
+        {
+          "time": "1400",
+          "event": "Lunch",
+          "where": "James Madison Memorial Building, Library of Congress, 6th floor cafeteria",
+          "tag": ""
+        },
+        {
+          "time": "1500",
+          "event": "Metro back to Crystal City",
+          "where": "Capitol South Metro",
+          "tag": ""
+        },
+        {
+          "time": "1600",
+          "event": "Arrive hotel. Change to khakis and pullovers",
+          "where": "DC hotel",
+          "tag": ""
+        },
+        {
+          "time": "1630",
+          "event": "Debrief: what we heard, what we promised, thank-you notes",
+          "where": "Senior member room",
+          "tag": ""
+        },
+        {
+          "time": "1815-2000",
+          "event": "CAP reception",
+          "where": "NHQ venue (2025: Crystal Gateway Marriott)",
+          "tag": ""
+        },
+        {
+          "time": "2155",
+          "event": "Senior member room check",
+          "where": "DC hotel",
+          "tag": ""
+        },
+        {
+          "time": "2200",
+          "event": "Lights out",
+          "where": "DC hotel",
+          "tag": ""
+        }
+      ]
+    },
+    {
+      "offset": 1,
+      "title": "Udvar-Hazy and Pennsylvania",
+      "rows": [
+        {
+          "time": "0900",
+          "event": "Reveille. UOD: khakis and pullovers",
+          "where": "DC hotel",
+          "tag": ""
+        },
+        {
+          "time": "0915",
+          "event": "Breakfast",
+          "where": "Senior member room",
+          "tag": ""
+        },
+        {
+          "time": "1030",
+          "event": "Check out; walk to Crystal City Metro",
+          "where": "",
+          "tag": ""
+        },
+        {
+          "time": "1105",
+          "event": "Metro: Yellow Line to L'Enfant Plaza, Green Line to Greenbelt",
+          "where": "Crystal City Metro",
+          "tag": ""
+        },
+        {
+          "time": "1215",
+          "event": "Load van; drive to Udvar-Hazy",
+          "where": "Greenbelt Metro",
+          "tag": "Udvar-Hazy"
+        },
+        {
+          "time": "1330-1700",
+          "event": "Smithsonian National Air and Space Museum, Steven F. Udvar-Hazy Center. Planned early check-outs happen here.",
+          "where": "14390 Air and Space Museum Pkwy, Chantilly, VA",
+          "tag": "Udvar-Hazy"
+        },
+        {
+          "time": "1700",
+          "event": "Drive toward Shanksville, PA",
+          "where": "",
+          "tag": "Flight 93"
+        },
+        {
+          "time": "1915",
+          "event": "Buy dinner and breakfast supplies",
+          "where": "Weis Markets, 16 Bedford Square Plaza, Everett, PA",
+          "tag": "Flight 93"
+        },
+        {
+          "time": "2030",
+          "event": "Arrive lodge; dinner",
+          "where": "Camp Allegheny, Hawthorn Lodge",
+          "tag": "Flight 93"
+        },
+        {
+          "time": "2155",
+          "event": "Senior member room check",
+          "where": "Lodge",
+          "tag": "Flight 93"
+        },
+        {
+          "time": "2200",
+          "event": "Lights out",
+          "where": "Lodge",
+          "tag": "Flight 93"
+        }
+      ]
+    },
+    {
+      "offset": 2,
+      "title": "Flight 93 and home",
+      "rows": [
+        {
+          "time": "0700",
+          "event": "Reveille; breakfast",
+          "where": "Lodge",
+          "tag": "Flight 93"
+        },
+        {
+          "time": "0730-0830",
+          "event": "Dress (Class A); prep",
+          "where": "Lodge",
+          "tag": "Flight 93"
+        },
+        {
+          "time": "0830",
+          "event": "Drive to the memorial",
+          "where": "",
+          "tag": "Flight 93"
+        },
+        {
+          "time": "0900-1030",
+          "event": "Flight 93 National Memorial. Weather-dependent: cancelled by weather in 2025.",
+          "where": "6424 Lincoln Hwy, Stoystown, PA",
+          "tag": "Flight 93"
+        },
+        {
+          "time": "1100-1200",
+          "event": "Change, pack, clean. UOD: comfortable travel clothes",
+          "where": "Lodge",
+          "tag": "Flight 93"
+        },
+        {
+          "time": "1200",
+          "event": "Depart for Vermont",
+          "where": "",
+          "tag": ""
+        },
+        {
+          "time": "1430-1500",
+          "event": "Rest stop",
+          "where": "I-80 eastbound rest area, Loganton, PA",
+          "tag": ""
+        },
+        {
+          "time": "1730-1800",
+          "event": "Rest stop and dinner",
+          "where": "McDonald's, 30 N Rd, Windsor, NY",
+          "tag": ""
+        },
+        {
+          "time": "2000-2030",
+          "event": "Rest stop and food",
+          "where": "Five Guys, 1512 Western Ave, Albany, NY",
+          "tag": ""
+        },
+        {
+          "time": "2230",
+          "event": "Southern group released",
+          "where": "Catamount, Hartness State Airport",
+          "tag": ""
+        },
+        {
+          "time": "About 2400",
+          "event": "Arrive; unload, clear van, release",
+          "where": "Capital Composite Squadron, Berlin, VT",
+          "tag": ""
+        }
+      ]
+    }
+  ],
+  "lodging": [
+    {
+      "nights": "-2",
+      "name": "Catamount Composite Squadron",
+      "address": "Hartness State Airport, 15 Airport Rd, North Springfield, VT 05150",
+      "phone": "",
+      "status": "Confirm building use",
+      "tag": ""
+    },
+    {
+      "nights": "-1, 0",
+      "name": "Hilton Garden Inn Reagan National Airport",
+      "address": "2020 Richmond Hwy, Arlington, VA 22202",
+      "phone": "703-892-1050",
+      "status": "2025 hotel; not yet booked",
+      "tag": ""
+    },
+    {
+      "nights": "1",
+      "name": "Camp Allegheny, Hawthorn Lodge",
+      "address": "100 Camp Allegheny Dr, Stoystown, PA 15563",
+      "phone": "",
+      "status": "Not yet booked",
+      "tag": "Flight 93"
+    },
+    {
+      "nights": "",
+      "name": "NHQ events: Crystal Gateway Marriott",
+      "address": "1700 Richmond Hwy, Arlington, VA 22202",
+      "phone": "",
+      "status": "2025 venue for the AIB and reception; confirm. Five minutes on foot from the hotel.",
+      "tag": ""
+    }
+  ],
+  "equipment": [
+    "8 sets of sheets in marked bags, one set per person for each overnight site that needs them",
+    "Griddle for breakfasts",
+    "Pullovers to issue to participants",
+    "Small first aid kit, carried by a senior member at all times"
+  ],
+  "legs": [
+    {
+      "from": "Hartness State Airport",
+      "to": "Greenbelt Metro",
+      "miles": "515",
+      "time": "8 h 39 min",
+      "stops": "Ghent, NY; Greentown, PA; Grantville, PA",
+      "route": "US-7 S, NY-22 S, Taconic Pkwy S, I-84 W, I-81 S, I-83 S, I-695 W, MD-295 S, I-495 exit 23",
+      "map": "",
+      "tag": ""
+    },
+    {
+      "from": "Greenbelt Metro",
+      "to": "Udvar-Hazy Center",
+      "miles": "",
+      "time": "about 1 h",
+      "stops": "",
+      "route": "",
+      "map": "",
+      "tag": "Udvar-Hazy"
+    },
+    {
+      "from": "Udvar-Hazy Center",
+      "to": "Camp Allegheny",
+      "miles": "",
+      "time": "about 2 h 45 min",
+      "stops": "Everett, PA (groceries)",
+      "route": "",
+      "map": "",
+      "tag": "Flight 93"
+    },
+    {
+      "from": "Flight 93 Memorial",
+      "to": "Hartness State Airport",
+      "miles": "526",
+      "time": "8 h 55 min",
+      "stops": "Loganton, PA; Windsor, NY; Albany, NY",
+      "route": "US-30 E, I-99 N, I-80 E, I-81 N, NY-17 E, I-88 E, US-20 E, I-87 N, NY-7 E, US-7 N, VT-11 E",
+      "map": "",
+      "tag": "Flight 93"
+    }
+  ],
+  "legsNote": "Times without traffic, from the 2025 route maps. Berlin to Springfield adds about 1.5 h each way for the northern group.",
+  "metro": [
+    {
+      "day": "-1",
+      "from": "Greenbelt",
+      "to": "Crystal City",
+      "lines": "Green toward Branch Ave to Mt Vernon Sq; Yellow toward Huntington"
+    },
+    {
+      "day": "0",
+      "from": "Crystal City",
+      "to": "Capitol South",
+      "lines": "Yellow to L'Enfant Plaza; Orange, Silver or Blue to Capitol South"
+    },
+    {
+      "day": "0",
+      "from": "Capitol South",
+      "to": "Crystal City",
+      "lines": "Orange, Silver or Blue to L'Enfant Plaza; Yellow toward Huntington"
+    },
+    {
+      "day": "1",
+      "from": "Crystal City",
+      "to": "Greenbelt",
+      "lines": "Yellow to L'Enfant Plaza; Green toward Greenbelt"
+    }
+  ],
+  "hospitals": [
+    {
+      "area": "Washington, DC",
+      "name": "George Washington University Hospital",
+      "address": "900 23rd St NW, Washington, DC 20037",
+      "phone": "202-715-4000",
+      "tag": ""
+    },
+    {
+      "area": "Shanksville area",
+      "name": "UPMC Somerset",
+      "address": "225 S Center Ave, Somerset, PA 15501",
+      "phone": "814-443-5000",
+      "tag": "Flight 93"
+    }
+  ],
+  "food": "Breakfasts in the senior member room at the hotel and at the lodge (griddle); lunch at rest stops and the Library of Congress cafeteria; dinner with the Wing Commander the night before NLD; lodge dinner from Weis Markets; fast food on the drive home. Cadets pay for their own lunches and some dinners.",
+  "sleep": "Lights out 2130-2200 every night, room check 5 minutes before. The drive day starts at 0400, so cadets may sleep in the van. Drivers do not.",
+  "budget": [
+    {
+      "item": "DC hotel, 3 rooms, 2 nights",
+      "prior": "976.04",
+      "plan": "",
+      "tag": ""
+    },
+    {
+      "item": "Fuel, 2 legs of about 575 mi (15 mpg)",
+      "prior": "227.32",
+      "plan": "227.32",
+      "tag": ""
+    },
+    {
+      "item": "Parking, Greenbelt Metro",
+      "prior": "8.95",
+      "plan": "26.85",
+      "tag": ""
+    },
+    {
+      "item": "Metro fares, 8 people",
+      "prior": "189.55",
+      "plan": "189.55",
+      "tag": ""
+    },
+    {
+      "item": "Pullovers, 8",
+      "prior": "280.00",
+      "plan": "280.00",
+      "tag": ""
+    },
+    {
+      "item": "Parking, Udvar-Hazy",
+      "prior": "15.00",
+      "plan": "15.00",
+      "tag": "Udvar-Hazy"
+    },
+    {
+      "item": "Camp Allegheny lodge, 1 night",
+      "prior": "200.00",
+      "plan": "200.00",
+      "tag": "Flight 93"
+    }
+  ],
+  "budgetNote": "Prior column is 2025 actual cost for 8 people. A blank plan amount means re-quote.",
+  "nominationHighlights": "On past trips, cadets met all three members of our delegation in person and talked about crewing at the Adirondack Balloon Festival, flight academies, and encampment.",
+  "lessons": [
+    "Flight 93 visit was cancelled by weather in 2025: treat it as weather-dependent with a go/no-go the night before.",
+    "Greenbelt parking charged once, not daily, in 2025: watch the charge before changing the budget."
+  ]
+}</script>
+<script>
+// ---- Trip engine: the core plan reads everything year- or squadron-specific from TRIP. ----
+var TRIP, TRIP_DIRTY = false, F160_TOUCHED = false;
+var DEFAULT_TRIP = JSON.parse(document.getElementById('trip-default').textContent);
+
+// Backward-plan rules (core). base: start = sign-in day, nld = Hill day, end = last trip day.
+// snap: move back to that weekday. Holidays push forward to the next business day.
+var KEY_DATES = [
+  { phase: 'Set up', id: 'concept', base: 'start', off: -95, snap: 5, tg: true, what: 'Wing Commander approves the trip concept and names the Activity Director. Confirm the NLD date on the NHQ page. Reserve the vehicle.', who: 'Activity Director' },
+  { phase: 'Set up', id: 'nominate', base: 'start', off: -95, snap: 5, tg: true, what: 'Nomination emails sent', who: 'Cadet Programs' },
+  { phase: 'Set up', id: 'accept', base: 'start', off: -81, snap: 5, what: 'Nominees accept; sponsoring units say yes or no', who: 'Nominees; unit commanders' },
+  { phase: 'Set up', id: 'book', base: 'start', off: -74, snap: 5, what: 'Hotel, lodge, and overnight sites booked (refundable rates)', who: 'Activity Director' },
+  { phase: 'Commit', id: 'apps', base: 'start', off: -46, snap: 5, what: 'Applications in (CAPF 31 or CAPF 17, signed by unit commander); event registration done', who: 'All participants' },
+  { phase: 'Commit', id: 'pay', base: 'start', off: -39, snap: 5, what: 'Payment due; final headcount locks the room count', who: 'Participants or sponsoring unit' },
+  { phase: 'Commit', id: 'meet', base: 'start', off: -36, snap: 1, what: 'Meeting requests to both Senators and the Representative; Capitol tour request to one Senate office', who: 'Government Relations' },
+  { phase: 'Commit', id: 'approval', base: 'start', off: -32, snap: 5, what: 'Ops plan and CAPF 160 to the approval authority (30 days out)', who: 'Activity Director' },
+  { phase: 'Prepare', id: 'prep1', base: 'start', off: -23, snap: 0, what: 'Cadet prep 1: your CAP story, NHQ talking points, how an office meeting runs', who: 'Government Relations' },
+  { phase: 'Prepare', id: 'followup', base: 'start', off: -22, snap: 1, what: 'Follow up on any meeting request with no answer', who: 'Government Relations' },
+  { phase: 'Prepare', id: 'final', base: 'start', off: -11, snap: 5, what: 'CAPF 160 signed. Meetings confirmed. CAPF 161 and 163 copies in (allergy and medication brief). Participant file final: rooms, room leads, wingmen.', who: 'Activity Director' },
+  { phase: 'Prepare', id: 'prep2', base: 'start', off: -9, snap: 0, what: 'Cadet prep 2: practice meetings, safety pre-brief, packing check', who: 'Activity Director; Government Relations' },
+  { phase: 'Go', id: 'gonogo', base: 'start', off: -1, what: 'Weather and news go/no-go; parents get the final schedule and contact numbers', who: 'Activity Director' },
+  { phase: 'Go', id: 'signin', base: 'start', off: 0, what: 'Sign-in; original forms collected; safety brief', who: 'All participants' },
+  { phase: 'Go', id: 'nld', base: 'nld', off: 0, what: 'National Legislative Day', who: 'Delegation' },
+  { phase: 'Close out', id: 'thanks', base: 'end', off: 6, snap: 5, what: 'Thank-you notes to each office we met', who: 'Cadets' },
+  { phase: 'Close out', id: 'survey', base: 'end', off: 8, snap: 0, what: 'After action survey due', who: 'All participants' },
+  { phase: 'Close out', id: 'receipts', base: 'end', off: 13, snap: 5, what: 'Receipts in; budget reconciled; refunds or balances settled', who: 'Activity Director' },
+  { phase: 'Close out', id: 'aarwritten', base: 'end', off: 20, snap: 5, what: 'AAR results written; CAPF 160 block 14 (lessons learned) filled', who: 'Activity Director' }
+];
+
+// ---- dates ----
+var DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+var MONL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+function parseD(s) { var p = String(s || '').split('-'); return p.length === 3 ? new Date(+p[0], +p[1] - 1, +p[2]) : null; }
+function iso(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+function add(d, n) { var x = new Date(d); x.setDate(x.getDate() + n); return x; }
+function fmt(d) { return d ? DOW[d.getDay()] + ' ' + d.getDate() + ' ' + MON[d.getMonth()] + ' ' + d.getFullYear() : '(set NLD date)'; }
+function fmtLong(d) { return d ? ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][d.getDay()] + ', ' + d.getDate() + ' ' + MONL[d.getMonth()] + ' ' + d.getFullYear() : ''; }
+function nth(y, m, dow, n) { var d = new Date(y, m, 1); while (d.getDay() !== dow) d = add(d, 1); return add(d, 7 * (n - 1)); }
+function lastDow(y, m, dow) { var d = new Date(y, m + 1, 0); while (d.getDay() !== dow) d = add(d, -1); return d; }
+function observed(d) { return d.getDay() === 6 ? add(d, -1) : d.getDay() === 0 ? add(d, 1) : d; }
+function holidays(y) {
+  return [observed(new Date(y, 0, 1)), nth(y, 0, 1, 3), nth(y, 1, 1, 3), lastDow(y, 4, 1), observed(new Date(y, 5, 19)),
+          observed(new Date(y, 6, 4)), nth(y, 8, 1, 1), nth(y, 9, 1, 2), observed(new Date(y, 10, 11)), nth(y, 10, 4, 4),
+          observed(new Date(y, 11, 25))].map(iso);
+}
+function isHoliday(d) { return holidays(d.getFullYear()).indexOf(iso(d)) >= 0; }
+function thanksgivingWeek(d) { var t = nth(d.getFullYear(), 10, 4, 4); var mon = add(t, -3); return d >= mon && d <= add(mon, 6) ? add(mon, -3) : null; }
+function ruleDate(r, base) {
+  var d = add(base[r.base], r.off);
+  if (r.snap != null) while (d.getDay() !== r.snap) d = add(d, -1);
+  if (r.tg) { var f = thanksgivingWeek(d); if (f) d = f; }
+  while (isHoliday(d) && r.snap != null) { d = add(d, 1); while (d.getDay() === 0 || d.getDay() === 6) d = add(d, 1); }
+  return d;
+}
+
+// ---- trip helpers ----
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function off(tag) {
+  if (!tag) return false;
+  var s = (TRIP.sideTrips || []).filter(function (x) { return x.name === tag; })[0];
+  return s ? !s.on : false;
+}
+function shown(list) { return (list || []).filter(function (x) { return !off(x.tag); }); }
+function nld() { return parseD(TRIP.nldDate); }
+function title() { var t = (TRIP.title || '').trim(), y = (TRIP.nldDate || '').slice(0, 4); return /\b(19|20)\d\d\b/.test(t) ? t : (t + ' ' + y).trim(); }
+function visibleDays() {
+  return (TRIP.days || []).map(function (d) { return { offset: +d.offset || 0, title: d.title, rows: shown(d.rows) }; })
+    .filter(function (d) { return d.rows.length; }).sort(function (a, b) { return a.offset - b.offset; });
+}
+function bounds() {
+  var n = nld(), days = visibleDays();
+  if (!n) return null;
+  var s = days.length ? days[0].offset : 0, e = days.length ? days[days.length - 1].offset : 0;
+  return { start: add(n, s), nld: n, end: add(n, e) };
+}
+function dateById(id) { var b = bounds(); if (!b) return null; var r = KEY_DATES.filter(function (k) { return k.id === id; })[0]; return ruleDate(r, b); }
+function offsets(str) { return String(str || '').split(/[,\s]+/).filter(Boolean).map(Number).filter(function (x) { return !isNaN(x); }); }
+function money(n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+// ---- render the plan ----
+function renderPlan() {
+  var t = TRIP, b = bounds(), status = t.nldStatus === 'confirmed' ? '' : ' <span class="tbc">(expected; confirm on the NHQ NLD page)</span>';
+  document.title = 'NLD Operations Plan - ' + title();
+  document.querySelectorAll('[data-t]').forEach(function (el) { var k = el.getAttribute('data-t'); el.textContent = k === 'title' ? title() + ' Operations Plan' : (t[k] || ''); });
+  document.querySelectorAll('[data-d]').forEach(function (el) {
+    var k = el.getAttribute('data-d'); el.textContent = fmt(k === 'start' ? b && b.start : dateById(k));
+  });
+  var c = t.capacity || {};
+  document.getElementById('size-t').textContent = 'no more than ' + c.cadetsMax + ' cadets and ' + c.seniorsMax + ' senior members; no fewer than ' + c.cadetsMin + ' cadets and ' + c.seniorsMin + ' senior members.';
+
+  var on = (t.sideTrips || []).filter(function (s) { return s.on; }).map(function (s) { return s.name; });
+  document.getElementById('glance-t').innerHTML = [
+    ['Activity', esc(title())],
+    ['Purpose', 'Tell our members of Congress, in person, what CAP volunteers do for the state and the nation.'],
+    ['Trip dates', b ? '<span class="em">' + fmt(b.start) + ' - ' + fmt(b.end) + '</span>' : ''],
+    ['Day on Capitol Hill', b ? '<span class="em">' + fmt(b.nld) + '</span>' + status : ''],
+    ['Where', esc(t.where)], ['Sponsor', esc(t.sponsor)],
+    ['Activity Director', '<span data-fill="director" class="placeholder">Load participant file</span>'],
+    ['Sign-in', esc(t.signIn)],
+    ['Size', c.cadetsMin + '-' + c.cadetsMax + ' cadets and ' + c.seniorsMin + '-' + c.seniorsMax + ' senior members'],
+    ['Side trips', on.length ? esc(on.join(', ')) : 'None'],
+    ['Cost', 'About $' + esc(t.fee) + ' per person for lodging and travel. Bring money for lunches, some dinners, and souvenirs.'],
+    ['Funding', esc(t.funding)]
+  ].map(function (r) { return '<tr><td>' + r[0] + '</td><td>' + r[1] + '</td></tr>'; }).join('');
+  if (window.PEOPLE_RENDER) window.PEOPLE_RENDER();
+
+  document.getElementById('confirm-l').innerHTML = (t.confirm || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('');
+
+  var h = '<tr><th>Date</th><th>What</th><th>Who</th></tr>', phase = '';
+  if (b) KEY_DATES.forEach(function (r) {
+    if (r.phase !== phase) { phase = r.phase; h += '<tr class="day"><td colspan="3"><h3>' + phase + '</h3></td></tr>'; }
+    h += '<tr><td class="t">' + fmt(ruleDate(r, b)) + '</td><td>' + esc(r.what) + (r.id === 'nld' && t.nldStatus !== 'confirmed' ? ' <span class="tbc">(expected)</span>' : '') + '</td><td>' + esc(r.who) + '</td></tr>';
+  });
+  document.getElementById('dates-t').innerHTML = h;
+
+  h = '<tr><th>Time</th><th>Event</th><th>Where</th></tr>';
+  visibleDays().forEach(function (d, i) {
+    h += '<tr class="day"><td colspan="3"><h3>Day ' + (i + 1) + ' &middot; ' + fmt(nld() && add(nld(), d.offset)) + ' &middot; ' + esc(d.title) + '</h3></td></tr>';
+    d.rows.forEach(function (r) { h += '<tr><td class="t">' + esc(r.time) + '</td><td>' + esc(r.event) + '</td><td>' + esc(r.where) + '</td></tr>'; });
+  });
+  document.getElementById('schedule-t').innerHTML = h;
+
+  document.getElementById('lodging-g').innerHTML = shown(t.lodging).map(function (l) {
+    var ns = offsets(l.nights), head = ns.length && nld() ? (ns.length > 1 ? 'Nights of ' : 'Night of ') + ns.map(function (o) { return fmt(add(nld(), o)); }).join(' and ') : 'Venue';
+    return '<div class="card"><h4>' + esc(head) + '</h4><p>' + esc(l.name) + '</p><p>' + esc(l.address) + '</p>' + (l.phone ? '<p>' + esc(l.phone) + '</p>' : '') + (l.status ? '<p class="tbc">' + esc(l.status) + '</p>' : '') + '</div>';
+  }).join('');
+  document.getElementById('equip-l').innerHTML = [t.vehicle].concat(t.equipment || []).filter(Boolean).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('');
+
+  document.getElementById('legs-t').innerHTML = '<tr><th>Leg</th><th class="n">Distance</th><th class="n">Drive time</th><th>Planned stops</th><th>Route</th></tr>' +
+    shown(t.legs).map(function (l) {
+      return '<tr><td>' + esc(l.from) + ' to ' + esc(l.to) + (l.map ? ' <a class="key" href="' + esc(l.map) + '" target="_blank" rel="noopener">map</a>' : '') + '</td><td class="n">' + (l.miles ? esc(l.miles) + ' mi' : '') + '</td><td class="n">' + esc(l.time) + '</td><td>' + esc(l.stops) + '</td><td>' + esc(l.route) + '</td></tr>';
+    }).join('');
+  document.getElementById('metro-t').innerHTML = '<tr><th>Day</th><th>From</th><th>To</th><th>Lines</th></tr>' +
+    (t.metro || []).map(function (m) {
+      var d = nld() ? add(nld(), +m.day || 0) : null;
+      return '<tr><td>' + (d ? DOW[d.getDay()] + ' ' + d.getDate() + ' ' + MON[d.getMonth()] : '') + '</td><td>' + esc(m.from) + '</td><td>' + esc(m.to) + '</td><td>' + esc(m.lines) + '</td></tr>';
+    }).join('');
+
+  document.getElementById('hosp-g').innerHTML = shown(t.hospitals).map(function (x) {
+    return '<div class="card"><h4>' + esc(x.area) + '</h4><p>' + esc(x.name) + '</p><p>' + esc(x.address) + '</p><p>' + esc(x.phone) + '</p></div>';
+  }).join('') + '<div class="card"><h4>Any emergency</h4><p>Call 911 first, then a senior member. On Metro, tell any Metro Transit Police officer, station manager, or train operator.</p></div>';
+
+  var rows = shown(t.budget), prior = 0, plan = 0, open = 0;
+  h = '<tr><th>Item</th><th class="n">Prior year</th><th class="n">Plan</th></tr>';
+  rows.forEach(function (r) {
+    var p = parseFloat(r.prior), q = parseFloat(r.plan);
+    if (!isNaN(p)) prior += p; if (!isNaN(q)) plan += q; else open++;
+    h += '<tr><td>' + esc(r.item) + '</td><td class="n">' + (isNaN(p) ? '' : money(p)) + '</td><td class="n">' + (isNaN(q) ? '<span class="tbc">re-quote</span>' : money(q)) + '</td></tr>';
+  });
+  h += '<tr><td class="em">Total</td><td class="n">' + money(prior) + '</td><td class="n">' + money(plan) + (open ? ' + ' + open + ' to quote' : '') + '</td></tr>';
+  document.getElementById('budget-t').innerHTML = h;
+  var pot = (+t.fee || 0) * (+t.headcount || 0), left = pot - plan;
+  document.getElementById('budget-p').innerHTML = 'At $' + esc(t.fee) + ' per person (' + esc(t.headcount) + ' people, ' + money(pot) + '), ' +
+    (open ? 'the fee leaves <span class="em">' + money(left) + '</span> for the ' + open + ' item' + (open > 1 ? 's' : '') + ' still to quote.'
+          : (left >= 0 ? 'the fee covers the plan with ' + money(left) + ' to spare.' : '<span class="em">the plan is ' + money(-left) + ' over the fee.</span>'));
+
+  var trips = (t.sideTrips || []).filter(function (s) { return s.on && s.describe; }).map(function (s) { return s.describe; });
+  var accept = dateById('accept');
+  document.getElementById('nom-email').innerHTML = '<span class="em">Subject:</span> You\'ve been nominated for ' + esc(title()) + '\n\nGood morning,\n\n' +
+    'Because of your strong work in your squadron and at wing events, you\'ve been nominated to join our delegation to CAP National Legislative Day, ' + (b ? esc(fmtLong(b.start)) + ' to ' + esc(fmtLong(b.end)) : '') + '.\n\n' +
+    'National Legislative Day is when CAP wings from across the country meet in Washington, DC. It is our chance to tell our members of Congress what CAP members do. ' + esc(t.nominationHighlights || '') + '\n\n' +
+    'The trip may also include a tour of the Capitol, a CAP reception' + (trips.length ? ', ' + esc(trips.join(', ')) : '') + '.\n\n' +
+    'The cost is about $' + esc(t.fee) + ' for lodging and travel. Bring spending money for lunches, some dinners, and souvenirs. Sign-in is the evening of ' + (b ? esc(fmtLong(b.start)) : '') + '.\n\n' +
+    'Please reply by ' + esc(fmtLong(accept)) + ' to hold your spot. If your squadron will sponsor you, let your commander know by the same date.\n\nLet me know if you have any questions.';
+  document.getElementById('aar-email').innerHTML = '<span class="em">Subject:</span> ' + esc(title()) + ' after action survey\n\nGood evening,\n\nI hope you caught up on rest after our trip.\n\n' +
+    'Please fill out the after action survey by ' + esc(fmtLong(dateById('survey'))) + ' so we can finish our review on time.\n\n' +
+    'Cadet leads: please set a time for the cadets to meet and build a short presentation for Wing Conference. You will brief the senior members on your experience and what National Legislative Day did for the wing.\n\nLet me know if you have any questions.';
+
+  document.getElementById('lessons-l').innerHTML = (t.lessons || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('');
+
+  if (!F160_TOUCHED) {
+    document.getElementById('f-activity').value = title();
+    document.getElementById('f-date').value = b ? iso(b.start) : '';
+  }
+}
+
+// ---- setup editor ----
+function setDirty(v) { TRIP_DIRTY = v; document.getElementById('dirty').textContent = v ? 'Unsaved changes' : ''; }
+function changed() { setDirty(true); renderPlan(); }
+function field(label, obj, key, type, wide) {
+  var w = document.createElement('label'); w.className = 'fld' + (wide ? ' wide' : '');
+  w.appendChild(document.createTextNode(label));
+  var el;
+  if (type === 'textarea') { el = document.createElement('textarea'); el.rows = 3; }
+  else if (type === 'select') { el = document.createElement('select'); ['expected', 'confirmed'].forEach(function (o) { var op = document.createElement('option'); op.value = op.textContent = o; el.appendChild(op); }); }
+  else { el = document.createElement('input'); el.type = type || 'text'; }
+  el.value = obj[key] == null ? '' : obj[key];
+  el.addEventListener('input', function () { obj[key] = type === 'number' ? +el.value : el.value; changed(); });
+  w.appendChild(el); return w;
+}
+function linesField(label, obj, key) {
+  var w = document.createElement('label'); w.className = 'fld wide';
+  w.appendChild(document.createTextNode(label + ' (one per line)'));
+  var el = document.createElement('textarea'); el.rows = Math.max(3, (obj[key] || []).length + 1);
+  el.value = (obj[key] || []).join('\n');
+  el.addEventListener('input', function () { obj[key] = el.value.split('\n').map(function (x) { return x.trim(); }).filter(Boolean); changed(); });
+  w.appendChild(el); return w;
+}
+function listTable(arr, cols, blank, hint) {
+  var wrap = document.createElement('div');
+  var tb = document.createElement('table'); tb.className = 'edit';
+  tb.innerHTML = '<tr>' + cols.map(function (c) { return '<th>' + esc(c.label) + '</th>'; }).join('') + '<th></th></tr>';
+  arr.forEach(function (row, i) {
+    var tr = document.createElement('tr');
+    cols.forEach(function (c) {
+      var td = document.createElement('td'), el = document.createElement('input');
+      if (c.type === 'checkbox') { el.type = 'checkbox'; el.checked = !!row[c.k]; el.addEventListener('change', function () { row[c.k] = el.checked; changed(); }); }
+      else { el.type = 'text'; el.value = row[c.k] == null ? '' : row[c.k]; if (c.k === 'tag') el.setAttribute('list', 'sidetrip-names');
+             el.addEventListener('input', function () { row[c.k] = el.value; changed(); }); }
+      el.setAttribute('aria-label', c.label); if (c.w) td.style.width = c.w;
+      td.appendChild(el); tr.appendChild(td);
+    });
+    var td = document.createElement('td'), x = document.createElement('button');
+    x.type = 'button'; x.className = 'x'; x.textContent = 'Remove'; x.addEventListener('click', function () { arr.splice(i, 1); changed(); renderSetup(); });
+    td.appendChild(x); tr.appendChild(td); tb.appendChild(tr);
+  });
+  wrap.appendChild(tb);
+  var a = document.createElement('button'); a.type = 'button'; a.className = 'quiet add'; a.textContent = 'Add row';
+  a.addEventListener('click', function () { arr.push(JSON.parse(JSON.stringify(blank))); changed(); renderSetup(); });
+  wrap.appendChild(a);
+  if (hint) { var p = document.createElement('p'); p.className = 'src'; p.textContent = hint; wrap.appendChild(p); }
+  return wrap;
+}
+function section(out, title, note, plain) {
+  var h = document.createElement('h2'); h.textContent = title; out.appendChild(h);
+  if (note) { var p = document.createElement('p'); p.className = 'note'; p.textContent = note; out.appendChild(p); }
+  var g = document.createElement('div'); g.className = plain ? 'block' : 'fields'; out.appendChild(g); return g;
+}
+function renderSetup() {
+  var t = TRIP, out = document.getElementById('setup-out'); out.innerHTML = '';
+  var dl = document.createElement('datalist'); dl.id = 'sidetrip-names';
+  (t.sideTrips || []).forEach(function (s) { var o = document.createElement('option'); o.value = s.name; dl.appendChild(o); });
+  out.appendChild(dl);
+
+  var g = section(out, 'Event', 'Set the NLD date and every date in the plan follows: trip days, key dates, emails, forms, and the CAPF 160 date.');
+  g.appendChild(field('Activity title (the year comes from the NLD date unless you type one)', t, 'title', 'text', true));
+  g.appendChild(field('NLD date (day on Capitol Hill)', t, 'nldDate', 'date'));
+  g.appendChild(field('NLD date status', t, 'nldStatus', 'select'));
+  g.appendChild(field('Sponsor', t, 'sponsor', 'text', true));
+  g.appendChild(field('Where', t, 'where', 'text', true));
+  g.appendChild(field('Sign-in', t, 'signIn', 'text', true));
+  g.appendChild(field('Funding', t, 'funding', 'text', true));
+  g.appendChild(linesField('To confirm', t, 'confirm'));
+
+  g = section(out, 'Size and cost');
+  t.capacity = t.capacity || {};
+  g.appendChild(field('Cadets, min', t.capacity, 'cadetsMin', 'number'));
+  g.appendChild(field('Cadets, max', t.capacity, 'cadetsMax', 'number'));
+  g.appendChild(field('Senior members, min', t.capacity, 'seniorsMin', 'number'));
+  g.appendChild(field('Senior members, max', t.capacity, 'seniorsMax', 'number'));
+  g.appendChild(field('Fee per person ($)', t, 'fee', 'number'));
+  g.appendChild(field('Budget headcount', t, 'headcount', 'number'));
+
+  section(out, 'Side trips', 'Turn a side trip off to hide every row tagged with its name (schedule, lodging, legs, hospitals, budget). Check the days around it after.', true)
+    .appendChild(listTable(t.sideTrips = t.sideTrips || [], [{ k: 'on', label: 'On', type: 'checkbox', w: '50px' }, { k: 'name', label: 'Name (tag)' }, { k: 'describe', label: 'Phrase for the nomination email' }], { name: '', on: true, describe: '' }));
+
+  var sg = section(out, 'Schedule', 'Day offset counts from the NLD date: -2 is two days before, 0 is the Hill day. Tag a row with a side trip name to tie it to that side trip.', true);
+  (t.days = t.days || []).forEach(function (d, i) {
+    var box = document.createElement('div'); box.className = 'daybox';
+    var head = document.createElement('div'); head.className = 'fields';
+    head.appendChild(field('Day offset', d, 'offset', 'number'));
+    head.appendChild(field('Day title', d, 'title', 'text'));
+    var rm = document.createElement('button'); rm.type = 'button'; rm.className = 'x'; rm.textContent = 'Remove day';
+    rm.addEventListener('click', function () { t.days.splice(i, 1); changed(); renderSetup(); });
+    head.appendChild(rm); box.appendChild(head);
+    box.appendChild(listTable(d.rows = d.rows || [], [{ k: 'time', label: 'Time', w: '110px' }, { k: 'event', label: 'Event' }, { k: 'where', label: 'Where' }, { k: 'tag', label: 'Side trip', w: '120px' }], { time: '', event: '', where: '', tag: '' }));
+    sg.appendChild(box);
+  });
+  var ad = document.createElement('button'); ad.type = 'button'; ad.className = 'quiet add'; ad.textContent = 'Add day';
+  ad.addEventListener('click', function () { var m = t.days.reduce(function (a, d) { return Math.max(a, +d.offset); }, -3); t.days.push({ offset: m + 1, title: '', rows: [] }); changed(); renderSetup(); });
+  sg.appendChild(ad);
+
+  section(out, 'Lodging and venues', 'Nights are day offsets, comma separated (e.g. -1, 0). Leave blank for a venue that is not an overnight.', true)
+    .appendChild(listTable(t.lodging = t.lodging || [], [{ k: 'nights', label: 'Nights', w: '80px' }, { k: 'name', label: 'Name' }, { k: 'address', label: 'Address' }, { k: 'phone', label: 'Phone', w: '120px' }, { k: 'status', label: 'Status' }, { k: 'tag', label: 'Side trip', w: '110px' }], { nights: '', name: '', address: '', phone: '', status: '', tag: '' }));
+  g = section(out, 'Vehicle and equipment');
+  g.appendChild(field('Vehicle', t, 'vehicle', 'text', true));
+  g.appendChild(linesField('Equipment', t, 'equipment'));
+
+  section(out, 'Drive legs', 'Take times and distances from your map app; paste the map link.', true)
+    .appendChild(listTable(t.legs = t.legs || [], [{ k: 'from', label: 'From' }, { k: 'to', label: 'To' }, { k: 'miles', label: 'Miles', w: '60px' }, { k: 'time', label: 'Drive time', w: '100px' }, { k: 'stops', label: 'Planned stops' }, { k: 'route', label: 'Route' }, { k: 'map', label: 'Map link' }, { k: 'tag', label: 'Side trip', w: '100px' }], { from: '', to: '', miles: '', time: '', stops: '', route: '', map: '', tag: '' }));
+  g = section(out, ''); g.appendChild(field('Note under the legs table', t, 'legsNote', 'text', true));
+  section(out, 'Metro trips', 'Day is the offset from the NLD date.', true)
+    .appendChild(listTable(t.metro = t.metro || [], [{ k: 'day', label: 'Day', w: '60px' }, { k: 'from', label: 'From' }, { k: 'to', label: 'To' }, { k: 'lines', label: 'Lines' }], { day: '0', from: '', to: '', lines: '' }));
+  section(out, 'Hospitals', null, true)
+    .appendChild(listTable(t.hospitals = t.hospitals || [], [{ k: 'area', label: 'Area' }, { k: 'name', label: 'Hospital' }, { k: 'address', label: 'Address' }, { k: 'phone', label: 'Phone', w: '120px' }, { k: 'tag', label: 'Side trip', w: '110px' }], { area: '', name: '', address: '', phone: '', tag: '' }));
+  g = section(out, 'Food and sleep');
+  g.appendChild(field('Food plan', t, 'food', 'textarea', true));
+  g.appendChild(field('Sleep plan', t, 'sleep', 'textarea', true));
+  section(out, 'Budget', 'Leave Plan blank for anything that still needs a quote.', true)
+    .appendChild(listTable(t.budget = t.budget || [], [{ k: 'item', label: 'Item' }, { k: 'prior', label: 'Prior year', w: '100px' }, { k: 'plan', label: 'Plan', w: '100px' }, { k: 'tag', label: 'Side trip', w: '110px' }], { item: '', prior: '', plan: '', tag: '' }));
+  g = section(out, ''); g.appendChild(field('Note above the budget', t, 'budgetNote', 'text', true));
+  g = section(out, 'Messages and lessons');
+  g.appendChild(field('Nomination email: past-trip highlights', t, 'nominationHighlights', 'textarea', true));
+  g.appendChild(linesField('Lessons carried forward', t, 'lessons'));
+}
+
+function loadTrip(obj, label) {
+  TRIP = obj; F160_TOUCHED = false; setDirty(false);
+  document.getElementById('tripfile').textContent = label;
+  renderPlan(); renderSetup();
+}
+document.getElementById('f-activity').addEventListener('input', function () { F160_TOUCHED = true; });
+document.getElementById('f-date').addEventListener('input', function () { F160_TOUCHED = true; });
+document.getElementById('mode').addEventListener('click', function () {
+  var s = document.getElementById('setup').hidden;
+  document.getElementById('setup').hidden = !s; document.getElementById('plan').hidden = s; document.getElementById('toc').hidden = s;
+  this.textContent = s ? 'Back to plan' : 'Setup'; window.scrollTo(0, 0);
+});
+document.getElementById('save-trip').addEventListener('click', function () {
+  var a = document.createElement('a'), y = (TRIP.nldDate || '').slice(0, 4) || 'trip';
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(TRIP, null, 2)], { type: 'application/json' }));
+  a.download = 'nld-trip-' + y + '.json'; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  setDirty(false); document.getElementById('tripfile').textContent = 'Trip file nld-trip-' + y + '.json';
+});
+document.getElementById('tripin').addEventListener('change', function (e) {
+  var f = e.target.files[0]; if (!f) return;
+  var rd = new FileReader();
+  rd.onload = function () {
+    try {
+      var o = JSON.parse(rd.result);
+      if (o.format !== 'nld-trip/1') throw new Error('not an NLD trip file');
+      loadTrip(o, 'Trip file ' + f.name);
+    } catch (err) { document.getElementById('dirty').textContent = 'Could not load: ' + err.message; }
+  };
+  rd.readAsText(f); e.target.value = '';
+});
+document.getElementById('reset-trip').addEventListener('click', function () { loadTrip(JSON.parse(JSON.stringify(DEFAULT_TRIP)), 'Built-in trip'); });
+window.addEventListener('beforeunload', function (e) { if (TRIP_DIRTY) { e.preventDefault(); e.returnValue = ''; } });
+loadTrip(JSON.parse(JSON.stringify(DEFAULT_TRIP)), 'Built-in trip');
 </script>
 <script>
 // ---- CAPF 160: common risks for this trip and event (edit here; same rows go to the page and the PDF) ----
