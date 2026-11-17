@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.1 - 2026-11-17
+
+- Lodging brief: one line per overnight stop with its nights; room count shown on the budgeted hotel line instead of its own line.
+
 ## 0.5.0 - 2026-11-17
 
 - Budget restated in today's costs by category: lodging, travel, per diem (meals), gear. Brief shows per person and total for the maximum and the best case, plus pay-to-play cost per person.

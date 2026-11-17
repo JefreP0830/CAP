@@ -877,8 +877,9 @@
       "name": "Catamount Composite Squadron",
       "address": "Hartness State Airport, 15 Airport Rd, North Springfield, VT 05150",
       "phone": "",
-      "status": "Confirm building use",
-      "tag": ""
+      "status": "Squadron building, no cost; confirm use",
+      "tag": "",
+      "hotel": false
     },
     {
       "nights": "-1, 0",
@@ -886,15 +887,17 @@
       "address": "2020 Richmond Hwy, Arlington, VA 22202",
       "phone": "703-892-1050",
       "status": "2025 hotel; not yet booked",
-      "tag": ""
+      "tag": "",
+      "hotel": true
     },
     {
       "nights": "1",
       "name": "Camp Allegheny, Hawthorn Lodge",
       "address": "100 Camp Allegheny Dr, Stoystown, PA 15563",
       "phone": "",
-      "status": "Not yet booked",
-      "tag": "Flight 93"
+      "status": "Flight 93 side trip; not yet booked",
+      "tag": "Flight 93",
+      "hotel": false
     },
     {
       "nights": "",
@@ -902,7 +905,8 @@
       "address": "1700 Richmond Hwy, Arlington, VA 22202",
       "phone": "",
       "status": "2025 venue for the AIB and reception; confirm. Five minutes on foot from the hotel.",
-      "tag": ""
+      "tag": "",
+      "hotel": false
     }
   ],
   "equipment": [
@@ -1263,8 +1267,9 @@ function renderPlan() {
   ].map(function (x) { return '<li>' + x + '</li>'; }).join('');
   var q = rates();
   document.getElementById('lodging-b').innerHTML = shown(t.lodging).filter(function (l) { return offsets(l.nights).length; }).map(function (l) {
-    var ns = offsets(l.nights); return '<li>' + esc(l.name) + ': ' + ns.length + (ns.length > 1 ? ' nights' : ' night') + (l.status ? ' <span class="tbc">(' + esc(l.status) + ')</span>' : '') + '</li>';
-  }).join('') + '<li>Rooms budgeted at the DC hotel: ' + (+q.cadetRooms + +q.adultRooms) + ' (' + q.cadetRooms + ' cadet, ' + q.adultRooms + ' adult).</li>' +
+    var ns = offsets(l.nights), nn = nld() ? ns.map(function (o) { var d = add(nld(), o); return DOW[d.getDay()] + ' ' + d.getDate() + ' ' + MON[d.getMonth()]; }).join(', ') : '';
+    return '<li>' + (nn ? nn + ': ' : '') + esc(l.name) + (l.hotel ? ', ' + (+q.cadetRooms + +q.adultRooms) + ' rooms budgeted (' + q.cadetRooms + ' cadet, ' + q.adultRooms + ' adult; best case ' + (+q.bestCadetRooms + +q.bestAdultRooms) + ')' : '') + (l.status ? ' <span class="tbc">(' + esc(l.status) + ')</span>' : '') + '</li>';
+  }).join('') +
     (t.rooming || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('');
   document.getElementById('transport-b').innerHTML = [
     esc(t.vehicle) + '; about ' + esc(q.miles) + ' miles round trip.',
@@ -1475,7 +1480,7 @@ function renderSetup() {
   sg.appendChild(ad);
 
   section(out, 'Lodging and venues', 'Nights are day offsets, comma separated (e.g. -1, 0). Leave blank for a venue that is not an overnight.', true)
-    .appendChild(listTable(t.lodging = t.lodging || [], [{ k: 'nights', label: 'Nights', w: '80px' }, { k: 'name', label: 'Name' }, { k: 'address', label: 'Address' }, { k: 'phone', label: 'Phone', w: '120px' }, { k: 'status', label: 'Status' }, { k: 'tag', label: 'Side trip', w: '110px' }], { nights: '', name: '', address: '', phone: '', status: '', tag: '' }));
+    .appendChild(listTable(t.lodging = t.lodging || [], [{ k: 'nights', label: 'Nights', w: '80px' }, { k: 'hotel', label: 'Budgeted hotel', type: 'checkbox', w: '70px' }, { k: 'name', label: 'Name' }, { k: 'address', label: 'Address' }, { k: 'phone', label: 'Phone', w: '120px' }, { k: 'status', label: 'Status' }, { k: 'tag', label: 'Side trip', w: '110px' }], { nights: '', hotel: false, name: '', address: '', phone: '', status: '', tag: '' }));
   g = section(out, 'Vehicle and equipment');
   g.appendChild(field('Vehicle', t, 'vehicle', 'text', true));
   g.appendChild(linesField('Equipment', t, 'equipment'));
