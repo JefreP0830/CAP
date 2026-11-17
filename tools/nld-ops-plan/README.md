@@ -1,6 +1,7 @@
 # NLD Operations Plan (Vermont Wing)
 
-The wing's plan for CAP National Legislative Day 2027 as one printable page:
+The wing's plan for CAP National Legislative Day as one printable page: a short brief
+(approach and key assumptions per plan area) followed by appendices with the detail:
 at-a-glance facts, open items, key dates, day-by-day schedule, lodging, routes and Metro,
 safety (mirrors the CAPF 160), packing, forms, budget, message templates, and the AAR survey.
 

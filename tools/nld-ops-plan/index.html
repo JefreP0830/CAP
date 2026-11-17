@@ -80,6 +80,12 @@
     .form160 input::-webkit-calendar-picker-indicator { display: none; }
     .form160 input { border: 0; border-bottom: 1px solid var(--silver); border-radius: 0; padding: 2px 0; }
   }
+  .rowsform { display: grid; gap: 6px; margin: 0 0 8pt; }
+  .rowsform .fld { display: grid; grid-template-columns: 260px 1fr; align-items: center; gap: 10px; }
+  .rowsform .fld .inl { display: grid; grid-template-columns: repeat(4, 80px); gap: 8px; }
+  .rowsform .fld .inl input { font: 10.5pt Arial, Helvetica, sans-serif; padding: 5px 7px; border: 1px solid var(--silver); border-radius: 4px; }
+  #con-t td.t { width: 80px; }
+  @media (max-width: 640px) { .rowsform .fld { grid-template-columns: 1fr; } }
   [hidden] { display: none !important; }
   main#setup { max-width: 1240px; }
   .daybox > .fields { grid-template-columns: 120px 1fr auto; }
@@ -123,43 +129,51 @@
   <h2 id="glance">At a glance</h2>
   <table class="glance" id="glance-t"></table>
 
-  <h2 id="confirm">To confirm</h2>
-  <p class="note">Open items before this plan is final. Each one changes a date, a cost, or a place below.</p>
+  <h2 id="brief-con">1. Concept of operations</h2>
+  <p>A small wing delegation drives to the DC area, uses Metro on Capitol Hill, meets each member of the state's congressional delegation, then returns with optional side trips on the way home. Detail: Appendix A.</p>
+  <table id="con-t"></table>
+
+  <h2 id="brief-people">2. Personnel and supervision</h2>
+  <ul id="people-b"></ul>
+
+  <h2 id="brief-lodging">3. Lodging and rooming</h2>
+  <ul id="lodging-b"></ul>
+
+  <h2 id="brief-transport">4. Transportation</h2>
+  <ul id="transport-b"></ul>
+
+  <h2 id="brief-safety">5. Safety</h2>
+  <ul>
+    <li>Deliberate risk assessment (CAPF 160) covers 13 common risks; highest residual risk is <span class="em">LOW</span>. Approval authority signs before travel (Appendix E).</li>
+    <li>Safety brief at sign-in. Wingman pairs, headcount at every move, daily rally point, senior member room checks each night.</li>
+    <li>Weather and news go/no-go the day before travel and each driving day. Nearest hospitals listed in Appendix E.</li>
+  </ul>
+
+  <h2 id="brief-budget">6. Budget</h2>
+  <ul id="budget-b"></ul>
+
+  <h2 id="brief-timeline">7. Timeline</h2>
+  <p class="note">Backward plan from sign-in; full list in Appendix B.</p>
+  <table id="milestones-t"></table>
+
+  <h2 id="confirm">8. Open items</h2>
   <ol id="confirm-l"></ol>
 
-  <h2 id="dates">Key dates</h2>
-  <p class="note">Backward plan from sign-in, recalculated from the NLD date. Wing planning deadlines, not regulation dates. Federal holidays and Thanksgiving week are stepped around.</p>
-  <table id="dates-t"></table>
-
-  <h2 id="goals">Goals</h2>
-  <p>Hundreds of CAP members meet with Congress on National Legislative Day. The aim is to inform Congress about CAP's volunteers, operations, and programs, with a focus on state and local impact. Each member's own story shows members of Congress how CAP serves the nation, the state, and thousands of communities.</p>
-  <h3>What participants learn</h3>
-  <ul>
-    <li>Leadership in a real setting</li>
-    <li>How the federal government works, first-hand</li>
-    <li>Teamwork</li>
-    <li>Communication: telling a short, true CAP story</li>
-    <li>Representing CAP and the wing</li>
-  </ul>
-
-  <h2 id="who">Who goes</h2>
-  <ul>
-    <li><span class="em">Selection:</span> Cadet Programs nominates active members who take part in wing activities and represent the wing well. Notice goes by email.</li>
-    <li><span class="em">Size:</span> <span id="size-t"></span></li>
-    <li><span class="em">Fitness:</span> expect long walks around Capitol Hill and DC (several miles a day). Anyone who cannot walk that far should tell the Activity Director early so arrangements can be made.</li>
-  </ul>
-
-  <h2 id="schedule" class="pb">Schedule</h2>
+  <h2 id="schedule" class="pb">Appendix A &middot; Detailed schedule</h2>
   <p class="note">Subject to change. Hill meeting times are set when each office confirms. UOD is uniform of the day.</p>
   <table id="schedule-t"></table>
 
-  <h2 id="lodging">Lodging</h2>
+  <h2 id="dates">Appendix B &middot; Key dates</h2>
+  <p class="note">Backward plan from sign-in, recalculated from the NLD date. Wing planning deadlines, not regulation dates. Federal holidays and Thanksgiving week are stepped around.</p>
+  <table id="dates-t"></table>
+
+  <h2 id="lodging">Appendix C &middot; Lodging, venues, and equipment</h2>
   <div class="grid" id="lodging-g"></div>
-  <p>One cadet in each room is the room lead. Room lists build from the participant file (see <a class="key" href="#people">People and rooms</a>).</p>
+  <p>One cadet in each room is the room lead. Room lists build from the participant file (Appendix F).</p>
   <h3>Equipment</h3>
   <ul id="equip-l"></ul>
 
-  <h2 id="transport">Transport</h2>
+  <h2 id="transport">Appendix D &middot; Transport details</h2>
   <p>The group drives to and from DC and uses Metro inside DC. Drivers swap at every stop; no one drives more than about 3 hours in a stretch. Gas stops take only the time needed to fuel.</p>
   <table id="legs-t"></table>
   <p class="src" data-t="legsNote"></p>
@@ -171,7 +185,7 @@
     <p>Fare cards are handed out just before each turnstile and collected right after it, on entry and exit.</p>
   </div>
 
-  <h2 id="safety" class="pb">Safety</h2>
+  <h2 id="safety" class="pb">Appendix E &middot; Safety</h2>
   <h3>Risk assessment (CAPF 160)</h3>
   <p class="note">Common risks for this trip and event, the same each year. Fill in blocks 1-3, then download the official CAPF 160 with everything filled. The approval authority signs block 12. Nothing typed here is saved.</p>
   <div class="form160">
@@ -223,11 +237,11 @@
     <li><span class="em">Sleep:</span> <span data-t="sleep"></span></li>
   </ul>
 
-  <h2 id="people" class="pb">People and rooms</h2>
+  <h2 id="people">Appendix F &middot; People and rooms</h2>
   <p class="note">Names and phones never live in this page. Load the participant file from the wing share to fill this section; nothing is saved when you close the page.</p>
   <div id="people-out"><p class="placeholder">No participant file loaded. Use "Blank participant file" for the columns.</p></div>
 
-  <h2 id="packing">Packing list</h2>
+  <h2 id="packing">Appendix G &middot; Packing list</h2>
   <div class="cols3">
     <div><h3>Backpack (18 x 14 x 8.5 in)</h3><ul>
       <li>Things to pass the drive: book, phone, tablet, games, notebook. Anything with sound needs headphones.</li>
@@ -244,7 +258,7 @@
       <h3>Leave at the hotel</h3><ul><li>Knives and multitools, aerosol cans, and anything sharp: Capitol and office building security will stop them</li></ul></div>
   </div>
 
-  <h2 id="forms">Forms</h2>
+  <h2 id="forms">Appendix H &middot; Forms</h2>
   <p>All forms are due at sign-in, <span data-d="start"></span>. Use the current revision from the CAP Publication Library.</p>
   <table>
     <tr><th>Form</th><th>Who</th></tr>
@@ -255,18 +269,37 @@
     <tr><td>CAPF 160, deliberate risk assessment</td><td>Activity Director prepares; approval authority signs by <span data-d="final"></span></td></tr>
   </table>
 
-  <h2 id="budget">Budget</h2>
+  <h2 id="budget">Appendix I &middot; Budget detail</h2>
   <p class="note" data-t="budgetNote"></p>
   <table id="budget-t"></table>
   <p id="budget-p"></p>
 
-  <h2 id="messages">Messages</h2>
+  <h2 id="messages">Appendix J &middot; Messages</h2>
   <h3>Nomination email</h3>
   <div class="email" id="nom-email"></div>
   <h3>After action email</h3>
   <div class="email" id="aar-email"></div>
 
-  <h2 id="aar">After action review</h2>
+  <h2 id="goalsapp">Appendix K &middot; Goals and selection</h2>
+
+  <p>Hundreds of CAP members meet with Congress on National Legislative Day. The aim is to inform Congress about CAP's volunteers, operations, and programs, with a focus on state and local impact. Each member's own story shows members of Congress how CAP serves the nation, the state, and thousands of communities.</p>
+  <h3>What participants learn</h3>
+  <ul>
+    <li>Leadership in a real setting</li>
+    <li>How the federal government works, first-hand</li>
+    <li>Teamwork</li>
+    <li>Communication: telling a short, true CAP story</li>
+    <li>Representing CAP and the wing</li>
+  </ul>
+
+  <h3>Who goes</h3>
+  <ul>
+    <li><span class="em">Selection:</span> Cadet Programs nominates active members who take part in wing activities and represent the wing well. Notice goes by email.</li>
+    <li><span class="em">Size:</span> <span id="size-t"></span></li>
+    <li><span class="em">Fitness:</span> expect long walks around Capitol Hill and DC (several miles a day). Anyone who cannot walk that far should tell the Activity Director early so arrangements can be made.</li>
+  </ul>
+
+  <h2 id="aar">Appendix L &middot; After action review</h2>
   <p>Participants rate each item 1-5 (1 strongly disagree, 5 strongly agree), then name one part of the trip they really enjoyed and one thing to change next year.</p>
   <div class="cols3">
     <div><h3>Overall</h3><ol>
@@ -332,7 +365,7 @@
     var dir = people.filter(function (p) { return /director/i.test(p.role); })[0];
     window.PEOPLE_RENDER = function () {
       document.querySelectorAll('[data-fill="director"]').forEach(function (el) {
-        el.className = 'loaded'; el.innerHTML = dir ? who(dir) + (dir.phone ? ' &middot; ' + esc(dir.phone) : '') : 'No Activity Director in file';
+        if (!dir) return; el.className = 'loaded'; el.innerHTML = who(dir) + (dir.phone ? ' &middot; ' + esc(dir.phone) : '');
       });
     };
     window.PEOPLE_RENDER();
@@ -394,7 +427,9 @@
   "title": "National Legislative Day",
   "nldDate": "2027-02-25",
   "nldStatus": "expected",
+  "purpose": "Tell our members of Congress, in person, what CAP volunteers do for the state and the nation.",
   "sponsor": "NER-VTWG Cadet Programs and Government Relations",
+  "activityDirector": "Named by the Wing Commander",
   "where": "Capitol Hill, Washington, DC; lodging in Arlington, VA",
   "signIn": "1730-2000 on day 1. All forms due at sign-in.",
   "fee": 250,
@@ -425,14 +460,15 @@
     "Lodge and overnight sites booked; building use confirmed with host squadrons.",
     "Office meetings: request times with both Senators and the Representative; ask one Senate office for a Capitol tour.",
     "Van reserved for every trip day.",
-    "Budget: re-quote hotel and lodge.",
     "Metro: check WMATA service changes the week before.",
-    "National GRA guidance for this year (talking points, Impact Report, appropriations ask): fold into cadet prep."
+    "National GRA guidance for this year (talking points, Impact Report, appropriations ask): fold into cadet prep.",
+    "Lodge rate: Camp Allegheny does not publish it; call for the February rate."
   ],
   "days": [
     {
       "offset": -2,
       "title": "Sign-in",
+      "summary": "Muster and sign-in at Capital Composite (Berlin) and Catamount Composite (North Springfield); safety brief; overnight at Catamount.",
       "rows": [
         {
           "time": "1730",
@@ -487,6 +523,7 @@
     {
       "offset": -1,
       "title": "Drive to DC",
+      "summary": "Drive to Greenbelt, Metro to Crystal City, check in; dinner with the Wing Commander; NHQ advance briefing.",
       "rows": [
         {
           "time": "0400",
@@ -583,6 +620,7 @@
     {
       "offset": 0,
       "title": "National Legislative Day",
+      "summary": "Office meetings on Capitol Hill, Capitol tour, team debrief; CAP reception.",
       "rows": [
         {
           "time": "0630",
@@ -679,6 +717,7 @@
     {
       "offset": 1,
       "title": "Udvar-Hazy and Pennsylvania",
+      "summary": "Check out; Udvar-Hazy Center; drive to the Camp Allegheny lodge.",
       "rows": [
         {
           "time": "0900",
@@ -751,6 +790,7 @@
     {
       "offset": 2,
       "title": "Flight 93 and home",
+      "summary": "Flight 93 National Memorial (weather permitting); drive home; release at Catamount and Capital about midnight.",
       "rows": [
         {
           "time": "0700",
@@ -950,16 +990,18 @@
   "sleep": "Lights out 2130-2200 every night, room check 5 minutes before. The drive day starts at 0400, so cadets may sleep in the van. Drivers do not.",
   "budget": [
     {
-      "item": "DC hotel, 3 rooms, 2 nights",
+      "item": "DC hotel",
       "prior": "976.04",
       "plan": "",
-      "tag": ""
+      "tag": "",
+      "calc": "hotel"
     },
     {
-      "item": "Fuel, 2 legs of about 575 mi (15 mpg)",
+      "item": "Fuel",
       "prior": "227.32",
-      "plan": "227.32",
-      "tag": ""
+      "plan": "",
+      "tag": "",
+      "calc": "fuel"
     },
     {
       "item": "Parking, Greenbelt Metro",
@@ -986,19 +1028,36 @@
       "tag": "Udvar-Hazy"
     },
     {
-      "item": "Camp Allegheny lodge, 1 night",
+      "item": "Camp Allegheny lodge, 1 night (2025 price; rate not published, ask the camp)",
       "prior": "200.00",
       "plan": "200.00",
       "tag": "Flight 93"
     }
   ],
-  "budgetNote": "Prior column is 2025 actual cost for 8 people. A blank plan amount means re-quote.",
+  "budgetNote": "Prior column is 2025 actual cost for 8 people. Hotel and fuel are worked out from the rates in the Trip Editor. A blank plan amount means re-quote.",
   "nominationHighlights": "On past trips, cadets met all three members of our delegation in person and talked about crewing at the Adirondack Balloon Festival, flight academies, and encampment.",
   "lessons": [
     "Flight 93 visit was cancelled by weather in 2025: treat it as weather-dependent with a go/no-go the night before.",
     "Greenbelt parking charged once, not daily, in 2025: watch the charge before changing the budget."
+  ],
+  "rates": {
+    "hotelRate": 200,
+    "hotelTaxPct": 14.25,
+    "hotelNights": 2,
+    "cadetRooms": 2,
+    "adultRooms": 1,
+    "fuelPrice": 3.91,
+    "mpg": 15,
+    "miles": 1150,
+    "source": "Hotel: online listings $164-$208/night (Nov 2026) for the 2025 hotel; planned at $200 for NLD week. Tax: Arlington lodging tax 8.25% plus 6% sales tax. Fuel: AAA national average $3.91 (12 Nov 2026)."
+  },
+  "rooming": [
+    "Cadets room by sex, 3 to 4 per room (two queen beds plus cot or rollaway as needed), one room lead per room.",
+    "Adults never room with cadets. Adults share a room only if the same sex or spouses; otherwise add a room.",
+    "2025: 2 cadet rooms of 3, 1 adult room of 2 at the hotel; same split at the lodge."
   ]
-}</script>
+}
+</script>
 <script>
 // ---- Trip engine: the core plan reads everything year- or squadron-specific from TRIP. ----
 var TRIP, TRIP_DIRTY = false, F160_TOUCHED = false;
@@ -1077,6 +1136,25 @@ function bounds() {
 }
 function dateById(id) { var b = bounds(); if (!b) return null; var r = KEY_DATES.filter(function (k) { return k.id === id; })[0]; return ruleDate(r, b); }
 function offsets(str) { return String(str || '').split(/[,\s]+/).filter(Boolean).map(Number).filter(function (x) { return !isNaN(x); }); }
+var MILESTONES = [['concept','Concept approved; nominations out'],['accept','Nominees accept'],['book','Lodging booked'],['pay','Payment due; headcount locked'],['approval','Ops plan and CAPF 160 to approval authority'],['final','CAPF 160 signed; meetings confirmed'],['signin','Sign-in and safety brief'],['nld','National Legislative Day'],['aarwritten','AAR written; close out']];
+function rates() { return TRIP.rates || {}; }
+function calcAmt(r) {
+  var q = rates();
+  if (r.calc === 'hotel') return (+q.cadetRooms + +q.adultRooms) * (+q.hotelNights) * (+q.hotelRate) * (1 + (+q.hotelTaxPct || 0) / 100);
+  if (r.calc === 'fuel') return (+q.miles) / (+q.mpg || 1) * (+q.fuelPrice);
+  return parseFloat(r.plan);
+}
+function calcNote(r) {
+  var q = rates();
+  if (r.calc === 'hotel') return ' (' + (+q.cadetRooms + +q.adultRooms) + ' rooms x ' + q.hotelNights + ' nights x $' + q.hotelRate + ' + ' + q.hotelTaxPct + '% tax)';
+  if (r.calc === 'fuel') return ' (' + q.miles + ' mi at ' + q.mpg + ' mpg, $' + q.fuelPrice + '/gal)';
+  return '';
+}
+function budgetTotals() {
+  var rows = shown(TRIP.budget), prior = 0, plan = 0, open = 0;
+  rows.forEach(function (r) { var p = parseFloat(r.prior), q = calcAmt(r); if (!isNaN(p)) prior += p; if (!isNaN(q)) plan += q; else open++; });
+  return { rows: rows, prior: prior, plan: plan, open: open };
+}
 function money(n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 
 // ---- render the plan ----
@@ -1093,18 +1171,52 @@ function renderPlan() {
   var on = (t.sideTrips || []).filter(function (s) { return s.on; }).map(function (s) { return s.name; });
   document.getElementById('glance-t').innerHTML = [
     ['Activity', esc(title())],
-    ['Purpose', 'Tell our members of Congress, in person, what CAP volunteers do for the state and the nation.'],
+    ['Purpose', esc(t.purpose)],
     ['Trip dates', b ? '<span class="em">' + fmt(b.start) + ' - ' + fmt(b.end) + '</span>' : ''],
     ['Day on Capitol Hill', b ? '<span class="em">' + fmt(b.nld) + '</span>' + status : ''],
     ['Where', esc(t.where)], ['Sponsor', esc(t.sponsor)],
-    ['Activity Director', '<span data-fill="director" class="placeholder">Load participant file</span>'],
+    ['Activity Director', '<span data-fill="director">' + esc(t.activityDirector) + '</span>'],
     ['Sign-in', esc(t.signIn)],
     ['Size', c.cadetsMin + '-' + c.cadetsMax + ' cadets and ' + c.seniorsMin + '-' + c.seniorsMax + ' senior members'],
     ['Side trips', on.length ? esc(on.join(', ')) : 'None'],
-    ['Cost', 'About $' + esc(t.fee) + ' per person for lodging and travel. Bring money for lunches, some dinners, and souvenirs.'],
+    ['Cost', '$' + esc(t.fee) + ' per person for lodging and travel. Bring money for lunches, some dinners, and souvenirs.'],
     ['Funding', esc(t.funding)]
   ].map(function (r) { return '<tr><td>' + r[0] + '</td><td>' + r[1] + '</td></tr>'; }).join('');
   if (window.PEOPLE_RENDER) window.PEOPLE_RENDER();
+
+  // brief: concept of operations
+  document.getElementById('con-t').innerHTML = visibleDays().map(function (d, i) {
+    var src = (t.days || []).filter(function (x) { return +x.offset === d.offset; })[0] || {};
+    return '<tr><td class="t">Day ' + (i + 1) + '<br><span class="src">' + (nld() ? DOW[add(nld(), d.offset).getDay()] + ' ' + add(nld(), d.offset).getDate() + ' ' + MON[add(nld(), d.offset).getMonth()] : '') + '</span></td><td><span class="em">' + esc(d.title) + '.</span> ' + esc(src.summary || '') + '</td></tr>';
+  }).join('');
+  var need = Math.max(2, Math.ceil((+c.cadetsMax || 0) / 12));
+  document.getElementById('people-b').innerHTML = [
+    'Size: ' + c.cadetsMin + '-' + c.cadetsMax + ' cadets and ' + c.seniorsMin + '-' + c.seniorsMax + ' senior members, set by van seats and budget.',
+    'Supervision: overnight cadet activities need two-deep leadership and at least 1 adult per 12 cadets (CAPR 60-2 \u00a72.6, ICL May 2024). ' + c.cadetsMax + ' cadets need ' + need + ' adults; the plan allows ' + c.seniorsMax + '.' + (+c.seniorsMin < need ? ' <span class="em">Minimum senior members is below the requirement.</span>' : ''),
+    'Cadet protection: no adult alone with a cadet; adults room apart from cadets; room checks in pairs; every adult current in Cadet Protection training.',
+    'Activity Director: ' + esc(t.activityDirector) + '. Selection by Cadet Programs nomination; units may sponsor (Appendix K).'
+  ].map(function (x) { return '<li>' + x + '</li>'; }).join('');
+  var q = rates();
+  document.getElementById('lodging-b').innerHTML = shown(t.lodging).filter(function (l) { return offsets(l.nights).length; }).map(function (l) {
+    var ns = offsets(l.nights); return '<li>' + esc(l.name) + ': ' + ns.length + (ns.length > 1 ? ' nights' : ' night') + (l.status ? ' <span class="tbc">(' + esc(l.status) + ')</span>' : '') + '</li>';
+  }).join('') + '<li>Rooms budgeted at the DC hotel: ' + q.cadetRooms + ' cadet, ' + q.adultRooms + ' adult.</li>' +
+    (t.rooming || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('');
+  document.getElementById('transport-b').innerHTML = [
+    esc(t.vehicle) + '; about ' + esc(q.miles) + ' miles round trip.',
+    'Drivers swap at every stop; no one drives more than about 3 hours in a stretch. Go/no-go on weather the night before each driving day.',
+    'In DC the group parks once and rides Metro, with a lead and trail senior member on every boarding.',
+    'Legs, routes, and Metro lines: Appendix D.'
+  ].map(function (x) { return '<li>' + x + '</li>'; }).join('');
+  var bt = budgetTotals(), hc = +t.headcount || 1, pp = bt.plan / hc, sug = Math.ceil(pp / 25) * 25;
+  document.getElementById('budget-b').innerHTML = [
+    'Plan total ' + money(bt.plan) + (bt.open ? ' plus ' + bt.open + ' item' + (bt.open > 1 ? 's' : '') + ' to quote' : '') + ' for ' + hc + ' people: ' + money(pp) + ' per person against a $' + esc(t.fee) + ' fee.' +
+      (pp > +t.fee ? ' <span class="em">Short ' + money(bt.plan - hc * t.fee) + '. A fee of $' + sug + ' covers it.</span>' : ''),
+    'Rates: hotel $' + esc(q.hotelRate) + '/night plus ' + esc(q.hotelTaxPct) + '% tax; fuel $' + esc(q.fuelPrice) + '/gal at ' + esc(q.mpg) + ' mpg.',
+    'Each extra hotel room adds ' + money((+q.hotelNights) * (+q.hotelRate) * (1 + (+q.hotelTaxPct || 0) / 100)) + '. Line items: Appendix I.'
+  ].map(function (x) { return '<li>' + x + '</li>'; }).join('');
+  document.getElementById('milestones-t').innerHTML = b ? MILESTONES.map(function (m) {
+    return '<tr><td class="t">' + fmt(dateById(m[0])) + '</td><td>' + esc(m[1]) + '</td></tr>';
+  }).join('') : '';
 
   document.getElementById('confirm-l').innerHTML = (t.confirm || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('');
 
@@ -1142,17 +1254,16 @@ function renderPlan() {
     return '<div class="card"><h4>' + esc(x.area) + '</h4><p>' + esc(x.name) + '</p><p>' + esc(x.address) + '</p><p>' + esc(x.phone) + '</p></div>';
   }).join('') + '<div class="card"><h4>Any emergency</h4><p>Call 911 first, then a senior member. On Metro, tell any Metro Transit Police officer, station manager, or train operator.</p></div>';
 
-  var rows = shown(t.budget), prior = 0, plan = 0, open = 0;
+  var BT = budgetTotals(), rows = BT.rows, prior = BT.prior, plan = BT.plan, open = BT.open;
   h = '<tr><th>Item</th><th class="n">Prior year</th><th class="n">Plan</th></tr>';
   rows.forEach(function (r) {
-    var p = parseFloat(r.prior), q = parseFloat(r.plan);
-    if (!isNaN(p)) prior += p; if (!isNaN(q)) plan += q; else open++;
-    h += '<tr><td>' + esc(r.item) + '</td><td class="n">' + (isNaN(p) ? '' : money(p)) + '</td><td class="n">' + (isNaN(q) ? '<span class="tbc">re-quote</span>' : money(q)) + '</td></tr>';
+    var p = parseFloat(r.prior), q = calcAmt(r);
+    h += '<tr><td>' + esc(r.item) + '<span class="src">' + esc(calcNote(r)) + '</span></td><td class="n">' + (isNaN(p) ? '' : money(p)) + '</td><td class="n">' + (isNaN(q) ? '<span class="tbc">re-quote</span>' : money(q)) + '</td></tr>';
   });
   h += '<tr><td class="em">Total</td><td class="n">' + money(prior) + '</td><td class="n">' + money(plan) + (open ? ' + ' + open + ' to quote' : '') + '</td></tr>';
   document.getElementById('budget-t').innerHTML = h;
   var pot = (+t.fee || 0) * (+t.headcount || 0), left = pot - plan;
-  document.getElementById('budget-p').innerHTML = 'At $' + esc(t.fee) + ' per person (' + esc(t.headcount) + ' people, ' + money(pot) + '), ' +
+  document.getElementById('budget-p').innerHTML = (rates().source ? '<span class="src">Rate sources: ' + esc(rates().source) + '</span><br>' : '') + 'At $' + esc(t.fee) + ' per person (' + esc(t.headcount) + ' people, ' + money(pot) + '), ' +
     (open ? 'the fee leaves <span class="em">' + money(left) + '</span> for the ' + open + ' item' + (open > 1 ? 's' : '') + ' still to quote.'
           : (left >= 0 ? 'the fee covers the plan with ' + money(left) + ' to spare.' : '<span class="em">the plan is ' + money(-left) + ' over the fee.</span>'));
 
@@ -1226,7 +1337,7 @@ function listTable(arr, cols, blank, hint) {
 function section(out, title, note, plain) {
   var h = document.createElement('h2'); h.textContent = title; out.appendChild(h);
   if (note) { var p = document.createElement('p'); p.className = 'note'; p.textContent = note; out.appendChild(p); }
-  var g = document.createElement('div'); g.className = plain ? 'block' : 'fields'; out.appendChild(g); return g;
+  var g = document.createElement('div'); g.className = plain === 'rows' ? 'rowsform' : plain ? 'block' : 'fields'; out.appendChild(g); return g;
 }
 function renderSetup() {
   var t = TRIP, out = document.getElementById('setup-out'); out.innerHTML = '';
@@ -1234,24 +1345,41 @@ function renderSetup() {
   (t.sideTrips || []).forEach(function (s) { var o = document.createElement('option'); o.value = s.name; dl.appendChild(o); });
   out.appendChild(dl);
 
-  var g = section(out, 'Event', 'Set the NLD date and every date in the plan follows: trip days, key dates, emails, forms, and the CAPF 160 date.');
-  g.appendChild(field('Activity title (the year comes from the NLD date unless you type one)', t, 'title', 'text', true));
+  var g = section(out, 'At a glance', 'One line per item, as it appears at the top of the plan. Trip dates come from the NLD date and the schedule days.', 'rows');
+  g.appendChild(field('Activity title (year added from NLD date)', t, 'title', 'text'));
+  g.appendChild(field('Purpose', t, 'purpose', 'text'));
   g.appendChild(field('NLD date (day on Capitol Hill)', t, 'nldDate', 'date'));
   g.appendChild(field('NLD date status', t, 'nldStatus', 'select'));
-  g.appendChild(field('Sponsor', t, 'sponsor', 'text', true));
-  g.appendChild(field('Where', t, 'where', 'text', true));
-  g.appendChild(field('Sign-in', t, 'signIn', 'text', true));
-  g.appendChild(field('Funding', t, 'funding', 'text', true));
-  g.appendChild(linesField('To confirm', t, 'confirm'));
-
-  g = section(out, 'Size and cost');
+  g.appendChild(field('Where', t, 'where', 'text'));
+  g.appendChild(field('Sponsor', t, 'sponsor', 'text'));
+  g.appendChild(field('Activity Director', t, 'activityDirector', 'text'));
+  g.appendChild(field('Sign-in', t, 'signIn', 'text'));
   t.capacity = t.capacity || {};
-  g.appendChild(field('Cadets, min', t.capacity, 'cadetsMin', 'number'));
-  g.appendChild(field('Cadets, max', t.capacity, 'cadetsMax', 'number'));
-  g.appendChild(field('Senior members, min', t.capacity, 'seniorsMin', 'number'));
-  g.appendChild(field('Senior members, max', t.capacity, 'seniorsMax', 'number'));
-  g.appendChild(field('Fee per person ($)', t, 'fee', 'number'));
+  var sz = document.createElement('div'); sz.className = 'fld';
+  sz.innerHTML = '<span>Size (cadets min / max, senior members min / max)</span><span class="inl"></span>';
+  ['cadetsMin', 'cadetsMax', 'seniorsMin', 'seniorsMax'].forEach(function (k) {
+    var el = document.createElement('input'); el.type = 'number'; el.min = 0; el.value = t.capacity[k]; el.setAttribute('aria-label', k);
+    el.addEventListener('input', function () { t.capacity[k] = +el.value; changed(); }); sz.lastChild.appendChild(el);
+  });
+  g.appendChild(sz);
+  g.appendChild(field('Cost: fee per person ($)', t, 'fee', 'number'));
   g.appendChild(field('Budget headcount', t, 'headcount', 'number'));
+  g.appendChild(field('Funding', t, 'funding', 'text'));
+
+  g = section(out, 'Open items'); g.appendChild(linesField('Open items', t, 'confirm'));
+
+  t.rates = t.rates || {};
+  g = section(out, 'Rates and rooms', 'Hotel and fuel lines in the budget are worked out from these.', 'rows');
+  g.appendChild(field('Hotel rate per room-night ($)', t.rates, 'hotelRate', 'number'));
+  g.appendChild(field('Hotel tax (%)', t.rates, 'hotelTaxPct', 'number'));
+  g.appendChild(field('Hotel nights', t.rates, 'hotelNights', 'number'));
+  g.appendChild(field('Cadet rooms', t.rates, 'cadetRooms', 'number'));
+  g.appendChild(field('Adult rooms', t.rates, 'adultRooms', 'number'));
+  g.appendChild(field('Fuel price ($/gal)', t.rates, 'fuelPrice', 'number'));
+  g.appendChild(field('Van mpg', t.rates, 'mpg', 'number'));
+  g.appendChild(field('Round-trip miles', t.rates, 'miles', 'number'));
+  g.appendChild(field('Rate sources', t.rates, 'source', 'text'));
+  g = section(out, 'Rooming rules'); g.appendChild(linesField('Rooming rules', t, 'rooming'));
 
   section(out, 'Side trips', 'Turn a side trip off to hide every row tagged with its name (schedule, lodging, legs, hospitals, budget). Check the days around it after.', true)
     .appendChild(listTable(t.sideTrips = t.sideTrips || [], [{ k: 'on', label: 'On', type: 'checkbox', w: '50px' }, { k: 'name', label: 'Name (tag)' }, { k: 'describe', label: 'Phrase for the nomination email' }], { name: '', on: true, describe: '' }));
@@ -1262,14 +1390,15 @@ function renderSetup() {
     var head = document.createElement('div'); head.className = 'fields';
     head.appendChild(field('Day offset', d, 'offset', 'number'));
     head.appendChild(field('Day title', d, 'title', 'text'));
+    var sm = document.createElement('div'); sm.className = 'rowsform'; sm.appendChild(field('One-line summary (shown in the plan brief)', d, 'summary', 'text'));
     var rm = document.createElement('button'); rm.type = 'button'; rm.className = 'x'; rm.textContent = 'Remove day';
     rm.addEventListener('click', function () { t.days.splice(i, 1); changed(); renderSetup(); });
-    head.appendChild(rm); box.appendChild(head);
+    head.appendChild(rm); box.appendChild(head); box.appendChild(sm);
     box.appendChild(listTable(d.rows = d.rows || [], [{ k: 'time', label: 'Time', w: '110px' }, { k: 'event', label: 'Event' }, { k: 'where', label: 'Where' }, { k: 'tag', label: 'Side trip', w: '120px' }], { time: '', event: '', where: '', tag: '' }));
     sg.appendChild(box);
   });
   var ad = document.createElement('button'); ad.type = 'button'; ad.className = 'quiet add'; ad.textContent = 'Add day';
-  ad.addEventListener('click', function () { var m = t.days.reduce(function (a, d) { return Math.max(a, +d.offset); }, -3); t.days.push({ offset: m + 1, title: '', rows: [] }); changed(); renderSetup(); });
+  ad.addEventListener('click', function () { var m = t.days.reduce(function (a, d) { return Math.max(a, +d.offset); }, -3); t.days.push({ offset: m + 1, title: '', summary: '', rows: [] }); changed(); renderSetup(); });
   sg.appendChild(ad);
 
   section(out, 'Lodging and venues', 'Nights are day offsets, comma separated (e.g. -1, 0). Leave blank for a venue that is not an overnight.', true)
@@ -1289,7 +1418,7 @@ function renderSetup() {
   g.appendChild(field('Food plan', t, 'food', 'textarea', true));
   g.appendChild(field('Sleep plan', t, 'sleep', 'textarea', true));
   section(out, 'Budget', 'Leave Plan blank for anything that still needs a quote.', true)
-    .appendChild(listTable(t.budget = t.budget || [], [{ k: 'item', label: 'Item' }, { k: 'prior', label: 'Prior year', w: '100px' }, { k: 'plan', label: 'Plan', w: '100px' }, { k: 'tag', label: 'Side trip', w: '110px' }], { item: '', prior: '', plan: '', tag: '' }));
+    .appendChild(listTable(t.budget = t.budget || [], [{ k: 'item', label: 'Item' }, { k: 'prior', label: 'Prior year', w: '100px' }, { k: 'plan', label: 'Plan (blank = quote; hotel and fuel auto)', w: '150px' }, { k: 'tag', label: 'Side trip', w: '110px' }], { item: '', prior: '', plan: '', tag: '' }));
   g = section(out, ''); g.appendChild(field('Note above the budget', t, 'budgetNote', 'text', true));
   g = section(out, 'Messages and lessons');
   g.appendChild(field('Nomination email: past-trip highlights', t, 'nominationHighlights', 'textarea', true));

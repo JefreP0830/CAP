@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.0 - 2026-11-17
+
+- Plan rewritten as a short brief (at a glance, concept of operations, personnel, lodging and rooming, transport, safety, budget, timeline, open items) with details in Appendices A-L.
+- Trip Editor: one-line entry for each At a glance item; one-line summary per day for the brief; Rates and rooms; Rooming rules.
+- Budget: hotel and fuel worked out from rates (hotel $200/night + 14.25% Arlington tax; fuel $3.91/gal AAA national average, 12 Nov 2026). Brief shows per-person cost against the fee and the fee that covers it.
+- Personnel: supervision ratio stated (two-deep, 1 adult per 12 cadets overnight, CAPR 60-2 section 2.6 per ICL May 2024) and checked against the plan's size.
+
 ## 0.3.1 - 2026-11-17
 
 - Setup renamed Trip Editor.
