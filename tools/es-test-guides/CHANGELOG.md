@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.0.0 - 2026-11-17
+- CAPT 116 visual pass: support priority podium; aircrew seating chart and ground team chart with a weakest-link bar; C911 authority and FTCA vs FECA coverage by age; Yes / Only if / Never field rules; fiscal-year strip with 31 July due date and the 36-month rating bar.
+- CAPT 117 visual pass: CISM time axis around the incident; stress-reaction quadrants; CRM chain of factors, aviate-navigate-communicate priority stack and closed-loop callout; mission base four-stage path.
+- Bullets kept only where they support the diagram above them; paragraph citations kept.
+
 ## 2.9.0 - 2026-11-11
 - IS-800 ESFs: the number board is replaced by a worked example (a river flood), each incident need connected to the ESF that answers it, plus the ESFs supporting the whole response and the rest on standby. All 15 still shown.
 

@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "2.9.0"
+VERSION = "3.0.0"
 
 LET = "ABCD"
 
@@ -128,31 +128,127 @@ SID = f"""
 <footer class="gfoot">Steps checked against cdp.dhs.gov/femasid and training.fema.gov on 10 Nov 2026. FEMA changes these screens; follow the screen if it differs.<span class="ver">ES &amp; FEMA Study Companion v{VERSION}</span></footer>
 </section>"""
 
+# ---------------------------------------------------------------- CAPT 116 / 117 diagrams
+PODIUM = """
+<div class="podium">""" + "".join(
+    f'<div class="pcol" style="--h:{h}%"><div class="pbar"><span class="prank">{n}</span><b>{t}</b><span>{d}</span></div></div>'
+    for n, (t, d, h) in enumerate([("Air Force", "First claim", 100), ("Other DoD", "Departments and agencies", 86),
+        ("Federal civil", "Such as FEMA and FAA", 72), ("State", "State civil agencies", 58), ("Local", "Last claim", 44)], 1)) + """
+</div>"""
+
+TEAMS = """
+<div class="teams">
+ <div><p class="lab">Aircrew of 3 &middot; who sits where</p>
+  <div class="cabin">
+   <span class="cfront">Front of the aircraft</span>
+   <div class="crow2">
+    <div class="seat"><b>Mission Pilot</b><span>Left seat. Flies the aircraft.</span></div>
+    <div class="seat"><b>Mission Observer</b><span>Right seat. Navigation, radios, helps run the search.</span></div>
+   </div>
+   <div class="crow1"><div class="seat"><b>Mission Scanner</b><span>Back seat. Watches outside for the search objective.</span></div></div>
+  </div>
+ </div>
+ <div><p class="lab">Ground team of 4+ &middot; works at its weakest link</p>
+  <div class="gt">
+   <div class="gtl">Ground Team Leader <span>qualified</span></div>
+   <div class="gtm"><span>Member</span><span>Member</span><span>Member or supervised trainee</span></div>
+  </div>
+  <div class="wl">
+   <div class="wbars"><span style="--q:88%">Leader</span><span style="--q:74%">Member</span><span style="--q:92%">Member</span><span style="--q:46%">Trainee</span></div>
+   <div class="wline" style="--q:46%"><em>The whole team operates here</em></div>
+  </div>
+ </div>
+</div>"""
+
+AUTH = """
+<div class="auth">
+ <div class="c911"><span class="lab">C911 mission</span><b>Imminently serious: life may be at stake</b>
+  <div class="c911who"><em>Who may authorize</em><span>Only the wing commander, or the commander&rsquo;s designee (§1-9a)</span></div></div>
+ <div class="cov"><span class="lab">On Air Force-assigned missions</span>
+  <div class="cvh"><span></span><span>Cadets under 18</span><span>Members 18 and older</span></div>
+  <div class="cvr"><span class="cvn"><b>FTCA</b> liability protection</span><span class="cv yes">Covered</span><span class="cv yes">Covered</span></div>
+  <div class="cvr"><span class="cvn"><b>FECA</b> injury benefits</span><span class="cv no">Not covered</span><span class="cv yes">Covered</span></div>
+  <span class="cvsrc">§1-24a, b</span>
+ </div>
+</div>"""
+
+FIELD = """
+<div class="yon">
+ <div class="ycol y"><span class="yh">Yes</span>
+  <p><b>Safety first, always</b> (§1-1b)</p>
+  <p><b>Night vision devices</b> on foot or riding as a passenger (§1-30a)</p>
+  <p><b>Common sense</b> where the regulation is silent</p></div>
+ <div class="ycol o"><span class="yh">Only if</span>
+  <p><b>Enter private property</b>: to save life, after every effort to get the controlling agency&rsquo;s approval and the owner&rsquo;s consent (§1-24c)</p>
+  <p><b>Transport a patient</b>: in an emergency, when no other suitable transport is readily available (§1-22)</p></div>
+ <div class="ycol yn"><span class="yh">Never</span>
+  <p><b>Night vision devices while driving</b> (§1-30a)</p>
+  <p><b>Alter, separate or misuse</b> communications or advanced technology equipment (§1-36a)</p></div>
+</div>"""
+
+MONTHS = ["Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep"]
+READY = """
+<p class="lab">Fiscal year (October to September)</p>
+<div class="fy">""" + "".join(f'<span class="{"due" if m=="Jul" else ""}">{m}</span>' for m in MONTHS) + """</div>
+<div class="fynote"><span class="red">31 July</span>: each wing&rsquo;s annual operations training plan is due to the liaison region in WMIRS, for the next fiscal year (§1-7). Alert rosters: update at least once a year (§1-5c(6)).</div>
+<p class="lab rtl">A specialty rating on the CAPF 101</p>
+<div class="rbar"><span class="rb0">Issued</span><span class="rb1">Valid for 36 months</span><span class="rb2">Expires: last day of month 36</span></div>"""
+
+CISMT = """
+<div class="ctl">
+ <div class="tlseg pre"><b>Before</b><span>Pre-incident education. Reduces the harmful effects of trauma.</span></div>
+ <div class="tlinc"><span>Incident</span></div>
+ <div class="tlseg"><b>Within hours</b><span>Defusing</span></div>
+ <div class="tlseg"><b>24 to 72 hours</b><span>Debriefing (CISD)</span></div>
+ <div class="tlseg"><b>After</b><span>Peer support and referral</span></div>
+ <div class="tlaxis"><span>Sooner is better</span></div>
+</div>"""
+
+QUAD = """
+<div class="quad">
+ <div class="q1"><b>Cognitive</b><span>Thinking: confusion, poor memory</span></div>
+ <div class="q2"><b>Emotional</b><span>Feelings: anxiety, grief, guilt</span></div>
+ <div class="q3"><b>Physical</b><span>Body: fatigue, rapid pulse</span></div>
+ <div class="q4"><b>Behavioral</b><span>Actions: withdrawal, pacing</span></div>
+ <div class="qc"><b>Critical incident</b><span>Stress can show up in all four</span></div>
+</div>"""
+
+CRMV = """
+<p class="lab">Accidents are a chain of factors. Anyone who speaks up breaks a link.</p>
+<div class="chain"><span>Fatigue</span><span>Distraction</span><span>Missed checklist item</span><span class="acc">Accident</span></div>
+<div class="crm2">
+ <div><p class="lab">When it gets busy: in this order</p>
+  <div class="prio"><span style="--w:100%"><b>1</b> Aviate: fly the aircraft</span><span style="--w:84%"><b>2</b> Navigate</span><span style="--w:68%"><b>3</b> Communicate</span></div></div>
+ <div><p class="lab">Closed loop: every request, every time</p>
+  <div class="loop"><span><b>Acknowledge</b>&ldquo;Setting 122.9&rdquo;</span><span><b>Do it</b>Make the change</span><span><b>Report done</b>&ldquo;122.9 set&rdquo;</span></div></div>
+</div>"""
+
+MBASE = """
+<div class="mpath">
+ <div><span class="sn">1</span><b>Before you go</b><p>Know where and when to report, and to whom.</p><p>Pack for an extended stay: supplies may be limited.</p></div>
+ <div><span class="sn">2</span><b>Check in</b><p>Any designated location: command post, base, camp, staging area, helibase.</p><p>Sent straight to a tactical assignment? Report to the division or group supervisor, or the operations chief or IC.</p></div>
+ <div><span class="sn">3</span><b>Work</b><p>Supervisors keep the unit log (ICS 214), updated every operational period.</p><p>24-hour time. Radio: clear text, short messages.</p></div>
+ <div><span class="sn">4</span><b>Demobilize</b><p>Finish your assignments.</p><p>Return radios and other gear as directed. Check out.</p></div>
+</div>"""
+
 # ---------------------------------------------------------------- CAPT 116
 C116 = f"""
 <section class="guide" id="capt116" data-title="CAPT 116">
 {head("Online test &middot; eServices", "CAPT 116 &middot; General Emergency Services", "CAPR 60-3(I), Emergency Services Training and Operational Missions (26 Dec 12)",
  "Take it in eServices. It is the starting point for every emergency services qualification.")}
 <h2>Core essentials</h2>
-{block("Support priority: when resources are short (§1-4)", flow([
- ("Air Force", "Highest"), ("Other DoD", ""), ("Federal civil", "FEMA, FAA"), ("State", ""), ("Local", "Lowest")], "rank"))}
-{block("Minimum team makeup: before release", tiles([
- ("Aircrew of 3", "Mission Pilot flies. Mission Observer helps with navigation, radios and the search. Mission Scanner watches outside for the search objective."),
- ("Ground team of 4+", "Qualified Ground Team Leader plus at least 3 qualified members or supervised trainees. Works at the level of its <i>lowest</i> qualified member.")], 2))}
-{block("On a mission: rules in the field", "", [
- "[[Safety]] must always be a primary concern (§1-1b).",
- "[[CAPR 60-3]] gives direction for mission training, qualification and actual missions. Where it is silent, use common sense and prudent judgment.",
- "[[C911]] missions are imminently serious, where life may be at stake. Only the wing commander or the commander&rsquo;s designee may authorize one (§1-9a).",
- "Air Force-assigned missions: Federal Tort Claims Act (FTCA) liability protection for members; FECA injury benefits for members 18 and older, so a cadet under 18 is not covered by FECA (§1-24a, b).",
- "Private property: entry may be justified to save life, but make every effort to get the controlling agency&rsquo;s approval and the owner&rsquo;s consent (§1-24c).",
- "Night vision devices: on foot or as a passenger, never by a driver (§1-30a). [[Patient transport]]: only in an emergency when other suitable transport is not readily available (§1-22).",
- "[[Never alter]], separate or misuse communications or advanced technology equipment (§1-36a).",
+{block("Support priority: who gets CAP first when resources are short (§1-4)", PODIUM)}
+{block("Minimum team makeup: before a team is released", TEAMS, [
+ "[[Aircrew]]: a typical aircrew is a mission pilot, mission observer and mission scanner (§1-16d(2)).",
+ "[[Ground teams]] are not released without a qualified ground team leader and at least three qualified members or supervised trainees (§1-17b(3)). A team operates within the limits of its lowest qualified member (§1-17b(2)(a)).",
 ], True)}
-{block("Qualifications and records: paperwork that keeps you mission-ready", "", [
- "[[CAPF 101]] shows what you may do, as trainee or qualified. [[Ratings]] stay valid through the last day of the 36th month (§2-2d).",
+{block("Mission authority and protection: who can launch, who is covered", AUTH, [
+ "[[CAPR 60-3]] gives direction for mission training, qualification and actual missions.",
+])}
+{block("In the field: yes, only if, never", FIELD)}
+{block("Staying mission-ready: dates, ratings and records", READY, [
+ "[[CAPF 101]] shows what you may do, as trainee or qualified.",
  "Every emergency services member completes [[OPSEC training]] and signs the [[nondisclosure agreement]] (§1-35).",
- "Alert rosters: update at least annually, and reissue after major changes (§1-5c(6)).",
- 'Each wing sends its [[annual operations training plan]] to the liaison region in WMIRS by <span class="red">31 July</span> for the next fiscal year (§1-7).',
  "The IC makes sure [[WMIRS]] entries and approvals are complete before any sortie (§1-15a). [[Electronic records]] are fine if backed up (§1-5b(3)(b)).",
  "Supplements to CAPR 60-3: wing level or higher only (Congressional Squadron excepted), with region commander, national operations and Air Force liaison approval (§1-2).",
 ], True)}
@@ -167,35 +263,23 @@ C117 = f"""
 {head("Online test &middot; eServices", "CAPT 117 &middot; ES Continuing Education", "Part 1 Critical Incident Stress (CAPR 60-5) &middot; Part 2 Crew Resource Management &middot; Part 3 Mission Base",
  "Take it in eServices. Three parts.")}
 <h2>Core essentials</h2>
-{block("CISM timeline: Part 1, sooner beats later", flow([
- ("Before", "Pre-incident education. Reduces the harmful effects of trauma."),
- ("Within hours", "Defusing"),
- ("24 to 72 hours", "Debriefing (CISD)"),
- ("After", "Peer support and referral")]), [
+{block("CISM timeline: Part 1, sooner beats later", CISMT, [
  "[[CAPR 60-5]] (3 Nov 06) covers critical incident stress management.",
- "[[CISM]] is many tools, not one procedure. Sooner is better.",
+ "[[CISM]] is many tools, not one procedure.",
  "[[Crisis intervention]] is short-term emotional first aid, a &ldquo;psychological Band-Aid&rdquo;, not therapy.",
 ])}
-{block("Stress reactions: Part 1, four places stress shows up", tiles([
- ("Cognitive", "Confusion, poor memory"), ("Emotional", "Anxiety, grief, guilt"),
- ("Physical", "Fatigue, rapid pulse"), ("Behavioral", "Withdrawal, pacing")], 4), [
+{block("Stress reactions: Part 1, four places stress shows up", QUAD, [
  "[[Critical incident stress]] is not new: shell shock (World War I), combat fatigue, PTSD.",
  "[[Long-term stress]] accelerates aging and harms health.",
 ])}
-{block("Crew resource management: Part 2, the whole crew flies the mission", "", [
+{block("Crew resource management: Part 2, the whole crew flies the mission", CRMV, [
  "[[CRM]] is every crew member&rsquo;s job, not just the pilot in command&rsquo;s. It is about teamwork, communication, attitudes and behavior, not stick skills.",
- "Accidents come from a [[chain of factors]], not one bad decision.",
- "[[Split the workload]] to limit fatigue and keep the crew effective longer. Announce what you are doing. Acknowledge, do it, report it done.",
- "Prioritize: aviate (fly the aircraft first), navigate, communicate. Sterile cockpit applies to everyone aboard.",
+ "[[Split the workload]] to limit fatigue and keep the crew effective longer. Announce what you are about to do.",
+ "Sterile cockpit: everyone aboard avoids anything that distracts the crew.",
  "Decision makers need [[correct, relevant information]] they can control, not everything.",
  "[[Standard terms and signals]] exist for aircrew and flightline so everyone hears the same message.",
 ], True)}
-{block("Mission base: Part 3, arriving, working and leaving", "", [
- "Before you leave: know where and when to report, and to whom. Check in at any designated location (command post, base, camp, staging area, helibase).",
- "Sent straight to a [[tactical assignment]]? Report to the division or group supervisor, or the operations chief or IC.",
- "[[Unit log (ICS 214)]]: kept by supervisors, updated every operational period. Use 24-hour time. Radio: clear text, short messages.",
- "[[Pack for an extended stay]]; supplies at the incident may be limited. Finish your assignments, return gear as directed and check out before you leave.",
-], True)}
+{block("Mission base: Part 3, arriving, working and leaving", MBASE)}
 <div class="pb soft"></div>
 {practice_parts(P.CAPT117)}
 {FOOT}
