@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.2 - 2026-11-17
+
+- Budget of record is the maximum (6 cadets, 4 adults, 6 rooms); brief adds a best-case callout (core assumption: 6 cadets, 2 adults sharing, 4 rooms) with the per-person refund.
+- Budget detail shows best case and maximum side by side; Metro fares and pullovers priced per person.
+- Fee set to $400 to cover the maximum; nomination email and At a glance say "up to" with the refund note.
+- Trip Editor: maximum and best-case room counts; people counts come from Size.
+
 ## 0.4.1 - 2026-11-17
 
 - Budget built on the maximum party: 6 cadets and 4 adults in 6 rooms, 2 per room, split by sex; odd cadet takes a rollaway. Metro fares and pullovers sized for 10.
