@@ -12,6 +12,7 @@ run time, in the browser, on the machine you are using.
 |---|---|---|
 | [Cadet Promotion Tracker](tools/cadet-promotion-tracker/) | Squadron-level promotion view from the weekly eServices Cadet Full Track Report | Porting from Antigravity |
 | [CAP Rule Changes](tools/pub-forecast/) | Monthly plain-language summary of CAP publication changes plus forecasts, for Vermont Wing | Prototype for review |
+| [NLD Operations Plan](tools/nld-ops-plan/) | Vermont Wing plan for CAP National Legislative Day 2027 | Draft for review |
 | [Unit Operations Checklist](tools/monthly-ops/) | Printable FY calendar of recurring compliance tasks by month and officer | Draft for review |
 
 ## Layout
