@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "3.0.0"
+VERSION = "3.0.1"
 
 LET = "ABCD"
 
@@ -161,15 +161,16 @@ TEAMS = """
 </div>"""
 
 AUTH = """
-<div class="auth">
- <div class="c911"><span class="lab">C911 mission</span><b>Imminently serious: life may be at stake</b>
-  <div class="c911who"><em>Who may authorize</em><span>Only the wing commander, or the commander&rsquo;s designee (§1-9a)</span></div></div>
- <div class="cov"><span class="lab">On Air Force-assigned missions</span>
-  <div class="cvh"><span></span><span>Cadets under 18</span><span>Members 18 and older</span></div>
-  <div class="cvr"><span class="cvn"><b>FTCA</b> liability protection</span><span class="cv yes">Covered</span><span class="cv yes">Covered</span></div>
-  <div class="cvr"><span class="cvn"><b>FECA</b> injury benefits</span><span class="cv no">Not covered</span><span class="cv yes">Covered</span></div>
-  <span class="cvsrc">§1-24a, b</span>
- </div>
+<div class="c911r">
+ <div class="c911a"><span class="lab">C911 mission</span><b>Imminently serious: life may be at stake</b></div>
+ <div class="c911b"><em>Who may authorize</em><span>Only the wing commander, or the commander&rsquo;s designee <span class="nw">(§1-9a)</span></span></div>
+</div>
+<p class="lab covl">Who is covered on Air Force-assigned missions <span class="cite">§1-24a, b</span></p>
+<div class="covr">
+ <div class="covn"><b>FTCA</b> (Federal Tort Claims Act) protects members from liability</div>
+ <div class="covb"><span class="seg in" style="flex:1">Covered: all members, any age</span></div>
+ <div class="covn"><b>FECA</b> (Federal Employees&rsquo; Compensation Act) pays injury benefits</div>
+ <div class="covb"><span class="seg out" style="flex:.44">Not covered: cadets under 18</span><span class="seg in" style="flex:.56">Covered: members 18 and older</span></div>
 </div>"""
 
 FIELD = """

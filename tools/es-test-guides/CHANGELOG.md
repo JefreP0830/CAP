@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.1 - 2026-11-17
+- CAPT 116 mission authority: C911 on its own row (what it is, then who may authorize); coverage redrawn as two sentence rows with who-is-covered bars (FTCA all members; FECA not cadets under 18, covered 18 and older).
+
 ## 3.0.0 - 2026-11-17
 - CAPT 116 visual pass: support priority podium; aircrew seating chart and ground team chart with a weakest-link bar; C911 authority and FTCA vs FECA coverage by age; Yes / Only if / Never field rules; fiscal-year strip with 31 July due date and the 36-month rating bar.
 - CAPT 117 visual pass: CISM time axis around the incident; stress-reaction quadrants; CRM chain of factors, aviate-navigate-communicate priority stack and closed-loop callout; mission base four-stage path.
