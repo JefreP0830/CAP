@@ -85,7 +85,9 @@ h2+.concept{margin-top:8px;padding-top:4px;border-top:0}
 .chead{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px;margin-bottom:10px}
 .cname{font-family:var(--f-title);font-weight:700;font-size:22px;color:var(--blue);line-height:1.1}
 .csub{font-size:14.67px;color:var(--ink)}
-.concept ul.ess{margin-top:12px}
+.concept ul.ess{margin-top:22px}
+.concept .lab{margin-top:18px;margin-bottom:8px}
+.concept .chead+.lab,.concept .chead+div .lab:first-child,.crm2 .lab{margin-top:4px}
 
 /* diagram: flow */
 .flow{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:22px;counter-reset:s}
@@ -399,8 +401,8 @@ h2+.concept{margin-top:8px;padding-top:4px;border-top:0}
 .rb2{background:var(--blue);color:#fff;font-weight:700}
 
 /* CAPT 117: CISM time axis */
-.ctl{display:grid;grid-template-columns:1.2fr 70px 1fr 1fr 1fr;gap:0;position:relative;padding-bottom:30px}
-.tlseg{border-top:8px solid #A9B3DF;padding:10px 12px 0;display:flex;flex-direction:column;gap:3px;border-left:2px solid var(--paper)}
+.ctl{display:grid;grid-template-columns:1.2fr 80px 1fr 1.15fr 1fr;gap:0 6px;position:relative;padding:14px 0 34px}
+.tlseg{border-top:8px solid #A9B3DF;padding:12px 14px 0;display:flex;flex-direction:column;gap:3px;border-left:2px solid var(--paper)}
 .tlseg.pre{border-top-color:#CFD5EE}
 .tlseg:nth-child(4){border-top-color:#3D4FA6}.tlseg:nth-child(5){border-top-color:var(--blue)}
 .tlseg b{font-weight:700;font-size:15.5px;color:var(--blue)}
@@ -424,12 +426,12 @@ h2+.concept{margin-top:8px;padding-top:4px;border-top:0}
 .qc b,.qc span{color:#fff}
 
 /* CAPT 117: CRM */
-.chain{display:flex;align-items:center;gap:0;margin-bottom:14px}
+.chain{display:flex;align-items:center;gap:0;margin:6px 0 4px}
 .chain span{flex:1;border:2px solid var(--blue);border-radius:22px;padding:8px 10px;text-align:center;font-size:14.67px;color:#000;background:var(--paper);position:relative}
 .chain span+span{margin-left:22px}
 .chain span+span::before{content:"";position:absolute;left:-24px;top:50%;width:22px;border-top:4px double var(--blue)}
 .chain span.acc{border-style:dashed;border-color:var(--red);color:var(--red);font-weight:700}
-.crm2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.crm2{display:grid;grid-template-columns:1fr 1fr;gap:40px}
 .prio{display:grid;gap:5px}
 .prio span{width:var(--w);background:var(--blue);color:#fff;border-radius:3px;padding:8px 12px;font-size:14.67px}
 .prio span:nth-child(2){background:#3D4FA6}.prio span:nth-child(3){background:#7F8CCB}

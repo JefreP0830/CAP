@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.2 - 2026-11-17
+- CAPT 116 and 117: every acronym spelled out at first use (CISM, CISD, CRM, PTSD, IC, ICS 214, OPSEC, WMIRS, CAPF 101, DoD, FEMA).
+- CAPT 117: CRM split into two blocks (break the chain; cockpit habits). More space between labels, diagrams and bullets on every sheet; CISM timeline given more room.
+
 ## 3.0.1 - 2026-11-17
 - CAPT 116 mission authority: C911 on its own row (what it is, then who may authorize); coverage redrawn as two sentence rows with who-is-covered bars (FTCA all members; FECA not cadets under 18, covered 18 and older).
 

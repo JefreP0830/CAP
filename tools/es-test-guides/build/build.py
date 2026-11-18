@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "3.0.1"
+VERSION = "3.0.2"
 
 LET = "ABCD"
 
@@ -132,8 +132,8 @@ SID = f"""
 PODIUM = """
 <div class="podium">""" + "".join(
     f'<div class="pcol" style="--h:{h}%"><div class="pbar"><span class="prank">{n}</span><b>{t}</b><span>{d}</span></div></div>'
-    for n, (t, d, h) in enumerate([("Air Force", "First claim", 100), ("Other DoD", "Departments and agencies", 86),
-        ("Federal civil", "Such as FEMA and FAA", 72), ("State", "State civil agencies", 58), ("Local", "Last claim", 44)], 1)) + """
+    for n, (t, d, h) in enumerate([("Air Force", "First claim", 100), ("Other DoD", "Department of Defense agencies", 86),
+        ("Federal civil", "Such as FEMA (Federal Emergency Management Agency)", 72), ("State", "State civil agencies", 58), ("Local", "Last claim", 44)], 1)) + """
 </div>"""
 
 TEAMS = """
@@ -191,8 +191,8 @@ MONTHS = ["Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep
 READY = """
 <p class="lab">Fiscal year (October to September)</p>
 <div class="fy">""" + "".join(f'<span class="{"due" if m=="Jul" else ""}">{m}</span>' for m in MONTHS) + """</div>
-<div class="fynote"><span class="red">31 July</span>: each wing&rsquo;s annual operations training plan is due to the liaison region in WMIRS, for the next fiscal year (§1-7). Alert rosters: update at least once a year (§1-5c(6)).</div>
-<p class="lab rtl">A specialty rating on the CAPF 101</p>
+<div class="fynote"><span class="red">31 July</span>: each wing&rsquo;s annual operations training plan is due to the liaison region in WMIRS (Web Mission Information Reporting System), for the next fiscal year (§1-7). Alert rosters: update at least once a year (§1-5c(6)).</div>
+<p class="lab rtl">A specialty rating on your qualification card (CAPF 101)</p>
 <div class="rbar"><span class="rb0">Issued</span><span class="rb1">Valid for 36 months</span><span class="rb2">Expires: last day of month 36</span></div>"""
 
 CISMT = """
@@ -200,7 +200,7 @@ CISMT = """
  <div class="tlseg pre"><b>Before</b><span>Pre-incident education. Reduces the harmful effects of trauma.</span></div>
  <div class="tlinc"><span>Incident</span></div>
  <div class="tlseg"><b>Within hours</b><span>Defusing</span></div>
- <div class="tlseg"><b>24 to 72 hours</b><span>Debriefing (CISD)</span></div>
+ <div class="tlseg"><b>24 to 72 hours</b><span>Critical Incident Stress Debriefing (CISD)</span></div>
  <div class="tlseg"><b>After</b><span>Peer support and referral</span></div>
  <div class="tlaxis"><span>Sooner is better</span></div>
 </div>"""
@@ -214,9 +214,11 @@ QUAD = """
  <div class="qc"><b>Critical incident</b><span>Stress can show up in all four</span></div>
 </div>"""
 
-CRMV = """
+CRMCHAIN = """
 <p class="lab">Accidents are a chain of factors. Anyone who speaks up breaks a link.</p>
-<div class="chain"><span>Fatigue</span><span>Distraction</span><span>Missed checklist item</span><span class="acc">Accident</span></div>
+<div class="chain"><span>Fatigue</span><span>Distraction</span><span>Missed checklist item</span><span class="acc">Accident</span></div>"""
+
+CRMHAB = """
 <div class="crm2">
  <div><p class="lab">When it gets busy: in this order</p>
   <div class="prio"><span style="--w:100%"><b>1</b> Aviate: fly the aircraft</span><span style="--w:84%"><b>2</b> Navigate</span><span style="--w:68%"><b>3</b> Communicate</span></div></div>
@@ -227,8 +229,8 @@ CRMV = """
 MBASE = """
 <div class="mpath">
  <div><span class="sn">1</span><b>Before you go</b><p>Know where and when to report, and to whom.</p><p>Pack for an extended stay: supplies may be limited.</p></div>
- <div><span class="sn">2</span><b>Check in</b><p>Any designated location: command post, base, camp, staging area, helibase.</p><p>Sent straight to a tactical assignment? Report to the division or group supervisor, or the operations chief or IC.</p></div>
- <div><span class="sn">3</span><b>Work</b><p>Supervisors keep the unit log (ICS 214), updated every operational period.</p><p>24-hour time. Radio: clear text, short messages.</p></div>
+ <div><span class="sn">2</span><b>Check in</b><p>Any designated location: command post, base, camp, staging area, helibase.</p><p>Sent straight to a tactical assignment? Report to the division or group supervisor, or the operations chief or incident commander (IC).</p></div>
+ <div><span class="sn">3</span><b>Work</b><p>Supervisors keep the unit log (Incident Command System form ICS 214), updated every operational period.</p><p>24-hour time. Radio: clear text, short messages.</p></div>
  <div><span class="sn">4</span><b>Demobilize</b><p>Finish your assignments.</p><p>Return radios and other gear as directed. Check out.</p></div>
 </div>"""
 
@@ -248,9 +250,9 @@ C116 = f"""
 ])}
 {block("In the field: yes, only if, never", FIELD)}
 {block("Staying mission-ready: dates, ratings and records", READY, [
- "[[CAPF 101]] shows what you may do, as trainee or qualified.",
- "Every emergency services member completes [[OPSEC training]] and signs the [[nondisclosure agreement]] (§1-35).",
- "The IC makes sure [[WMIRS]] entries and approvals are complete before any sortie (§1-15a). [[Electronic records]] are fine if backed up (§1-5b(3)(b)).",
+ "[[CAPF 101]], your qualification card, shows what you may do, as trainee or qualified.",
+ "Every emergency services member completes [[OPSEC training]] (operations security) and signs the [[nondisclosure agreement]] (§1-35).",
+ "The incident commander (IC) makes sure [[WMIRS]] entries and approvals are complete before any sortie (§1-15a). [[Electronic records]] are fine if backed up (§1-5b(3)(b)).",
  "Supplements to CAPR 60-3: wing level or higher only (Congressional Squadron excepted), with region commander, national operations and Air Force liaison approval (§1-2).",
 ], True)}
 <div class="pb soft"></div>
@@ -264,18 +266,21 @@ C117 = f"""
 {head("Online test &middot; eServices", "CAPT 117 &middot; ES Continuing Education", "Part 1 Critical Incident Stress (CAPR 60-5) &middot; Part 2 Crew Resource Management &middot; Part 3 Mission Base",
  "Take it in eServices. Three parts.")}
 <h2>Core essentials</h2>
-{block("CISM timeline: Part 1, sooner beats later", CISMT, [
- "[[CAPR 60-5]] (3 Nov 06) covers critical incident stress management.",
+{block("Critical Incident Stress Management (CISM): Part 1, sooner beats later", CISMT, [
+ "[[CAPR 60-5]] (3 Nov 06) covers Critical Incident Stress Management (CISM).",
  "[[CISM]] is many tools, not one procedure.",
  "[[Crisis intervention]] is short-term emotional first aid, a &ldquo;psychological Band-Aid&rdquo;, not therapy.",
 ])}
 {block("Stress reactions: Part 1, four places stress shows up", QUAD, [
- "[[Critical incident stress]] is not new: shell shock (World War I), combat fatigue, PTSD.",
+ "[[Critical incident stress]] is not new: shell shock (World War I), combat fatigue, post-traumatic stress disorder (PTSD).",
  "[[Long-term stress]] accelerates aging and harms health.",
 ])}
-{block("Crew resource management: Part 2, the whole crew flies the mission", CRMV, [
+{block("Crew Resource Management (CRM): Part 2, the whole crew breaks the chain", CRMCHAIN, [
  "[[CRM]] is every crew member&rsquo;s job, not just the pilot in command&rsquo;s. It is about teamwork, communication, attitudes and behavior, not stick skills.",
- "[[Split the workload]] to limit fatigue and keep the crew effective longer. Announce what you are about to do.",
+ "[[Split the workload]] to limit fatigue and keep the crew effective longer.",
+], True)}
+{block("Cockpit habits: Part 2, priorities and the closed loop", CRMHAB, [
+ "Announce what you are about to do before you do it.",
  "Sterile cockpit: everyone aboard avoids anything that distracts the crew.",
  "Decision makers need [[correct, relevant information]] they can control, not everything.",
  "[[Standard terms and signals]] exist for aircrew and flightline so everyone hears the same message.",
