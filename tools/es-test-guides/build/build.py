@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "3.0.2"
+VERSION = "3.1.0"
 
 LET = "ABCD"
 
@@ -176,9 +176,9 @@ AUTH = """
 FIELD = """
 <div class="yon">
  <div class="ycol y"><span class="yh">Yes</span>
-  <p><b>Safety first, always</b> (§1-1b)</p>
+  <p><b>Safety</b> must always be a primary concern (§1-1b)</p>
   <p><b>Night vision devices</b> on foot or riding as a passenger (§1-30a)</p>
-  <p><b>Common sense</b> where the regulation is silent</p></div>
+  <p><b>Common sense and prudent judgment</b> where the regulation doesn&rsquo;t cover the situation</p></div>
  <div class="ycol o"><span class="yh">Only if</span>
   <p><b>Enter private property</b>: to save life, after every effort to get the controlling agency&rsquo;s approval and the owner&rsquo;s consent (§1-24c)</p>
   <p><b>Transport a patient</b>: in an emergency, when no other suitable transport is readily available (§1-22)</p></div>
@@ -191,7 +191,7 @@ MONTHS = ["Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep
 READY = """
 <p class="lab">Fiscal year (October to September)</p>
 <div class="fy">""" + "".join(f'<span class="{"due" if m=="Jul" else ""}">{m}</span>' for m in MONTHS) + """</div>
-<div class="fynote"><span class="red">31 July</span>: each wing&rsquo;s annual operations training plan is due to the liaison region in WMIRS (Web Mission Information Reporting System), for the next fiscal year (§1-7). Alert rosters: update at least once a year (§1-5c(6)).</div>
+<div class="fynote"><span class="red">31 July</span>: each wing&rsquo;s annual operations training plan is due to the liaison region in WMIRS (Web Mission Information Reporting System), for the next fiscal year (§1-7). Alert rosters: update at least annually, and reissue them after major changes (§1-5c(6)).</div>
 <p class="lab rtl">A specialty rating on your qualification card (CAPF 101)</p>
 <div class="rbar"><span class="rb0">Issued</span><span class="rb1">Valid for 36 months</span><span class="rb2">Expires: last day of month 36</span></div>"""
 
@@ -234,6 +234,29 @@ MBASE = """
  <div><span class="sn">4</span><b>Demobilize</b><p>Finish your assignments.</p><p>Return radios and other gear as directed. Check out.</p></div>
 </div>"""
 
+GATE = """
+<div class="gate">
+ <div class="greq"><b>OPSEC training</b><span>Operations security: what not to share about missions</span></div>
+ <span class="gplus">and</span>
+ <div class="greq"><b>Nondisclosure agreement</b><span>Signed, promising to protect mission information</span></div>
+ <div class="garrow"></div>
+ <div class="gout"><b>Emergency services qualified</b><span>Required to become qualified, and to stay qualified. Every member, not only those on sensitive missions (§1-35).</span></div>
+</div>"""
+
+SUPP = """
+<div class="supp">
+ <div class="slev">
+  <p class="lab">Who may issue one</p>
+  <span class="ok">Region</span><span class="ok edge">Wing <em>lowest level allowed</em></span>
+  <span class="nope">Group <em>not allowed</em></span><span class="nope">Squadron <em>not allowed (Congressional Squadron is the exception)</em></span>
+ </div>
+ <div class="sapp">
+  <p class="lab">Approval needed from all three</p>
+  <span class="ok">Region commander</span><span class="ok">National headquarters operations</span><span class="ok">Air Force liaison operations</span>
+  <p class="snot">Not on the list: the group commander (§1-2)</p>
+ </div>
+</div>"""
+
 # ---------------------------------------------------------------- CAPT 116
 C116 = f"""
 <section class="guide" id="capt116" data-title="CAPT 116">
@@ -250,11 +273,11 @@ C116 = f"""
 ])}
 {block("In the field: yes, only if, never", FIELD)}
 {block("Staying mission-ready: dates, ratings and records", READY, [
- "[[CAPF 101]], your qualification card, shows what you may do, as trainee or qualified.",
- "Every emergency services member completes [[OPSEC training]] (operations security) and signs the [[nondisclosure agreement]] (§1-35).",
+ "[[CAPF 101]], your qualification card, shows the specialties you may perform, as trainee or qualified.",
  "The incident commander (IC) makes sure [[WMIRS]] entries and approvals are complete before any sortie (§1-15a). [[Electronic records]] are fine if backed up (§1-5b(3)(b)).",
- "Supplements to CAPR 60-3: wing level or higher only (Congressional Squadron excepted), with region commander, national operations and Air Force liaison approval (§1-2).",
 ], True)}
+{block("The gate to emergency services: two things every member completes", GATE)}
+{block("Supplements to CAPR 60-3: who may add local rules", SUPP)}
 <div class="pb soft"></div>
 {practice(P.CAPT116)}
 {FOOT}
@@ -268,7 +291,7 @@ C117 = f"""
 <h2>Core essentials</h2>
 {block("Critical Incident Stress Management (CISM): Part 1, sooner beats later", CISMT, [
  "[[CAPR 60-5]] (3 Nov 06) covers Critical Incident Stress Management (CISM).",
- "[[CISM]] is many tools, not one procedure.",
+ "[[CISM]] is a system of several tools used before, during and after an incident, not one procedure.",
  "[[Crisis intervention]] is short-term emotional first aid, a &ldquo;psychological Band-Aid&rdquo;, not therapy.",
 ])}
 {block("Stress reactions: Part 1, four places stress shows up", QUAD, [

@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.0 - 2026-11-17
+- Red-team coverage pass on CAPT 116 and 117: every practice question now has matching detail on the sheet (safety as a primary concern, prudent judgment, alert rosters reissued after major changes, CISM before/during/after).
+- CAPT 116: new visuals for the emergency services gate (OPSEC training and nondisclosure agreement) and for supplements to CAPR 60-3 (wing level and up, three approvals, group commander not among them).
+
 ## 3.0.2 - 2026-11-17
 - CAPT 116 and 117: every acronym spelled out at first use (CISM, CISD, CRM, PTSD, IC, ICS 214, OPSEC, WMIRS, CAPF 101, DoD, FEMA).
 - CAPT 117: CRM split into two blocks (break the chain; cockpit habits). More space between labels, diagrams and bullets on every sheet; CISM timeline given more room.
