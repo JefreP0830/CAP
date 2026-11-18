@@ -10,7 +10,7 @@ GUIDE = HERE.parent.parent / "es-test-guides" / "build"
 sys.path.insert(0, str(GUIDE))
 import build as G  # the study companion generator; its write step only runs as __main__
 
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 
 # ---------------------------------------------------------------- guide CSS, minus mobile and print rules
 def strip_media(css, query):
@@ -84,6 +84,22 @@ ZOOM_LEAN = ('<div class="zoom">' + "".join(
      ("Policy level", "Multiagency Coordination (MAC) Group", "Senior officials decide who gets scarce resources.", "League officials assigning the only bus"),
      ("Region and nation", "RRCC and NOC", "Regional Response Coordination Center (FEMA). National Operations Center (DHS).", "Regional office and national headquarters"),
     ])) + '<div class="zbar"><span>Closer to the scene</span><span>Wider view</span></div></div>')
+
+# Lifelines wheel with a short example under each lifeline (deck only).
+LIFE_EX = {
+ "Safety and Security": "Police, fire, search and rescue",
+ "Food, Water, Shelter": "Groceries, drinking water, shelters",
+ "Health and Medical": "Hospitals, pharmacies, ambulances",
+ "Energy": "Power grid, fuel",
+ "Communications": "Cell towers, 911, alerts",
+ "Transportation": "Roads, bridges, airports",
+ "Hazardous Materials": "Chemical spills, fuel leaks",
+}
+WHEEL_EX = G.WHEEL.replace('<div class="wheel">', '<div class="wheel dk-wheel">')
+for name, ex in LIFE_EX.items():
+    old = f'>{name}</div>'
+    assert old in WHEEL_EX, name
+    WHEEL_EX = WHEEL_EX.replace(old, f'>{name}<span class="dk-ex">{ex}</span></div>')
 
 CLOSE = """
 <div class="dk-close">
@@ -205,7 +221,7 @@ slide(K, "Five mission areas", G.MISSIONS,
    "Mitigation reduces loss of life and property by lessening impact.",
    "Planning; Public Information and Warning; Operational Coordination run across every mission area.",
    "The National Preparedness Goal sets the vision and names the core capabilities."])
-slide(K, "Seven community lifelines", G.WHEEL,
+slide(K, "Seven community lifelines", WHEEL_EX,
   "Lifelines keep critical government and business functions running.",
   ["The course teaches seven. FEMA added an eighth, Water Systems, in 2023; answer the test with seven.",
    "Ask the class which lifeline a flooded hospital hits (Health and Medical)."], w=820)
