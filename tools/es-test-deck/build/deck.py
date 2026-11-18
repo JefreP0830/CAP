@@ -10,7 +10,7 @@ GUIDE = HERE.parent.parent / "es-test-guides" / "build"
 sys.path.insert(0, str(GUIDE))
 import build as G  # the study companion generator; its write step only runs as __main__
 
-VERSION = "1.0.1"
+VERSION = "1.1.0"
 
 # ---------------------------------------------------------------- guide CSS, minus mobile and print rules
 def strip_media(css, query):
@@ -31,22 +31,50 @@ tpl = (GUIDE / "template.html").read_text()
 GCSS = tpl[tpl.index("<style>") + 7: tpl.index("</style>")]
 GCSS = strip_media(strip_media(GCSS, "@media (max-width:760px)"), "@media print")
 
-# ---------------------------------------------------------------- new visuals (deck only)
+# ---------------------------------------------------------------- deck-only visuals
+# The deck is a plain-language review for ages 12 to 17. Visuals here may differ from the study companion.
+def sub(html, pairs):
+    """Swap wording inside a guide diagram; fail loudly if the guide text changed."""
+    for a, b in pairs:
+        assert a in html, a
+        html = html.replace(a, b)
+    return html
+
+def cards(items, cols=None, cls=""):
+    # items: (where, name, plain meaning, "like ..." analogy or "")
+    cols = cols or len(items)
+    out = "".join(f'<div class="dk-card"><span class="dk-w">{w}</span><b>{n}</b><span class="dk-p">{p}</span>'
+                  + (f'<em class="dk-like">{l}</em>' if l else "") + '</div>' for w, n, p, l in items)
+    return f'<div class="dk-cards {cls}" style="grid-template-columns:repeat({cols},minmax(0,1fr))">{out}</div>'
+
 ROADMAP = """
 <div class="dk-lanes">
- <p class="lab">Part 1 &middot; FEMA Independent Study, on training.fema.gov</p>
-""" + G.flow([("FEMA SID", "Student ID. Do this first"), ("IS-100", "Incident Command System (ICS) basics"),
-              ("IS-200", "Growing the ICS organization"), ("IS-700", "National Incident Management System (NIMS)"),
-              ("IS-800", "National Response Framework (NRF)")]) + """
+ <p class="lab">Part 1 &middot; FEMA Independent Study, online at training.fema.gov</p>
+""" + G.flow([("FEMA SID", "Your test login. Do this first"), ("IS-100", "Who is in charge at an emergency"),
+              ("IS-200", "Growing the team as it gets bigger"), ("IS-700", "How every team works together"),
+              ("IS-800", "How the whole nation helps")]) + """
  <p class="lab">Part 2 &middot; eServices</p>
-""" + G.flow([("CAPT 116", "General Emergency Services"), ("CAPT 117", "Emergency services continuing education, three parts")], "dk-half") + """
+""" + G.flow([("CAPT 116", "Our emergency services rules"), ("CAPT 117", "Stress, teamwork and mission base")], "dk-half") + """
 </div>"""
 
 SIDFLOW = G.flow([
- ("Register", "One email holds one SID. Password 14+ characters. Age 10 or older for credit."),
- ("First login", "Multifactor authentication (MFA): enter the 6-digit code. Device remembered 21 days."),
- ("Take the exam", "training.fema.gov/is. Enter your SID. 75% passes."),
- ("Certificate", "In the National Disaster &amp; Emergency Management University (NDEMU) Student Portal, and emailed. Save the PDF."),
+ ("Register", "Use your own email: one email, one SID. Password of 14+ characters. You must be 10 or older."),
+ ("First login", "A 6-digit code comes to your phone, app or email. That second check is multifactor authentication (MFA)."),
+ ("Take the exam", "At training.fema.gov/is. Type in your SID. 75% passes."),
+ ("Certificate", "It is emailed to you and saved online. Download the PDF and keep it."),
+])
+
+ORG_KID = sub(G.ORG, [
+ ("Always staffed. Does every job not yet assigned.", "The boss of the whole emergency. There is always one."),
+ ("Command Staff &middot; advise the IC", "Command Staff &middot; the IC&rsquo;s helpers"),
+ ("Only voice to the media", "Talks to the news and the public"),
+ ("Can stop unsafe work at once", "Can stop anything unsafe, right away"),
+ ("Contact for other agencies", "Talks to the other agencies"),
+ ("Does the tactical work", "The doers: do the hands-on work"),
+ ("Tracks resources, information, documents. Writes the Incident Action Plan (IAP).", "The planners: write the Incident Action Plan (IAP)"),
+ ("Food, comms, medical, transport, facilities", "The getters: food, radios, vehicles, supplies"),
+ ("Costs, time, claims, mutual aid paperwork", "The payers: track costs and time"),
+ ("General Staff &middot; section chiefs, who run the work", "General Staff &middot; four section chiefs"),
 ])
 
 RULES = """
@@ -54,38 +82,82 @@ RULES = """
  <div class="dk-rc"><b>Span of control</b>
   <div class="dk-scale">""" + "".join(
     f'<span class="{"best" if n == 5 else "in" if 3 <= n <= 7 else ""}">{n}</span>' for n in range(1, 10)) + """</div>
-  <div class="dk-scl"><span>Too few</span><span>3 to 7 &middot; 5 is best</span><span>Too many: add a supervisor</span></div>
+  <div class="dk-scl"><span>Too few</span><span>3 to 7 people &middot; 5 is best</span><span>Too many: add a leader</span></div>
  </div>
  <div class="dk-rc"><b>Unity of command</b>
-  <div class="dk-uc"><span class="dk-box">One supervisor</span><span class="dk-vl"></span><span class="dk-box me">You</span></div>
-  <p>Each person reports to one supervisor. Orders follow the chain of command; information is shared freely.</p>
+  <div class="dk-uc"><span class="dk-box">One boss</span><span class="dk-vl"></span><span class="dk-box me">You</span></div>
+  <p>Orders come only from your boss. Anyone can share information.</p>
  </div>
  <div class="dk-rc"><b>Common terminology</b>
   <div class="dk-say"><span class="yes">&ldquo;Engine 2, return to staging&rdquo;</span><span class="no">&ldquo;E2, 10-8, back to the barn&rdquo;</span></div>
-  <p>Plain language on the radio. No 10-codes or agency jargon.</p>
+  <p>Say it in plain English. No codes or slang.</p>
  </div>
- <div class="dk-rc"><b>Dispatch and deployment</b>""" + G.flow([("Requested", ""), ("Through the system", ""), ("Deploy", "")], "dk-mini") + """
-  <p><span class="dk-never">Never</span> self-dispatch. Arrive and check in.</p>
+ <div class="dk-rc"><b>Dispatch</b>""" + G.flow([("Asked for", ""), ("Sent", ""), ("Check in", "")], "dk-mini") + """
+  <p><span class="dk-never">Never</span> just show up. Wait to be asked.</p>
  </div>
 </div>"""
 
-# Leaner deck-only versions of two text-heavy guide diagrams (same classes, fewer words).
-MBASE_LEAN = G.flow([
- ("Before you go", "Where, when, and to whom you report. Pack for a long stay."),
- ("Check in", "At any designated location. Sent straight to a task? Report to that supervisor."),
- ("Work", "Unit log: ICS form 214. 24-hour time. Clear text on the radio."),
- ("Demobilize", "Finish the job. Return radios and gear. Check out."),
-])
-ZOOM_LEAN = ('<div class="zoom">' + "".join(
-    f'<div class="zp" style="--i:{n}"><span class="zw">{w}</span><b>{t}</b><span class="zd">{d}</span><em>{a}</em></div>'
-    for n, (w, t, d, a) in enumerate([
-     ("On scene", "Unified Command", "Agencies set one set of objectives. Each keeps its authority.", "Co-captains, one game plan"),
-     ("Off site", "Emergency Operations Center (EOC)", "Supplies the scene: resources, information, policy.", "Support staff: they supply, not play"),
-     ("Policy level", "Multiagency Coordination (MAC) Group", "Senior officials decide who gets scarce resources.", "League officials assigning the only bus"),
-     ("Region and nation", "RRCC and NOC", "Regional Response Coordination Center (FEMA). National Operations Center (DHS).", "Regional office and national headquarters"),
-    ])) + '<div class="zbar"><span>Closer to the scene</span><span>Wider view</span></div></div>')
+TYPES_KID = '<div class="dk-types">' + "".join(
+    f'<div class="dk-trow"><span class="dk-tl">Type {t}</span><span class="dk-tb"><span style="width:{w}%"></span></span>'
+    f'<span class="dk-te"><b>{ex}</b>{d}</span><span class="dk-chip {"on" if plan else ""}">{"Written plan" if plan else "No written plan"}</span></div>'
+    for t, w, ex, d, plan in [
+     ("5", 18, "Car crash", "A few responders. Over in hours.", False),
+     ("4", 36, "House fire", "Several crews. One shift.", False),
+     ("3", 56, "Large wildfire", "Section chiefs added. Lasts days.", True),
+     ("2", 78, "Regional flood", "Help from the region. Up to 200 people a shift.", True),
+     ("1", 100, "Major hurricane", "National help. 500+ people a shift.", True),
+    ]) + '<p class="dk-tnote">Examples are typical, not fixed. Size and complexity set the type.</p></div>'
 
-# Lifelines wheel with a short example under each lifeline (deck only).
+LADDER = '<div class="dk-ladder">' + "".join(
+    f'<div class="dk-step" style="margin-left:{n * 26}px"><span class="dk-lv">{lvl}</span><b>{t}</b>'
+    f'<span class="dk-lx">{x}</span><span class="dk-chip {"on" if dep else ""}">{"Deputy allowed" if dep else "No deputy"}</span></div>'
+    for n, (lvl, t, x, dep) in enumerate([
+     ("Incident", "Commander", "Runs the whole thing", True),
+     ("Section", "Chief", "Operations, Planning, Logistics, Finance", True),
+     ("Branch", "Director", "Added when a section gets too big", True),
+     ("Division or Group", "Supervisor", "Division = a place. Group = a job.", False),
+     ("Strike Team or Task Force", "Leader", "Strike Team = all the same. Task Force = a mix.", False),
+    ])) + '</div>'
+
+HANDOFF = G.flow([
+ ("Arrive", "The new incident commander (IC) looks over the scene."),
+ ("Brief face to face", "The old IC explains everything, using ICS Form 201."),
+ ("Pick the time", "Both agree on the exact handoff time."),
+ ("Tell everyone", "Everyone hears who is in charge, and from when."),
+]) + """
+<div class="dk-hand"><span>Old IC in charge</span><b>Handoff time</b><span class="in">New IC in charge</span></div>"""
+
+LEVELS_KID = cards([
+ ("On scene", "Incident Command", "Does the work right now.", "Players on the field"),
+ ("Off site", "Emergency Operations Center (EOC)", "Gets the scene what it needs.", "Coaches and equipment staff"),
+ ("Policy", "Multiagency Coordination (MAC) Group", "Decides what matters most when there isn&rsquo;t enough.", "League officials"),
+ ("Everyone", "Joint Information System (JIS)", "One clear message to the public.", "One team spokesperson"),
+])
+
+TIERS_KID = sub(G.TIERS, [
+ ("Stafford Act: FEMA leads; the Unified Coordination Group leads at the Joint Field Office (JFO). Non-Stafford: the agency with primary legal authority.",
+  "FEMA leads a declared disaster. Other federal agencies lead what the law gives them."),
+ ("Governor and state EOC. Other states help through the Emergency Management Assistance Compact (EMAC), interstate mutual aid.",
+  "The governor and the state&rsquo;s emergency center. Other states can send help too."),
+ ("First to arrive, last to leave. Police, fire, emergency medical services (EMS). The incident commander (IC) relays needs to the local emergency operations center (EOC).",
+  "Police, fire and ambulance. First to arrive, last to leave."),
+])
+
+ZOOM_KID = cards([
+ ("On scene", "Unified Command", "Leaders from each agency agree on one plan. Each keeps its own authority.", "Co-captains, one game plan"),
+ ("Off site", "Emergency Operations Center", "Sends the scene what it needs.", "Support staff: they supply, not play"),
+ ("Policy", "MAC Group", "Senior officials decide who gets scarce resources.", "League officials with only one bus"),
+ ("Region and nation", "FEMA and Homeland Security centers", "Regional Response Coordination Center (RRCC) and National Operations Center (NOC) watch the big picture.", "The league&rsquo;s head office"),
+]) + '<div class="zbar"><span>Closer to the scene</span><span>Wider view</span></div>'
+
+MISSIONS_KID = sub(G.MISSIONS, [
+ ("Stop imminent terrorism", "Stop a terror attack before it happens"),
+ ("Secure people and assets", "Keep people and places safe"),
+ ("Reduce loss of life and property by lessening disaster impact", "Make disasters hurt less, like building a levee"),
+ ("Save lives, protect property and environment, meet basic needs", "Save lives and meet basic needs right now"),
+ ("Restore and rebuild", "Rebuild afterward"),
+])
+
 LIFE_EX = {
  "Safety and Security": "Police, fire, search and rescue",
  "Food, Water, Shelter": "Groceries, drinking water, shelters",
@@ -97,222 +169,274 @@ LIFE_EX = {
 }
 WHEEL_EX = G.WHEEL.replace('<div class="wheel">', '<div class="wheel dk-wheel">')
 for name, ex in LIFE_EX.items():
-    old = f'>{name}</div>'
-    assert old in WHEEL_EX, name
-    WHEEL_EX = WHEEL_EX.replace(old, f'>{name}<span class="dk-ex">{ex}</span></div>')
+    WHEEL_EX = sub(WHEEL_EX, [(f'>{name}</div>', f'>{name}<span class="dk-ex">{ex}</span></div>')])
+
+DIMMER_KID = sub(G.DIMMER, [
+ ("The NRF never switches off. More of it engages as the incident grows. It covers the Response mission area, ties it to the other four, and aligns with NIMS.",
+  "Like a dimmer switch, not an on/off switch: always on, turned up as the emergency grows."),
+])
+
+ESF_A, ESF_B = G.ESFS.split('<p class="lab esub">', 1)
+ESF_B = '<p class="lab esub">' + ESF_B
+
+AUTH_KID = sub(G.AUTH, [
+ ("Imminently serious: life may be at stake", "A life may be at stake right now"),
+ ("Only the wing commander, or the commander&rsquo;s designee <span class=\"nw\">(§1-9a)</span>", "Only the wing commander, or someone the commander picks"),
+ ("Who is covered on Air Force-assigned missions <span class=\"cite\">§1-24a, b</span>", "On Air Force-assigned missions, you are covered by"),
+ ("protects members from liability", "protects you if someone sues"),
+ ("pays injury benefits", "pays if you are hurt"),
+])
+
+FIELD_KID = """
+<div class="yon">
+ <div class="ycol y"><span class="yh">Yes</span>
+  <p><b>Safety first</b>, always</p>
+  <p><b>Night vision goggles</b> while walking or riding as a passenger</p>
+  <p><b>Common sense</b> when the rules don&rsquo;t say</p></div>
+ <div class="ycol o"><span class="yh">Only if</span>
+  <p><b>Go onto private land</b>: only to save a life, after trying to get permission</p>
+  <p><b>Carry a patient</b>: only in an emergency with no other ride</p></div>
+ <div class="ycol yn"><span class="yh">Never</span>
+  <p><b>Night vision goggles while driving</b></p>
+  <p><b>Take apart or misuse</b> radios and tech gear</p></div>
+</div>"""
+
+READY_KID = sub(G.READY, [
+ ("each wing&rsquo;s annual operations training plan is due to the liaison region in WMIRS (Web Mission Information Reporting System), for the next fiscal year (§1-7). Alert rosters: update at least annually, and reissue them after major changes (§1-5c(6)).",
+  "the wing&rsquo;s training plan for next year is due. Alert rosters (who to call): update at least once a year, and after big changes."),
+])
+
+GATE_KID = sub(G.GATE, [
+ ("Operations security: what not to share about missions", "Operations security: what not to post or share about missions"),
+ ("Signed, promising to protect mission information", "A signed promise to keep mission information private"),
+ ("Required to become qualified, and to stay qualified. Every member, not only those on sensitive missions (§1-35).", "Needed to join, and to stay in. Every member."),
+])
+
+SUPP_KID = sub(G.SUPP, [("<p class=\"snot\">Not on the list: the group commander (§1-2)</p>", "<p class=\"snot\">Not on the list: the group commander</p>")])
+
+CISM_KID = sub(G.CISMT, [
+ ("Pre-incident education. Reduces the harmful effects of trauma.", "Learn what stress does, so it hits less hard"),
+ ("<span>Defusing</span>", "<span>Defusing: a short talk</span>"),
+ ("<span>Critical Incident Stress Debriefing (CISD)</span>", "<span>Debriefing (CISD): a group talk</span>"),
+ ("Peer support and referral", "Friends, support and more help if needed"),
+])
+
+MBASE_KID = G.flow([
+ ("Before you go", "Know where and when to report, and to whom. Pack for a long stay."),
+ ("Check in", "At the base, camp or staging area. Sent straight to a job? Report to that leader."),
+ ("Work", "Leaders keep a unit log (ICS form 214). Use 24-hour time. Plain words on the radio."),
+ ("Check out", "Finish the job. Return radios and gear. Then leave."),
+])
+
+HOUSE_KID = cards([
+ ("Pillar 1", "Resource Management", "&ldquo;Do we have what we need?&rdquo;", "Checking the gear bag"),
+ ("Pillar 2", "Command and Coordination", "&ldquo;Who leads, and how do we work together?&rdquo; Includes ICS.", "The coach and the captains"),
+ ("Pillar 3", "Communications and Information Management", "&ldquo;Does everyone know what they need to?&rdquo;", "Everyone hears the play call"),
+]) + '<p class="lab">Held up by three principles</p>' + G.tiles([
+ ("Flexibility", "Works for any emergency, any size"),
+ ("Standardization", "Same words and setup, so teams fit together"),
+ ("Unity of Effort", "Shared goals; each group keeps its own authority"),
+], 3)
+
+CRM_KID = '<p class="lab">When it gets busy, in this order</p>' + G.flow([
+ ("Aviate", "Fly the aircraft"), ("Navigate", "Know where you are going"), ("Communicate", "Talk on the radio")]) + \
+ '<p class="lab">Closed loop: every request, every time</p>' + G.flow([
+ ("Say you heard it", "&ldquo;Setting 122.9&rdquo;"), ("Do it", "Make the change"), ("Say it&rsquo;s done", "&ldquo;122.9 set&rdquo;")])
 
 CLOSE = """
 <div class="dk-close">
- <div class="dk-ct"><span class="sn">1</span><b>FEMA Independent Study</b><span>training.fema.gov/is &middot; enter your SID at the exam &middot; 75% passes &middot; save each certificate</span></div>
+ <div class="dk-ct"><span class="sn">1</span><b>FEMA Independent Study</b><span>training.fema.gov/is &middot; enter your SID &middot; 75% passes &middot; save each certificate</span></div>
  <div class="dk-ct"><span class="sn">2</span><b>eServices</b><span>CAPT 116, then CAPT 117 (all three parts)</span></div>
- <div class="dk-ct"><span class="sn">3</span><b>Study companion</b><span>The same diagrams, plus a practice test for every exam. Keep it open while you test.</span></div>
+ <div class="dk-ct"><span class="sn">3</span><b>Study companion</b><span>Diagrams, plus a practice test for every exam. Keep it open while you test.</span></div>
 </div>"""
 
 # ---------------------------------------------------------------- slides
-# kind: "title" | "div" | "slide". Visual width w is the natural width before it is scaled to fit.
 S = []
 def slide(kick, title, vis, take, notes, w=968, wmin=600):
     S.append(dict(kind="slide", kick=kick, title=title, vis=vis, take=take, notes=notes, w=w, wmin=wmin))
 def divider(part, title, chips, notes):
     S.append(dict(kind="div", kick=part, title=title, chips=chips, notes=notes))
 
-S.append(dict(kind="title", kick="Classroom deck", title="Emergency Services and FEMA Test Prep",
-  sub="Four Federal Emergency Management Agency (FEMA) tests first, then two eServices tests",
-  notes=["Goal for today: understand the few ideas each test keeps coming back to, then pass the tests.",
-         "Passing a test shows you were exposed to the material. Hands-on skills come next, with a mentor and a skills evaluator.",
-         "Everyone gets the study companion link. It has every diagram you see here, plus practice questions."]))
-slide("Today", "The road through six tests", ROADMAP,
-  "Get your FEMA Student ID (SID) first. Every FEMA exam asks for it.",
-  ["Order matters: IS-100 before IS-200; the SID before any FEMA exam.",
-   "The FEMA tests build on each other: ICS on scene, NIMS around it, the NRF across the nation.",
-   "The two eServices tests cover our own regulation and continuing education."])
-slide("Before any FEMA test", "FEMA Student ID: register once, use it everywhere", SIDFLOW,
-  "Already have a SID? Recover it. Never make a second one.",
-  ["Register at cdp.dhs.gov/femasid. The courses are on a different site: training.fema.gov/is.",
-   "One email address per SID, so siblings cannot share a parent's email.",
-   "Password: 14+ characters, with a number, upper and lower case, and a special character.",
-   "Multifactor authentication is required. An authenticator app is the easiest second factor.",
-   "Stuck: FEMA SID Help Desk 866-291-0696. Exam or certificate: Independent Study 301-447-1200."])
+S.append(dict(kind="title", kick="Classroom review", title="Emergency Services and FEMA Test Prep",
+  sub="Four Federal Emergency Management Agency (FEMA) tests first, then two eServices tests. One idea per slide.",
+  notes=["Today: the few big ideas each test keeps asking about. Then you take the tests.",
+         "Passing shows you learned the basics. Real skills come next, with a mentor and a skills evaluator.",
+         "Every slide has a question to ask the class in these notes. Get answers out loud before moving on."]))
+slide("Today", "Six tests, in this order", ROADMAP,
+  "Get your FEMA Student ID (SID) first. Every FEMA test asks for it.",
+  ["Ask: why do we take IS-100 before IS-200? (200 builds on 100.)",
+   "The FEMA tests zoom out: one scene (IS-100, IS-200), every team (IS-700), the whole nation (IS-800).",
+   "The two eServices tests cover our own rules and habits."])
+slide("Before any FEMA test", "FEMA Student ID: your test login", SIDFLOW,
+  "One SID for life. Lost it? Recover it. Never make a second one.",
+  ["Register at cdp.dhs.gov/femasid. The tests are on a different site: training.fema.gov/is.",
+   "One email per SID, so brothers and sisters can&rsquo;t share a parent&rsquo;s email.",
+   "Ask: what is the second check called? (Multifactor authentication.)",
+   "Stuck: FEMA SID Help Desk 866-291-0696."])
 
 divider("Part 1", "FEMA Independent Study", ["IS-100", "IS-200", "IS-700", "IS-800"],
-  ["Four online exams. 75% passes. Take them in order.",
-   "Test tip: when two answers look right, pick the one that matches the standard term."])
+  ["Four online tests. 75% passes.",
+   "Test tip: when two answers look right, pick the one that uses the official term."])
 
 K = "IS-100 &middot; Introduction to the Incident Command System (ICS)"
-slide(K, "Who does what", G.ORG,
-  "The incident commander (IC) is always staffed. Everything else opens only when needed.",
-  ["The IC sets the objectives and does every job not yet assigned.",
-   "Command Staff advise the IC: Public Information Officer (only voice to the media), Safety Officer (can stop unsafe work at once), Liaison Officer (contact for other agencies).",
-   "General Staff are the four section chiefs: Operations does the work; Planning tracks and writes the IAP; Logistics supports; Finance/Admin pays.",
-   "Modular: the organization grows and shrinks with the incident.",
-   "Unified Command: agencies share objectives and each keeps its own authority."])
+slide(K, "Who does what", ORG_KID,
+  "One boss, three helpers, four sections: doers, planners, getters, payers.",
+  ["Like a school play: the director is the incident commander (IC); the actors are Operations; the script writer is Planning; the props crew is Logistics; the ticket booth is Finance.",
+   "Only fill the boxes you need. A small emergency may be the IC alone, doing every job.",
+   "Ask: who talks to the news? (Public Information Officer.) Who can stop unsafe work? (Safety Officer.)",
+   "Unified Command: when several agencies share the lead, they agree on one plan and each keeps its own authority."])
 slide(K, "Four rules that keep it orderly", RULES,
-  "3 to 7 per supervisor, one supervisor each, plain words, no self-dispatch.",
-  ["Span of control: 3 to 7, and 5 is best. Too many? Add a supervisor and reorganize.",
-   "Unity of command: one supervisor each. Chain of command governs orders, not information.",
-   "Common terminology: standard names for positions, facilities and resources.",
-   "Accountability: check-in, action planning, personal responsibility, resource tracking.",
-   "Coordination is not command. Directing, ordering or controlling is command."])
+  "Small teams, one boss each, plain words, and wait to be asked.",
+  ["Span of control: like a teacher with a small group. 3 to 7 people per leader; 5 is best.",
+   "Unity of command: one boss each, so you never get two different orders.",
+   "Ask: what is wrong with &ldquo;10-8, back to the barn&rdquo;? (Codes and slang; not everyone knows them.)",
+   "Showing up without being asked (self-dispatching) clogs the scene and nobody knows you are there.",
+   "Accountability: check in, follow the plan, and leaders keep track of everyone."])
 
 K = "IS-200 &middot; Basic ICS for Initial Response"
-slide(K, "Incident types: complexity sets the structure", G.TYPEBARS,
-  "Type 5 is smallest, Type 1 largest. A written Incident Action Plan (IAP) starts at Type 3.",
-  ["Complexity rises with jurisdictions involved, threat to life and property, and size of area.",
-   "Type 5: 1 to 2 resources, up to 6 people, hours. Type 4: one operational period.",
-   "Type 1: national resources, 500+ people per period, possible disaster declaration.",
-   "Predicting resource needs to choose the structure is complexity analysis."])
-slide(K, "Leader titles, level by level", G.TITLES,
-  "Deputies only at IC, Section and Branch, and fully qualified for the job.",
-  ["Know the pairs: Section Chief, Branch Director, Division or Group Supervisor, Strike Team or Task Force Leader.",
-   "Division is a place; Group is a function.",
-   "Strike Team: same kind and type. Task Force: a mix.",
-   "A deputy holds the same box as the boss: shares the load, ready to take over. The next title down owns a smaller box."], wmin=880)
-slide(K, "Transfer of command", G.TOC,
-  "Always a face-to-face briefing. Command passes at the announced effective time.",
-  ["The briefing uses ICS Form 201.",
-   "Until the effective time, the outgoing IC is still in charge. No gap, never two people in charge.",
-   "A more qualified person arriving may take command, leave it as it is, or ask for a more qualified IC.",
-   "IC authority comes from law, agency policy and delegation of authority."])
+slide(K, "Incident types: Type 1 is the biggest", TYPES_KID,
+  "Lower number, bigger incident. A written plan starts at Type 3.",
+  ["Backwards on purpose: Type 5 is smallest, Type 1 is largest.",
+   "The written plan is the Incident Action Plan (IAP).",
+   "Ask: a tornado wipes out a whole county for weeks. What type? (Type 1 or 2.)",
+   "Deciding the type by predicting what you will need is complexity analysis."])
+slide(K, "Leader titles, top to bottom", LADDER,
+  "Commander, Chief, Director, Supervisor, Leader.",
+  ["Memory trick: Can Chiefs Direct Super Leaders? Commander, Chief, Director, Supervisor, Leader.",
+   "Deputies only in the top three. A deputy is a backup boss who can take over, and must be fully qualified.",
+   "Ask: is &ldquo;north side of the fire&rdquo; a Division or a Group? (Division: a place.) &ldquo;Medical&rdquo;? (Group: a job.)",
+   "Strike Team: five ambulances. Task Force: an ambulance, an engine and a rescue truck."])
+slide(K, "Changing who is in charge", HANDOFF,
+  "Like passing a relay baton: face to face, at a set time, and everyone is told.",
+  ["Until the handoff time, the old incident commander is still in charge. Never zero bosses, never two.",
+   "A more qualified person who arrives may take over, leave it as it is, or ask for someone even more qualified.",
+   "Ask: why not just hand off by text? (Things get missed; the briefing must be face to face.)"])
 slide(K, "How a plan reaches the field", G.FUNNEL,
-  "Every assignment traces back to the incident objectives.",
-  ["Management by objectives runs the whole chain.",
-   "The IC or Unified Command sets objectives; Planning writes the IAP; the IC approves it.",
-   "The Operational Period Briefing is run by the Planning Section Chief.",
-   "Leaders show commitment to duty: step up when needed, develop subordinates."], w=900)
-slide(K, "Objectives: specific and measurable", G.OBJ,
-  "Where, by when, and what done looks like.",
-  ["Have the class rewrite a broad objective into a measurable one.",
-   "Test trap: broad, inspiring objectives are wrong. The test wants specific and measurable."], w=900)
+  "Big plan, then goals, then today&rsquo;s plan, then briefings, then your job.",
+  ["Every job you get traces back to the goals at the top. That is management by objectives.",
+   "The incident commander or Unified Command sets the goals. Planning writes the plan; the IC approves it.",
+   "Ask: who runs the operational period briefing? (Planning Section Chief.)"], w=900)
+slide(K, "A good goal is specific", G.OBJ,
+  "Say where, by when, and what &ldquo;done&rdquo; looks like.",
+  ["Game: turn &ldquo;Clean your room&rdquo; into a specific, measurable goal. (&ldquo;Clothes in the hamper and bed made by 7 pm.&rdquo;)",
+   "Test trap: big, inspiring goals are wrong answers. The test wants specific and measurable."], w=900)
 
 K = "IS-700 &middot; National Incident Management System (NIMS)"
-slide(K, "NIMS in one view", G.HOUSE,
-  "Three components, held up by three principles.",
-  ["NIMS applies to every stakeholder with incident duties, at every level.",
-   "Components: Resource Management; Command and Coordination (which includes ICS); Communications and Information Management.",
-   "Principles: Flexibility, Standardization, Unity of Effort.",
-   "Standardization is what makes interoperability possible."])
-slide(K, "Three levels, one response", G.LAYERS,
-  "The scene acts, the Emergency Operations Center supports, the MAC Group sets priorities, one public voice.",
-  ["MAC Group: senior officials set policy and priorities and settle resource conflicts. They do not run the incident.",
-   "EOC: off-site information sharing, resource coordination, policy direction. Activates when the response grows.",
-   "An ICS-like EOC starts fast because field staff already know the structure.",
-   "JIS: one coordinated message. PIOs work together in the Joint Information Center."])
+slide(K, "NIMS: the shared playbook", HOUSE_KID,
+  "Every team uses the same playbook, so any team can work with any other.",
+  ["Like every school using the same rules for a sport: teams that never met can still play together.",
+   "Three components (the pillars), held up by three principles (the foundation).",
+   "Ask: which pillar answers &ldquo;do we have what we need?&rdquo; (Resource Management.)"])
+slide(K, "Three levels, one response", LEVELS_KID,
+  "The field does, the center supplies, the officials decide, one voice talks.",
+  ["Emergency Operations Centers (EOCs) are off site. They support the scene; they do not run it.",
+   "The MAC Group only steps in when there isn&rsquo;t enough to go around.",
+   "Public Information Officers work together in the Joint Information Center so the public gets one message.",
+   "Ask: two news crews hear different stories. Which part failed? (Joint Information System.)"])
 slide(K, "Resource management cycle", G.RING,
-  "Inventory and type resources before the incident. Order local first.",
-  ["Six steps: identify, order and acquire, mobilize, track and report, demobilize, reimburse and restock.",
-   "Typing describes a resource by capability.",
-   "Emergency Management Assistance Compact (EMAC): state-to-state sharing."], w=900)
+  "Know what you have before you need it. Ask nearby first. Return and restock after.",
+  ["Like a school sports closet: count and label the gear, hand it out, track it, get it back, replace what broke.",
+   "Typing means describing a resource by what it can do.",
+   "Ask: which step happens before any emergency? (Inventory and typing.)"], w=900)
 
 K = "IS-800 &middot; National Response Framework (NRF)"
-slide(K, "Tiered response: begin and end locally", G.TIERS,
-  "Incidents are handled at the lowest level possible. Each ring steps in when the one inside needs more.",
-  ["Local: first to arrive, last to leave.",
-   "State: governor and state EOC; other states help through EMAC.",
-   "Federal: Stafford Act incidents are led by FEMA; the Unified Coordination Group works at the Joint Field Office.",
-   "Tribal governments may deal directly with the federal government."])
-slide(K, "Coordinating structures: zoom out from the scene", ZOOM_LEAN,
+slide(K, "Help starts local and grows outward", TIERS_KID,
+  "Town first, then state, then nation. Each ring helps when the inside one needs more.",
+  ["Handle it at the lowest level that can. Tribal governments may go straight to the federal government.",
+   "States help each other through the Emergency Management Assistance Compact (EMAC).",
+   "Ask: who is first to arrive and last to leave? (Local responders.)"])
+slide(K, "Who coordinates: zoom out from the scene", ZOOM_KID,
   "Each step out supports the one closer to the scene.",
-  ["Use the sports analogies on the slide; they land with cadets.",
-   "MAC Group decides who gets scarce resources.",
-   "RRCC is FEMA's regional center; NOC is the DHS national center."])
-slide(K, "Five mission areas", G.MISSIONS,
-  "The NRF focuses on Response. Three core capabilities span all five.",
-  ["Prevention is specifically imminent terrorism.",
-   "Mitigation reduces loss of life and property by lessening impact.",
-   "Planning; Public Information and Warning; Operational Coordination run across every mission area.",
-   "The National Preparedness Goal sets the vision and names the core capabilities."])
+  ["Same sports picture as IS-700: players, support staff, league officials, head office.",
+   "Ask: who decides which town gets the only rescue helicopter? (Multiagency Coordination Group.)"])
+slide(K, "Five mission areas", MISSIONS_KID,
+  "Before, during, after. The NRF covers the &ldquo;during&rdquo;: Response.",
+  ["Prevention is only about stopping terrorism.",
+   "Planning, Public Information and Warning, and Operational Coordination show up in all five.",
+   "Ask: a town raises a riverbank wall before flood season. Which mission area? (Mitigation.)"])
 slide(K, "Seven community lifelines", WHEEL_EX,
-  "Lifelines keep critical government and business functions running.",
-  ["The course teaches seven. FEMA added an eighth, Water Systems, in 2023; answer the test with seven.",
-   "Ask the class which lifeline a flooded hospital hits (Health and Medical)."], w=820)
-slide(K, "The NRF is always on", G.DIMMER,
-  "It never switches off. More of it engages as the incident grows.",
-  ["Guiding principles include engaged partnership and scalable, flexible, adaptable capabilities.",
-   "It aligns with NIMS and ties Response to the other four mission areas."], w=900)
-ESF_A, ESF_B = G.ESFS.split('<p class="lab esub">', 1)
-ESF_B = '<p class="lab esub">' + ESF_B
+  "Ask the class: which lifeline goes down first in a flood?",
+  ["Lifelines are what a community needs to keep running.",
+   "The course teaches seven. FEMA added an eighth, Water Systems, in 2023. Answer the test with seven.",
+   "Ask: a flooded hospital hits which lifeline? (Health and Medical.)"], w=820)
+slide(K, "The NRF is always on", DIMMER_KID,
+  "A dimmer switch, not an on/off switch.",
+  ["It never turns off. More of it is used as an emergency grows.",
+   "It works hand in hand with NIMS.",
+   "Ask: is the NRF only used for huge disasters? (No. It is always in effect.)"], w=900)
 slide(K, "Emergency Support Functions", ESF_A,
   "Each need has an Emergency Support Function (ESF) that answers it.",
-  ["Walk the flood example top to bottom: need, then the ESF that answers it.",
-   "ESF #6 Mass Care also reunites children with families, working with the National Center for Missing &amp; Exploited Children.",
-   "ESFs include government and private-sector partners, not only federal agencies."], wmin=968)
-slide(K, "ESFs: activated only as needed", ESF_B,
-  "More ESFs engage as the incident grows. The rest stay on standby.",
-  ["ESF #5 Information and Planning and ESF #7 Logistics support the whole response.",
-   "Standby functions activate only if this incident needs them."], w=900)
+  ["Walk the flood top to bottom: the need, then the function that handles it.",
+   "Mass Care (ESF #6) also reunites children with their families.",
+   "Ask: power is out across town. Which ESF? (#12 Energy.)"], wmin=968)
+slide(K, "ESFs turn on only when needed", ESF_B,
+  "More ESFs switch on as the emergency grows. The rest wait on standby.",
+  ["ESFs include government and private companies, not only federal agencies.",
+   "Ask: does a small flood turn on Firefighting (ESF #4)? (Only if the incident needs it.)"], w=900)
 
 divider("Part 2", "eServices", ["CAPT 116", "CAPT 117"],
   ["Two online tests in eServices.",
-   "These test our own regulation and habits. Cite-level detail matters: who, how many, how long."])
+   "These test our own rules: who, how many, how long. Details matter."])
 
 K = "CAPT 116 &middot; General Emergency Services &middot; CAPR 60-3"
-slide(K, "Support priority when resources are short", G.PODIUM,
-  "Air Force first, local last.",
-  ["Order: Air Force, other Department of Defense, federal civil (such as FEMA), state, local.",
-   "Source: CAPR 60-3, paragraph 1-4."], w=860)
-slide(K, "Minimum team makeup", G.TEAMS,
-  "A team operates within the limits of its lowest qualified member.",
-  ["Aircrew: mission pilot (left seat), mission observer (right seat), mission scanner (back).",
-   "Ground team: a qualified ground team leader plus at least three qualified members or supervised trainees, before release.",
-   "Sources: paragraphs 1-16d(2), 1-17b(2)(a) and 1-17b(3)."])
-slide(K, "Who can launch, who is covered", G.AUTH,
-  "C911: wing commander or designee. FECA injury benefits: members 18 and older.",
-  ["C911 is for imminently serious situations: life may be at stake (paragraph 1-9a).",
-   "FTCA, the Federal Tort Claims Act, protects all members from liability.",
-   "FECA, the Federal Employees' Compensation Act, does not cover cadets under 18 (paragraph 1-24)."])
-slide(K, "In the field: yes, only if, never", G.FIELD,
-  "Safety first, always. Night vision devices never while driving.",
-  ["Private property: only to save life, after trying for agency approval and owner consent.",
-   "Patient transport: only in an emergency with no other suitable transport.",
-   "Never alter, separate or misuse communications or advanced technology equipment."])
-slide(K, "Staying mission-ready", G.READY,
-  "Specialty ratings last 36 months, to the last day of the month.",
-  ["31 July: wing annual operations training plan due, in WMIRS.",
-   "Alert rosters: update at least annually and after major changes.",
-   "CAPF 101 shows what you may perform, as trainee or qualified.",
-   "The IC makes sure WMIRS entries and approvals are complete before any sortie."])
-slide(K, "The gate to emergency services", G.GATE,
-  "Every member completes both, to qualify and to stay qualified.",
-  ["Operations security (OPSEC) training plus a signed nondisclosure agreement (paragraph 1-35).",
-   "Not only for sensitive missions. Every emergency services member."], w=900)
-slide(K, "Who may add local rules", G.SUPP,
-  "Wing is the lowest level that may supplement. All three approvals needed.",
-  ["Region or wing may issue. Group and squadron may not (Congressional Squadron is the exception).",
-   "Approvals: region commander, national operations, Air Force liaison operations.",
-   "Test trap: the group commander is not on the approval list (paragraph 1-2)."])
+slide(K, "Who gets help first", G.PODIUM,
+  "When there isn&rsquo;t enough to go around: Air Force first, local last.",
+  ["Order: Air Force, other Department of Defense, federal agencies like FEMA, state, local.",
+   "Ask: the state and the Air Force both ask for the same airplane. Who gets it? (The Air Force.)"], w=860)
+slide(K, "Smallest team allowed", G.TEAMS,
+  "A team is only as strong as its least trained member.",
+  ["Aircrew of three: pilot, observer, scanner.",
+   "Ground team: a qualified leader plus at least three members or supervised trainees.",
+   "Ask: the team has one trainee. Who sets the pace? (The trainee: the team works at its weakest link.)"])
+slide(K, "Who can say &ldquo;go&rdquo;, and who protects you", AUTH_KID,
+  "Emergency (C911) missions: the wing commander decides. Injury pay: 18 and older.",
+  ["FTCA is the Federal Tort Claims Act. FECA is the Federal Employees&rsquo; Compensation Act.",
+   "Cadets under 18 are not covered by FECA.",
+   "Ask: a 16-year-old is hurt on a mission. Does FECA pay? (No.)"])
+slide(K, "In the field: yes, only if, never", FIELD_KID,
+  "Safety first. Night vision goggles never while driving.",
+  ["Private land: only to save a life, and only after trying to get permission.",
+   "Ask: can you drive with night vision goggles if it&rsquo;s really dark? (Never.)"])
+slide(K, "Staying ready", READY_KID,
+  "Your ratings last 36 months, to the last day of the month.",
+  ["Your qualification card (CAPF 101) shows what you are allowed to do.",
+   "Ask: rated on 10 March 2027. When does it expire? (31 March 2030.)"])
+slide(K, "Two things before any mission", GATE_KID,
+  "OPSEC training and a signed promise, for every member.",
+  ["OPSEC means operations security: not posting or sharing mission details.",
+   "Ask: can you post a photo of the search area on social media during a mission? (No.)"], w=900)
+slide(K, "Who can add local rules", SUPP_KID,
+  "Wing or region only, with all three approvals. Not groups or squadrons.",
+  ["A local rule added to the regulation is a supplement.",
+   "Ask: can a group commander approve one? (No.)"])
 
 K = "CAPT 117 &middot; Emergency Services continuing education"
-slide(K, "Part 1 &middot; Critical Incident Stress Management (CISM)", G.CISMT,
-  "Sooner is better. CISM is a set of tools, not one procedure.",
-  ["Pre-incident education reduces the harmful effects of trauma.",
-   "Defusing within hours. Debriefing (CISD) at 24 to 72 hours.",
-   "Crisis intervention is emotional first aid, not therapy.",
-   "Source: CAPR 60-5."])
+slide(K, "Part 1 &middot; Stress care: sooner is better", CISM_KID,
+  "Talk about it early. Help works best soon after.",
+  ["This is Critical Incident Stress Management (CISM): a set of tools, not one meeting.",
+   "It is like first aid for feelings, not therapy.",
+   "Ask: when does the group debriefing happen? (24 to 72 hours after.)"])
 slide(K, "Part 1 &middot; Four places stress shows up", G.QUAD,
-  "Thinking, feeling, body, actions.",
-  ["Ask the class for one example of each.",
-   "Not new: shell shock, combat fatigue, post-traumatic stress disorder (PTSD).",
-   "Long-term stress accelerates aging and harms health."], w=820)
-slide(K, "Part 2 &middot; Crew Resource Management (CRM)", G.CRMCHAIN,
-  "Accidents are a chain. Anyone who speaks up breaks a link.",
-  ["CRM is every crew member's job, not just the pilot in command's.",
-   "It is teamwork, communication, attitudes and behavior, not stick skills.",
-   "Split the workload to limit fatigue."], w=900)
-slide(K, "Part 2 &middot; Cockpit habits", G.CRMHAB,
-  "Aviate, navigate, communicate. Close every loop.",
-  ["Announce what you are about to do before you do it.",
-   "Sterile cockpit: no distractions for the crew.",
-   "Give decision makers correct, relevant information, not everything."], wmin=860)
-slide(K, "Part 3 &middot; Mission base", MBASE_LEAN,
-  "Know where to report, check in, keep the log, check out.",
-  ["Check in at any designated location: command post, base, camp, staging area, helibase.",
-   "Sent straight to a tactical assignment? Report to the division or group supervisor.",
-   "Unit log is ICS form 214, every operational period. 24-hour time. Clear text on the radio.",
-   "Demobilize: finish assignments, return radios and gear, check out."])
+  "Thinking, feelings, body and actions.",
+  ["Ask for one example of each from the class.",
+   "Older names for it: shell shock, combat fatigue, post-traumatic stress disorder (PTSD)."], w=820)
+slide(K, "Part 2 &middot; Teamwork in the aircraft", G.CRMCHAIN,
+  "Anyone, even the newest crew member, can speak up and break the chain.",
+  ["This is Crew Resource Management (CRM): teamwork and talking, not flying skill.",
+   "Ask: the scanner notices fuel looks low. What should she do? (Say so, right away.)"], w=900)
+slide(K, "Part 2 &middot; Cockpit habits", CRM_KID,
+  "Fly first, then find the way, then talk. Close every loop.",
+  ["Closed loop: say you heard it, do it, say it&rsquo;s done.",
+   "Sterile cockpit: no distractions when the crew is busy.",
+   "Ask: the pilot says &ldquo;set 122.9&rdquo;. What do you say back? (&ldquo;Setting 122.9&rdquo;, then &ldquo;122.9 set.&rdquo;)"])
+slide(K, "Part 3 &middot; Mission base", MBASE_KID,
+  "Know where to go, check in, keep the log, check out.",
+  ["Ask: you are sent straight to a search team. Who do you report to? (That team&rsquo;s leader or supervisor.)",
+   "Use 24-hour time: 1:30 pm is 1330."])
 
-S.append(dict(kind="slide", kick="Wrap-up", title="Now take the tests", vis=CLOSE, take="Keep the study companion open while you test.",
-  notes=["Save every certificate PDF and turn in copies as your unit requires.",
-         "Next: hands-on training with a mentor, then sign-off by a skills evaluator."], w=900))
+slide("Wrap-up", "Now take the tests", CLOSE, "Keep the study companion open while you test.",
+  ["Save every certificate PDF.",
+   "Next: hands-on training with a mentor, then sign-off by a skills evaluator."], w=900)
 
 # ---------------------------------------------------------------- render
 def notes_html(n):
