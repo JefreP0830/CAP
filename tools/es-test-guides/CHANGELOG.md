@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.2.0 - 2026-11-17
+- Acronym sweep on every sheet: each acronym is spelled out at its first use in the essentials and again at its first use in that sheet's practice test (for example CISD, CISM, CRM, ICS, IC, IAP, PIO, NIMS, MAC, JIS, EMAC, EMS, EOC, NRF, NOC, RRCC, DHS, ESF, FEMA, SID, OPSEC, WMIRS, NDEMU, MFA). Course and publication codes (IS-100, CAPR 60-3) stay as names.
+
 ## 3.1.0 - 2026-11-17
 - Red-team coverage pass on CAPT 116 and 117: every practice question now has matching detail on the sheet (safety as a primary concern, prudent judgment, alert rosters reissued after major changes, CISM before/during/after).
 - CAPT 116: new visuals for the emergency services gate (OPSEC training and nondisclosure agreement) and for supplements to CAPR 60-3 (wing level and up, three approvals, group commander not among them).

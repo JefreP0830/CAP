@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "3.1.0"
+VERSION = "3.2.0"
 
 LET = "ABCD"
 
@@ -76,12 +76,12 @@ FOOT = ('<footer class="gfoot">Independent study aid. Practice questions are ori
 
 def fema_link(code):
     return (f'Take it at <a href="https://training.fema.gov/is/courseoverview.aspx?code={code}">'
-            f'training.fema.gov/is</a> ({code}). You need a FEMA SID to submit the exam. 75% passes.')
+            f'training.fema.gov/is</a> ({code}), the Federal Emergency Management Agency (FEMA) site. You need a FEMA Student Identification number (SID) to submit the exam. 75% passes.')
 
 # ---------------------------------------------------------------- FEMA SID
 SID = f"""
 <section class="guide sid" id="sid" data-title="FEMA SID">
-{head("Do this first, before any FEMA test", "FEMA Student ID (SID)", "Register once. Use the same SID for IS-100, IS-200, IS-700 and IS-800.",
+{head("Do this first, before any FEMA test", "FEMA Student ID (SID)", "Register once with the Federal Emergency Management Agency (FEMA). Use the same Student Identification number (SID) for IS-100, IS-200, IS-700 and IS-800.",
  'Register at <a href="https://cdp.dhs.gov/FEMASID/">cdp.dhs.gov/femasid</a>. The FEMA courses are <i>not</i> on that site; they are at <a href="https://training.fema.gov/is/">training.fema.gov/is</a>.')}
 <h2>Have ready</h2>
 <ul class="ess two">
@@ -117,12 +117,12 @@ SID = f"""
 <li>Open the course page from the guide for that test, or search the code (for example IS-100.c) at <a href="https://training.fema.gov/is/">training.fema.gov/is</a>.</li>
 <li>Select <i>Take Final Exam</i>. Enter your SID when asked.</li>
 <li>Answer every question. 75% passes.</li>
-<li>Your certificate appears in the NDEMU Student Portal right away and is emailed to you. Save the PDF; you will need it as proof of completion.</li>
+<li>Your certificate appears in the National Disaster &amp; Emergency Management University (NDEMU) Student Portal right away and is emailed to you. Save the PDF; you will need it as proof of completion.</li>
 </ol></div>
 </div>
 <h2>Stuck?</h2>
 <div class="tiles c2">
-<div class="tile"><b>SID, password or MFA problems</b><span>FEMA SID Help Desk, 866-291-0696, weekdays 7:30 to 4:30 Central. Contact form on cdp.dhs.gov/femasid.</span></div>
+<div class="tile"><b>SID, password or multifactor authentication (MFA) problems</b><span>FEMA SID Help Desk, 866-291-0696, weekdays 7:30 to 4:30 Central. Contact form on cdp.dhs.gov/femasid.</span></div>
 <div class="tile"><b>Exam or certificate problems</b><span>FEMA Independent Study Program, 301-447-1200, weekdays 8:00 to 6:00 Eastern.</span></div>
 </div>
 <footer class="gfoot">Steps checked against cdp.dhs.gov/femasid and training.fema.gov on 10 Nov 2026. FEMA changes these screens; follow the screen if it differs.<span class="ver">ES &amp; FEMA Study Companion v{VERSION}</span></footer>
@@ -133,7 +133,7 @@ PODIUM = """
 <div class="podium">""" + "".join(
     f'<div class="pcol" style="--h:{h}%"><div class="pbar"><span class="prank">{n}</span><b>{t}</b><span>{d}</span></div></div>'
     for n, (t, d, h) in enumerate([("Air Force", "First claim", 100), ("Other DoD", "Department of Defense agencies", 86),
-        ("Federal civil", "Such as FEMA (Federal Emergency Management Agency)", 72), ("State", "State civil agencies", 58), ("Local", "Last claim", 44)], 1)) + """
+        ("Federal civil", "Such as the Federal Emergency Management Agency (FEMA)", 72), ("State", "State civil agencies", 58), ("Local", "Last claim", 44)], 1)) + """
 </div>"""
 
 TEAMS = """
@@ -263,7 +263,7 @@ C116 = f"""
 {head("Online test &middot; eServices", "CAPT 116 &middot; General Emergency Services", "CAPR 60-3(I), Emergency Services Training and Operational Missions (26 Dec 12)",
  "Take it in eServices. It is the starting point for every emergency services qualification.")}
 <h2>Core essentials</h2>
-{block("Support priority: who gets CAP first when resources are short (§1-4)", PODIUM)}
+{block("Support priority: who gets support first when resources are short (§1-4)", PODIUM)}
 {block("Minimum team makeup: before a team is released", TEAMS, [
  "[[Aircrew]]: a typical aircrew is a mission pilot, mission observer and mission scanner (§1-16d(2)).",
  "[[Ground teams]] are not released without a qualified ground team leader and at least three qualified members or supervised trainees (§1-17b(3)). A team operates within the limits of its lowest qualified member (§1-17b(2)(a)).",
@@ -286,7 +286,7 @@ C116 = f"""
 # ---------------------------------------------------------------- CAPT 117
 C117 = f"""
 <section class="guide" id="capt117" data-title="CAPT 117">
-{head("Online test &middot; eServices", "CAPT 117 &middot; ES Continuing Education", "Part 1 Critical Incident Stress (CAPR 60-5) &middot; Part 2 Crew Resource Management &middot; Part 3 Mission Base",
+{head("Online test &middot; eServices", "CAPT 117 &middot; ES Continuing Education", "Emergency Services (ES) continuing education &middot; Part 1 Critical Incident Stress (CAPR 60-5) &middot; Part 2 Crew Resource Management &middot; Part 3 Mission Base",
  "Take it in eServices. Three parts.")}
 <h2>Core essentials</h2>
 {block("Critical Incident Stress Management (CISM): Part 1, sooner beats later", CISMT, [
@@ -319,16 +319,16 @@ ORG = """
 <div class="org">
  <div class="orgtop">
   <div class="spacer"></div>
-  <div class="iccol"><div class="node ic"><b>Incident Commander</b><span>Always staffed. Does every job not yet assigned.</span></div><div class="spine"></div></div>
+  <div class="iccol"><div class="node ic"><b>Incident Commander (IC)</b><span>Always staffed. Does every job not yet assigned.</span></div><div class="spine"></div></div>
   <div class="cstaff"><p class="lab">Command Staff &middot; advise the IC</p>
-   <div class="node"><b>Public Information Officer</b><span>Only voice to the media</span></div>
+   <div class="node"><b>Public Information Officer (PIO)</b><span>Only voice to the media</span></div>
    <div class="node"><b>Safety Officer</b><span>Can stop unsafe work at once</span></div>
    <div class="node"><b>Liaison Officer</b><span>Contact for other agencies</span></div>
   </div>
  </div>
  <div class="gstaff">
   <div class="node"><b>Operations</b><span>Does the tactical work</span></div>
-  <div class="node"><b>Planning</b><span>Tracks resources, information, documents. Writes the IAP.</span></div>
+  <div class="node"><b>Planning</b><span>Tracks resources, information, documents. Writes the Incident Action Plan (IAP).</span></div>
   <div class="node"><b>Logistics</b><span>Food, comms, medical, transport, facilities</span></div>
   <div class="node"><b>Finance / Admin</b><span>Costs, time, claims, mutual aid paperwork</span></div>
  </div>
@@ -337,7 +337,7 @@ ORG = """
 
 I100 = f"""
 <section class="guide" id="is100" data-title="IS-100">
-{head("FEMA Independent Study", "IS-100 &middot; Introduction to the Incident Command System", "ICS-100 &middot; who does what, and the rules that keep it orderly",
+{head("FEMA Independent Study", "IS-100 &middot; Introduction to the Incident Command System", "Incident Command System (ICS) &middot; ICS-100 &middot; who does what, and the rules that keep it orderly",
  fema_link("IS-100.c"))}
 <h2>Core essentials</h2>
 {block("The ICS organization: who does what", ORG, [
@@ -378,7 +378,7 @@ TYPEBARS = ('<div class="types"><div class="trow th"><span>Type</span><span>Comp
     for t, w, who, staff, dur, iap in TYPES) + '</div>')
 
 LEVELS = [
- ("Incident Command", "Commander", ["Runs the whole incident"], True),
+ ("Incident Command", "Commander", ["Incident Commander (IC): runs the whole incident"], True),
  ("Section", "Chief", ["Operations, Planning, Logistics, Finance/Admin"], True),
  ("Branch", "Director", ["Added when span of control is exceeded"], True),
  ("Division or Group", "Supervisor", ["Division: a geographic area", "Group: a function"], False),
@@ -428,10 +428,10 @@ OBJ = """
 
 I200 = f"""
 <section class="guide" id="is200" data-title="IS-200">
-{head("FEMA Independent Study", "IS-200 &middot; Basic ICS for Initial Response", "ICS-200 &middot; growing the organization, briefings and transfer of command",
+{head("FEMA Independent Study", "IS-200 &middot; Basic ICS for Initial Response", "Incident Command System (ICS) &middot; ICS-200 &middot; growing the organization, briefings and transfer of command",
  fema_link("IS-200.c"))}
 <h2>Core essentials</h2>
-{block("Incident types: complexity sets the structure", TYPEBARS, [
+{block("Incident types: complexity sets the structure, and whether you need a written Incident Action Plan (IAP)", TYPEBARS, [
  "[[Complexity]] rises with factors such as the number of jurisdictions, threat to life and property, and size of the area.",
  "Predicting resource needs to choose the structure is [[complexity analysis]].",
 ], True)}
@@ -470,7 +470,7 @@ HOUSE = """
  <div class="roof"><b>NIMS</b><span>A systematic approach for everyone with incident duties</span></div>
  <div class="pillars">
   <div class="pillar"><b>Resource Management</b><span class="q">&ldquo;Do we have what we need?&rdquo;</span></div>
-  <div class="pillar"><b>Command and Coordination</b><span class="q">&ldquo;Who leads, and how do we work together?&rdquo;</span><span>Includes ICS</span></div>
+  <div class="pillar"><b>Command and Coordination</b><span class="q">&ldquo;Who leads, and how do we work together?&rdquo;</span><span>Includes the Incident Command System (ICS)</span></div>
   <div class="pillar"><b>Communications and Information Management</b><span class="q">&ldquo;Does everyone know what they need to?&rdquo;</span></div>
  </div>
  <div class="found">
@@ -484,17 +484,17 @@ HOUSE = """
 LAYERS = """
 <div class="layers">
  <div class="flowcol"><div class="fup"><span>Needs and information flow up</span></div><div class="fdn"><span>Priorities and support flow down</span></div></div>
- <div class="layer lp"><span class="lwhere">Policy</span><div class="lbox"><b>MAC Group</b><span>Senior officials. Set priorities and settle resource conflicts. Do not replace EOCs or dispatch.</span></div><span class="ask">&ldquo;What matters most?&rdquo;</span></div>
+ <div class="layer lp"><span class="lwhere">Policy</span><div class="lbox"><b>Multiagency Coordination (MAC) Group</b><span>Senior officials. Set priorities and settle resource conflicts. Do not replace EOCs or dispatch.</span></div><span class="ask">&ldquo;What matters most?&rdquo;</span></div>
  <div class="layer ls"><span class="lwhere">Off site</span><div class="lbox"><b>Emergency Operations Center (EOC)</b><span>Information sharing, resource coordination, policy direction. Activates when local response grows large or complex.</span></div><span class="ask">&ldquo;What do they need?&rdquo;</span></div>
- <div class="layer lt"><span class="lwhere">On scene</span><div class="lbox"><b>Incident Command (ICS)</b><span>IC or Unified Command directs the tactics. The Planning Section writes the IAP.</span></div><span class="ask">&ldquo;What do we do now?&rdquo;</span></div>
- <div class="jisrail"><b>Joint Information System</b><span>One coordinated public message for all three levels. PIOs work together in the Joint Information Center (JIC).</span></div>
+ <div class="layer lt"><span class="lwhere">On scene</span><div class="lbox"><b>Incident Command (ICS)</b><span>The incident commander (IC) or Unified Command directs the tactics. The Planning Section writes the IAP.</span></div><span class="ask">&ldquo;What do we do now?&rdquo;</span></div>
+ <div class="jisrail"><b>Joint Information System (JIS)</b><span>One coordinated public message for all three levels. Public Information Officers (PIOs) work together in the Joint Information Center (JIC).</span></div>
 </div>"""
 
 RING = """<div class="ring"><div class="rcircle"></div><span class="rarr" style="left:65.5%;top:23.2%;--r:22deg"></span><span class="rarr" style="left:81.0%;top:50.0%;--r:90deg"></span><span class="rarr" style="left:65.5%;top:76.8%;--r:158deg"></span><span class="rarr" style="left:34.5%;top:76.8%;--r:-158deg"></span><span class="rarr" style="left:19.0%;top:50.0%;--r:-90deg"></span><span class="rarr" style="left:34.5%;top:23.2%;--r:-22deg"></span><div class="rcenter"><b>Before any incident</b><span>Inventory resources and type them by capability (preparedness)</span></div><div class="rnode" style="left:50.0%;top:11.0%"><span class="sn">1</span><b>Identify requirements</b><span>Type, quantity, location, users</span></div><div class="rnode" style="left:83.8%;top:30.5%"><span class="sn">2</span><b>Order and acquire</b><span>Local first, if available</span></div><div class="rnode" style="left:83.8%;top:69.5%"><span class="sn">3</span><b>Mobilize</b><span>Deploy or activate</span></div><div class="rnode" style="left:50.0%;top:89.0%"><span class="sn">4</span><b>Track and report</b><span>Coordinate throughout</span></div><div class="rnode" style="left:16.2%;top:69.5%"><span class="sn">5</span><b>Demobilize</b><span>Orderly release</span></div><div class="rnode" style="left:16.2%;top:30.5%"><span class="sn">6</span><b>Reimburse and restock</b><span>Ready for next time</span></div></div>"""
 
 I700 = f"""
 <section class="guide" id="is700" data-title="IS-700">
-{head("FEMA Independent Study", "IS-700 &middot; Introduction to NIMS", "National Incident Management System &middot; a systematic approach for everyone with incident duties",
+{head("FEMA Independent Study", "IS-700 &middot; Introduction to NIMS", "National Incident Management System (NIMS) &middot; a systematic approach for everyone with incident duties",
  fema_link("IS-700.b"))}
 <h2>Core essentials</h2>
 {block("NIMS in one view: principles hold up the components", HOUSE, [
@@ -505,7 +505,7 @@ I700 = f"""
 ])}
 {block("Resource management: a cycle that returns to ready", RING, [
  "[[Inventorying]] happens outside incident response. Resources are typed by capability.",
- "EMAC: state-to-state resource sharing.",
+ "Emergency Management Assistance Compact (EMAC): state-to-state resource sharing.",
 ], True)}
 {block("Management characteristics and communications: terms the test uses", "", [
  "[[Chain of Command and Unity of Command]]: ends conflicting instructions.",
@@ -525,8 +525,8 @@ I700 = f"""
 TIERS = """
 <div class="tiers">
  <div class="tring t3"><div class="tlab"><b>Federal</b><em>When the state needs more</em><span>Stafford Act: FEMA leads; the Unified Coordination Group leads at the Joint Field Office (JFO). Non-Stafford: the agency with primary legal authority.</span></div>
-  <div class="tring t2"><div class="tlab"><b>State</b><em>When local needs more</em><span>Governor and state EOC. Other states help through EMAC (interstate mutual aid).</span></div>
-   <div class="tring t1"><div class="tlab"><b>Local and<br>tribal</b><em>Every incident starts here</em><span>First to arrive, last to leave. Police, fire, EMS. The IC relays needs to the local EOC.</span></div></div>
+  <div class="tring t2"><div class="tlab"><b>State</b><em>When local needs more</em><span>Governor and state EOC. Other states help through the Emergency Management Assistance Compact (EMAC), interstate mutual aid.</span></div>
+   <div class="tring t1"><div class="tlab"><b>Local and<br>tribal</b><em>Every incident starts here</em><span>First to arrive, last to leave. Police, fire, emergency medical services (EMS). The incident commander (IC) relays needs to the local emergency operations center (EOC).</span></div></div>
   </div>
  </div>
 </div>"""
@@ -546,9 +546,9 @@ WHEEL = """<div class="wheel"><span class="spoke" style="width:22.4%;--a:-90.0de
 
 ZOOM_PANELS = [
  ("On scene", "Unified Command", "Leaders from each responsible agency set one set of objectives together. Each keeps its own authority. Benefit: joint priorities.", "Like co-captains agreeing on one game plan."),
- ("Off site", "Emergency Operations Center", "Gets the scene what it needs: resources, information, policy direction. Many EOCs use the ICS structure.", "Like the support staff in the building: they don’t play, they supply."),
- ("Policy level", "MAC Group", "Senior officials who can commit agency resources and funds, and decide who gets what when there isn’t enough.", "Like league officials deciding which game gets the only bus."),
- ("Region and nation", "RRCC and NOC", "RRCC: FEMA’s regional center coordinates federal help. NOC: DHS’s principal operations center watches the whole nation.", "Like the league’s regional office and national headquarters."),
+ ("Off site", "Emergency Operations Center", "Gets the scene what it needs: resources, information, policy direction. Many EOCs use the Incident Command System (ICS) structure.", "Like the support staff in the building: they don’t play, they supply."),
+ ("Policy level", "Multiagency Coordination (MAC) Group", "Senior officials who can commit agency resources and funds, and decide who gets what when there isn’t enough.", "Like league officials deciding which game gets the only bus."),
+ ("Region and nation", "RRCC and NOC", "Regional Response Coordination Center (RRCC): FEMA’s regional center coordinates federal help. National Operations Center (NOC): the Department of Homeland Security (DHS) center that watches the whole nation.", "Like the league’s regional office and national headquarters."),
 ]
 ZOOM = ('<div class="zoom">' + "".join(
     f'<div class="zp" style="--i:{n}"><span class="zw">{w}</span><b>{t}</b><span class="zd">{d}</span><em>{a}</em></div>'
@@ -566,7 +566,7 @@ ESFS = """<p class="escen">Example incident: <b>a river flood hits a town</b></p
 
 I800 = f"""
 <section class="guide" id="is800" data-title="IS-800">
-{head("FEMA Independent Study", "IS-800 &middot; National Response Framework", "NRF &middot; always in effect, a guide for how the nation responds",
+{head("FEMA Independent Study", "IS-800 &middot; National Response Framework", "National Response Framework (NRF) &middot; always in effect, a guide for how the nation responds",
  fema_link("IS-800.d"))}
 <h2>Core essentials</h2>
 {block("Tiered response: begin and end locally", TIERS, [
@@ -585,7 +585,7 @@ I800 = f"""
  "[[Engaging communities]] shares information and builds readiness.",
 ], True)}
 {block("Emergency Support Functions: each need gets the function that answers it", ESFS, [
- "[[ESFs]] are government and private-sector partners, not only federal. They are activated only as needed, so more of them engage as an incident grows.",
+ "Emergency Support Functions ([[ESFs]]) are government and private-sector partners, not only federal. They are activated only as needed, so more of them engage as an incident grows.",
 ])}
 <div class="pb soft"></div>
 {practice(P.IS800)}
@@ -594,12 +594,12 @@ I800 = f"""
 
 GUIDES = [("sid","FEMA SID"),("capt116","CAPT 116"),("capt117","CAPT 117"),("is100","IS-100"),("is200","IS-200"),("is700","IS-700"),("is800","IS-800")]
 HOMEROWS = [
- ("sid","FEMA Student ID","Do first. Needed for every FEMA exam.",""),
+ ("sid","FEMA Student ID (SID)","Do first. Needed for every FEMA exam.",""),
  ("capt116","CAPT 116 &middot; General Emergency Services","eServices",f"{len(P.CAPT116)} practice questions"),
  ("capt117","CAPT 117 &middot; ES Continuing Education","eServices, Parts 1 to 3",f"{sum(len(p[1]) for p in P.CAPT117)} practice questions"),
- ("is100","IS-100 &middot; Introduction to ICS","FEMA",f"{len(P.IS100)} practice questions"),
+ ("is100","IS-100 &middot; Introduction to the Incident Command System (ICS)","Federal Emergency Management Agency (FEMA)",f"{len(P.IS100)} practice questions"),
  ("is200","IS-200 &middot; Basic ICS for Initial Response","FEMA",f"{len(P.IS200)} practice questions"),
- ("is700","IS-700 &middot; Introduction to NIMS","FEMA",f"{len(P.IS700)} practice questions"),
+ ("is700","IS-700 &middot; Introduction to the National Incident Management System (NIMS)","FEMA",f"{len(P.IS700)} practice questions"),
  ("is800","IS-800 &middot; National Response Framework","FEMA",f"{len(P.IS800)} practice questions"),
 ]
 HOME = ('<section class="guide home" id="home" data-title="Home"><h2>Pick your test</h2><div class="pickgrid">'
