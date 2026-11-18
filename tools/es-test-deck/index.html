@@ -1,0 +1,963 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ES &amp; FEMA Test Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap">
+<style>
+/* ---- Study companion styles (diagrams), copied at build time ---- */
+
+/* Colour tokens from shared/brand/cap-brand.css. */
+:root{
+  --paper:#FFFFFF; --ink:#4D4D4D; --head:#63666A; --rule:#9EA2A2; --hair:#D9DBDB; --tint:#F1F2F2;
+  --blue:#001489; --blue-t:#E8EBF6; --red:#BA0C2F;
+  --f-title:"Rajdhani", Arial, sans-serif; --f-body:Arial, Helvetica, sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink)}
+body{font-family:var(--f-body);font-size:14.67px;line-height:1.2}
+a{color:var(--blue)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* top bar (screen only) */
+.bar{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:3px solid var(--blue)}
+.barin{max-width:1000px;margin:0 auto;padding:12px max(16px,env(safe-area-inset-left,0px)) 10px}
+.brand{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px}
+.brand a{text-decoration:none}
+.brand h1{font-family:var(--f-title);font-weight:700;font-size:26px;color:var(--blue);margin:0;letter-spacing:.02em;text-transform:uppercase}
+.brand p{margin:0;font-size:14.67px;color:var(--ink)}
+nav{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+nav a{font-size:14.67px;text-decoration:none;color:var(--blue);border:1px solid var(--rule);border-radius:3px;padding:7px 10px;min-height:34px;display:inline-flex;align-items:center;white-space:nowrap}
+nav a[aria-current="page"]{background:var(--blue);border-color:var(--blue);color:#fff}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;align-items:center}
+.tools input{flex:1 1 220px;min-width:0;font:inherit;color:var(--ink);border:1px solid var(--rule);border-radius:3px;padding:7px 10px;min-height:36px}
+.btn{font:inherit;font-size:14.67px;height:36px;color:var(--blue);background:var(--paper);border:1px solid var(--blue);border-radius:3px;padding:0 12px;cursor:pointer}
+.btn:hover{background:var(--tint)}
+.hits{font-size:14.67px;color:var(--head);min-width:7ch}
+
+main{max-width:1000px;margin:0 auto;padding:18px max(16px,env(safe-area-inset-left,0px)) 48px}
+.guide{display:none}
+.guide.on{display:block}
+
+/* sheet header */
+.ghead{border-bottom:1.5px solid var(--hair);padding-bottom:10px;margin-bottom:4px}
+.kick{margin:0;font-size:14.67px;color:var(--head);letter-spacing:.06em;text-transform:uppercase}
+.ghead h1{font-family:var(--f-title);font-weight:700;font-size:28px;line-height:1.05;color:var(--blue);margin:4px 0 0}
+.by{margin:4px 0 0;font-size:14.67px;color:var(--ink)}
+.where{margin:8px 0 0;font-size:14.67px;color:var(--ink)}
+/* FEMA SID sheet: instructions, so nothing smaller than body size (11pt) */
+.sid .kick,.sid .step span:last-child,.sid figcaption,.sid .tile span,.sid .gfoot,.sid .mono{font-size:14.67px}
+.sid .step b{font-size:16px}
+.lead{font-family:var(--f-title);font-weight:700;color:var(--blue);margin-right:6px}
+ul.ess.two{columns:2;column-gap:64px}ul.ess.two li{break-inside:avoid}
+hr.div{border:0;border-top:1px solid var(--hair);margin:14px 0 20px}
+.stepboxes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.sbox{border:1px solid var(--rule);border-top:3px solid var(--blue);border-radius:3px;padding:10px 14px 8px;break-inside:avoid}
+.sl{margin:0;font-family:var(--f-title);font-weight:700;font-size:18px;color:var(--blue);line-height:1.1}
+h2.st{margin:2px 0 8px;padding:0;border:0;font-size:21.33px;color:#000}
+.sbox ol.steps{margin:0}
+h2{font-weight:400;font-size:18.67px;color:var(--head);margin:18px 0 8px;padding-bottom:3px;border-bottom:1px solid var(--hair)}
+h2 .ct{font-size:14.67px;color:var(--head);margin-left:8px}
+h3{font-weight:400;font-size:14.67px;color:var(--head);margin:14px 0 6px;letter-spacing:.02em;break-after:avoid-page}
+.note{font-size:14.67px;color:var(--ink);margin:6px 0 8px;max-width:90ch}
+.red{color:var(--red)}
+.mono{font-family:"Courier New",monospace;font-size:14.67px;white-space:nowrap}
+
+/* essentials */
+ul.ess{margin:6px 0 0;padding-left:18px;line-height:1.3}
+ul.ess li{margin:0 0 5px}
+.kt{color:var(--blue);font-weight:700}
+.nw{white-space:nowrap}
+ol.steps{margin:6px 0 0;padding-left:20px;line-height:1.3}
+ol.steps li{margin:0 0 6px}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:4px 28px}
+.cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 24px}
+.figrow{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+figure{margin:26px 0 14px;break-inside:avoid}
+figcaption{font-size:14.67px;color:var(--ink);margin:0 0 8px;letter-spacing:.06em;text-transform:uppercase}
+.lab{font-size:14.67px;color:var(--ink);margin:8px 0 4px;letter-spacing:.06em;text-transform:uppercase}
+
+/* concept blocks: one idea each, separated by a rule */
+.concept{margin-top:26px;padding-top:18px;border-top:2px solid var(--hair);break-inside:avoid}
+h2+.concept{margin-top:8px;padding-top:4px;border-top:0}
+.chead{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px;margin-bottom:10px}
+.cname{font-family:var(--f-title);font-weight:700;font-size:22px;color:var(--blue);line-height:1.1}
+.csub{font-size:14.67px;color:var(--ink)}
+.concept ul.ess{margin-top:22px}
+.concept .lab{margin-top:18px;margin-bottom:8px}
+.concept .chead+.lab,.concept .chead+div .lab:first-child,.crm2 .lab{margin-top:4px}
+
+/* diagram: flow */
+.flow{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:22px;counter-reset:s}
+.step{position:relative;border:1px solid var(--rule);border-top:3px solid var(--blue);border-radius:3px;padding:8px 10px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.step+.step::before{content:"";position:absolute;left:-23px;top:50%;width:22px;border-top:2px solid var(--head)}
+.step+.step::after{content:"";position:absolute;left:-9px;top:calc(50% - 5px);border:6px solid transparent;border-left:9px solid var(--head)}
+.sn{font-family:var(--f-title);font-weight:700;font-size:20px;color:var(--blue);line-height:1}
+.step b{font-weight:400;color:#000;font-size:16px}
+.step span:last-child{font-size:14.67px;color:var(--ink)}
+.flow.rank .step{padding:6px 8px}
+.flow.vert{grid-auto-flow:row;gap:16px}
+.flow.vert .step{flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:2px 10px}
+.flow.vert .step span:last-child{flex-basis:100%}
+.flow.vert .step+.step::before{left:50%;top:-20px;width:0;height:17px;border-top:0;border-left:2px solid var(--head)}
+.flow.vert .step+.step::after{display:none}
+
+/* diagram: tiles */
+.tiles{display:grid;gap:8px}
+.tiles.c2{grid-template-columns:repeat(2,minmax(0,1fr))}.tiles.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.tiles.c4{grid-template-columns:repeat(4,minmax(0,1fr))}.tiles.c5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.tiles.c7{grid-template-columns:repeat(7,minmax(0,1fr))}
+.tile{border:1px solid var(--rule);border-radius:3px;padding:8px 10px;display:flex;flex-direction:column;gap:3px;min-width:0;background:var(--paper)}
+.tile b{font-weight:400;color:#000;font-size:16px}
+.tile span{font-size:14.67px;color:var(--ink)}
+.tile span:empty{display:none}
+
+/* diagram: ICS org */
+.node{border:1px solid var(--rule);border-radius:3px;padding:7px 9px;display:flex;flex-direction:column;gap:2px;background:var(--paper);min-width:0}
+.node,.tile,.step,.lvl{box-shadow:0 2px 5px rgba(0,20,137,.16)}
+.node b{font-weight:400;color:#000;font-size:16px}
+.node span{font-size:14.67px;color:var(--ink)}
+.org{max-width:860px}
+.orgtop{display:grid;grid-template-columns:1fr minmax(0,250px) 1.3fr;gap:0 28px;align-items:stretch}
+.iccol{display:flex;flex-direction:column;align-items:center}
+.node.ic{border:2px solid var(--blue);background:var(--blue-t);width:100%;position:relative;margin-top:44px}
+.node.ic::after{content:"";position:absolute;right:-29px;top:50%;width:28px;border-top:2px solid var(--head)}
+.spine{flex:1;min-height:16px;border-left:2px solid var(--head)}
+.cstaff{display:grid;gap:6px;border-left:2px solid var(--head);padding-left:12px;margin-bottom:16px}
+.cstaff .lab{margin:0}
+.gsl{margin:16px 0 0}
+.gstaff{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;position:relative;padding-top:16px}
+.gstaff .node{position:relative}
+.gstaff .node::before{content:"";position:absolute;top:-17px;left:calc(50% - 1px);height:17px;border-left:2px solid var(--head)}
+.gstaff .node::after{content:"";position:absolute;top:-17px;left:-6px;right:-6px;border-top:2px solid var(--head)}
+.gstaff .node:first-child::after{left:calc(50% - 1px)}
+.gstaff .node:last-child::after{right:calc(50% - 1px)}
+
+/* diagram: incident types */
+.types{display:grid;border-top:2px solid var(--head)}
+.trow{display:grid;grid-template-columns:72px 130px minmax(0,1.6fr) minmax(0,1fr) 130px;gap:0 18px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule)}
+.trow.th{padding:6px 0;border-bottom:2px solid var(--head)}
+.trow.th span{font-size:14.67px;color:var(--ink);letter-spacing:.06em;text-transform:uppercase}
+.tl{font-family:var(--f-title);font-weight:700;font-size:18px;color:var(--blue);white-space:nowrap}
+.tbw{display:block;background:var(--tint);border-radius:2px}
+.tbar{display:block;height:14px;background:var(--blue);border-radius:2px}
+.td{font-size:14.67px;color:var(--ink)}
+.trow .iap{text-align:center;justify-self:stretch}
+.mob{display:none}
+.iap.yes{background:var(--blue);color:#fff;font-weight:700;border-radius:3px;padding:4px 0}
+.iap.no{color:var(--ink);border:1px dashed var(--rule);border-radius:3px;padding:3px 0}
+
+/* diagram: title staircase */
+.stair{display:grid;gap:5px}
+.lvl{margin-left:calc(var(--i) * 14px);border:1px solid var(--rule);border-left:3px solid var(--blue);border-radius:3px;padding:6px 9px;display:grid;grid-template-columns:1fr auto;gap:1px 10px}
+.lvl b{font-weight:400;color:#000;font-size:16px}
+.lvl span{font-family:var(--f-title);font-weight:700;color:var(--blue);font-size:16px;text-align:right}
+.lvl em{grid-column:1/-1;font-style:normal;font-size:14.67px;color:var(--ink)}
+
+/* diagram: leader-title ladder (nested bars: each level's bar spans every level beneath it) */
+.ladder{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;padding-top:12px;align-items:start}
+.rung{position:relative;margin-top:calc(var(--i) * 12px);border:1px solid var(--rule);border-radius:3px;padding:8px 10px;display:flex;flex-direction:column;gap:4px;box-shadow:0 2px 5px rgba(0,20,137,.16);min-height:calc(100% - var(--i) * 12px)}
+.rung::before{content:"";position:absolute;left:-1px;top:-12px;height:6px;background:var(--blue);border-radius:1px;
+  width:calc(var(--k) * (100% + 2px) + (var(--k) - 1) * 14px)}
+.rung:first-child::before{display:none}
+.rl{font-size:14.67px;color:var(--ink);letter-spacing:.04em;text-transform:uppercase;min-height:2.5em}
+.rt{font-family:var(--f-title);font-weight:700;font-size:24px;color:var(--blue);line-height:1}
+.rd{font-size:14.67px;color:var(--ink);flex:1;display:flex;flex-direction:column;gap:3px}
+.rung .iap{text-align:center;font-size:14.67px}
+
+/* diagram: transfer of command handoff */
+.toc{display:grid;grid-template-columns:120px repeat(4,minmax(0,1fr));grid-template-rows:auto auto auto auto;gap:8px 12px;align-items:stretch}
+.tsh{font-size:16px;color:#000;display:flex;align-items:baseline;gap:8px;border-bottom:3px solid var(--blue);padding-bottom:4px}
+.tsh .sn{font-size:20px}
+.lane{font-size:14.67px;color:var(--ink);letter-spacing:.05em;text-transform:uppercase;align-self:center}
+.l1{grid-column:1;grid-row:2}.l2{grid-column:1;grid-row:3}.l3{grid-column:1;grid-row:4}
+.tcell{border:1px solid var(--rule);border-radius:3px;padding:8px 10px;font-size:14.67px;color:var(--ink);background:var(--paper);box-shadow:0 2px 5px rgba(0,20,137,.16);display:flex;flex-direction:column;gap:3px}
+.tcell .who{font-size:14.67px;letter-spacing:.05em;text-transform:uppercase;color:var(--blue)}
+.tcell .opt{display:block;padding-left:12px;position:relative}
+.tcell .opt::before{content:"";position:absolute;left:2px;top:.55em;width:5px;height:5px;background:var(--blue);border-radius:50%}
+.tcell.quiet{box-shadow:none;border-style:dashed;color:var(--head);justify-content:center}
+.r1{grid-row:2}.r2{grid-row:3}.c1{grid-column:2}.c2{grid-column:3;grid-row:2/4}.c3{grid-column:4;grid-row:2/4}.c4{grid-column:5;grid-row:2/4}
+.tcell.both{border-top:3px solid var(--blue)}
+.cmdbar{grid-column:2/6;grid-row:4;display:grid;grid-template-columns:3fr auto 1fr;align-items:stretch;border-radius:3px;overflow:hidden;font-size:14.67px}
+.cmdbar .out{background:var(--tint);color:#000;padding:7px 10px;border:1px solid var(--rule);border-right:0}
+.cmdbar .eff{background:#FFCD00;color:var(--blue);padding:7px 12px;font-weight:700;letter-spacing:.03em}
+.cmdbar .in{background:var(--blue);color:#fff;padding:7px 10px;font-weight:700}
+
+/* diagram: planning funnel */
+.funnel{display:grid;gap:6px}
+.tier{width:calc(100% - var(--i) * 6%);margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 310px minmax(0,1fr);gap:24px;align-items:center;height:66px;padding:0 18px;border-radius:3px}
+.tier .tt{text-align:center;white-space:nowrap}
+.tier .td2{text-align:right}
+.tier .tw,.tier .td2{white-space:nowrap}
+.tier:nth-child(1){background:#E8EBF6}.tier:nth-child(2){background:#CFD5EE}.tier:nth-child(3){background:#A9B3DF}
+.tier:nth-child(4){background:#3D4FA6;color:#fff}.tier:nth-child(5){background:var(--blue);color:#fff}
+.tw{font-size:14.67px;letter-spacing:.03em}
+.tt{font-family:var(--f-title);font-weight:700;font-size:21px;line-height:1.05;color:var(--blue)}
+.tier:nth-child(n+4) .tt,.tier:nth-child(n+4) .tw,.tier:nth-child(n+4) .td2{color:#fff}
+.tier .tw,.tier .td2{color:#000}
+.td2{font-size:14.67px}
+.fcap{text-align:center;font-size:14.67px;color:var(--ink);margin:2px 0 0;letter-spacing:.05em;text-transform:uppercase}
+.objl{margin-top:16px}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.vcard{border:1px solid var(--rule);border-radius:3px;padding:10px 14px;display:flex;flex-direction:column;gap:4px}
+.vcard.no{border-style:dashed}
+.vcard.yes{border-top:3px solid var(--blue);box-shadow:0 2px 5px rgba(0,20,137,.16)}
+.vt{font-size:14.67px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink)}
+.vcard.yes .vt{color:var(--blue);font-weight:700}
+.vq{font-size:17px;color:#000;line-height:1.25}
+.vcard.no .vq{color:var(--ink);text-decoration:line-through;text-decoration-color:var(--rule)}
+.vn{font-size:14.67px;color:var(--ink)}
+
+/* diagram: NIMS house */
+.house{max-width:900px;margin:0 auto}
+.roof{clip-path:polygon(50% 0,100% 100%,0 100%);background:var(--blue);color:#fff;height:120px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:0 22% 10px;text-align:center}
+.roof b{font-family:var(--f-title);font-size:28px;line-height:1}
+.roof span{font-size:14.67px}
+.pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px;padding:0 4%}
+.pillar{background:var(--tint);border-left:5px solid var(--blue);border-right:5px solid var(--blue);padding:14px 12px;min-height:150px;display:flex;flex-direction:column;gap:8px;text-align:center}
+.pillar b{font-weight:400;color:#000;font-size:16px}
+.pillar .q{font-size:15.5px;color:var(--blue);font-style:italic}
+.pillar span{font-size:14.67px;color:var(--ink)}
+.found{border-top:5px solid var(--blue);display:grid;gap:3px;padding-top:3px}
+.course{display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px;align-items:baseline;padding:8px 18px}
+.course:nth-child(1){background:#CFD5EE}.course:nth-child(2){background:#BAC3E6}.course:nth-child(3){background:#A9B3DF}
+.course b{font-weight:400;color:#000;font-size:16px}
+.course span{font-size:14.67px;color:#000}
+.found .flab{margin:4px 0 0;font-size:14.67px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);text-align:center}
+
+/* diagram: command and coordination layers */
+.layers{display:grid;grid-template-columns:110px minmax(0,1fr) 230px;grid-template-rows:repeat(3,auto);gap:10px 16px}
+.flowcol{grid-column:1;grid-row:1/4;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fup,.fdn{position:relative;display:flex;align-items:center;justify-content:center}
+.fup::before,.fdn::before{content:"";position:absolute;top:10px;bottom:10px;left:50%;border-left:3px solid var(--head)}
+.fup::after{content:"";position:absolute;top:0;left:calc(50% - 8px);border:8px solid transparent;border-bottom:12px solid var(--head);border-top:0}
+.fdn::after{content:"";position:absolute;bottom:0;left:calc(50% - 8px);border:8px solid transparent;border-top:12px solid var(--head);border-bottom:0}
+.fup span,.fdn span{position:relative;background:var(--paper);writing-mode:vertical-rl;transform:rotate(180deg);font-size:14.67px;color:var(--ink);padding:6px 0}
+.fdn span{transform:none}
+.layer{grid-column:2;display:grid;grid-template-columns:92px minmax(0,1fr) 170px;gap:14px;align-items:center;border-radius:3px;padding:10px 14px}
+.lp{grid-row:1;background:#CFD5EE}.ls{grid-row:2;background:#E8EBF6}.lt{grid-row:3;background:var(--paper);border:2px solid var(--blue)}
+.lwhere{font-size:14.67px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.lbox{display:flex;flex-direction:column;gap:3px}
+.lbox b{font-weight:400;font-size:16px;color:#000}
+.lbox span{font-size:14.67px;color:var(--ink)}
+.ask{font-family:var(--f-title);font-weight:700;font-size:20px;color:var(--blue);line-height:1.1}
+.jisrail{grid-column:3;grid-row:1/4;border:2px dashed var(--blue);border-radius:3px;padding:14px;display:flex;flex-direction:column;justify-content:center;gap:6px}
+.jisrail b{font-weight:400;font-size:16px;color:#000}
+.jisrail span{font-size:14.67px;color:var(--ink)}
+
+/* diagram: resource management cycle */
+.ring{position:relative;width:min(640px,100%);aspect-ratio:1.45;margin:0 auto}
+.rcircle{position:absolute;left:50%;top:50%;width:62%;aspect-ratio:1.45;transform:translate(-50%,-50%);border:3px solid var(--head);border-radius:50%}
+.rcenter{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:34%;text-align:center;display:flex;flex-direction:column;gap:4px}
+.rcenter b{font-family:var(--f-title);font-weight:700;font-size:19px;color:var(--blue)}
+.rcenter span{font-size:14.67px;color:var(--ink)}
+.rarr{position:absolute;width:0;height:0;border:7px solid transparent;border-left:12px solid var(--head);transform:translate(-30%,-50%) rotate(var(--r))}
+.rnode{position:absolute;transform:translate(-50%,-50%);width:168px;background:var(--paper);border:1px solid var(--rule);border-top:3px solid var(--blue);border-radius:3px;padding:6px 9px;box-shadow:0 2px 5px rgba(0,20,137,.16);display:flex;flex-direction:column;gap:1px}
+.rnode .sn{font-size:18px}
+.rnode b{font-family:var(--f-body);font-weight:700;font-size:14.67px;line-height:1.2;color:var(--blue)}
+.rnode span:last-child{font-size:14.67px;color:var(--ink)}
+
+/* diagram: tiered response rings */
+.tring{border:2px solid var(--blue);border-radius:18px;padding:12px 16px 16px}
+.t3{background:#E8EBF6}.t2{background:#CFD5EE;margin-top:12px}.t1{background:var(--blue);margin-top:12px;color:#fff}
+.tlab{display:grid;grid-template-columns:170px 250px minmax(0,1fr);gap:4px 16px;align-items:baseline}
+.t2>.tlab{grid-template-columns:152px 250px minmax(0,1fr)}
+.t1>.tlab{grid-template-columns:134px 250px minmax(0,1fr)}
+.tlab b{font-family:var(--f-title);font-weight:700;font-size:20px;line-height:1.05;color:var(--blue)}
+.tlab em{font-style:normal;font-size:14.67px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink)}
+.tlab span{font-size:14.67px;color:#000}
+.t1 .tlab b,.t1 .tlab em,.t1 .tlab span{color:#fff}
+
+/* diagram: mission areas timeline */
+.mtl{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px 10px}
+.mph{font-size:14.67px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);text-align:center;border-bottom:3px solid var(--head);padding-bottom:4px;position:relative}
+.mph.dur{border-bottom-color:#FFCD00;color:#000}
+.mtile{border:1px solid var(--rule);border-radius:3px;padding:10px 12px;display:flex;flex-direction:column;gap:4px;box-shadow:0 2px 5px rgba(0,20,137,.16)}
+.mtile b{font-weight:700;font-size:15.5px;color:var(--blue)}
+.mtile span{font-size:14.67px;color:var(--ink)}
+.mtile em{font-style:normal;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase}
+.mtile.focus{background:var(--blue);border-color:var(--blue)}
+.mtile.focus b,.mtile.focus span,.mtile.focus em{color:#fff}
+.mcore{grid-column:1/-1;background:#CFD5EE;border-top:4px solid var(--blue);border-radius:3px;padding:8px 14px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 26px;justify-content:center}
+.mcore em{font-style:normal;font-size:14.67px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.mcore span{font-size:15.5px;color:#000;font-weight:700}
+
+/* diagram: lifelines wheel */
+.wheel{position:relative;width:min(760px,100%);aspect-ratio:1.7;margin:0 auto}
+.spoke{position:absolute;left:50%;top:50%;height:0;border-top:2px solid var(--head);transform-origin:0 0;transform:rotate(var(--a))}
+.hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:33%;aspect-ratio:1.5;border-radius:50%;background:var(--blue);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px 16px;gap:4px;z-index:1}
+.hub b{font-family:var(--f-title);font-weight:700;font-size:22px}
+.hub span{font-size:14.67px;line-height:1.2}
+.lnode{position:absolute;transform:translate(-50%,-50%);background:var(--paper);border:2px solid var(--blue);border-radius:22px;padding:7px 14px;font-weight:700;font-size:14.67px;color:var(--blue);white-space:nowrap;box-shadow:0 2px 5px rgba(0,20,137,.16);z-index:1}
+
+/* diagram: coordinating structures zoom-out */
+.zoom{display:grid;grid-template-columns:1fr 1.08fr 1.16fr 1.24fr;gap:12px;align-items:stretch}
+.zp{border:1px solid var(--rule);border-top:4px solid var(--blue);border-radius:3px;padding:10px 12px;display:flex;flex-direction:column;gap:5px;box-shadow:0 2px 5px rgba(0,20,137,.16)}
+.zp:nth-child(1){background:var(--paper)}.zp:nth-child(2){background:#F3F5FB}.zp:nth-child(3){background:#E8EBF6}.zp:nth-child(4){background:#DCE1F2}
+.zw{font-size:14.67px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.zp b{font-family:var(--f-title);font-weight:700;font-size:21px;line-height:1.05;color:var(--blue)}
+.zd{font-size:14.67px;color:#000;flex:1}
+.zp em{font-size:14.67px;color:var(--ink);border-top:1px dashed var(--rule);padding-top:5px}
+.zbar{grid-column:1/-1;position:relative;display:flex;justify-content:space-between;border-top:3px solid var(--head);padding-top:5px;margin-right:6px}
+.zbar::after{content:"";position:absolute;right:-8px;top:-9px;border:7px solid transparent;border-left:12px solid var(--head);border-right:0}
+.zbar span{font-size:14.67px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+
+/* diagram: NRF dimmer + ESF board */
+.dim{margin-top:4px}
+.dtrack{height:30px;border-radius:15px;background:linear-gradient(90deg,#CFD5EE 0%,#7F8CCB 50%,var(--blue) 100%);position:relative;border:1px solid var(--rule)}
+.don{position:absolute;left:4px;top:3px;height:22px;padding:0 12px;border-radius:11px;background:#FFCD00;color:var(--blue);font-weight:700;font-size:14.67px;display:flex;align-items:center}
+.dlabels{display:flex;justify-content:space-between;margin-top:5px}
+.dlabels span{font-size:14.67px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.dnote{margin:6px 0 0;font-size:14.67px;color:#000}
+.escen{margin:4px 0 10px;font-size:14.67px;color:var(--ink)}
+.escen b{color:#000;font-weight:700}
+.emap{display:grid;grid-template-columns:minmax(0,1fr) 46px minmax(0,1.35fr);gap:8px 0;align-items:center}
+.eh{font-size:14.67px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);padding-bottom:2px}
+.eneed{border:1px dashed var(--head);border-radius:3px;padding:8px 12px;font-size:14.67px;color:#000;background:var(--tint)}
+.econ{position:relative;height:2px;background:var(--head);margin-right:6px}
+.econ::after{content:"";position:absolute;right:-8px;top:-6px;border:7px solid transparent;border-left:10px solid var(--head);border-right:0}
+.eans{display:flex;flex-direction:column;gap:5px}
+.echip{display:block;border-radius:3px;padding:7px 12px;font-size:14.67px;line-height:1.25}
+.echip.on{background:var(--blue);color:#fff}
+.echip.on b{color:#FFCD00}
+.echip.off{border:1px dashed var(--rule);color:var(--head)}
+.echip.off b{color:var(--head)}
+.enote2{font-size:14.67px;color:var(--ink);padding-left:12px;border-left:3px solid var(--blue)}
+.esub{margin-top:16px}
+.erow{display:flex;flex-wrap:wrap;gap:8px}
+.erow .echip{flex:1 1 220px}
+
+/* CAPT 116: support priority podium */
+.podium{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;align-items:end;height:250px;border-bottom:3px solid var(--head)}
+.pcol{height:100%;display:flex;align-items:flex-end}
+.pbar{width:100%;height:var(--h);background:var(--blue);border-radius:4px 4px 0 0;color:#fff;padding:10px 12px;display:flex;flex-direction:column;gap:3px}
+.pcol:nth-child(n+3) .pbar{background:#3D4FA6}.pcol:nth-child(n+4) .pbar{background:#7F8CCB}.pcol:nth-child(5) .pbar{background:#A9B3DF;color:#000}
+.prank{font-family:var(--f-title);font-weight:700;font-size:26px;line-height:1}
+.pbar b{font-weight:700;font-size:15.5px}
+.pbar span:last-child{font-size:14.67px}
+
+/* CAPT 116: aircrew seating + ground team */
+.teams{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.cabin{border:2px solid var(--blue);border-radius:120px 120px 16px 16px;padding:14px 14px 14px;display:grid;gap:10px;background:#F3F5FB}
+.cfront{text-align:center;font-size:14.67px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);padding-top:6px}
+.crow2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.crow1{display:grid;grid-template-columns:1fr;justify-items:center}
+.crow1 .seat{width:60%}
+.seat{background:var(--paper);border:1px solid var(--rule);border-top:3px solid var(--blue);border-radius:3px;padding:8px 10px;display:flex;flex-direction:column;gap:3px;box-shadow:0 2px 5px rgba(0,20,137,.16)}
+.seat b{font-weight:700;font-size:15.5px;color:var(--blue)}
+.seat span{font-size:14.67px;color:var(--ink)}
+.gt{display:grid;gap:14px;justify-items:center}
+.gtl{background:var(--blue);color:#fff;border-radius:3px;padding:8px 14px;font-weight:700;font-size:15.5px;position:relative}
+.gtl span{font-weight:400;font-size:14.67px;margin-left:6px;opacity:.9}
+.gtl::after{content:"";position:absolute;left:50%;top:100%;height:14px;border-left:2px solid var(--head)}
+.gtm{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%;border-top:2px solid var(--head);padding-top:10px}
+.gtm span{border:1px solid var(--rule);border-radius:3px;padding:6px 8px;font-size:14.67px;color:#000;text-align:center;box-shadow:0 2px 5px rgba(0,20,137,.16)}
+.wl{position:relative;margin-top:16px;height:130px;border-bottom:2px solid var(--head)}
+.wbars{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:end;height:100%}
+.wbars span{height:var(--q);background:#CFD5EE;border-radius:3px 3px 0 0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;font-size:14.67px;color:#000}
+.wline{position:absolute;left:0;right:0;bottom:var(--q);border-top:3px dashed var(--blue)}
+.wline em{position:absolute;right:0;top:4px;font-style:normal;font-weight:700;font-size:14.67px;color:var(--blue);background:var(--paper);padding:0 4px}
+
+/* CAPT 116: authority and coverage */
+.c911r{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--rule);border-radius:3px;overflow:hidden;box-shadow:0 2px 5px rgba(0,20,137,.16)}
+.c911a{padding:10px 14px;display:flex;flex-direction:column;gap:2px}
+.c911a .lab{margin:0}
+.c911a b{font-weight:400;font-size:16px;color:#000}
+.c911b{background:var(--blue);color:#fff;padding:10px 14px;display:flex;flex-direction:column;gap:2px;justify-content:center}
+.c911b em{font-style:normal;font-size:14.67px;letter-spacing:.06em;text-transform:uppercase;color:#FFCD00}
+.c911b span{font-size:15.5px;font-weight:700}
+.covl{margin-top:18px}
+.cite{text-transform:none;letter-spacing:0;margin-left:6px}
+.covr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:10px 18px;align-items:center}
+.covn{font-size:14.67px;color:#000}
+.covn b{color:var(--blue);font-weight:700}
+.covb{display:flex;gap:4px}
+.seg{border-radius:3px;padding:8px 10px;font-size:14.67px;font-weight:700;text-align:center}
+.seg.in{background:var(--blue);color:#fff}
+.seg.out{border:2px dashed var(--red);color:var(--red);background:var(--paper)}
+
+/* CAPT 116: yes / only if / never */
+.yon{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.ycol{border:1px solid var(--rule);border-radius:3px;padding:10px 14px;box-shadow:0 2px 5px rgba(0,20,137,.16)}
+.ycol.y{border-top:6px solid var(--blue)}.ycol.o{border-top:6px solid #FFCD00}.ycol.yn{border-top:6px solid var(--red)}
+.yh{display:block;font-family:var(--f-title);font-weight:700;font-size:22px;margin-bottom:6px}
+.ycol.y .yh{color:var(--blue)}.ycol.o .yh{color:#000}.ycol.yn .yh{color:var(--red)}
+.ycol p{margin:0 0 8px;font-size:14.67px;color:var(--ink);line-height:1.3}
+.ycol p b{color:#000;font-weight:700}
+
+/* CAPT 116: fiscal year + rating */
+.fy{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));border:1px solid var(--rule);border-radius:3px;overflow:hidden}
+.fy span{text-align:center;padding:7px 0;font-size:14.67px;color:var(--ink);border-right:1px solid var(--hair)}
+.fy span:last-child{border-right:0}
+.fy span.due{background:var(--red);color:#fff;font-weight:700}
+.fynote{margin-top:6px;font-size:14.67px;color:#000}
+.rtl{margin-top:16px}
+.rbar{display:grid;grid-template-columns:auto 1fr auto;border-radius:3px;overflow:hidden;font-size:14.67px}
+.rbar span{padding:8px 12px}
+.rb0{background:var(--blue);color:#fff;font-weight:700}
+.rb1{background:#CFD5EE;color:#000;text-align:center}
+.rb2{background:var(--blue);color:#fff;font-weight:700}
+
+/* CAPT 117: CISM time axis */
+.ctl{display:grid;grid-template-columns:1.2fr 80px 1fr 1.15fr 1fr;gap:0 6px;position:relative;padding:14px 0 34px}
+.tlseg{border-top:8px solid #A9B3DF;padding:12px 14px 0;display:flex;flex-direction:column;gap:3px;border-left:2px solid var(--paper)}
+.tlseg.pre{border-top-color:#CFD5EE}
+.tlseg:nth-child(4){border-top-color:#3D4FA6}.tlseg:nth-child(5){border-top-color:var(--blue)}
+.tlseg b{font-weight:700;font-size:15.5px;color:var(--blue)}
+.tlseg span{font-size:14.67px;color:var(--ink)}
+.tlinc{background:#FFCD00;display:flex;align-items:center;justify-content:center;margin-top:-6px;height:44px;border-radius:3px}
+.tlinc span{font-weight:700;font-size:14.67px;color:var(--blue)}
+.tlaxis{position:absolute;left:0;right:0;bottom:0;border-top:2px solid var(--head);display:flex;justify-content:flex-end}
+.tlaxis::after{content:"";position:absolute;right:-6px;top:-8px;border:7px solid transparent;border-left:11px solid var(--head);border-right:0}
+.tlaxis span{font-size:14.67px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);padding:5px 14px 0 0}
+
+/* CAPT 117: stress quadrant */
+.quad{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:760px;margin:0 auto}
+.quad>div:not(.qc){padding:16px 18px;display:flex;flex-direction:column;gap:3px;min-height:100px}
+.q1{background:#E8EBF6;border-radius:10px 3px 3px 3px;text-align:left}
+.q2{background:#CFD5EE;border-radius:3px 10px 3px 3px;text-align:right;align-items:flex-end}
+.q3{background:#CFD5EE;border-radius:3px 3px 3px 10px;justify-content:flex-end}
+.q4{background:#E8EBF6;border-radius:3px 3px 10px 3px;text-align:right;align-items:flex-end;justify-content:flex-end}
+.quad b{font-weight:700;font-size:16px;color:var(--blue)}
+.quad span{font-size:14.67px;color:#000}
+.qc{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:220px;height:120px;border-radius:50%;background:var(--blue);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px;box-shadow:0 0 0 6px var(--paper)}
+.qc b,.qc span{color:#fff}
+
+/* CAPT 117: CRM */
+.chain{display:flex;align-items:center;gap:0;margin:6px 0 4px}
+.chain span{flex:1;border:2px solid var(--blue);border-radius:22px;padding:8px 10px;text-align:center;font-size:14.67px;color:#000;background:var(--paper);position:relative}
+.chain span+span{margin-left:22px}
+.chain span+span::before{content:"";position:absolute;left:-24px;top:50%;width:22px;border-top:4px double var(--blue)}
+.chain span.acc{border-style:dashed;border-color:var(--red);color:var(--red);font-weight:700}
+.crm2{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.prio{display:grid;gap:5px}
+.prio span{width:var(--w);background:var(--blue);color:#fff;border-radius:3px;padding:8px 12px;font-size:14.67px}
+.prio span:nth-child(2){background:#3D4FA6}.prio span:nth-child(3){background:#7F8CCB}
+.prio b{font-family:var(--f-title);font-size:18px;margin-right:8px}
+.loop{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;position:relative;padding-bottom:22px}
+.loop span{border:1px solid var(--rule);border-top:3px solid var(--blue);border-radius:3px;padding:7px 9px;font-size:14.67px;color:var(--ink);display:flex;flex-direction:column;gap:2px;position:relative;box-shadow:0 2px 5px rgba(0,20,137,.16)}
+.loop b{font-weight:700;color:var(--blue)}
+.loop span+span::before{content:"";position:absolute;left:-21px;top:50%;width:18px;border-top:2px solid var(--head)}
+.loop span+span::after{content:"";position:absolute;left:-9px;top:calc(50% - 5px);border:5px solid transparent;border-left:8px solid var(--head);border-right:0}
+.loop::after{content:"";position:absolute;left:16%;right:16%;bottom:4px;height:12px;border:2px solid var(--head);border-top:0;border-radius:0 0 10px 10px}
+
+/* CAPT 117: mission base path */
+.mpath{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+.mpath>div{border:1px solid var(--rule);border-top:3px solid var(--blue);border-radius:3px;padding:9px 12px;position:relative;box-shadow:0 2px 5px rgba(0,20,137,.16)}
+.mpath>div+div::before{content:"";position:absolute;left:-23px;top:22px;width:22px;border-top:2px solid var(--head)}
+.mpath>div+div::after{content:"";position:absolute;left:-9px;top:17px;border:6px solid transparent;border-left:9px solid var(--head);border-right:0}
+.mpath b{display:block;font-weight:700;font-size:15.5px;color:var(--blue);margin:2px 0 4px}
+.mpath p{margin:0 0 6px;font-size:14.67px;color:var(--ink);line-height:1.3}
+
+/* CAPT 116: ES gate + supplements */
+.gate{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) 60px minmax(0,1.2fr);gap:12px;align-items:center}
+.greq{border:1px solid var(--rule);border-top:3px solid var(--blue);border-radius:3px;padding:9px 12px;display:flex;flex-direction:column;gap:3px;box-shadow:0 2px 5px rgba(0,20,137,.16)}
+.greq b,.gout b{font-weight:700;font-size:15.5px;color:var(--blue)}
+.greq span{font-size:14.67px;color:var(--ink)}
+.gplus{font-size:14.67px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.garrow{position:relative;height:3px;background:var(--head)}
+.garrow::after{content:"";position:absolute;right:-6px;top:-7px;border:8px solid transparent;border-left:12px solid var(--head);border-right:0}
+.gout{background:var(--blue);border-radius:3px;padding:10px 14px;display:flex;flex-direction:column;gap:3px}
+.gout b{color:#fff}.gout span{font-size:14.67px;color:#fff}
+.supp{display:grid;grid-template-columns:1fr 1fr;gap:36px}
+.slev,.sapp{display:flex;flex-direction:column;gap:6px}
+.slev .lab,.sapp .lab{margin:0 0 2px}
+.supp .ok,.supp .nope{border-radius:3px;padding:7px 12px;font-size:14.67px}
+.supp .ok{background:var(--blue);color:#fff;font-weight:700}
+.supp .ok.edge{box-shadow:0 0 0 3px #FFCD00}
+.supp .nope{border:2px dashed var(--red);color:var(--red);font-weight:700}
+.supp em{font-style:normal;font-weight:400;margin-left:8px}
+.snot{margin:4px 0 0;font-size:14.67px;color:var(--red)}
+
+/* diagram: command & coordination */
+.cc{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+.ccstack{display:grid;gap:14px}
+.ccstack .node{position:relative}
+.ccstack .node+.node::before{content:"";position:absolute;left:50%;top:-15px;height:14px;border-left:2px solid var(--head)}
+.node.jis{border-style:dashed;justify-content:center}
+
+/* practice test */
+ol.pq{list-style:none;margin:0;padding:0;columns:2;column-gap:28px}
+ol.pq>li{break-inside:avoid;display:grid;grid-template-columns:24px 1fr;gap:0 6px;padding:7px 0 8px;border-bottom:1px solid var(--hair)}
+ol.pq .n{grid-row:span 2;font-size:14.67px;color:var(--head);padding-top:1px;font-variant-numeric:tabular-nums}
+ol.pq .q{margin:0 0 4px;line-height:1.25;color:#000}
+ol.opts{list-style:none;margin:0;padding:0;grid-column:2}
+ol.opts li{display:grid;grid-template-columns:18px 1fr;gap:0 4px;padding:1px 0;line-height:1.25}
+ol.opts .l{color:var(--head)}
+body.reveal ol.opts li.ok{color:var(--blue)}
+body.reveal ol.opts li.ok .l{color:var(--blue);font-weight:700}
+ol.pq>li.hide{display:none}
+.akey{display:none}
+body.reveal .akey{display:block}
+ol.ak{list-style:none;margin:0 0 6px;padding:0;columns:2;column-gap:28px}
+ol.ak li{break-inside:avoid;display:grid;grid-template-columns:24px 18px 1fr;gap:0 4px;padding:3px 0;border-bottom:1px solid var(--hair);line-height:1.25}
+ol.ak .n{font-size:14.67px;color:var(--head)}
+ol.ak b{color:var(--blue)}
+
+/* answer key */
+ol.key{list-style:none;margin:0;padding:0;columns:2;column-gap:28px}
+ol.key li{break-inside:avoid;display:grid;grid-template-columns:24px 1fr;gap:0 6px;padding:7px 0 8px;border-bottom:1px solid var(--hair)}
+ol.key .n{grid-row:span 2;font-size:14.67px;color:var(--head);padding-top:1px;font-variant-numeric:tabular-nums}
+ol.key .q{margin:0;line-height:1.25}
+ol.key .a{margin:4px 0 0;color:var(--blue);border-left:3px solid var(--blue);padding:1px 0 1px 8px;line-height:1.25}
+ol.key li.hide{display:none}
+
+/* home */
+.pickgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
+.card{border:1px solid var(--rule);border-radius:3px;padding:12px 14px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:4px}
+.card:hover,.card:focus-visible{border-color:var(--blue)}
+.card b{font-weight:400;color:var(--blue);font-size:15.5px}
+.card span{font-size:14.67px}.card em{font-style:normal;font-size:14.67px;color:var(--head)}
+
+.gfoot{margin-top:20px;padding-top:8px;border-top:1px solid var(--hair);font-size:14.67px;color:var(--head);display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 20px}
+.pb{height:0}
+
+
+
+
+
+/* ---- Deck ---- */
+:root{--yellow:#FFCD00;--letterbox:#26282B}
+html,body{height:100%;overflow:hidden;background:var(--letterbox)}
+#stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:50% 50%;background:var(--paper)}
+.slide{position:absolute;inset:0;padding:30px 56px 0;display:flex;flex-direction:column;visibility:hidden;background:var(--paper);overflow:hidden}
+.slide.on{visibility:visible}
+.slide>header{display:flex;justify-content:space-between;align-items:baseline;gap:20px}
+.dk-kick{margin:0;font-size:17px;color:var(--head);letter-spacing:.08em;text-transform:uppercase}
+.dk-n{font-size:16px;color:var(--head)}
+.slide h1{font-family:var(--f-title);font-weight:700;font-size:46px;line-height:1.02;color:var(--blue);margin:6px 0 0}
+.vis{position:relative;flex:1;margin:16px 0 14px;min-height:0}
+.fit{position:absolute;left:0;top:0;transform-origin:0 0}
+.fit>.lab:first-child,.fit>p.lab:first-child{margin-top:0}
+.fit .lab{margin-top:14px}
+.take{margin:0 -56px;padding:16px 56px 18px;background:var(--blue);color:#fff;font-size:24px;line-height:1.25;border-top:6px solid var(--yellow)}
+.notes{display:none}
+
+/* title and divider slides */
+.dk-title,.dk-div{justify-content:center;padding:0 96px}
+.dk-title h1{font-size:76px;max-width:16ch}
+.dk-rule{width:140px;height:8px;background:var(--yellow);margin:22px 0}
+.dk-sub{margin:0;font-size:26px;color:var(--ink);max-width:40ch;line-height:1.3}
+.dk-keys{position:absolute;left:96px;bottom:34px;margin:0;font-size:16px;color:var(--head)}
+.dk-div{background:var(--blue)}
+.dk-div .dk-kick{color:var(--yellow);font-size:22px}
+.dk-div h1{color:#fff;font-size:88px}
+.dk-div .dk-n{position:absolute;right:56px;top:30px;color:#fff}
+.dk-chips{display:flex;gap:14px;flex-wrap:wrap}
+.dk-chips span{font-family:var(--f-title);font-weight:700;font-size:30px;color:var(--blue);background:#fff;border-radius:3px;padding:8px 20px}
+
+/* roadmap */
+.dk-lanes .flow{margin-bottom:6px}
+.flow.dk-half{width:40%}
+/* IS-100 rules */
+.dk-rules{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.dk-rc{border:1px solid var(--rule);border-top:3px solid var(--blue);border-radius:3px;padding:10px 14px;display:flex;flex-direction:column;gap:10px}
+.dk-rc>b{font-weight:400;color:#000;font-size:17px}
+.dk-rc p{margin:0;font-size:14.67px;color:var(--ink)}
+.dk-scale{display:grid;grid-template-columns:repeat(9,1fr);gap:4px}
+.dk-scale span{text-align:center;padding:7px 0;border:1px solid var(--hair);border-radius:3px;color:var(--head);font-size:16px}
+.dk-scale span.in{background:var(--blue-t);border-color:var(--blue);color:var(--blue)}
+.dk-scale span.best{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:700}
+.dk-scl{display:grid;grid-template-columns:2fr 5fr 2fr;gap:4px;font-size:14.67px;color:var(--ink);text-align:center}
+.dk-scl span:nth-child(2){color:var(--blue);font-weight:700}
+.dk-uc{display:flex;flex-direction:column;align-items:center}
+.dk-box{border:1.5px solid var(--blue);border-radius:3px;padding:5px 14px;color:var(--blue);font-size:15px}
+.dk-box.me{background:var(--blue);color:#fff}
+.dk-vl{width:2px;height:16px;background:var(--blue)}
+.dk-say{display:flex;flex-direction:column;gap:6px}
+.dk-say span{border-radius:3px;padding:6px 10px;font-size:15px}
+.dk-say .yes{border:1.5px solid var(--blue);color:var(--blue)}
+.dk-say .no{border:1px dashed var(--rule);color:var(--head);text-decoration:line-through}
+.flow.dk-mini{gap:20px}
+.flow.dk-mini .step{padding:6px 8px;align-items:center;justify-content:center}
+.flow.dk-mini .sn{display:none}
+.flow.dk-mini .step b{font-size:15px;text-align:center}
+.dk-never{color:var(--red);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+/* closing */
+.dk-close{display:grid;gap:14px}
+.dk-ct{display:grid;grid-template-columns:44px 1fr;grid-template-rows:auto auto;column-gap:14px;border:1px solid var(--rule);border-left:4px solid var(--blue);border-radius:3px;padding:12px 16px}
+.dk-ct .sn{grid-row:1/3;align-self:center;font-size:30px}
+.dk-ct b{font-weight:400;color:#000;font-size:19px}
+.dk-ct span:last-child{font-size:16px;color:var(--ink)}
+
+/* progress, notes drawer */
+#prog{position:fixed;left:0;bottom:0;height:4px;background:var(--yellow);transition:width .2s}
+#drawer{position:fixed;left:0;right:0;bottom:0;max-height:42vh;overflow:auto;background:#111;color:#fff;padding:14px 24px 18px;font-size:20px;line-height:1.35;display:none;z-index:9}
+body.shownotes #drawer{display:block}
+#drawer h2{font-family:var(--f-title);font-size:22px;color:var(--yellow);margin:0 0 6px;border:0;padding:0;font-weight:700}
+#drawer ul{margin:0;padding-left:1.2em}
+
+/* presenter view (?presenter) */
+#pv{display:none}
+body.presenter{overflow:auto;background:#fff}
+body.presenter #stage,body.presenter #prog{display:none}
+body.presenter #pv{display:block;padding:24px 32px;max-width:1100px;margin:0 auto}
+#pv .pvtop{display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:3px solid var(--blue);padding-bottom:10px}
+#pv .pvc{font-size:22px;color:var(--head)}
+#pv .pvt{font-family:var(--f-title);font-weight:700;font-size:40px;color:var(--blue);margin:16px 0 4px;line-height:1.05}
+#pv .pvk{font-size:16px;color:var(--head);letter-spacing:.08em;text-transform:uppercase;margin:0}
+#pv .pvtake{font-size:22px;color:#000;border-left:6px solid var(--yellow);padding-left:12px;margin:14px 0}
+#pv ul{font-size:24px;line-height:1.4;color:#000;padding-left:1.2em}
+#pv .pvnext{font-size:18px;color:var(--head);border-top:1px solid var(--hair);padding-top:10px;margin-top:18px}
+#pv .pvbtn{display:flex;gap:10px}
+#pv .btn{height:44px;font-size:18px;padding:0 18px}
+#pv .clock{font-size:22px;color:var(--ink);font-variant-numeric:tabular-nums}
+
+@page{size:1280px 720px;margin:0}
+@media print{
+ html,body{height:auto;overflow:visible;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ #stage{position:static;transform:none!important;height:auto}
+ .slide{position:relative;visibility:visible;height:720px;break-after:page}
+ #prog,#drawer,#pv{display:none!important}
+}
+</style>
+</head>
+<body>
+<div id="stage">
+<section class="slide dk-title" data-title="Emergency Services and FEMA Test Prep"><div class="dk-tin"><p class="dk-kick">Classroom deck</p><h1>Emergency Services and FEMA Test Prep</h1><div class="dk-rule"></div><p class="dk-sub">Four Federal Emergency Management Agency (FEMA) tests first, then two eServices tests</p></div><p class="dk-keys">Right arrow or click: next &middot; Left: back &middot; N: notes &middot; P: presenter view &middot; F: full screen</p><aside class="notes"><ul><li>Goal for today: understand the few ideas each test keeps coming back to, then pass the tests.</li><li>Passing a test shows you were exposed to the material. Hands-on skills come next, with a mentor and a skills evaluator.</li><li>Everyone gets the study companion link. It has every diagram you see here, plus practice questions.</li></ul></aside></section>
+<section class="slide" data-title="The road through six tests"><header><p class="dk-kick">Today</p><span class="dk-n">2</span></header><h1>The road through six tests</h1><div class="vis"><div class="fit" data-w="968" data-min="600" style="width:968px">
+<div class="dk-lanes">
+ <p class="lab">Part 1 &middot; FEMA Independent Study, on training.fema.gov</p>
+<div class="flow "><div class="step"><span class="sn">1</span><b>FEMA SID</b><span>Student ID. Do this first</span></div><div class="step"><span class="sn">2</span><b>IS-100</b><span>Incident Command System (ICS) basics</span></div><div class="step"><span class="sn">3</span><b>IS-200</b><span>Growing the ICS organization</span></div><div class="step"><span class="sn">4</span><b>IS-700</b><span>National Incident Management System (NIMS)</span></div><div class="step"><span class="sn">5</span><b>IS-800</b><span>National Response Framework (NRF)</span></div></div>
+ <p class="lab">Part 2 &middot; eServices</p>
+<div class="flow dk-half"><div class="step"><span class="sn">1</span><b>CAPT 116</b><span>General Emergency Services</span></div><div class="step"><span class="sn">2</span><b>CAPT 117</b><span>Emergency services continuing education, three parts</span></div></div>
+</div></div></div><p class="take">Get your FEMA Student ID (SID) first. Every FEMA exam asks for it.</p><aside class="notes"><ul><li>Order matters: IS-100 before IS-200; the SID before any FEMA exam.</li><li>The FEMA tests build on each other: ICS on scene, NIMS around it, the NRF across the nation.</li><li>The two eServices tests cover our own regulation and continuing education.</li></ul></aside></section>
+<section class="slide" data-title="FEMA Student ID: register once, use it everywhere"><header><p class="dk-kick">Before any FEMA test</p><span class="dk-n">3</span></header><h1>FEMA Student ID: register once, use it everywhere</h1><div class="vis"><div class="fit" data-w="968" data-min="600" style="width:968px"><div class="flow "><div class="step"><span class="sn">1</span><b>Register</b><span>One email holds one SID. Password 14+ characters. Age 10 or older for credit.</span></div><div class="step"><span class="sn">2</span><b>First login</b><span>Multifactor authentication (MFA): enter the 6-digit code. Device remembered 21 days.</span></div><div class="step"><span class="sn">3</span><b>Take the exam</b><span>training.fema.gov/is. Enter your SID. 75% passes.</span></div><div class="step"><span class="sn">4</span><b>Certificate</b><span>In the National Disaster &amp; Emergency Management University (NDEMU) Student Portal, and emailed. Save the PDF.</span></div></div></div></div><p class="take">Already have a SID? Recover it. Never make a second one.</p><aside class="notes"><ul><li>Register at cdp.dhs.gov/femasid. The courses are on a different site: training.fema.gov/is.</li><li>One email address per SID, so siblings cannot share a parent's email.</li><li>Password: 14+ characters, with a number, upper and lower case, and a special character.</li><li>Multifactor authentication is required. An authenticator app is the easiest second factor.</li><li>Stuck: FEMA SID Help Desk 866-291-0696. Exam or certificate: Independent Study 301-447-1200.</li></ul></aside></section>
+<section class="slide dk-div" data-title="FEMA Independent Study"><p class="dk-kick">Part 1</p><h1>FEMA Independent Study</h1><div class="dk-rule"></div><div class="dk-chips"><span>IS-100</span><span>IS-200</span><span>IS-700</span><span>IS-800</span></div><span class="dk-n">4</span><aside class="notes"><ul><li>Four online exams. 75% passes. Take them in order.</li><li>Test tip: when two answers look right, pick the one that matches the standard term.</li></ul></aside></section>
+<section class="slide" data-title="Who does what"><header><p class="dk-kick">IS-100 &middot; Introduction to the Incident Command System (ICS)</p><span class="dk-n">5</span></header><h1>Who does what</h1><div class="vis"><div class="fit" data-w="968" data-min="600" style="width:968px">
+<div class="org">
+ <div class="orgtop">
+  <div class="spacer"></div>
+  <div class="iccol"><div class="node ic"><b>Incident Commander (IC)</b><span>Always staffed. Does every job not yet assigned.</span></div><div class="spine"></div></div>
+  <div class="cstaff"><p class="lab">Command Staff &middot; advise the IC</p>
+   <div class="node"><b>Public Information Officer (PIO)</b><span>Only voice to the media</span></div>
+   <div class="node"><b>Safety Officer</b><span>Can stop unsafe work at once</span></div>
+   <div class="node"><b>Liaison Officer</b><span>Contact for other agencies</span></div>
+  </div>
+ </div>
+ <div class="gstaff">
+  <div class="node"><b>Operations</b><span>Does the tactical work</span></div>
+  <div class="node"><b>Planning</b><span>Tracks resources, information, documents. Writes the Incident Action Plan (IAP).</span></div>
+  <div class="node"><b>Logistics</b><span>Food, comms, medical, transport, facilities</span></div>
+  <div class="node"><b>Finance / Admin</b><span>Costs, time, claims, mutual aid paperwork</span></div>
+ </div>
+ <p class="lab gsl">General Staff &middot; section chiefs, who run the work</p>
+</div></div></div><p class="take">The incident commander (IC) is always staffed. Everything else opens only when needed.</p><aside class="notes"><ul><li>The IC sets the objectives and does every job not yet assigned.</li><li>Command Staff advise the IC: Public Information Officer (only voice to the media), Safety Officer (can stop unsafe work at once), Liaison Officer (contact for other agencies).</li><li>General Staff are the four section chiefs: Operations does the work; Planning tracks and writes the IAP; Logistics supports; Finance/Admin pays.</li><li>Modular: the organization grows and shrinks with the incident.</li><li>Unified Command: agencies share objectives and each keeps its own authority.</li></ul></aside></section>
+<section class="slide" data-title="Four rules that keep it orderly"><header><p class="dk-kick">IS-100 &middot; Introduction to the Incident Command System (ICS)</p><span class="dk-n">6</span></header><h1>Four rules that keep it orderly</h1><div class="vis"><div class="fit" data-w="968" data-min="600" style="width:968px">
+<div class="dk-rules">
+ <div class="dk-rc"><b>Span of control</b>
+  <div class="dk-scale"><span class="">1</span><span class="">2</span><span class="in">3</span><span class="in">4</span><span class="best">5</span><span class="in">6</span><span class="in">7</span><span class="">8</span><span class="">9</span></div>
+  <div class="dk-scl"><span>Too few</span><span>3 to 7 &middot; 5 is best</span><span>Too many: add a supervisor</span></div>
+ </div>
+ <div class="dk-rc"><b>Unity of command</b>
+  <div class="dk-uc"><span class="dk-box">One supervisor</span><span class="dk-vl"></span><span class="dk-box me">You</span></div>
+  <p>Each person reports to one supervisor. Orders follow the chain of command; information is shared freely.</p>
+ </div>
+ <div class="dk-rc"><b>Common terminology</b>
+  <div class="dk-say"><span class="yes">&ldquo;Engine 2, return to staging&rdquo;</span><span class="no">&ldquo;E2, 10-8, back to the barn&rdquo;</span></div>
+  <p>Plain language on the radio. No 10-codes or agency jargon.</p>
+ </div>
+ <div class="dk-rc"><b>Dispatch and deployment</b><div class="flow dk-mini"><div class="step"><span class="sn">1</span><b>Requested</b><span></span></div><div class="step"><span class="sn">2</span><b>Through the system</b><span></span></div><div class="step"><span class="sn">3</span><b>Deploy</b><span></span></div></div>
+  <p><span class="dk-never">Never</span> self-dispatch. Arrive and check in.</p>
+ </div>
+</div></div></div><p class="take">3 to 7 per supervisor, one supervisor each, plain words, no self-dispatch.</p><aside class="notes"><ul><li>Span of control: 3 to 7, and 5 is best. Too many? Add a supervisor and reorganize.</li><li>Unity of command: one supervisor each. Chain of command governs orders, not information.</li><li>Common terminology: standard names for positions, facilities and resources.</li><li>Accountability: check-in, action planning, personal responsibility, resource tracking.</li><li>Coordination is not command. Directing, ordering or controlling is command.</li></ul></aside></section>
+<section class="slide" data-title="Incident types: complexity sets the structure"><header><p class="dk-kick">IS-200 &middot; Basic ICS for Initial Response</p><span class="dk-n">7</span></header><h1>Incident types: complexity sets the structure</h1><div class="vis"><div class="fit" data-w="968" data-min="600" style="width:968px"><div class="types"><div class="trow th"><span>Type</span><span>Complexity</span><span>Who responds</span><span>How long</span><span class="iap">Written IAP</span></div><div class="trow"><span class="tl">Type 5</span><span class="tbw"><span class="tbar" style="width:20%"></span></span><span class="td">1 to 2 single resources, up to 6 people</span><span class="td">Hours</span><span class="iap no"><span class="mob">Written IAP: </span>Not required</span></div><div class="trow"><span class="tl">Type 4</span><span class="tbw"><span class="tbar" style="width:38%"></span></span><span class="td">Several single resources; the IC covers the staff jobs</span><span class="td">One operational period</span><span class="iap no"><span class="mob">Written IAP: </span>Not required</span></div><div class="trow"><span class="tl">Type 3</span><span class="tbw"><span class="tbar" style="width:58%"></span></span><span class="td">Some or all Command and General Staff; division or group supervisors</span><span class="td">Multiple periods</span><span class="iap yes"><span class="mob">Written IAP: </span>Required</span></div><div class="trow"><span class="tl">Type 2</span><span class="tbw"><span class="tbar" style="width:78%"></span></span><span class="td">Regional or national resources, up to 200 people per period</span><span class="td">Multiple periods</span><span class="iap yes"><span class="mob">Written IAP: </span>Required</span></div><div class="trow"><span class="tl">Type 1</span><span class="tbw"><span class="tbar" style="width:100%"></span></span><span class="td">National resources, all positions and branches, 500+ per period. Disaster declaration possible.</span><span class="td">Multiple periods</span><span class="iap yes"><span class="mob">Written IAP: </span>Required</span></div></div></div></div><p class="take">Type 5 is smallest, Type 1 largest. A written Incident Action Plan (IAP) starts at Type 3.</p><aside class="notes"><ul><li>Complexity rises with jurisdictions involved, threat to life and property, and size of area.</li><li>Type 5: 1 to 2 resources, up to 6 people, hours. Type 4: one operational period.</li><li>Type 1: national resources, 500+ people per period, possible disaster declaration.</li><li>Predicting resource needs to choose the structure is complexity analysis.</li></ul></aside></section>
+<section class="slide" data-title="Leader titles, level by level"><header><p class="dk-kick">IS-200 &middot; Basic ICS for Initial Response</p><span class="dk-n">8</span></header><h1>Leader titles, level by level</h1><div class="vis"><div class="fit" data-w="968" data-min="880" style="width:968px"><div class="ladder"><div class="rung" style="--i:0;--k:5"><span class="rl">Incident Command</span><span class="rt">Commander</span><span class="rd"><span>Incident Commander (IC): runs the whole incident</span></span><span class="iap yes">Deputy allowed</span></div><div class="rung" style="--i:1;--k:4"><span class="rl">Section</span><span class="rt">Chief</span><span class="rd"><span>Operations, Planning, Logistics, Finance/Admin</span></span><span class="iap yes">Deputy allowed</span></div><div class="rung" style="--i:2;--k:3"><span class="rl">Branch</span><span class="rt">Director</span><span class="rd"><span>Added when span of control is exceeded</span></span><span class="iap yes">Deputy allowed</span></div><div class="rung" style="--i:3;--k:2"><span class="rl">Division or Group</span><span class="rt">Supervisor</span><span class="rd"><span>Division: a geographic area</span><span>Group: a function</span></span><span class="iap no">No deputy</span></div><div class="rung" style="--i:4;--k:1"><span class="rl">Strike Team or Task Force</span><span class="rt">Leader</span><span class="rd"><span>Strike Team: same kind and type</span><span>Task Force: mixed resources</span></span><span class="iap no">No deputy</span></div></div></div></div><p class="take">Deputies only at IC, Section and Branch, and fully qualified for the job.</p><aside class="notes"><ul><li>Know the pairs: Section Chief, Branch Director, Division or Group Supervisor, Strike Team or Task Force Leader.</li><li>Division is a place; Group is a function.</li><li>Strike Team: same kind and type. Task Force: a mix.</li><li>A deputy holds the same box as the boss: shares the load, ready to take over. The next title down owns a smaller box.</li></ul></aside></section>
+<section class="slide" data-title="Transfer of command"><header><p class="dk-kick">IS-200 &middot; Basic ICS for Initial Response</p><span class="dk-n">9</span></header><h1>Transfer of command</h1><div class="vis"><div class="fit" data-w="968" data-min="600" style="width:968px">
+<div class="toc">
+ <div class="th0"></div>
+ <div class="tsh"><span class="sn">1</span>Assess</div><div class="tsh"><span class="sn">2</span>Brief</div>
+ <div class="tsh"><span class="sn">3</span>Decide</div><div class="tsh"><span class="sn">4</span>Announce</div>
+
+ <div class="lane l1">Outgoing IC</div>
+ <div class="tcell quiet r1 c1">Keeps running the incident</div>
+ <div class="tcell both c2"><span class="who">Both, face to face</span>Outgoing IC briefs the incoming IC using ICS Form 201</div>
+ <div class="tcell both c3"><span class="who">Both</span>Who takes command, and when. A more qualified arrival may:<span class="opt">assume command</span><span class="opt">keep it as is</span><span class="opt">request a more qualified IC</span></div>
+ <div class="tcell both c4"><span class="who">Both</span>Tell everyone the effective time and date of the transfer</div>
+
+ <div class="lane l2">Incoming IC</div>
+ <div class="tcell r2 c1"><span class="who">Incoming IC</span>Checks the situation</div>
+
+ <div class="lane l3">In command</div>
+ <div class="cmdbar"><span class="out">Outgoing IC</span><span class="eff">Effective time</span><span class="in">Incoming IC</span></div>
+</div></div></div><p class="take">Always a face-to-face briefing. Command passes at the announced effective time.</p><aside class="notes"><ul><li>The briefing uses ICS Form 201.</li><li>Until the effective time, the outgoing IC is still in charge. No gap, never two people in charge.</li><li>A more qualified person arriving may take command, leave it as it is, or ask for a more qualified IC.</li><li>IC authority comes from law, agency policy and delegation of authority.</li></ul></aside></section>
+<section class="slide" data-title="How a plan reaches the field"><header><p class="dk-kick">IS-200 &middot; Basic ICS for Initial Response</p><span class="dk-n">10</span></header><h1>How a plan reaches the field</h1><div class="vis"><div class="fit" data-w="900" data-min="600" style="width:900px"><div class="funnel"><div class="tier" style="--i:0"><span class="tw">Before any incident</span><span class="tt">Emergency Operations Plan</span><span class="td2">Uniform response to all hazards</span></div><div class="tier" style="--i:1"><span class="tw">IC or Unified Command sets</span><span class="tt">Incident objectives</span><span class="td2">Specific and measurable, not broad</span></div><div class="tier" style="--i:2"><span class="tw">Planning writes, IC approves</span><span class="tt">Incident Action Plan (IAP)</span><span class="td2">The plan for one operational period</span></div><div class="tier" style="--i:3"><span class="tw">Planning Chief runs it</span><span class="tt">Operational Period Briefing</span><span class="td2">IAP to supervisors</span></div><div class="tier" style="--i:4"><span class="tw">Supervisor to crew</span><span class="tt">Field-level briefing</span><span class="td2">Crew assignments</span></div><p class="fcap">Broad at the top, specific at the bottom</p></div></div></div><p class="take">Every assignment traces back to the incident objectives.</p><aside class="notes"><ul><li>Management by objectives runs the whole chain.</li><li>The IC or Unified Command sets objectives; Planning writes the IAP; the IC approves it.</li><li>The Operational Period Briefing is run by the Planning Section Chief.</li><li>Leaders show commitment to duty: step up when needed, develop subordinates.</li></ul></aside></section>
+<section class="slide" data-title="Objectives: specific and measurable"><header><p class="dk-kick">IS-200 &middot; Basic ICS for Initial Response</p><span class="dk-n">11</span></header><h1>Objectives: specific and measurable</h1><div class="vis"><div class="fit" data-w="900" data-min="600" style="width:900px">
+<p class="lab objl">Writing an objective</p>
+<div class="vs">
+ <div class="vcard no"><span class="vt">Too broad</span><span class="vq">&ldquo;Find the missing hiker.&rdquo;</span><span class="vn">No place, no time, no way to know when it&rsquo;s done.</span></div>
+ <div class="vcard yes"><span class="vt">Specific and measurable</span><span class="vq">&ldquo;Search segments 3 and 4 by 1800 hours and report to the Division Supervisor.&rdquo;</span><span class="vn">Where, by when, and what done looks like.</span></div>
+</div></div></div><p class="take">Where, by when, and what done looks like.</p><aside class="notes"><ul><li>Have the class rewrite a broad objective into a measurable one.</li><li>Test trap: broad, inspiring objectives are wrong. The test wants specific and measurable.</li></ul></aside></section>
+<section class="slide" data-title="NIMS in one view"><header><p class="dk-kick">IS-700 &middot; National Incident Management System (NIMS)</p><span class="dk-n">12</span></header><h1>NIMS in one view</h1><div class="vis"><div class="fit" data-w="968" data-min="600" style="width:968px">
+<div class="house">
+ <div class="roof"><b>NIMS</b><span>A systematic approach for everyone with incident duties</span></div>
+ <div class="pillars">
+  <div class="pillar"><b>Resource Management</b><span class="q">&ldquo;Do we have what we need?&rdquo;</span></div>
+  <div class="pillar"><b>Command and Coordination</b><span class="q">&ldquo;Who leads, and how do we work together?&rdquo;</span><span>Includes the Incident Command System (ICS)</span></div>
+  <div class="pillar"><b>Communications and Information Management</b><span class="q">&ldquo;Does everyone know what they need to?&rdquo;</span></div>
+ </div>
+ <div class="found">
+  <div class="course"><b>Flexibility</b><span>Any incident, any size, any hazard</span></div>
+  <div class="course"><b>Standardization</b><span>Same terms and structures, so groups can work together (interoperability)</span></div>
+  <div class="course"><b>Unity of Effort</b><span>Shared objectives; each group keeps its own authority</span></div>
+  <p class="flab">Foundation &middot; each guiding principle supports all three components</p>
+ </div>
+</div></div></div><p class="take">Three components, held up by three principles.</p><aside class="notes"><ul><li>NIMS applies to every stakeholder with incident duties, at every level.</li><li>Components: Resource Management; Command and Coordination (which includes ICS); Communications and Information Management.</li><li>Principles: Flexibility, Standardization, Unity of Effort.</li><li>Standardization is what makes interoperability possible.</li></ul></aside></section>
+<section class="slide" data-title="Three levels, one response"><header><p class="dk-kick">IS-700 &middot; National Incident Management System (NIMS)</p><span class="dk-n">13</span></header><h1>Three levels, one response</h1><div class="vis"><div class="fit" data-w="968" data-min="600" style="width:968px">
+<div class="layers">
+ <div class="flowcol"><div class="fup"><span>Needs and information flow up</span></div><div class="fdn"><span>Priorities and support flow down</span></div></div>
+ <div class="layer lp"><span class="lwhere">Policy</span><div class="lbox"><b>Multiagency Coordination (MAC) Group</b><span>Senior officials. Set priorities and settle resource conflicts. Do not replace EOCs or dispatch.</span></div><span class="ask">&ldquo;What matters most?&rdquo;</span></div>
+ <div class="layer ls"><span class="lwhere">Off site</span><div class="lbox"><b>Emergency Operations Center (EOC)</b><span>Information sharing, resource coordination, policy direction. Activates when local response grows large or complex.</span></div><span class="ask">&ldquo;What do they need?&rdquo;</span></div>
+ <div class="layer lt"><span class="lwhere">On scene</span><div class="lbox"><b>Incident Command (ICS)</b><span>The incident commander (IC) or Unified Command directs the tactics. The Planning Section writes the IAP.</span></div><span class="ask">&ldquo;What do we do now?&rdquo;</span></div>
+ <div class="jisrail"><b>Joint Information System (JIS)</b><span>One coordinated public message for all three levels. Public Information Officers (PIOs) work together in the Joint Information Center (JIC).</span></div>
+</div></div></div><p class="take">The scene acts, the Emergency Operations Center supports, the MAC Group sets priorities, one public voice.</p><aside class="notes"><ul><li>MAC Group: senior officials set policy and priorities and settle resource conflicts. They do not run the incident.</li><li>EOC: off-site information sharing, resource coordination, policy direction. Activates when the response grows.</li><li>An ICS-like EOC starts fast because field staff already know the structure.</li><li>JIS: one coordinated message. PIOs work together in the Joint Information Center.</li></ul></aside></section>
+<section class="slide" data-title="Resource management cycle"><header><p class="dk-kick">IS-700 &middot; National Incident Management System (NIMS)</p><span class="dk-n">14</span></header><h1>Resource management cycle</h1><div class="vis"><div class="fit" data-w="900" data-min="600" style="width:900px"><div class="ring"><div class="rcircle"></div><span class="rarr" style="left:65.5%;top:23.2%;--r:22deg"></span><span class="rarr" style="left:81.0%;top:50.0%;--r:90deg"></span><span class="rarr" style="left:65.5%;top:76.8%;--r:158deg"></span><span class="rarr" style="left:34.5%;top:76.8%;--r:-158deg"></span><span class="rarr" style="left:19.0%;top:50.0%;--r:-90deg"></span><span class="rarr" style="left:34.5%;top:23.2%;--r:-22deg"></span><div class="rcenter"><b>Before any incident</b><span>Inventory resources and type them by capability (preparedness)</span></div><div class="rnode" style="left:50.0%;top:11.0%"><span class="sn">1</span><b>Identify requirements</b><span>Type, quantity, location, users</span></div><div class="rnode" style="left:83.8%;top:30.5%"><span class="sn">2</span><b>Order and acquire</b><span>Local first, if available</span></div><div class="rnode" style="left:83.8%;top:69.5%"><span class="sn">3</span><b>Mobilize</b><span>Deploy or activate</span></div><div class="rnode" style="left:50.0%;top:89.0%"><span class="sn">4</span><b>Track and report</b><span>Coordinate throughout</span></div><div class="rnode" style="left:16.2%;top:69.5%"><span class="sn">5</span><b>Demobilize</b><span>Orderly release</span></div><div class="rnode" style="left:16.2%;top:30.5%"><span class="sn">6</span><b>Reimburse and restock</b><span>Ready for next time</span></div></div></div></div><p class="take">Inventory and type resources before the incident. Order local first.</p><aside class="notes"><ul><li>Six steps: identify, order and acquire, mobilize, track and report, demobilize, reimburse and restock.</li><li>Typing describes a resource by capability.</li><li>Emergency Management Assistance Compact (EMAC): state-to-state sharing.</li></ul></aside></section>
+<section class="slide" data-title="Tiered response: begin and end locally"><header><p class="dk-kick">IS-800 &middot; National Response Framework (NRF)</p><span class="dk-n">15</span></header><h1>Tiered response: begin and end locally</h1><div class="vis"><div class="fit" data-w="968" data-min="600" style="width:968px">
+<div class="tiers">
+ <div class="tring t3"><div class="tlab"><b>Federal</b><em>When the state needs more</em><span>Stafford Act: FEMA leads; the Unified Coordination Group leads at the Joint Field Office (JFO). Non-Stafford: the agency with primary legal authority.</span></div>
+  <div class="tring t2"><div class="tlab"><b>State</b><em>When local needs more</em><span>Governor and state EOC. Other states help through the Emergency Management Assistance Compact (EMAC), interstate mutual aid.</span></div>
+   <div class="tring t1"><div class="tlab"><b>Local and<br>tribal</b><em>Every incident starts here</em><span>First to arrive, last to leave. Police, fire, emergency medical services (EMS). The incident commander (IC) relays needs to the local emergency operations center (EOC).</span></div></div>
+  </div>
+ </div>
+</div></div></div><p class="take">Incidents are handled at the lowest level possible. Each ring steps in when the one inside needs more.</p><aside class="notes"><ul><li>Local: first to arrive, last to leave.</li><li>State: governor and state EOC; other states help through EMAC.</li><li>Federal: Stafford Act incidents are led by FEMA; the Unified Coordination Group works at the Joint Field Office.</li><li>Tribal governments may deal directly with the federal government.</li></ul></aside></section>
+<section class="slide" data-title="Coordinating structures: zoom out from the scene"><header><p class="dk-kick">IS-800 &middot; National Response Framework (NRF)</p><span class="dk-n">16</span></header><h1>Coordinating structures: zoom out from the scene</h1><div class="vis"><div class="fit" data-w="968" data-min="600" style="width:968px"><div class="zoom"><div class="zp" style="--i:0"><span class="zw">On scene</span><b>Unified Command</b><span class="zd">Agencies set one set of objectives. Each keeps its authority.</span><em>Co-captains, one game plan</em></div><div class="zp" style="--i:1"><span class="zw">Off site</span><b>Emergency Operations Center (EOC)</b><span class="zd">Supplies the scene: resources, information, policy.</span><em>Support staff: they supply, not play</em></div><div class="zp" style="--i:2"><span class="zw">Policy level</span><b>Multiagency Coordination (MAC) Group</b><span class="zd">Senior officials decide who gets scarce resources.</span><em>League officials assigning the only bus</em></div><div class="zp" style="--i:3"><span class="zw">Region and nation</span><b>RRCC and NOC</b><span class="zd">Regional Response Coordination Center (FEMA). National Operations Center (DHS).</span><em>Regional office and national headquarters</em></div><div class="zbar"><span>Closer to the scene</span><span>Wider view</span></div></div></div></div><p class="take">Each step out supports the one closer to the scene.</p><aside class="notes"><ul><li>Use the sports analogies on the slide; they land with cadets.</li><li>MAC Group decides who gets scarce resources.</li><li>RRCC is FEMA's regional center; NOC is the DHS national center.</li></ul></aside></section>
+<section class="slide" data-title="Five mission areas"><header><p class="dk-kick">IS-800 &middot; National Response Framework (NRF)</p><span class="dk-n">17</span></header><h1>Five mission areas</h1><div class="vis"><div class="fit" data-w="968" data-min="600" style="width:968px">
+<div class="mtl">
+ <div class="mph" style="grid-column:1/4">Before an incident</div><div class="mph dur">During</div><div class="mph">After</div>
+ <div class="mtile"><b>Prevention</b><span>Stop imminent terrorism</span></div>
+ <div class="mtile"><b>Protection</b><span>Secure people and assets</span></div>
+ <div class="mtile"><b>Mitigation</b><span>Reduce loss of life and property by lessening disaster impact</span></div>
+ <div class="mtile focus"><em>NRF focus</em><b>Response</b><span>Save lives, protect property and environment, meet basic needs</span></div>
+ <div class="mtile"><b>Recovery</b><span>Restore and rebuild</span></div>
+ <div class="mcore"><em>Three core capabilities across all five, and every lifeline</em><span>Planning</span><span>Public Information and Warning</span><span>Operational Coordination</span></div>
+</div></div></div><p class="take">The NRF focuses on Response. Three core capabilities span all five.</p><aside class="notes"><ul><li>Prevention is specifically imminent terrorism.</li><li>Mitigation reduces loss of life and property by lessening impact.</li><li>Planning; Public Information and Warning; Operational Coordination run across every mission area.</li><li>The National Preparedness Goal sets the vision and names the core capabilities.</li></ul></aside></section>
+<section class="slide" data-title="Seven community lifelines"><header><p class="dk-kick">IS-800 &middot; National Response Framework (NRF)</p><span class="dk-n">18</span></header><h1>Seven community lifelines</h1><div class="vis"><div class="fit" data-w="820" data-min="600" style="width:820px"><div class="wheel"><span class="spoke" style="width:22.4%;--a:-90.0deg"></span><span class="spoke" style="width:32.8%;--a:-25.1deg"></span><span class="spoke" style="width:37.4%;--a:7.6deg"></span><span class="spoke" style="width:26.0%;--a:50.7deg"></span><span class="spoke" style="width:26.0%;--a:129.3deg"></span><span class="spoke" style="width:37.4%;--a:172.4deg"></span><span class="spoke" style="width:32.8%;--a:-154.9deg"></span><div class="hub"><b>Community</b><span>Lifelines keep critical government and business functions running</span></div><div class="lnode" style="left:50.0%;top:12.0%">Safety and Security</div><div class="lnode" style="left:79.7%;top:26.3%">Food, Water, Shelter</div><div class="lnode" style="left:87.0%;top:58.5%">Health and Medical</div><div class="lnode" style="left:66.5%;top:84.2%">Energy</div><div class="lnode" style="left:33.5%;top:84.2%">Communications</div><div class="lnode" style="left:13.0%;top:58.5%">Transportation</div><div class="lnode" style="left:20.3%;top:26.3%">Hazardous Materials</div></div></div></div><p class="take">Lifelines keep critical government and business functions running.</p><aside class="notes"><ul><li>The course teaches seven. FEMA added an eighth, Water Systems, in 2023; answer the test with seven.</li><li>Ask the class which lifeline a flooded hospital hits (Health and Medical).</li></ul></aside></section>
+<section class="slide" data-title="The NRF is always on"><header><p class="dk-kick">IS-800 &middot; National Response Framework (NRF)</p><span class="dk-n">19</span></header><h1>The NRF is always on</h1><div class="vis"><div class="fit" data-w="900" data-min="600" style="width:900px">
+<div class="dim">
+ <div class="dtrack"><span class="don">Always on</span></div>
+ <div class="dlabels"><span>Small local incident</span><span>Catastrophe</span></div>
+ <p class="dnote">The NRF never switches off. More of it engages as the incident grows. It covers the Response mission area, ties it to the other four, and aligns with NIMS.</p>
+</div></div></div><p class="take">It never switches off. More of it engages as the incident grows.</p><aside class="notes"><ul><li>Guiding principles include engaged partnership and scalable, flexible, adaptable capabilities.</li><li>It aligns with NIMS and ties Response to the other four mission areas.</li></ul></aside></section>
+<section class="slide" data-title="Emergency Support Functions"><header><p class="dk-kick">IS-800 &middot; National Response Framework (NRF)</p><span class="dk-n">20</span></header><h1>Emergency Support Functions</h1><div class="vis"><div class="fit" data-w="968" data-min="968" style="width:968px"><p class="escen">Example incident: <b>a river flood hits a town</b></p><div class="emap"><div class="eh">The incident needs</div><div></div><div class="eh">The ESF that answers</div><div class="eneed">People need shelter, food and water</div><div class="econ"></div><div class="eans"><span class="echip on"><b>ESF #6</b> Mass Care, Emergency Assistance, Temporary Housing and Human Services</span></div><div class="eneed">Children separated from their families</div><div class="econ"></div><div class="eans"><span class="echip on"><b>ESF #6</b> Mass Care, the same function</span><span class="enote2">Working with the National Center for Missing &amp; Exploited Children (NCMEC) to identify children and reunite them with families</span></div><div class="eneed">People trapped by rising water</div><div class="econ"></div><div class="eans"><span class="echip on"><b>ESF #9</b> Search and Rescue</span></div><div class="eneed">Roads and bridges washed out</div><div class="econ"></div><div class="eans"><span class="echip on"><b>ESF #1</b> Transportation</span><span class="echip on"><b>ESF #3</b> Public Works and Engineering</span></div><div class="eneed">Power out across town</div><div class="econ"></div><div class="eans"><span class="echip on"><b>ESF #12</b> Energy</span></div><div class="eneed">Fuel tanks leaking into the river</div><div class="econ"></div><div class="eans"><span class="echip on"><b>ESF #10</b> Oil and Hazardous Materials Response</span></div><div class="eneed">The hospital is flooded</div><div class="econ"></div><div class="eans"><span class="echip on"><b>ESF #8</b> Public Health and Medical Services</span></div><div class="eneed">The public needs clear information</div><div class="econ"></div><div class="eans"><span class="echip on"><b>ESF #15</b> External Affairs</span></div></div></div></div><p class="take">Each need has an Emergency Support Function (ESF) that answers it.</p><aside class="notes"><ul><li>Walk the flood example top to bottom: need, then the ESF that answers it.</li><li>ESF #6 Mass Care also reunites children with families, working with the National Center for Missing &amp; Exploited Children.</li><li>ESFs include government and private-sector partners, not only federal agencies.</li></ul></aside></section>
+<section class="slide" data-title="ESFs: activated only as needed"><header><p class="dk-kick">IS-800 &middot; National Response Framework (NRF)</p><span class="dk-n">21</span></header><h1>ESFs: activated only as needed</h1><div class="vis"><div class="fit" data-w="900" data-min="600" style="width:900px"><p class="lab esub">Supporting the whole response</p><div class="erow"><span class="echip on"><b>ESF #5</b> Information and Planning</span><span class="echip on"><b>ESF #7</b> Logistics</span></div><p class="lab esub">Standby: activated only if this incident needs them</p><div class="erow"><span class="echip off"><b>ESF #2</b> Communications</span><span class="echip off"><b>ESF #4</b> Firefighting</span><span class="echip off"><b>ESF #11</b> Agriculture and Natural Resources</span><span class="echip off"><b>ESF #13</b> Public Safety and Security</span><span class="echip off"><b>ESF #14</b> Cross-Sector Business and Infrastructure</span></div></div></div><p class="take">More ESFs engage as the incident grows. The rest stay on standby.</p><aside class="notes"><ul><li>ESF #5 Information and Planning and ESF #7 Logistics support the whole response.</li><li>Standby functions activate only if this incident needs them.</li></ul></aside></section>
+<section class="slide dk-div" data-title="eServices"><p class="dk-kick">Part 2</p><h1>eServices</h1><div class="dk-rule"></div><div class="dk-chips"><span>CAPT 116</span><span>CAPT 117</span></div><span class="dk-n">22</span><aside class="notes"><ul><li>Two online tests in eServices.</li><li>These test our own regulation and habits. Cite-level detail matters: who, how many, how long.</li></ul></aside></section>
+<section class="slide" data-title="Support priority when resources are short"><header><p class="dk-kick">CAPT 116 &middot; General Emergency Services &middot; CAPR 60-3</p><span class="dk-n">23</span></header><h1>Support priority when resources are short</h1><div class="vis"><div class="fit" data-w="860" data-min="600" style="width:860px">
+<div class="podium"><div class="pcol" style="--h:100%"><div class="pbar"><span class="prank">1</span><b>Air Force</b><span>First claim</span></div></div><div class="pcol" style="--h:86%"><div class="pbar"><span class="prank">2</span><b>Other DoD</b><span>Department of Defense agencies</span></div></div><div class="pcol" style="--h:72%"><div class="pbar"><span class="prank">3</span><b>Federal civil</b><span>Such as the Federal Emergency Management Agency (FEMA)</span></div></div><div class="pcol" style="--h:58%"><div class="pbar"><span class="prank">4</span><b>State</b><span>State civil agencies</span></div></div><div class="pcol" style="--h:44%"><div class="pbar"><span class="prank">5</span><b>Local</b><span>Last claim</span></div></div>
+</div></div></div><p class="take">Air Force first, local last.</p><aside class="notes"><ul><li>Order: Air Force, other Department of Defense, federal civil (such as FEMA), state, local.</li><li>Source: CAPR 60-3, paragraph 1-4.</li></ul></aside></section>
+<section class="slide" data-title="Minimum team makeup"><header><p class="dk-kick">CAPT 116 &middot; General Emergency Services &middot; CAPR 60-3</p><span class="dk-n">24</span></header><h1>Minimum team makeup</h1><div class="vis"><div class="fit" data-w="968" data-min="600" style="width:968px">
+<div class="teams">
+ <div><p class="lab">Aircrew of 3 &middot; who sits where</p>
+  <div class="cabin">
+   <span class="cfront">Front of the aircraft</span>
+   <div class="crow2">
+    <div class="seat"><b>Mission Pilot</b><span>Left seat. Flies the aircraft.</span></div>
+    <div class="seat"><b>Mission Observer</b><span>Right seat. Navigation, radios, helps run the search.</span></div>
+   </div>
+   <div class="crow1"><div class="seat"><b>Mission Scanner</b><span>Back seat. Watches outside for the search objective.</span></div></div>
+  </div>
+ </div>
+ <div><p class="lab">Ground team of 4+ &middot; works at its weakest link</p>
+  <div class="gt">
+   <div class="gtl">Ground Team Leader <span>qualified</span></div>
+   <div class="gtm"><span>Member</span><span>Member</span><span>Member or supervised trainee</span></div>
+  </div>
+  <div class="wl">
+   <div class="wbars"><span style="--q:88%">Leader</span><span style="--q:74%">Member</span><span style="--q:92%">Member</span><span style="--q:46%">Trainee</span></div>
+   <div class="wline" style="--q:46%"><em>The whole team operates here</em></div>
+  </div>
+ </div>
+</div></div></div><p class="take">A team operates within the limits of its lowest qualified member.</p><aside class="notes"><ul><li>Aircrew: mission pilot (left seat), mission observer (right seat), mission scanner (back).</li><li>Ground team: a qualified ground team leader plus at least three qualified members or supervised trainees, before release.</li><li>Sources: paragraphs 1-16d(2), 1-17b(2)(a) and 1-17b(3).</li></ul></aside></section>
+<section class="slide" data-title="Who can launch, who is covered"><header><p class="dk-kick">CAPT 116 &middot; General Emergency Services &middot; CAPR 60-3</p><span class="dk-n">25</span></header><h1>Who can launch, who is covered</h1><div class="vis"><div class="fit" data-w="968" data-min="600" style="width:968px">
+<div class="c911r">
+ <div class="c911a"><span class="lab">C911 mission</span><b>Imminently serious: life may be at stake</b></div>
+ <div class="c911b"><em>Who may authorize</em><span>Only the wing commander, or the commander&rsquo;s designee <span class="nw">(§1-9a)</span></span></div>
+</div>
+<p class="lab covl">Who is covered on Air Force-assigned missions <span class="cite">§1-24a, b</span></p>
+<div class="covr">
+ <div class="covn"><b>FTCA</b> (Federal Tort Claims Act) protects members from liability</div>
+ <div class="covb"><span class="seg in" style="flex:1">Covered: all members, any age</span></div>
+ <div class="covn"><b>FECA</b> (Federal Employees&rsquo; Compensation Act) pays injury benefits</div>
+ <div class="covb"><span class="seg out" style="flex:.44">Not covered: cadets under 18</span><span class="seg in" style="flex:.56">Covered: members 18 and older</span></div>
+</div></div></div><p class="take">C911: wing commander or designee. FECA injury benefits: members 18 and older.</p><aside class="notes"><ul><li>C911 is for imminently serious situations: life may be at stake (paragraph 1-9a).</li><li>FTCA, the Federal Tort Claims Act, protects all members from liability.</li><li>FECA, the Federal Employees' Compensation Act, does not cover cadets under 18 (paragraph 1-24).</li></ul></aside></section>
+<section class="slide" data-title="In the field: yes, only if, never"><header><p class="dk-kick">CAPT 116 &middot; General Emergency Services &middot; CAPR 60-3</p><span class="dk-n">26</span></header><h1>In the field: yes, only if, never</h1><div class="vis"><div class="fit" data-w="968" data-min="600" style="width:968px">
+<div class="yon">
+ <div class="ycol y"><span class="yh">Yes</span>
+  <p><b>Safety</b> must always be a primary concern (§1-1b)</p>
+  <p><b>Night vision devices</b> on foot or riding as a passenger (§1-30a)</p>
+  <p><b>Common sense and prudent judgment</b> where the regulation doesn&rsquo;t cover the situation</p></div>
+ <div class="ycol o"><span class="yh">Only if</span>
+  <p><b>Enter private property</b>: to save life, after every effort to get the controlling agency&rsquo;s approval and the owner&rsquo;s consent (§1-24c)</p>
+  <p><b>Transport a patient</b>: in an emergency, when no other suitable transport is readily available (§1-22)</p></div>
+ <div class="ycol yn"><span class="yh">Never</span>
+  <p><b>Night vision devices while driving</b> (§1-30a)</p>
+  <p><b>Alter, separate or misuse</b> communications or advanced technology equipment (§1-36a)</p></div>
+</div></div></div><p class="take">Safety first, always. Night vision devices never while driving.</p><aside class="notes"><ul><li>Private property: only to save life, after trying for agency approval and owner consent.</li><li>Patient transport: only in an emergency with no other suitable transport.</li><li>Never alter, separate or misuse communications or advanced technology equipment.</li></ul></aside></section>
+<section class="slide" data-title="Staying mission-ready"><header><p class="dk-kick">CAPT 116 &middot; General Emergency Services &middot; CAPR 60-3</p><span class="dk-n">27</span></header><h1>Staying mission-ready</h1><div class="vis"><div class="fit" data-w="968" data-min="600" style="width:968px">
+<p class="lab">Fiscal year (October to September)</p>
+<div class="fy"><span class="">Oct</span><span class="">Nov</span><span class="">Dec</span><span class="">Jan</span><span class="">Feb</span><span class="">Mar</span><span class="">Apr</span><span class="">May</span><span class="">Jun</span><span class="due">Jul</span><span class="">Aug</span><span class="">Sep</span></div>
+<div class="fynote"><span class="red">31 July</span>: each wing&rsquo;s annual operations training plan is due to the liaison region in WMIRS (Web Mission Information Reporting System), for the next fiscal year (§1-7). Alert rosters: update at least annually, and reissue them after major changes (§1-5c(6)).</div>
+<p class="lab rtl">A specialty rating on your qualification card (CAPF 101)</p>
+<div class="rbar"><span class="rb0">Issued</span><span class="rb1">Valid for 36 months</span><span class="rb2">Expires: last day of month 36</span></div></div></div><p class="take">Specialty ratings last 36 months, to the last day of the month.</p><aside class="notes"><ul><li>31 July: wing annual operations training plan due, in WMIRS.</li><li>Alert rosters: update at least annually and after major changes.</li><li>CAPF 101 shows what you may perform, as trainee or qualified.</li><li>The IC makes sure WMIRS entries and approvals are complete before any sortie.</li></ul></aside></section>
+<section class="slide" data-title="The gate to emergency services"><header><p class="dk-kick">CAPT 116 &middot; General Emergency Services &middot; CAPR 60-3</p><span class="dk-n">28</span></header><h1>The gate to emergency services</h1><div class="vis"><div class="fit" data-w="900" data-min="600" style="width:900px">
+<div class="gate">
+ <div class="greq"><b>OPSEC training</b><span>Operations security: what not to share about missions</span></div>
+ <span class="gplus">and</span>
+ <div class="greq"><b>Nondisclosure agreement</b><span>Signed, promising to protect mission information</span></div>
+ <div class="garrow"></div>
+ <div class="gout"><b>Emergency services qualified</b><span>Required to become qualified, and to stay qualified. Every member, not only those on sensitive missions (§1-35).</span></div>
+</div></div></div><p class="take">Every member completes both, to qualify and to stay qualified.</p><aside class="notes"><ul><li>Operations security (OPSEC) training plus a signed nondisclosure agreement (paragraph 1-35).</li><li>Not only for sensitive missions. Every emergency services member.</li></ul></aside></section>
+<section class="slide" data-title="Who may add local rules"><header><p class="dk-kick">CAPT 116 &middot; General Emergency Services &middot; CAPR 60-3</p><span class="dk-n">29</span></header><h1>Who may add local rules</h1><div class="vis"><div class="fit" data-w="968" data-min="600" style="width:968px">
+<div class="supp">
+ <div class="slev">
+  <p class="lab">Who may issue one</p>
+  <span class="ok">Region</span><span class="ok edge">Wing <em>lowest level allowed</em></span>
+  <span class="nope">Group <em>not allowed</em></span><span class="nope">Squadron <em>not allowed (Congressional Squadron is the exception)</em></span>
+ </div>
+ <div class="sapp">
+  <p class="lab">Approval needed from all three</p>
+  <span class="ok">Region commander</span><span class="ok">National headquarters operations</span><span class="ok">Air Force liaison operations</span>
+  <p class="snot">Not on the list: the group commander (§1-2)</p>
+ </div>
+</div></div></div><p class="take">Wing is the lowest level that may supplement. All three approvals needed.</p><aside class="notes"><ul><li>Region or wing may issue. Group and squadron may not (Congressional Squadron is the exception).</li><li>Approvals: region commander, national operations, Air Force liaison operations.</li><li>Test trap: the group commander is not on the approval list (paragraph 1-2).</li></ul></aside></section>
+<section class="slide" data-title="Part 1 · Critical Incident Stress Management (CISM)"><header><p class="dk-kick">CAPT 117 &middot; Emergency Services continuing education</p><span class="dk-n">30</span></header><h1>Part 1 &middot; Critical Incident Stress Management (CISM)</h1><div class="vis"><div class="fit" data-w="968" data-min="600" style="width:968px">
+<div class="ctl">
+ <div class="tlseg pre"><b>Before</b><span>Pre-incident education. Reduces the harmful effects of trauma.</span></div>
+ <div class="tlinc"><span>Incident</span></div>
+ <div class="tlseg"><b>Within hours</b><span>Defusing</span></div>
+ <div class="tlseg"><b>24 to 72 hours</b><span>Critical Incident Stress Debriefing (CISD)</span></div>
+ <div class="tlseg"><b>After</b><span>Peer support and referral</span></div>
+ <div class="tlaxis"><span>Sooner is better</span></div>
+</div></div></div><p class="take">Sooner is better. CISM is a set of tools, not one procedure.</p><aside class="notes"><ul><li>Pre-incident education reduces the harmful effects of trauma.</li><li>Defusing within hours. Debriefing (CISD) at 24 to 72 hours.</li><li>Crisis intervention is emotional first aid, not therapy.</li><li>Source: CAPR 60-5.</li></ul></aside></section>
+<section class="slide" data-title="Part 1 · Four places stress shows up"><header><p class="dk-kick">CAPT 117 &middot; Emergency Services continuing education</p><span class="dk-n">31</span></header><h1>Part 1 &middot; Four places stress shows up</h1><div class="vis"><div class="fit" data-w="820" data-min="600" style="width:820px">
+<div class="quad">
+ <div class="q1"><b>Cognitive</b><span>Thinking: confusion, poor memory</span></div>
+ <div class="q2"><b>Emotional</b><span>Feelings: anxiety, grief, guilt</span></div>
+ <div class="q3"><b>Physical</b><span>Body: fatigue, rapid pulse</span></div>
+ <div class="q4"><b>Behavioral</b><span>Actions: withdrawal, pacing</span></div>
+ <div class="qc"><b>Critical incident</b><span>Stress can show up in all four</span></div>
+</div></div></div><p class="take">Thinking, feeling, body, actions.</p><aside class="notes"><ul><li>Ask the class for one example of each.</li><li>Not new: shell shock, combat fatigue, post-traumatic stress disorder (PTSD).</li><li>Long-term stress accelerates aging and harms health.</li></ul></aside></section>
+<section class="slide" data-title="Part 2 · Crew Resource Management (CRM)"><header><p class="dk-kick">CAPT 117 &middot; Emergency Services continuing education</p><span class="dk-n">32</span></header><h1>Part 2 &middot; Crew Resource Management (CRM)</h1><div class="vis"><div class="fit" data-w="900" data-min="600" style="width:900px">
+<p class="lab">Accidents are a chain of factors. Anyone who speaks up breaks a link.</p>
+<div class="chain"><span>Fatigue</span><span>Distraction</span><span>Missed checklist item</span><span class="acc">Accident</span></div></div></div><p class="take">Accidents are a chain. Anyone who speaks up breaks a link.</p><aside class="notes"><ul><li>CRM is every crew member's job, not just the pilot in command's.</li><li>It is teamwork, communication, attitudes and behavior, not stick skills.</li><li>Split the workload to limit fatigue.</li></ul></aside></section>
+<section class="slide" data-title="Part 2 · Cockpit habits"><header><p class="dk-kick">CAPT 117 &middot; Emergency Services continuing education</p><span class="dk-n">33</span></header><h1>Part 2 &middot; Cockpit habits</h1><div class="vis"><div class="fit" data-w="968" data-min="860" style="width:968px">
+<div class="crm2">
+ <div><p class="lab">When it gets busy: in this order</p>
+  <div class="prio"><span style="--w:100%"><b>1</b> Aviate: fly the aircraft</span><span style="--w:84%"><b>2</b> Navigate</span><span style="--w:68%"><b>3</b> Communicate</span></div></div>
+ <div><p class="lab">Closed loop: every request, every time</p>
+  <div class="loop"><span><b>Acknowledge</b>&ldquo;Setting 122.9&rdquo;</span><span><b>Do it</b>Make the change</span><span><b>Report done</b>&ldquo;122.9 set&rdquo;</span></div></div>
+</div></div></div><p class="take">Aviate, navigate, communicate. Close every loop.</p><aside class="notes"><ul><li>Announce what you are about to do before you do it.</li><li>Sterile cockpit: no distractions for the crew.</li><li>Give decision makers correct, relevant information, not everything.</li></ul></aside></section>
+<section class="slide" data-title="Part 3 · Mission base"><header><p class="dk-kick">CAPT 117 &middot; Emergency Services continuing education</p><span class="dk-n">34</span></header><h1>Part 3 &middot; Mission base</h1><div class="vis"><div class="fit" data-w="968" data-min="600" style="width:968px"><div class="flow "><div class="step"><span class="sn">1</span><b>Before you go</b><span>Where, when, and to whom you report. Pack for a long stay.</span></div><div class="step"><span class="sn">2</span><b>Check in</b><span>At any designated location. Sent straight to a task? Report to that supervisor.</span></div><div class="step"><span class="sn">3</span><b>Work</b><span>Unit log: ICS form 214. 24-hour time. Clear text on the radio.</span></div><div class="step"><span class="sn">4</span><b>Demobilize</b><span>Finish the job. Return radios and gear. Check out.</span></div></div></div></div><p class="take">Know where to report, check in, keep the log, check out.</p><aside class="notes"><ul><li>Check in at any designated location: command post, base, camp, staging area, helibase.</li><li>Sent straight to a tactical assignment? Report to the division or group supervisor.</li><li>Unit log is ICS form 214, every operational period. 24-hour time. Clear text on the radio.</li><li>Demobilize: finish assignments, return radios and gear, check out.</li></ul></aside></section>
+<section class="slide" data-title="Now take the tests"><header><p class="dk-kick">Wrap-up</p><span class="dk-n">35</span></header><h1>Now take the tests</h1><div class="vis"><div class="fit" data-w="900" data-min="600" style="width:900px">
+<div class="dk-close">
+ <div class="dk-ct"><span class="sn">1</span><b>FEMA Independent Study</b><span>training.fema.gov/is &middot; enter your SID at the exam &middot; 75% passes &middot; save each certificate</span></div>
+ <div class="dk-ct"><span class="sn">2</span><b>eServices</b><span>CAPT 116, then CAPT 117 (all three parts)</span></div>
+ <div class="dk-ct"><span class="sn">3</span><b>Study companion</b><span>The same diagrams, plus a practice test for every exam. Keep it open while you test.</span></div>
+</div></div></div><p class="take">Keep the study companion open while you test.</p><aside class="notes"><ul><li>Save every certificate PDF and turn in copies as your unit requires.</li><li>Next: hands-on training with a mentor, then sign-off by a skills evaluator.</li></ul></aside></section>
+</div>
+<div id="prog"></div>
+<div id="drawer" aria-live="polite"></div>
+<div id="pv">
+ <div class="pvtop"><span class="pvc"></span><span class="clock">0:00</span>
+  <div class="pvbtn"><button class="btn" data-go="-1">Back</button><button class="btn" data-go="1">Next</button><button class="btn" id="treset">Reset timer</button></div></div>
+ <p class="pvk"></p><p class="pvt"></p><p class="pvtake"></p><ul></ul><p class="pvnext"></p>
+</div>
+<script>
+(() => {
+  const slides = [...document.querySelectorAll(".slide")];
+  const N = slides.length, stage = document.getElementById("stage");
+  const presenter = new URLSearchParams(location.search).has("presenter");
+  const ch = "BroadcastChannel" in window ? new BroadcastChannel("es-test-deck") : null;
+  let cur = 0;
+  if (presenter) document.body.classList.add("presenter");
+
+  function scaleStage() {
+    const s = Math.min(innerWidth / 1280, innerHeight / 720);
+    stage.style.transform = `translate(-50%,-50%) scale(${s})`;
+  }
+  function fitAll() {
+    slides.forEach(sl => {
+      const box = sl.querySelector(".vis"), f = sl.querySelector(".fit");
+      if (!box || !f) return;
+      // Try narrower layouts: a short diagram laid out narrower can be scaled up further.
+      const bw = box.clientWidth, bh = box.clientHeight, w0 = +f.dataset.w, wmin = +f.dataset.min;
+      let best = w0, bs = 0;
+      for (let w = w0; w >= wmin; w -= 40) {
+        f.style.transform = "none"; f.style.width = w + "px";
+        const s = Math.min(bw / w, bh / f.scrollHeight, 1.75);
+        if (s > bs + 0.01) { bs = s; best = w; }
+      }
+      f.style.width = best + "px";
+      const w = best, h = f.scrollHeight, s = bs;
+      f.style.transform = `scale(${s})`;
+      f.style.left = Math.max(0, (bw - w * s) / 2) + "px";
+      f.style.top = Math.max(0, (bh - h * s) / 2) + "px";
+    });
+  }
+  const txt = el => el ? el.innerHTML : "";
+  function show(i, from) {
+    cur = Math.max(0, Math.min(N - 1, i));
+    slides.forEach((s, k) => s.classList.toggle("on", k === cur));
+    document.getElementById("prog").style.width = ((cur + 1) / N * 100) + "%";
+    const sl = slides[cur], notes = sl.querySelector(".notes");
+    document.getElementById("drawer").innerHTML = `<h2>${cur + 1} / ${N} &middot; ${sl.dataset.title}</h2>` + txt(notes);
+    if (location.hash !== "#" + (cur + 1)) history.replaceState(null, "", location.pathname + location.search + "#" + (cur + 1));
+    if (presenter) {
+      const pv = document.getElementById("pv"), nx = slides[cur + 1];
+      pv.querySelector(".pvc").textContent = `Slide ${cur + 1} of ${N}`;
+      pv.querySelector(".pvk").innerHTML = txt(sl.querySelector(".dk-kick"));
+      pv.querySelector(".pvt").innerHTML = txt(sl.querySelector("h1"));
+      pv.querySelector(".pvtake").innerHTML = txt(sl.querySelector(".take"));
+      pv.querySelector(".pvtake").style.display = sl.querySelector(".take") ? "" : "none";
+      pv.querySelector("ul").innerHTML = notes ? notes.querySelector("ul").innerHTML : "";
+      pv.querySelector(".pvnext").innerHTML = nx ? "Next: " + nx.dataset.title : "Last slide";
+    }
+    if (ch && from !== "remote") ch.postMessage(cur);
+  }
+  const go = d => show(cur + d);
+
+  addEventListener("keydown", ev => {
+    if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
+    const k = ev.key;
+    if (["ArrowRight", "PageDown", " ", "Enter"].includes(k)) { ev.preventDefault(); go(1); }
+    else if (["ArrowLeft", "PageUp", "Backspace"].includes(k)) { ev.preventDefault(); go(-1); }
+    else if (k === "Home") show(0);
+    else if (k === "End") show(N - 1);
+    else if (k === "n" || k === "N") document.body.classList.toggle("shownotes");
+    else if (k === "p" || k === "P") window.open(location.pathname + "?presenter#" + (cur + 1), "esdeck-presenter", "width=1100,height=760");
+    else if (k === "f" || k === "F") { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => {}); }
+  });
+  stage.addEventListener("click", ev => {
+    if (ev.target.closest("a")) return;
+    const r = stage.getBoundingClientRect();
+    go(ev.clientX < r.left + r.width * 0.3 ? -1 : 1);
+  });
+  let tx = null;
+  addEventListener("touchstart", ev => { tx = ev.touches[0].clientX; }, { passive: true });
+  addEventListener("touchend", ev => {
+    if (tx === null) return;
+    const dx = ev.changedTouches[0].clientX - tx; tx = null;
+    if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+  });
+  document.querySelectorAll("#pv [data-go]").forEach(b => b.addEventListener("click", () => go(+b.dataset.go)));
+  if (ch) ch.onmessage = m => show(m.data, "remote");
+
+  let t0 = Date.now();
+  document.getElementById("treset").addEventListener("click", () => { t0 = Date.now(); });
+  if (presenter) setInterval(() => {
+    const s = Math.floor((Date.now() - t0) / 1000);
+    document.querySelector("#pv .clock").textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+  }, 1000);
+
+  addEventListener("resize", scaleStage);
+  addEventListener("hashchange", () => { const n = parseInt(location.hash.slice(1), 10); if (n) show(n - 1, "remote"); });
+  scaleStage();
+  fitAll();
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(fitAll);
+  show((parseInt(location.hash.slice(1), 10) || 1) - 1);
+})();
+</script>
+</body>
+</html>

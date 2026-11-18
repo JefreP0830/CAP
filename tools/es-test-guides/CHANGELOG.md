@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased - 2026-11-17
+- build.py writes index.html only when run directly, so the classroom deck (`tools/es-test-deck`) can import its diagrams. Output unchanged.
+
 ## 3.2.0 - 2026-11-17
 - Acronym sweep on every sheet: each acronym is spelled out at its first use in the essentials and again at its first use in that sheet's practice test (for example CISD, CISM, CRM, ICS, IC, IAP, PIO, NIMS, MAC, JIS, EMAC, EMS, EOC, NRF, NOC, RRCC, DHS, ESF, FEMA, SID, OPSEC, WMIRS, NDEMU, MFA). Course and publication codes (IS-100, CAPR 60-3) stay as names.
 

@@ -609,8 +609,9 @@ HOME = ('<section class="guide home" id="home" data-title="Home"><h2>Pick your t
 
 NAV = "".join(f'<a href="#{i}" data-id="{i}">{t}</a>' for i, t in GUIDES)
 
-tpl = Path(__file__).with_name("template.html").read_text()
-out = (tpl.replace("{{NAV}}", NAV).replace("{{VERSION}}", VERSION)
-          .replace("{{BODY}}", HOME + SID + C116 + C117 + I100 + I200 + I700 + I800))
-Path(__file__).resolve().parent.parent.joinpath("index.html").write_text(out)
-print("wrote index.html", len(out))
+if __name__ == "__main__":
+    tpl = Path(__file__).with_name("template.html").read_text()
+    out = (tpl.replace("{{NAV}}", NAV).replace("{{VERSION}}", VERSION)
+              .replace("{{BODY}}", HOME + SID + C116 + C117 + I100 + I200 + I700 + I800))
+    Path(__file__).resolve().parent.parent.joinpath("index.html").write_text(out)
+    print("wrote index.html", len(out))
