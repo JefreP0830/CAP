@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.3.0 - 2026-11-20
+- New "Sign in" sheet: how to reach a FEMA Independent Study exam through Login.gov (open the IS Course List, click the course title to start sign-in, pass the Login.gov second step, enter the SID, reach the exam). Covers the Login.gov gateway that now gates training.fema.gov exam access. Placed second, after FEMA SID; its own nav link and home card. No practice test (content-only sheet).
+
 ## Unreleased - 2026-11-17
 - build.py writes index.html only when run directly, so the classroom deck (`tools/es-test-deck`) can import its diagrams. Output unchanged.
 

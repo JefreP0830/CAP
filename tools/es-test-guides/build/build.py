@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "3.2.0"
+VERSION = "3.3.0"
 
 LET = "ABCD"
 
@@ -126,6 +126,47 @@ SID = f"""
 <div class="tile"><b>Exam or certificate problems</b><span>FEMA Independent Study Program, 301-447-1200, weekdays 8:00 to 6:00 Eastern.</span></div>
 </div>
 <footer class="gfoot">Steps checked against cdp.dhs.gov/femasid and training.fema.gov on 10 Nov 2026. FEMA changes these screens; follow the screen if it differs.<span class="ver">ES &amp; FEMA Study Companion v{VERSION}</span></footer>
+</section>"""
+
+# ---------------------------------------------------------------- SIGN IN (Login.gov)
+SIGNIN = f"""
+<section class="guide" id="signin" data-title="How to sign in">
+{head("How to reach a FEMA exam on the test computer: IS-100, IS-200, IS-700, IS-800", "How to sign in and open your exam", "These are the steps to follow on the workstation. The Federal Emergency Management Agency (FEMA) Independent Study site signs you in through Login.gov before it opens an exam. Login.gov is a separate account from your FEMA Student ID (SID). Do the FEMA SID sheet first.",
+ 'Exams are at <a href="https://training.fema.gov/is/">training.fema.gov/is</a>. Login.gov is at <a href="https://secure.login.gov/">secure.login.gov</a>.')}
+<h2>Have ready</h2>
+<ul class="ess two">
+<li>Your FEMA Student ID (SID). The FEMA SID sheet covers getting one</li>
+<li>A Login.gov account: the email and password you set at <a href="https://secure.login.gov/">secure.login.gov</a></li>
+<li>Your phone, for the Login.gov second step (a texted code or an authenticator app). This is what stops most people, so bring it</li>
+<li>No Login.gov account yet? Make one before test day; it needs an email confirmation</li>
+</ul>
+<hr class="div">
+<div class="stepboxes">
+<div class="sbox"><p class="sl">Step 1</p><h2 class="st">Open the course list</h2>
+<ol class="steps">
+<li>Go to <a href="https://training.fema.gov/is/">training.fema.gov/is</a>.</li>
+<li>Select <i>IS Course List</i>, or go straight to <a href="https://training.fema.gov/is/crslist.aspx">training.fema.gov/is/crslist.aspx</a>.</li>
+<li>Search the course number, for example IS-100, and select the course <i>title</i>. Opening the course is what starts the sign-in; there is no separate login button.</li>
+</ol></div>
+<div class="sbox"><p class="sl">Step 2</p><h2 class="st">Sign in with Login.gov</h2>
+<ol class="steps">
+<li>Enter your Login.gov <i>email and password</i>, then select <i>Sign in</i>.</li>
+<li>Login.gov asks for your second step. Read the code from your phone, by text or authenticator app, and enter it.</li>
+<li>No account? Select <i>Create an account</i>, confirm your email and set it up. This takes a few minutes, so do it before test day.</li>
+</ol></div>
+<div class="sbox"><p class="sl">Step 3</p><h2 class="st">Reach your exam</h2>
+<ol class="steps">
+<li>If asked, enter or confirm your FEMA SID to link your record.</li>
+<li>You land on the course page. Select <i>Take Final Exam</i> when you are ready.</li>
+<li>Answer every question. 75% passes. Your certificate appears in the National Disaster &amp; Emergency Management University (NDEMU) Student Portal and is emailed to you.</li>
+</ol></div>
+</div>
+<h2>Stuck?</h2>
+<div class="tiles c2">
+<div class="tile"><b>Login.gov sign-in or code problems</b><span>Login.gov Help Center, 844-875-6446. The FEMA Independent Study staff cannot fix Login.gov accounts.</span></div>
+<div class="tile"><b>No FEMA SID yet, or you forgot it</b><span>See the FEMA SID sheet, or go to cdp.dhs.gov/femasid.</span></div>
+</div>
+<footer class="gfoot">Steps checked against training.fema.gov and secure.login.gov on 20 Nov 2026. FEMA changes these screens; follow the screen if it differs.<span class="ver">ES &amp; FEMA Study Companion v{VERSION}</span></footer>
 </section>"""
 
 # ---------------------------------------------------------------- CAPT 116 / 117 diagrams
@@ -592,9 +633,10 @@ I800 = f"""
 {FOOT}
 </section>"""
 
-GUIDES = [("sid","FEMA SID"),("capt116","CAPT 116"),("capt117","CAPT 117"),("is100","IS-100"),("is200","IS-200"),("is700","IS-700"),("is800","IS-800")]
+GUIDES = [("sid","FEMA SID"),("signin","Sign-in help"),("capt116","CAPT 116"),("capt117","CAPT 117"),("is100","IS-100"),("is200","IS-200"),("is700","IS-700"),("is800","IS-800")]
 HOMEROWS = [
  ("sid","FEMA Student ID (SID)","Do first. Needed for every FEMA exam.",""),
+ ("signin","How to sign in and open your exam","Steps to follow: Login.gov, then the IS course catalog","For IS-100, IS-200, IS-700, IS-800"),
  ("capt116","CAPT 116 &middot; General Emergency Services","eServices",f"{len(P.CAPT116)} practice questions"),
  ("capt117","CAPT 117 &middot; ES Continuing Education","eServices, Parts 1 to 3",f"{sum(len(p[1]) for p in P.CAPT117)} practice questions"),
  ("is100","IS-100 &middot; Introduction to the Incident Command System (ICS)","Federal Emergency Management Agency (FEMA)",f"{len(P.IS100)} practice questions"),
@@ -612,6 +654,6 @@ NAV = "".join(f'<a href="#{i}" data-id="{i}">{t}</a>' for i, t in GUIDES)
 if __name__ == "__main__":
     tpl = Path(__file__).with_name("template.html").read_text()
     out = (tpl.replace("{{NAV}}", NAV).replace("{{VERSION}}", VERSION)
-              .replace("{{BODY}}", HOME + SID + C116 + C117 + I100 + I200 + I700 + I800))
+              .replace("{{BODY}}", HOME + SID + SIGNIN + C116 + C117 + I100 + I200 + I700 + I800))
     Path(__file__).resolve().parent.parent.joinpath("index.html").write_text(out)
     print("wrote index.html", len(out))
