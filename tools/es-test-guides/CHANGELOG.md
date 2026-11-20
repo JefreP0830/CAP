@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.3.1 - 2026-11-20
+- Sign-in help sheet: added an "If the code screen stops you" FAQ covering Login.gov second-factor snags — using "choose another authentication method" when it prompts for a method you didn't set up, backup codes as the no-phone path (10 one-time printed codes), that Login.gov does not send codes by email (that's the separate FEMA SID site), and setting the method before test day. "Have ready" now notes backup codes as the no-phone option.
+
 ## 3.3.0 - 2026-11-20
 - New "Sign in" sheet: how to reach a FEMA Independent Study exam through Login.gov (open the IS Course List, click the course title to start sign-in, pass the Login.gov second step, enter the SID, reach the exam). Covers the Login.gov gateway that now gates training.fema.gov exam access. Placed second, after FEMA SID; its own nav link and home card. No practice test (content-only sheet).
 
