@@ -130,8 +130,8 @@ SID = f"""
 
 # ---------------------------------------------------------------- SIGN IN (Login.gov)
 SIGNIN = f"""
-<section class="guide" id="signin" data-title="Sign in">
-{head("For the FEMA Independent Study tests: IS-100, IS-200, IS-700, IS-800", "Sign in to take a FEMA exam", "The Federal Emergency Management Agency (FEMA) Independent Study site signs you in through Login.gov before it opens an exam. Login.gov is a separate account from your FEMA Student ID (SID). Do the FEMA SID sheet first.",
+<section class="guide" id="signin" data-title="How to sign in">
+{head("How to reach a FEMA exam on the test computer: IS-100, IS-200, IS-700, IS-800", "How to sign in and open your exam", "These are the steps to follow on the workstation. The Federal Emergency Management Agency (FEMA) Independent Study site signs you in through Login.gov before it opens an exam. Login.gov is a separate account from your FEMA Student ID (SID). Do the FEMA SID sheet first.",
  'Exams are at <a href="https://training.fema.gov/is/">training.fema.gov/is</a>. Login.gov is at <a href="https://secure.login.gov/">secure.login.gov</a>.')}
 <h2>Have ready</h2>
 <ul class="ess two">
@@ -633,10 +633,10 @@ I800 = f"""
 {FOOT}
 </section>"""
 
-GUIDES = [("sid","FEMA SID"),("signin","Sign in"),("capt116","CAPT 116"),("capt117","CAPT 117"),("is100","IS-100"),("is200","IS-200"),("is700","IS-700"),("is800","IS-800")]
+GUIDES = [("sid","FEMA SID"),("signin","Sign-in help"),("capt116","CAPT 116"),("capt117","CAPT 117"),("is100","IS-100"),("is200","IS-200"),("is700","IS-700"),("is800","IS-800")]
 HOMEROWS = [
  ("sid","FEMA Student ID (SID)","Do first. Needed for every FEMA exam.",""),
- ("signin","Sign in to take a FEMA exam","Login.gov, then the IS course catalog","For IS-100, IS-200, IS-700, IS-800"),
+ ("signin","How to sign in and open your exam","Steps to follow: Login.gov, then the IS course catalog","For IS-100, IS-200, IS-700, IS-800"),
  ("capt116","CAPT 116 &middot; General Emergency Services","eServices",f"{len(P.CAPT116)} practice questions"),
  ("capt117","CAPT 117 &middot; ES Continuing Education","eServices, Parts 1 to 3",f"{sum(len(p[1]) for p in P.CAPT117)} practice questions"),
  ("is100","IS-100 &middot; Introduction to the Incident Command System (ICS)","Federal Emergency Management Agency (FEMA)",f"{len(P.IS100)} practice questions"),
