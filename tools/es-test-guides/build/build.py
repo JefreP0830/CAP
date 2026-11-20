@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "3.3.0"
+VERSION = "3.3.1"
 
 LET = "ABCD"
 
@@ -137,7 +137,7 @@ SIGNIN = f"""
 <ul class="ess two">
 <li>Your FEMA Student ID (SID). The FEMA SID sheet covers getting one</li>
 <li>A Login.gov account: the email and password you set at <a href="https://secure.login.gov/">secure.login.gov</a></li>
-<li>Your phone, for the Login.gov second step (a texted code or an authenticator app). This is what stops most people, so bring it</li>
+<li>Your phone, for the Login.gov second step (a texted code or an authenticator app). This is what stops most people, so bring it. No phone? Use a printed set of Login.gov backup codes instead (see &ldquo;If the code screen stops you&rdquo; below)</li>
 <li>No Login.gov account yet? Make one before test day; it needs an email confirmation</li>
 </ul>
 <hr class="div">
@@ -160,6 +160,13 @@ SIGNIN = f"""
 <li>You land on the course page. Select <i>Take Final Exam</i> when you are ready.</li>
 <li>Answer every question. 75% passes. Your certificate appears in the National Disaster &amp; Emergency Management University (NDEMU) Student Portal and is emailed to you.</li>
 </ol></div>
+</div>
+<h2>If the code screen stops you</h2>
+<div class="tiles c2">
+<div class="tile"><b>It wants an authenticator-app code the cadet never set up</b><span>Login.gov shows one method first. Select <i>Choose another authentication method</i> (or <i>Try another way</i>), then pick the one they actually set up, such as a text message or a backup code.</span></div>
+<div class="tile"><b>The cadet has no phone</b><span>Set up <i>backup codes</i> when creating the Login.gov account. Login.gov gives 10 one-time codes to print and bring. No phone, signal or email needed. Each code works once; after the 10th, Login.gov issues a new set.</span></div>
+<div class="tile"><b>Can the code come by email?</b><span>Not for Login.gov. Login.gov uses a phone, an authenticator app, a security key or backup codes, not email. The email code you may have seen is on the separate FEMA SID site, a different login.</span></div>
+<div class="tile"><b>Decide the method before test day</b><span>The second step is chosen when the account is made, not at the exam. Have each cadet set it up ahead of time, backup codes if they have no phone, so no one is locked out in class.</span></div>
 </div>
 <h2>Stuck?</h2>
 <div class="tiles c2">
