@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.4.0 - 2026-11-21
+- New IS-5.A sheet, An Introduction to Hazardous Materials. It follows the course's five units: Title III and who plans (SERC, LEPC), the NFPA 704 diamond, the DOT placard system and the nine hazard classes, finding hazmat and reading a Safety Data Sheet, routes of entry and dose, how hazmat moves, protective actions, and decontamination. Includes a 30-question original practice test. Written from FEMA EMI's printable IS-0005.a course text (course date 31 Oct 2013). Has its own nav link and home card, and is listed on the sign-in sheet.
+
 ## 3.3.1 - 2026-11-20
 - Sign-in help sheet: added an "If the code screen stops you" FAQ covering Login.gov second-factor snags — using "choose another authentication method" when it prompts for a method you didn't set up, backup codes as the no-phone path (10 one-time printed codes), that Login.gov does not send codes by email (that's the separate FEMA SID site), and setting the method before test day. "Have ready" now notes backup codes as the no-phone option.
 

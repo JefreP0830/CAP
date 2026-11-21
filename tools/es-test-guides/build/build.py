@@ -5,7 +5,7 @@ from html import escape as e
 from pathlib import Path
 import practice as P
 
-VERSION = "3.3.1"
+VERSION = "3.4.0"
 
 LET = "ABCD"
 
@@ -569,6 +569,208 @@ I700 = f"""
 {FOOT}
 </section>"""
 
+# ---------------------------------------------------------------- IS-5.A
+# Source: FEMA EMI, IS-0005.a full course, printable version (emilms.fema.gov/IS-0005a/groups/223.html),
+# course date 10/31/2013, read 21 Nov 2026.
+T3 = flow([
+ ("Governor", "Names the State Emergency Response Commission"),
+ ("SERC", "Sets planning districts, appoints the LEPCs, reviews their plans"),
+ ("LEPC", "Writes the local emergency response plan; reviews it at least once a year"),
+ ("Community", "Can read the plan and reports, and comment on them"),
+]) + '<p class="lab">Title III has four parts</p>' + tiles([
+ ("1 &middot; Emergency planning", "LEPCs plan for the extremely hazardous substances (EHS) list"),
+ ("2 &middot; Emergency notification", "A release over the reportable quantity: tell the LEPC, the state and the National Response Center"),
+ ("3 &middot; Community right-to-know", "Safety Data Sheets or chemical lists go to the LEPC, the SERC and the fire department"),
+ ("4 &middot; Toxic release inventory", "Routine, day-to-day releases reported to the public"),
+], 4)
+
+NFPA = """
+<div class="nfpa">
+ <div class="dia" role="img" aria-label="NFPA 704 diamond: red fire at top, blue health at left, yellow reactivity at right, white special at bottom">
+  <div class="q qf"><span>2</span></div><div class="q qr"><span>1</span></div>
+  <div class="q qh"><span>3</span></div><div class="q qs"><span>W</span></div>
+ </div>
+ <div class="nleg">
+  <div class="nk kf"><b>Top &middot; red &middot; Fire</b><span>How easily it burns</span></div>
+  <div class="nk kh"><b>Left &middot; blue &middot; Health</b><span>4 = a very short exposure could cause serious injury or death</span></div>
+  <div class="nk kr"><b>Right &middot; yellow &middot; Reactivity</b><span>How likely it is to explode or react</span></div>
+  <div class="nk ks"><b>Bottom &middot; white &middot; Special</b><span>OXY = oxidizer &middot; W (crossed out) = reacts with water &middot; radiation symbol = radioactive</span></div>
+ </div>
+</div>
+<p class="lab">Every number runs 0 to 4. 0 = no unusual hazard. 4 = most severe.</p>"""
+
+DOTC = '<div class="tiles c3 dotc">' + "".join(
+ f'<div class="tile"><b><span class="sn">{n}</span> {t}</b><span>{d}</span></div>' for n,t,d in [
+ ("1","Explosives","1.1 mass explosion &hellip; 1.6 extremely insensitive"),
+ ("2","Gases","2.1 flammable &middot; 2.2 non-flammable &middot; 2.3 poison gas"),
+ ("3","Flammable and combustible liquids","Gasoline. The most shipped and the most accidents"),
+ ("4","Flammable solids","Also spontaneously combustible and dangerous when wet"),
+ ("5","Oxidizers and organic peroxides","Give off oxygen that feeds a fire"),
+ ("6","Toxic and infectious","Poison means the same as toxic"),
+ ("7","Radioactive","White I, Yellow II and Yellow III labels"),
+ ("8","Corrosives","Acids and bases. Second most accidents"),
+ ("9","Miscellaneous","Includes environmentally hazardous substances"),
+]) + '</div>'
+
+DOTFIND = flow([
+ ("Placard or label", "Placards on tanks and trailers, labels on small packages. Shows the worst hazard"),
+ ("4-digit ID number", "United Nations (UN) or North American (NA) number, on the placard or an orange panel, on all four sides"),
+ ("Shipping papers", "Name, hazard class, ID number. Truck: within the driver&rsquo;s reach or in the driver&rsquo;s door"),
+ ("Emergency Response Guidebook", "Look up the ID number (yellow-edged pages) or the name (blue-edged pages)"),
+])
+
+LIFE = flow([("Production",""),("Transportation",""),("Storage",""),("Use",""),("Disposal","")], "rank")
+
+CLUES = tiles([
+ ("Your senses", "Bad smell, watering eyes, cough, nausea: leave and call. Least reliable clue: many chemicals give none"),
+ ("Water", "Oily look, unusual algae, white froth"),
+ ("Land", "Discolored soil, dead plants, dead animals, metal drums"),
+ ("People", "Someone dumping: note the person and the vehicle, call police"),
+], 4)
+
+SDS = tiles([
+ ("Identity", "Chemical and common names"),
+ ("Physical and chemical data", "Liquid, gas or solid; odor; flash point"),
+ ("Physical hazards", "Fire, explosion; what puts the fire out"),
+ ("Health hazards", "Signs and symptoms of exposure"),
+ ("Routes of entry", "How it gets into the body"),
+ ("Exposure limits", "OSHA PEL (required) and ACGIH TLV (advice)"),
+ ("Safe handling and controls", "Spills, leaks, protective gear"),
+ ("First aid, date, maker", "Treatment; how current; who to call"),
+], 4)
+
+ROUTES = tiles([
+ ("Inhalation", "Breathing it in. Carbon monoxide has no smell"),
+ ("Absorption", "Through skin or eyes (dermal). Never touch your eye"),
+ ("Ingestion", "Swallowing it, such as eating lunch in the work area"),
+ ("Injection", "A cut from a contaminated object. Fastest: straight into the blood"),
+], 4)
+
+DOSE = flow([
+ ("No effect", "Below the threshold. NOAEL: no observable adverse effect level"),
+ ("Effect, then healing", "The body repairs the damage"),
+ ("Disease", "The body can no longer repair itself"),
+ ("Death", "LD50: the dose that kills half of a test group"),
+])
+
+MEDIA = tiles([
+ ("Air", "Double the wind speed, halve the level. An inversion traps it"),
+ ("Groundwater", "Travels far without diluting. Hard to clean. Half the nation drinks it"),
+ ("Surface water", "Dilutes and breaks down. Heavy chemicals settle in sediment"),
+ ("Soil", "Leaches to groundwater, gives off vapors, gets on skin"),
+], 4)
+
+PROTECT = '<div class="tiles c3">' + "".join(f'<div class="tile up"><b>{t}</b><span>{d}</span></div>' for t,d in [
+ ("Upstream", "So the spill isn&rsquo;t carried to you"),
+ ("Uphill", "Many vapors are heavier than air and settle low"),
+ ("Upwind", "Caught in the plume? Move crosswind"),
+]) + '</div><p class="lab">Then get distance: at least 10 city blocks (half a mile), often more</p>' + tiles([
+ ("Evacuate", "Go right away when told. Close windows and vents. Sign on the door saying the building is empty. Call police for help only if you need it"),
+ ("Shelter in place", "Close windows and doors; seal gaps with wet towels or tape. Turn off heat, air conditioning and fans. Take your radio"),
+], 2)
+
+DECON = flow([
+ ("Wash outer clothing", "Unless the chemical reacts with water"),
+ ("Remove clothing", "Top down"),
+ ("Wash entire body", "Unless the chemical reacts with water"),
+ ("Clean clothes", "Wrap up or dress"),
+ ("Bag it, report", "Seal clothes in plastic; see medical staff"),
+])
+
+I5 = f"""
+<section class="guide" id="is5" data-title="IS-5.A">
+{head("FEMA Independent Study", "IS-5.A &middot; An Introduction to Hazardous Materials", "Hazardous materials (hazmat) &middot; five units: laws, warning signs, finding hazards, health, protecting yourself",
+ fema_link("IS-5.a"))}
+<h2>Core essentials</h2>
+{block("Unit 1 &middot; Laws and who plans: Title III puts the plan at the local level", T3, [
+ "[[CERCLA]] (Superfund, 1980) pays to clean up abandoned waste sites. [[SARA]] (1986) expanded it.",
+ "[[Title III of SARA]] is the Emergency Planning and Community Right-to-Know Act. The Bhopal, India gas release pushed it into law.",
+ "[[National Response Center]]: 24 hours a day, run by the U.S. Coast Guard, 1-800-424-8802.",
+ "[[RCRA]] (1976): hazardous waste from &ldquo;cradle to grave&rdquo;, tracked by a manifest.",
+ "[[HMTA]]: the Department of Transportation (DOT) regulates hazmat crossing state lines. States regulate trips that stay inside the state.",
+ "[[OSHA]] (1970) protects workers. [[HAZWOPER]] (1989) covers hazardous waste work and emergency response.",
+ "[[TSCA]] (1976): makers test new chemicals and tell the Environmental Protection Agency (EPA) first.",
+ "[[National Contingency Plan]]: the National Response Team (NRT) of 14 federal agencies, chaired by EPA with the Coast Guard. EPA covers most inland waters; the Coast Guard, coastal waters.",
+ "[[FEMA]] leads hazmat planning and training. [[EPA]] leads Title III reporting and Superfund cleanup.",
+ "[[Local]] responders lead an incident, usually the fire department. For a fixed site, your first stop is the LEPC.",
+], True)}
+{block("Unit 2 &middot; NFPA 704: the diamond on fixed sites", NFPA, [
+ "[[NFPA 704]] (National Fire Protection Association) marks storage tanks and buildings. It is voluntary unless local codes require it.",
+ "It rates [[one chemical]]. No marking system can predict what happens when chemicals mix.",
+], True)}
+{block("Unit 2 &middot; The DOT system: anything moving on roads, rails, water or air", DOTFIND, [
+ "Rules are in [[49 CFR]] (Code of Federal Regulations, Title 49).",
+ "[[Placards]] are required over 1,001 pounds, or in any amount for Table 1 materials.",
+ "[[Emergency Response Guidebook (ERG)]]: for the first responder in the first minutes. A &ldquo;P&rdquo; after a guide number means it can polymerize.",
+ "[[Flash point]]: the lowest temperature where vapor can flash. The lower it is, the more dangerous the liquid.",
+ "Flammable liquids flash at 140&deg;F or below; combustible liquids between 140&deg;F and 200&deg;F.",
+], True)}
+{block("Unit 2 &middot; The nine DOT hazard classes", DOTC, [
+ "[[Toxic industrial chemicals (TICs)]] stored or shipped in bulk can be terrorist targets. Report anything suspicious to local police.",
+ "[[Chlorine and phosgene]]: lung-damaging (choking) agents. [[Cyanides]]: blood agents; hydrogen cyanide smells like bitter almonds.",
+ "Exposed? Take off clothing and wash your whole body with soap and water.",
+], True)}
+{block("Unit 3 &middot; Finding hazmat: check every stage of its life", LIFE + '<p class="lab">Clues that something is wrong</p>' + CLUES, [
+ "[[Sensory clues]] are the least reliable and the most dangerous way to detect hazmat. Radon has no color, smell or taste.",
+ "Do not handle a suspicious substance. Leave and call the police or fire department.",
+ "The [[LEPC]] knows where reportable amounts are stored. Some hazards fall below the list, so it may not know about every one.",
+ "Roseburg, Oregon: a truck with an explosives placard was parked at a lumberyard. A dumpster fire set it off.",
+ "[[Inactive]] waste sites: Superfund, ranked on the National Priorities List (NPL). [[Active]] sites: RCRA.",
+ "Cleanup options: containment, off-site disposal, treatment.",
+], True)}
+{block("Unit 3 &middot; The Safety Data Sheet (SDS): what it must say", SDS, [
+ "[[SDS]] (older name: Material Safety Data Sheet, MSDS). Required by the OSHA Hazard Communication Standard, written in English, usually by the maker.",
+ "Mixtures list ingredients at 1% or more; carcinogens at more than 0.1%.",
+ "[[PEL]] (Permissible Exposure Limit) is set by OSHA and required. [[TLV]] (Threshold Limit Value) is ACGIH advice. Both are usually for an 8-hour workday.",
+], True)}
+{block("Unit 4 &middot; Four routes of entry", ROUTES, [
+ "[[Exposure pathway]]: the route from a source to a receptor. Direct: you breathe it or touch it. Indirect: it reaches you through food or water.",
+ "[[Risk assessment]] works out how big the risk is. [[Risk management]] decides what to do about it.",
+ "[[Acute]]: a short exposure or a high dose, with effects right away. [[Chronic]]: low levels over a long time.",
+ "[[Local]] effect: where it touched. [[Systemic]] effect: somewhere else, such as the liver or kidneys.",
+ "[[Carcinogen]]: causes cancer. [[Mutagen]]: changes DNA, can pass to children. [[Teratogen]]: harms an unborn baby.",
+ "[[Asphyxiants]] take away oxygen. Physical: push oxygen out of the air. Chemical: stop the body using it (carbon monoxide).",
+ "[[Irritants]] inflame tissue and it recovers. [[Corrosives]] destroy tissue. [[Sensitizers]] cause allergies after repeat exposure.",
+ "[[CNS depressants]] slow the nervous system, such as solvents. [[Systemic toxicants]] attack one organ system, such as mercury.",
+], True)}
+{block("Unit 4 &middot; Dose makes the poison", DOSE, [
+ "Every substance, even table salt, has a lethal dose.",
+ "Body defenses: the liver and kidneys filter, and waste leaves the body. Lungs clear particles; breathing, sweat and tears help a little.",
+ "Only about 20 antidotes exist. [[Prevention]] is the safest barrier.",
+ "For carcinogens and mutagens, [[no exposure is considered safe]].",
+ "[[Synergistic]]: two chemicals together do more harm than both added up. [[Antagonistic]]: together they do less.",
+], True)}
+{block("Unit 4 &middot; How hazmat moves: four media", MEDIA, [
+ "[[Point source]]: one spot, like a smokestack or pipe. [[Area source]]: spread out, like runoff from a sprayed field.",
+ "[[Volatile]]: evaporates easily. [[Soluble]]: dissolves in water and moves fast. [[Persistent]]: resists breaking down.",
+ "[[Biomagnification]]: some chemicals get more concentrated as they move up the food chain.",
+ "[[Fate]]: how a chemical is transformed and transported in the environment.",
+], True)}
+{block("Unit 5 &middot; Protect yourself: up, up, up, then away", PROTECT, [
+ "[[Follow the directions]] of emergency personnel. Warnings come by siren, the Emergency Alert System, phone, cable TV or a vehicle with a loudspeaker. Sirens may not be heard indoors.",
+ "A wet cloth over your mouth and nose gives only [[minimal protection]]. It never lets you enter a toxic area.",
+ "In a car: shut the windows and vents. Sheltering at home: fill the bathtub with clean water, then shut off the water intake.",
+ "[[Never approach the command post]]. Give information by phone from a safe distance.",
+], True)}
+{block("Unit 5 &middot; Decontamination: if you think you were exposed", DECON, [
+ "[[Cross-contamination]]: a contaminated person or thing spreads it, such as getting into your car.",
+ "Leather and some plastics and rubber cannot be fully cleaned. Throw them away.",
+ "Zones: the [[hot zone]], the [[contamination reduction zone]] in the middle, and the clean area.",
+], True)}
+{block("Unit 5 &middot; Plan, respond, report", "", [
+ "[[Local emergency operations plan]]: a basic plan, supporting annexes, and implementing procedures. Hazmat gets its own annex.",
+ "[[Planning steps]]: identify participants, analyze risks, identify special populations, identify resources, draft the plan, test it with exercises.",
+ "[[Hazmat team]]: at least 8. Two do entry and rescue, two are backup, two do decontamination, plus a safety officer and an operations officer.",
+ "The [[incident commander]] directs the response, usually from the local fire service.",
+ "[[CHEMTREC]] (Chemical Transportation Emergency Center): product advice to responders, 24 hours. Call only in a true emergency. It will not run the incident.",
+ "[[CHLOREP]] helps with chlorine emergencies. [[Regional Response Teams]] back up state and local responders.",
+ "[[Report a spill]]: call 911. Give the chemical, placard or label, exact location, size, plume direction and color, injuries, and a vehicle description.",
+], True)}
+<div class="pb soft"></div>
+{practice(P.IS5)}
+{FOOT}
+</section>"""
+
 # ---------------------------------------------------------------- IS-800
 TIERS = """
 <div class="tiers">
@@ -640,16 +842,17 @@ I800 = f"""
 {FOOT}
 </section>"""
 
-GUIDES = [("sid","FEMA SID"),("signin","Sign-in help"),("capt116","CAPT 116"),("capt117","CAPT 117"),("is100","IS-100"),("is200","IS-200"),("is700","IS-700"),("is800","IS-800")]
+GUIDES = [("sid","FEMA SID"),("signin","Sign-in help"),("capt116","CAPT 116"),("capt117","CAPT 117"),("is100","IS-100"),("is200","IS-200"),("is700","IS-700"),("is800","IS-800"),("is5","IS-5.A")]
 HOMEROWS = [
  ("sid","FEMA Student ID (SID)","Do first. Needed for every FEMA exam.",""),
- ("signin","How to sign in and open your exam","Steps to follow: Login.gov, then the IS course catalog","For IS-100, IS-200, IS-700, IS-800"),
+ ("signin","How to sign in and open your exam","Steps to follow: Login.gov, then the IS course catalog","For IS-100, IS-200, IS-700, IS-800, IS-5.A"),
  ("capt116","CAPT 116 &middot; General Emergency Services","eServices",f"{len(P.CAPT116)} practice questions"),
  ("capt117","CAPT 117 &middot; ES Continuing Education","eServices, Parts 1 to 3",f"{sum(len(p[1]) for p in P.CAPT117)} practice questions"),
  ("is100","IS-100 &middot; Introduction to the Incident Command System (ICS)","Federal Emergency Management Agency (FEMA)",f"{len(P.IS100)} practice questions"),
  ("is200","IS-200 &middot; Basic ICS for Initial Response","FEMA",f"{len(P.IS200)} practice questions"),
  ("is700","IS-700 &middot; Introduction to the National Incident Management System (NIMS)","FEMA",f"{len(P.IS700)} practice questions"),
  ("is800","IS-800 &middot; National Response Framework","FEMA",f"{len(P.IS800)} practice questions"),
+ ("is5","IS-5.A &middot; An Introduction to Hazardous Materials","FEMA",f"{len(P.IS5)} practice questions"),
 ]
 HOME = ('<section class="guide home" id="home" data-title="Home"><h2>Pick your test</h2><div class="pickgrid">'
   + "".join(f'<a class="card" href="#{i}"><b>{t}</b><span>{w}</span><em>{c}</em></a>' for i,t,w,c in HOMEROWS)
@@ -661,6 +864,6 @@ NAV = "".join(f'<a href="#{i}" data-id="{i}">{t}</a>' for i, t in GUIDES)
 if __name__ == "__main__":
     tpl = Path(__file__).with_name("template.html").read_text()
     out = (tpl.replace("{{NAV}}", NAV).replace("{{VERSION}}", VERSION)
-              .replace("{{BODY}}", HOME + SID + SIGNIN + C116 + C117 + I100 + I200 + I700 + I800))
+              .replace("{{BODY}}", HOME + SID + SIGNIN + C116 + C117 + I100 + I200 + I700 + I800 + I5))
     Path(__file__).resolve().parent.parent.joinpath("index.html").write_text(out)
     print("wrote index.html", len(out))

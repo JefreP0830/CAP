@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>ES &amp; FEMA Study Companion</title>
-<meta name="description" content="Study companion for CAPT 116, CAPT 117, IS-100, IS-200, IS-700 and IS-800: core essentials, diagrams and original practice tests.">
+<meta name="description" content="Study companion for CAPT 116, CAPT 117, IS-100, IS-200, IS-700, IS-800 and IS-5.A: core essentials, diagrams and original practice tests.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap">
 <style>
@@ -103,6 +103,22 @@ h2+.concept{margin-top:8px;padding-top:4px;border-top:0}
 .flow.vert .step span:last-child{flex-basis:100%}
 .flow.vert .step+.step::before{left:50%;top:-20px;width:0;height:17px;border-top:0;border-left:2px solid var(--head)}
 .flow.vert .step+.step::after{display:none}
+
+/* diagram: NFPA 704 diamond (the real sign's colors illustrate content) */
+.nfpa{display:grid;grid-template-columns:230px minmax(0,1fr);gap:28px;align-items:center}
+.dia{width:150px;height:150px;margin:38px auto;display:grid;grid-template-columns:1fr 1fr;transform:rotate(45deg);border:2px solid #000}
+.dia .q{display:flex;align-items:center;justify-content:center;border:1px solid #000}
+.dia .q span{transform:rotate(-45deg);font-family:var(--f-title);font-weight:700;font-size:34px;color:#000}
+.dia .qf{background:var(--red)}.dia .qr{background:#FFCD00}.dia .qh{background:var(--blue)}.dia .qs{background:#fff}
+.dia .qf span,.dia .qh span{color:#fff}
+.dia .qs span{text-decoration:line-through}
+.nleg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.nk{border:1px solid var(--rule);border-left:8px solid;border-radius:3px;padding:7px 10px;display:flex;flex-direction:column;gap:3px;box-shadow:0 2px 5px rgba(0,20,137,.16)}
+.nk b{font-weight:400;color:#000;font-size:16px}.nk span{font-size:14.67px;color:var(--ink)}
+.nk.kf{border-left-color:var(--red)}.nk.kh{border-left-color:var(--blue)}.nk.kr{border-left-color:#FFCD00}.nk.ks{border-left-color:var(--rule)}
+.dotc .tile b{display:flex;align-items:baseline;gap:8px}
+.tile.up{border-top:3px solid var(--blue)}
+.tile.up b{font-family:var(--f-title);font-weight:700;font-size:20px;color:var(--blue)}
 
 /* diagram: tiles */
 .tiles{display:grid;gap:8px}
@@ -515,6 +531,7 @@ ol.key li.hide{display:none}
 .pb{height:0}
 
 @media (max-width:760px){
+  .nfpa{grid-template-columns:1fr;gap:4px}.nleg{grid-template-columns:1fr}
   .bar{position:static}
   .gstaff{margin-top:10px}
   .cols2,.cols3,.figrow{grid-template-columns:1fr}
