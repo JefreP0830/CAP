@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.8 - 2026-11-20
+- Resource cycle: red border on the four during-incident steps.
+
 ## 2.1.7 - 2026-11-20
 - Resource cycle: legend removed; after-incident steps in a deeper blue tint instead of gray.
 
