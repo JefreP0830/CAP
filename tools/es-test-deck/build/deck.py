@@ -10,7 +10,7 @@ GUIDE = HERE.parent.parent / "es-test-guides" / "build"
 sys.path.insert(0, str(GUIDE))
 import build as G  # the study companion generator; its write step only runs as __main__
 
-VERSION = "2.1.6"
+VERSION = "2.1.7"
 
 # ---------------------------------------------------------------- guide CSS, minus mobile and print rules
 def strip_media(css, query):
@@ -333,7 +333,7 @@ slide(K, "Three levels, one response", '<div class="dk-t20">'+LEVELS_KID+'</div>
    "The MAC Group only steps in when there isn&rsquo;t enough to go around.",
    "Public Information Officers work together in the Joint Information Center so the public gets one message.",
    "Ask: two news crews hear different stories. Which part failed? (Joint Information System.)"])
-slide(K, "Resource management cycle", '<div class="dk-ring">'+G.RING+'<div class="dk-leg"><span class="pre">Before the incident</span><span class="dur">During</span><span class="post">After</span></div></div>',
+slide(K, "Resource management cycle", '<div class="dk-ring">'+G.RING+'</div>',
   "Know what you have before you need it. Ask nearby first. Return and restock after.",
   ["Like a school sports closet: count and label the gear, hand it out, track it, get it back, replace what broke.",
    "Typing means describing a resource by what it can do.",

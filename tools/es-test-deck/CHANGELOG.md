@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.7 - 2026-11-20
+- Resource cycle: legend removed; after-incident steps in a deeper blue tint instead of gray.
+
 ## 2.1.6 - 2026-11-20
 - Resource cycle: light tones for before, during and after the incident, with a legend.
 
