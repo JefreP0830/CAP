@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.1 - 2026-11-21
+- Part 2 adds a "Keep the crew sharp" slide (workload, announce, sterile cockpit, filtered info, standard terms) and a fifth theme.
+- More space between the two sections on the Cockpit habits slide.
+
 ## 2.4.0 - 2026-11-21
 - Stretch divider after Debrief.
 - CAPT 117 Part 2 and Part 3 slides restored, each with a big-themes slide.

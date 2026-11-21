@@ -10,7 +10,7 @@ GUIDE = HERE.parent.parent / "es-test-guides" / "build"
 sys.path.insert(0, str(GUIDE))
 import build as G  # the study companion generator; its write step only runs as __main__
 
-VERSION = "2.4.0"
+VERSION = "2.4.1"
 
 # ---------------------------------------------------------------- guide CSS, minus mobile and print rules
 def strip_media(css, query):
@@ -240,7 +240,7 @@ HOUSE_KID = cards([
 
 CRM_KID = '<p class="lab">When it gets busy, in this order</p>' + G.flow([
  ("Aviate", "Fly the aircraft"), ("Navigate", "Know where you are going"), ("Communicate", "Talk on the radio")]) + \
- '<p class="lab">Closed loop: every request, every time</p>' + G.flow([
+ '<p class="lab" style="margin-top:56px">Closed loop: every request, every time</p>' + G.flow([
  ("Say you heard it", "&ldquo;Setting 122.9&rdquo;"), ("Do it", "Make the change"), ("Say it&rsquo;s done", "&ldquo;122.9 set&rdquo;")])
 
 CLOSE = """
@@ -496,6 +496,19 @@ def pslide(title, vis, take, notes, w=968, kick="Test day plan"):
     return dict(kind="slide", kick=kick, title=title, vis=vis, take=take, notes=notes, w=w, wmin=w)
 DEB='<div class="dk-cyc dk-deb">'+"".join(f'<div><b>{t}</b><span class="a">{a}</span></div>' for t,a in [("1600","Review final Status Board."),("1602","AAR: one thing to keep, one to change."),("1612","Each unit leader hears which tests are outstanding.")])+'</div><div class="aar3"><div>What did we plan?</div><div>What happened?</div><div>What do we change?</div></div>'
 
+CREW = dict(kind="slide", kick="CAPT 117 &middot; Emergency Services continuing education", title="Part 2 &middot; Keep the crew sharp",
+ vis=G.tiles([
+  ("Share the work", "Split the jobs so nobody gets worn out"),
+  ("Say it first", "Tell the crew what you are about to do, then do it"),
+  ("Quiet when busy", "Sterile cockpit: no chatter or distractions during busy moments"),
+  ("Only what helps", "Give the pilot the facts that matter, not everything"),
+  ("Same words", "Everyone uses the standard terms and hand signals"),
+  ("Everyone's job", "CRM is the whole crew, not just the pilot"),
+ ], 3),
+ take="A sharp crew shares the work, talks first, and keeps it calm.",
+ notes=["Ask: the crew is landing and you want to point out a cool barn. Now or later? (Later. Sterile cockpit.)",
+        "Ask: why split the work? (Tired crews make mistakes. That starts the chain.)"], w=968, wmin=600)
+
 def themes(code, name, items, kick):
     vis=f'<div class="dk-themes" style="grid-template-rows:repeat({(len(items)+1)//2},auto);grid-auto-flow:column">'+"".join(f'<div><span>{i+1}</span>{t}</div>' for i,t in enumerate(items))+'</div>'
     return dict(kind="slide", kick=kick, title=f"{code}: the big themes", vis=vis, take="Listen for these. The test asks about each one.",
@@ -525,7 +538,7 @@ TH116]+o[22:29]+[
  dict(kind="div", kick="1600", title="Wrap Up", chips=[], notes=["Final board, then the after-action review."]),
  pslide("Debrief",DEB,"Nobody leaves without knowing what they still owe.",["Ten minutes of AAR."],kick="1600–1615"),
  dict(kind="div", kick="Optional", title="Stretch", chips=["CAPT 117 Part 2","CAPT 117 Part 3"], notes=["Take-home tests. Use if time allows."]),
- themes("CAPT 117 Part 2","Crew Resource Management",["Teamwork in the aircraft","Speak up and break the chain","Fly, then find the way, then talk","Close every loop"],"CAPT 117 &middot; Emergency Services continuing education")]+o[31:33]+[
+ themes("CAPT 117 Part 2","Crew Resource Management",["Teamwork in the aircraft","Speak up and break the chain","Fly, then find the way, then talk","Close every loop","Keep the crew sharp"],"CAPT 117 &middot; Emergency Services continuing education")]+o[31:33]+[CREW,
  themes("CAPT 117 Part 3","Mission base",["Before you go","Check in","Keep the log","Check out"],"CAPT 117 &middot; Emergency Services continuing education")]+o[33:34]
 S=_SL
 S[:]=NEW
