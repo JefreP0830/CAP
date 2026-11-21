@@ -10,7 +10,7 @@ GUIDE = HERE.parent.parent / "es-test-guides" / "build"
 sys.path.insert(0, str(GUIDE))
 import build as G  # the study companion generator; its write step only runs as __main__
 
-VERSION = "2.2.0"
+VERSION = "2.3.0"
 
 # ---------------------------------------------------------------- guide CSS, minus mobile and print rules
 def strip_media(css, query):
@@ -311,11 +311,11 @@ slide(K, "Changing who is in charge", HANDOFF,
   ["Until the handoff time, the old incident commander is still in charge. Never zero bosses, never two.",
    "A more qualified person who arrives may take over, leave it as it is, or ask for someone even more qualified.",
    "Ask: why not just hand off by text? (Things get missed; the briefing must be face to face.)"])
-slide(K, "How a plan reaches the field", G.FUNNEL,
+slide(K, "How a plan reaches the field", '<div class="dk-down"><div class="dk-arrow"><span>The plan flows down</span></div><div>'+G.FUNNEL+'</div></div>',
   "Big plan, then goals, then today&rsquo;s plan, then briefings, then your job.",
   ["Every job you get traces back to the goals at the top. That is management by objectives.",
    "The incident commander or Unified Command sets the goals. Planning writes the plan; the IC approves it.",
-   "Ask: who runs the operational period briefing? (Planning Section Chief.)"], w=900)
+   "Ask: who runs the operational period briefing? (Planning Section Chief.)"], w=1000, wmin=1000)
 slide(K, "A good goal is specific", G.OBJ,
   "Say where, by when, and what &ldquo;done&rdquo; looks like.",
   ["Game: turn &ldquo;Clean your room&rdquo; into a specific, measurable goal. (&ldquo;Clothes in the hamper and bed made by 7 pm.&rdquo;)",
@@ -345,11 +345,11 @@ slide(K, "Help starts local and grows outward", TIERS_KID,
   ["Handle it at the lowest level that can. Tribal governments may go straight to the federal government.",
    "States help each other through the Emergency Management Assistance Compact (EMAC).",
    "Ask: who is first to arrive and last to leave? (Local responders.)"])
-slide(K, "Who coordinates: zoom out from the scene", ZOOM_KID,
+slide(K, "Who coordinates: zoom out from the scene", '<div class="dk-t20">'+ZOOM_KID+'</div>',
   "Each step out supports the one closer to the scene.",
   ["Same sports picture as IS-700: players, support staff, league officials, head office.",
    "Ask: who decides which town gets the only rescue helicopter? (Multiagency Coordination Group.)"])
-slide(K, "Five mission areas", MISSIONS_KID,
+slide(K, "Five mission areas", '<div class="dk-s39">'+sub(MISSIONS_KID,[("<span>Planning</span>","<span>Planning<small>Decide what to do, and how</small></span>"),("<span>Public Information and Warning</span>","<span>Public Information and Warning<small>Tell people what is happening and what to do</small></span>"),("<span>Operational Coordination</span>","<span>Operational Coordination<small>Get every team working together</small></span>")])+'</div>',
   "Before, during, after. The NRF covers the &ldquo;during&rdquo;: Response.",
   ["Prevention is only about stopping terrorism.",
    "Planning, Public Information and Warning, and Operational Coordination show up in all five.",
@@ -359,7 +359,7 @@ slide(K, "Seven community lifelines", WHEEL_EX,
   ["Lifelines are what a community needs to keep running.",
    "The course teaches seven. FEMA added an eighth, Water Systems, in 2023. Answer the test with seven.",
    "Ask: a flooded hospital hits which lifeline? (Health and Medical.)"], w=820)
-slide(K, "The NRF is always on", DIMMER_KID,
+slide(K, "The NRF is always on", '<div class="dk-miles">'+"".join(f'<div style="left:{x}%"><i style="width:{d}px;height:{d}px"></i><span>{t}</span></div>' for x,d,t in [(10,16,"Car crash"),(37,26,"House fire"),(63,38,"Town flood"),(90,54,"Hurricane")])+'</div>'+DIMMER_KID,
   "A dimmer switch, not an on/off switch.",
   ["It never turns off. More of it is used as an emergency grows.",
    "It works hand in hand with NIMS.",
@@ -369,7 +369,7 @@ slide(K, "Emergency Support Functions", ESF_A,
   ["Walk the flood top to bottom: the need, then the function that handles it.",
    "Mass Care (ESF #6) also reunites children with their families.",
    "Ask: power is out across town. Which ESF? (#12 Energy.)"], wmin=968)
-slide(K, "ESFs turn on only when needed", ESF_B,
+slide(K, "ESFs turn on only when needed", '<div class="dk-s43">'+ESF_B+'</div>',
   "More ESFs switch on as the emergency grows. The rest wait on standby.",
   ["ESFs include government and private companies, not only federal agencies.",
    "Ask: does a small flood turn on Firefighting (ESF #4)? (Only if the incident needs it.)"], w=900)
@@ -411,7 +411,7 @@ slide(K, "Who can add local rules", SUPP_KID+'<p class="dk-light">Local rules: e
    "Ask: can a group commander approve one? (No.)"])
 
 K = "CAPT 117 &middot; Emergency Services continuing education"
-slide(K, "Part 1 &middot; Stress care: sooner is better", CISM_KID,
+slide(K, "Part 1 &middot; Stress care: sooner is better", CISM_KID+'<p class="dk-light">CISD means Critical Incident Stress Debriefing: a group talk with trained helpers, 1 to 3 days after a hard event.</p>',
   "Talk about it early. Help works best soon after.",
   ["This is Critical Incident Stress Management (CISM): a set of tools, not one meeting.",
    "It is like first aid for feelings, not therapy.",
@@ -497,7 +497,7 @@ def pslide(title, vis, take, notes, w=968, kick="Test day plan"):
 DEB='<div class="dk-cyc dk-deb">'+"".join(f'<div><b>{t}</b><span class="a">{a}</span></div>' for t,a in [("1600","Review final Status Board."),("1602","AAR: one thing to keep, one to change."),("1612","Each unit leader hears which tests are outstanding.")])+'</div><div class="aar3"><div>What did we plan?</div><div>What happened?</div><div>What do we change?</div></div>'
 
 def themes(code, name, items, kick):
-    vis='<div class="dk-themes">'+"".join(f'<div><span>{i+1}</span>{t}</div>' for i,t in enumerate(items))+'</div>'
+    vis=f'<div class="dk-themes" style="grid-template-rows:repeat({(len(items)+1)//2},auto);grid-auto-flow:column">'+"".join(f'<div><span>{i+1}</span>{t}</div>' for i,t in enumerate(items))+'</div>'
     return dict(kind="slide", kick=kick, title=f"{code}: the big themes", vis=vis, take="Listen for these. The test asks about each one.",
                 notes=[f"{name}: walk the themes, then the slides."], w=760, wmin=760)
 TH116=themes("CAPT 116","General Emergency Services",["Who gets help first","Smallest team allowed","Who can say &ldquo;go&rdquo;, and who protects you","In the field: yes, only if, never","Staying ready","Two things before any mission","Who can add local rules"],"CAPT 116 &middot; General Emergency Services")
@@ -522,6 +522,7 @@ TH116]+o[22:29]+[
  dict(kind="div", kick="1245–1600", title="Operational Period 3", chips=["CAPT 117 Part 1","IS-200","IS-800"], notes=["Announce: Operational Period 3 begins now."]),
  pslide("Operational Period 3",opv("Complete CAPT117 p1, IS200, IS800",["Briefing","Test","Report"],["1245","1250","1255","1325","1550","1555"]),
    "Ready now? Skip the brief and go to Staging.",["Review CAPT 117 Part 1, then IS-200, then IS-800.","Test order: CAPT 117 Part 1, retakes, IS-200, IS-800."],kick="1245–1600"),TH117]+o[29:31]+[TH200]+o[6:11]+[TH800]+o[14:21]+[
+ dict(kind="div", kick="1600", title="Wrap Up", chips=[], notes=["Final board, then the after-action review."]),
  pslide("Debrief",DEB,"Nobody leaves without knowing what they still owe.",["Ten minutes of AAR."],kick="1600–1615")]
 S=_SL
 S[:]=NEW

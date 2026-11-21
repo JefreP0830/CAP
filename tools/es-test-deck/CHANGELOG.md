@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.3.0 - 2026-11-21
+- Big-themes slides number down each column.
+- CISD defined; handoff bar spans steps 2 and 3; down arrow on the plan funnel; tones on the coordination slide; plain meanings for the three core capabilities; larger lifeline titles; growing-incident milestones on the NRF slider; more space on the ESF standby slide.
+- Wrap Up divider before Debrief.
+
 ## 2.2.0 - 2026-11-20
 - Big-themes slide before each test's review: CAPT 116, IS-100, IS-700, CAPT 117 Part 1, IS-200, IS-800.
 
