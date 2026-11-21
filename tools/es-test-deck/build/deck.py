@@ -505,7 +505,7 @@ NEW=[o[0],
  pslide("Every period runs the same cycle",cycv(),"Plan, Do, Check, Adjust.",["Cadets see the Incident Command System working, period by period."],w=800),
  dict(kind="div", kick="0920–1100", title="Operational Period 1", chips=["Login","CAPT 116"], notes=["Announce: Operational Period 1 begins now."]),
  pslide("Operational Period 1",opv("Validate login, complete CAPT116",["Briefing","Check in","Log in","Test","Report"],["0920","0923","0925","0945","1050","1055"]),
-   "Ready now? Skip the brief and go to Staging.",["Login was covered at class start.","Next: the CAPT 116 review."],kick="0920–1100"),
+   "Ready now? Skip the brief and go to Staging.",["Next: the CAPT 116 review."],kick="0920–1100"),
 ]+o[22:29]+[
  dict(kind="div", kick="1100–1245", title="Operational Period 2", chips=["IS-100","IS-700"], notes=["Announce: Operational Period 2 begins now."]),
  pslide("Operational Period 2",opv("Complete IS100, IS700",["Briefing","Test","Report"],["1100","1105","1110","1130","1235","1240"]),
