@@ -10,7 +10,7 @@ GUIDE = HERE.parent.parent / "es-test-guides" / "build"
 sys.path.insert(0, str(GUIDE))
 import build as G  # the study companion generator; its write step only runs as __main__
 
-VERSION = "2.4.1"
+VERSION = "2.4.2"
 
 # ---------------------------------------------------------------- guide CSS, minus mobile and print rules
 def strip_media(css, query):
@@ -424,12 +424,12 @@ slide(K, "Part 2 &middot; Teamwork in the aircraft", G.CRMCHAIN,
   "Anyone, even the newest crew member, can speak up and break the chain.",
   ["This is Crew Resource Management (CRM): teamwork and talking, not flying skill.",
    "Ask: the scanner notices fuel looks low. What should she do? (Say so, right away.)"], w=900)
-slide(K, "Part 2 &middot; Cockpit habits", CRM_KID,
+slide(K, "Part 2 &middot; Cockpit habits", '<div class="dk-bold">'+CRM_KID+'</div>',
   "Fly first, then find the way, then talk. Close every loop.",
   ["Closed loop: say you heard it, do it, say it&rsquo;s done.",
    "Sterile cockpit: no distractions when the crew is busy.",
    "Ask: the pilot says &ldquo;set 122.9&rdquo;. What do you say back? (&ldquo;Setting 122.9&rdquo;, then &ldquo;122.9 set.&rdquo;)"])
-slide(K, "Part 3 &middot; Mission base", MBASE_KID,
+slide(K, "Part 3 &middot; Mission base", '<div class="dk-bold">'+MBASE_KID+'</div>',
   "Know where to go, check in, keep the log, check out.",
   ["Ask: you are sent straight to a search team. Who do you report to? (That team&rsquo;s leader or supervisor.)",
    "Use 24-hour time: 1:30 pm is 1330."])
@@ -497,14 +497,14 @@ def pslide(title, vis, take, notes, w=968, kick="Test day plan"):
 DEB='<div class="dk-cyc dk-deb">'+"".join(f'<div><b>{t}</b><span class="a">{a}</span></div>' for t,a in [("1600","Review final Status Board."),("1602","AAR: one thing to keep, one to change."),("1612","Each unit leader hears which tests are outstanding.")])+'</div><div class="aar3"><div>What did we plan?</div><div>What happened?</div><div>What do we change?</div></div>'
 
 CREW = dict(kind="slide", kick="CAPT 117 &middot; Emergency Services continuing education", title="Part 2 &middot; Keep the crew sharp",
- vis=G.tiles([
+ vis='<div class="dk-bold">'+G.tiles([
   ("Share the work", "Split the jobs so nobody gets worn out"),
   ("Say it first", "Tell the crew what you are about to do, then do it"),
   ("Quiet when busy", "Sterile cockpit: no chatter or distractions during busy moments"),
   ("Only what helps", "Give the pilot the facts that matter, not everything"),
   ("Same words", "Everyone uses the standard terms and hand signals"),
   ("Everyone's job", "CRM is the whole crew, not just the pilot"),
- ], 3),
+ ], 3)+'</div>',
  take="A sharp crew shares the work, talks first, and keeps it calm.",
  notes=["Ask: the crew is landing and you want to point out a cool barn. Now or later? (Later. Sterile cockpit.)",
         "Ask: why split the work? (Tired crews make mistakes. That starts the chain.)"], w=968, wmin=600)

@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.4.2 - 2026-11-21
+- Bolder shape titles on the Cockpit habits, Keep the crew sharp and Mission base slides.
+
 ## 2.4.1 - 2026-11-21
 - Part 2 adds a "Keep the crew sharp" slide (workload, announce, sterile cockpit, filtered info, standard terms) and a fifth theme.
 - More space between the two sections on the Cockpit habits slide.
