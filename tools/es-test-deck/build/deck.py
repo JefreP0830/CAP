@@ -10,7 +10,7 @@ GUIDE = HERE.parent.parent / "es-test-guides" / "build"
 sys.path.insert(0, str(GUIDE))
 import build as G  # the study companion generator; its write step only runs as __main__
 
-VERSION = "2.1.1"
+VERSION = "2.1.2"
 
 # ---------------------------------------------------------------- guide CSS, minus mobile and print rules
 def strip_media(css, query):
@@ -498,8 +498,6 @@ DEB='<div class="dk-cyc dk-deb">'+"".join(f'<div><b>{t}</b><span class="a">{a}</
 o=_SL
 NEW=[o[0],
  pslide("The day at a glance",DAYV,"Lunch: 5-Guys pickup order at 1300.",["Walk the day top to bottom.","Each operational period has one objective."]),
- pslide("Class Start",cards([("1","Situation","About 27 cadets, at least 10 shared computers, plus brought devices.",""),("2","Stations","Four stations, seven adults.",""),("3","Map","Where each station works.",""),("4","Cycle","How every period runs.","")],4),
-   "&ldquo;This is an incident. I am the Incident Commander.&rdquo;",["Mission: every cadet who can log in leaves with GES and GTM3 tests done.","Then: &ldquo;Operational Period 1 begins now.&rdquo;"],w=760),
  pslide("Stations",STATV,"Problems go to the Incident Commander.",["Name each adult to a station."],w=760),
  pslide("Station map",MAPSVG,"Staging is a holding area. Testing and overflow are where cadets test.",["Walk the room: Check-in / Status, Login Help, Staging, Briefing, Testing, Overflow."],w=680),
  pslide("Every period runs the same cycle",cycv(),"Plan, Do, Check, Adjust.",["Cadets see the Incident Command System working, period by period."],w=800),

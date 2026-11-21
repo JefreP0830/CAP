@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.2 - 2026-11-20
+- Removed the Class Start slide (covered verbally).
+
 ## 2.1.1 - 2026-11-20
 - Removed the FEMA Student ID slide from Operational Period 1.
 
