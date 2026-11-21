@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.5 - 2026-11-20
+- IS-700 slides: tinted cards on the NIMS and three-levels slides; larger stage titles on a wider resource management cycle.
+
 ## 2.1.4 - 2026-11-20
 - CAPT 116 slides: more spacing on coverage and staying-ready slides; plain notes on good judgment, specialty rating and local rules.
 

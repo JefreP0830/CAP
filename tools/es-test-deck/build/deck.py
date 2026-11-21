@@ -10,7 +10,7 @@ GUIDE = HERE.parent.parent / "es-test-guides" / "build"
 sys.path.insert(0, str(GUIDE))
 import build as G  # the study companion generator; its write step only runs as __main__
 
-VERSION = "2.1.4"
+VERSION = "2.1.5"
 
 # ---------------------------------------------------------------- guide CSS, minus mobile and print rules
 def strip_media(css, query):
@@ -322,22 +322,22 @@ slide(K, "A good goal is specific", G.OBJ,
    "Test trap: big, inspiring goals are wrong answers. The test wants specific and measurable."], w=900)
 
 K = "IS-700 &middot; National Incident Management System (NIMS)"
-slide(K, "NIMS: the shared playbook", HOUSE_KID,
+slide(K, "NIMS: the shared playbook", '<div class="dk-t19">'+HOUSE_KID+'</div>',
   "Every team uses the same playbook, so any team can work with any other.",
   ["Like every school using the same rules for a sport: teams that never met can still play together.",
    "Three components (the pillars), held up by three principles (the foundation).",
    "Ask: which pillar answers &ldquo;do we have what we need?&rdquo; (Resource Management.)"])
-slide(K, "Three levels, one response", LEVELS_KID,
+slide(K, "Three levels, one response", '<div class="dk-t20">'+LEVELS_KID+'</div>',
   "The field does, the center supplies, the officials decide, one voice talks.",
   ["Emergency Operations Centers (EOCs) are off site. They support the scene; they do not run it.",
    "The MAC Group only steps in when there isn&rsquo;t enough to go around.",
    "Public Information Officers work together in the Joint Information Center so the public gets one message.",
    "Ask: two news crews hear different stories. Which part failed? (Joint Information System.)"])
-slide(K, "Resource management cycle", G.RING,
+slide(K, "Resource management cycle", '<div class="dk-ring">'+G.RING+'</div>',
   "Know what you have before you need it. Ask nearby first. Return and restock after.",
   ["Like a school sports closet: count and label the gear, hand it out, track it, get it back, replace what broke.",
    "Typing means describing a resource by what it can do.",
-   "Ask: which step happens before any emergency? (Inventory and typing.)"], w=900)
+   "Ask: which step happens before any emergency? (Inventory and typing.)"], w=1000, wmin=1000)
 
 K = "IS-800 &middot; National Response Framework (NRF)"
 slide(K, "Help starts local and grows outward", TIERS_KID,
