@@ -10,7 +10,7 @@ GUIDE = HERE.parent.parent / "es-test-guides" / "build"
 sys.path.insert(0, str(GUIDE))
 import build as G  # the study companion generator; its write step only runs as __main__
 
-VERSION = "2.1.8"
+VERSION = "2.2.0"
 
 # ---------------------------------------------------------------- guide CSS, minus mobile and print rules
 def strip_media(css, query):
@@ -495,6 +495,17 @@ def opv(obj, flow, times):
 def pslide(title, vis, take, notes, w=968, kick="Test day plan"):
     return dict(kind="slide", kick=kick, title=title, vis=vis, take=take, notes=notes, w=w, wmin=w)
 DEB='<div class="dk-cyc dk-deb">'+"".join(f'<div><b>{t}</b><span class="a">{a}</span></div>' for t,a in [("1600","Review final Status Board."),("1602","AAR: one thing to keep, one to change."),("1612","Each unit leader hears which tests are outstanding.")])+'</div><div class="aar3"><div>What did we plan?</div><div>What happened?</div><div>What do we change?</div></div>'
+
+def themes(code, name, items, kick):
+    vis='<div class="dk-themes">'+"".join(f'<div><span>{i+1}</span>{t}</div>' for i,t in enumerate(items))+'</div>'
+    return dict(kind="slide", kick=kick, title=f"{code}: the big themes", vis=vis, take="Listen for these. The test asks about each one.",
+                notes=[f"{name}: walk the themes, then the slides."], w=760, wmin=760)
+TH116=themes("CAPT 116","General Emergency Services",["Who gets help first","Smallest team allowed","Who can say &ldquo;go&rdquo;, and who protects you","In the field: yes, only if, never","Staying ready","Two things before any mission","Who can add local rules"],"CAPT 116 &middot; General Emergency Services")
+TH100=themes("IS-100","Introduction to ICS",["Who does what","Span of control","Unity of command","Common terminology","Dispatch and check-in"],"IS-100 &middot; Introduction to the Incident Command System (ICS)")
+TH700=themes("IS-700","NIMS",["The shared playbook","Three levels, one response","Resource management"],"IS-700 &middot; National Incident Management System (NIMS)")
+TH117=themes("CAPT 117 Part 1","Stress care",["Stress care: sooner is better","Four places stress shows up"],"CAPT 117 &middot; Emergency Services continuing education")
+TH200=themes("IS-200","Basic ICS",["Incident types","Leader titles","Changing who is in charge","How a plan reaches the field","Specific goals"],"IS-200 &middot; Basic ICS for Initial Response")
+TH800=themes("IS-800","NRF",["Help starts local","Who coordinates","Five mission areas","Community lifelines","Always on","Emergency Support Functions"],"IS-800 &middot; National Response Framework (NRF)")
 o=_SL
 NEW=[o[0],
  pslide("The day at a glance",DAYV,"Lunch: 5-Guys pickup order at 1300.",["Walk the day top to bottom.","Each operational period has one objective."]),
@@ -504,13 +515,13 @@ NEW=[o[0],
  dict(kind="div", kick="0920–1100", title="Operational Period 1", chips=["Login","CAPT 116"], notes=["Announce: Operational Period 1 begins now."]),
  pslide("Operational Period 1",opv("Validate login, complete CAPT116",["Briefing","Check in","Log in","Test","Report"],["0920","0923","0925","0945","1050","1055"]),
    "Ready now? Skip the brief and go to Staging.",["Next: the CAPT 116 review."],kick="0920–1100"),
-]+o[22:29]+[
+TH116]+o[22:29]+[
  dict(kind="div", kick="1100–1245", title="Operational Period 2", chips=["IS-100","IS-700"], notes=["Announce: Operational Period 2 begins now."]),
  pslide("Operational Period 2",opv("Complete IS100, IS700",["Briefing","Test","Report"],["1100","1105","1110","1130","1235","1240"]),
-   "Ready now? Skip the brief and go to Staging.",["Review IS-100, then IS-700."],kick="1100–1245")]+o[4:6]+o[11:14]+[
+   "Ready now? Skip the brief and go to Staging.",["Review IS-100, then IS-700."],kick="1100–1245"),TH100]+o[4:6]+[TH700]+o[11:14]+[
  dict(kind="div", kick="1245–1600", title="Operational Period 3", chips=["CAPT 117 Part 1","IS-200","IS-800"], notes=["Announce: Operational Period 3 begins now."]),
  pslide("Operational Period 3",opv("Complete CAPT117 p1, IS200, IS800",["Briefing","Test","Report"],["1245","1250","1255","1325","1550","1555"]),
-   "Ready now? Skip the brief and go to Staging.",["Review CAPT 117 Part 1, then IS-200, then IS-800.","Test order: CAPT 117 Part 1, retakes, IS-200, IS-800."],kick="1245–1600")]+o[29:31]+o[6:11]+o[14:21]+[
+   "Ready now? Skip the brief and go to Staging.",["Review CAPT 117 Part 1, then IS-200, then IS-800.","Test order: CAPT 117 Part 1, retakes, IS-200, IS-800."],kick="1245–1600"),TH117]+o[29:31]+[TH200]+o[6:11]+[TH800]+o[14:21]+[
  pslide("Debrief",DEB,"Nobody leaves without knowing what they still owe.",["Ten minutes of AAR."],kick="1600–1615")]
 S=_SL
 S[:]=NEW

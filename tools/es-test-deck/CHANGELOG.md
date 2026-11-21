@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.0 - 2026-11-20
+- Big-themes slide before each test's review: CAPT 116, IS-100, IS-700, CAPT 117 Part 1, IS-200, IS-800.
+
 ## 2.1.8 - 2026-11-20
 - Resource cycle: red border on the four during-incident steps.
 
