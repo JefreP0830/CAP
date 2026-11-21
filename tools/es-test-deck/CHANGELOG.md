@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.4 - 2026-11-20
+- CAPT 116 slides: more spacing on coverage and staying-ready slides; plain notes on good judgment, specialty rating and local rules.
+
 ## 2.1.3 - 2026-11-20
 - Cycle slide: return arrow from Adjust back to Plan.
 

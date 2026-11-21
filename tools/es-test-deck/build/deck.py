@@ -10,7 +10,7 @@ GUIDE = HERE.parent.parent / "es-test-guides" / "build"
 sys.path.insert(0, str(GUIDE))
 import build as G  # the study companion generator; its write step only runs as __main__
 
-VERSION = "2.1.3"
+VERSION = "2.1.4"
 
 # ---------------------------------------------------------------- guide CSS, minus mobile and print rules
 def strip_media(css, query):
@@ -388,16 +388,16 @@ slide(K, "Smallest team allowed", G.TEAMS,
   ["Aircrew of three: pilot, observer, scanner.",
    "Ground team: a qualified leader plus at least three members or supervised trainees.",
    "Ask: the team has one trainee. Who sets the pace? (The trainee: the team works at its weakest link.)"])
-slide(K, "Who can say &ldquo;go&rdquo;, and who protects you", AUTH_KID,
+slide(K, "Who can say &ldquo;go&rdquo;, and who protects you", '<div class="dk-s10">'+AUTH_KID+'</div>',
   "Emergency (C911) missions: the wing commander decides. Injury pay: 18 and older.",
   ["FTCA is the Federal Tort Claims Act. FECA is the Federal Employees&rsquo; Compensation Act.",
    "Cadets under 18 are not covered by FECA.",
    "Ask: a 16-year-old is hurt on a mission. Does FECA pay? (No.)"])
-slide(K, "In the field: yes, only if, never", FIELD_KID,
+slide(K, "In the field: yes, only if, never", FIELD_KID+'<p class="dk-light">Yes, only if, never: stay aware of what is around you and use good judgment.</p>',
   "Safety first. Night vision goggles never while driving.",
   ["Private land: only to save a life, and only after trying to get permission.",
    "Ask: can you drive with night vision goggles if it&rsquo;s really dark? (Never.)"])
-slide(K, "Staying ready", READY_KID,
+slide(K, "Staying ready", '<div class="dk-s12">'+READY_KID+'<p class="dk-light">Specialty rating: a mission job you are qualified to do, like ground team member.</p></div>',
   "Your ratings last 36 months, to the last day of the month.",
   ["Your qualification card (CAPF 101) shows what you are allowed to do.",
    "Ask: rated on 10 March 2027. When does it expire? (31 March 2030.)"])
@@ -405,7 +405,7 @@ slide(K, "Two things before any mission", GATE_KID,
   "OPSEC training and a signed promise, for every member.",
   ["OPSEC means operations security: not posting or sharing mission details.",
    "Ask: can you post a photo of the search area on social media during a mission? (No.)"], w=900)
-slide(K, "Who can add local rules", SUPP_KID,
+slide(K, "Who can add local rules", SUPP_KID+'<p class="dk-light">Local rules: extra rules a wing or region adds to the national rules. They are called a supplement.</p>',
   "Wing or region only, with all three approvals. Not groups or squadrons.",
   ["A local rule added to the regulation is a supplement.",
    "Ask: can a group commander approve one? (No.)"])
