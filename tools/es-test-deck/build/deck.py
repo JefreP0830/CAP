@@ -10,7 +10,7 @@ GUIDE = HERE.parent.parent / "es-test-guides" / "build"
 sys.path.insert(0, str(GUIDE))
 import build as G  # the study companion generator; its write step only runs as __main__
 
-VERSION = "2.3.0"
+VERSION = "2.4.0"
 
 # ---------------------------------------------------------------- guide CSS, minus mobile and print rules
 def strip_media(css, query):
@@ -523,7 +523,10 @@ TH116]+o[22:29]+[
  pslide("Operational Period 3",opv("Complete CAPT117 p1, IS200, IS800",["Briefing","Test","Report"],["1245","1250","1255","1325","1550","1555"]),
    "Ready now? Skip the brief and go to Staging.",["Review CAPT 117 Part 1, then IS-200, then IS-800.","Test order: CAPT 117 Part 1, retakes, IS-200, IS-800."],kick="1245–1600"),TH117]+o[29:31]+[TH200]+o[6:11]+[TH800]+o[14:21]+[
  dict(kind="div", kick="1600", title="Wrap Up", chips=[], notes=["Final board, then the after-action review."]),
- pslide("Debrief",DEB,"Nobody leaves without knowing what they still owe.",["Ten minutes of AAR."],kick="1600–1615")]
+ pslide("Debrief",DEB,"Nobody leaves without knowing what they still owe.",["Ten minutes of AAR."],kick="1600–1615"),
+ dict(kind="div", kick="Optional", title="Stretch", chips=["CAPT 117 Part 2","CAPT 117 Part 3"], notes=["Take-home tests. Use if time allows."]),
+ themes("CAPT 117 Part 2","Crew Resource Management",["Teamwork in the aircraft","Speak up and break the chain","Fly, then find the way, then talk","Close every loop"],"CAPT 117 &middot; Emergency Services continuing education")]+o[31:33]+[
+ themes("CAPT 117 Part 3","Mission base",["Before you go","Check in","Keep the log","Check out"],"CAPT 117 &middot; Emergency Services continuing education")]+o[33:34]
 S=_SL
 S[:]=NEW
 

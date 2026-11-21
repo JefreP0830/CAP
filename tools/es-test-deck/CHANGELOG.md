@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.0 - 2026-11-21
+- Stretch divider after Debrief.
+- CAPT 117 Part 2 and Part 3 slides restored, each with a big-themes slide.
+
 ## 2.3.0 - 2026-11-21
 - Big-themes slides number down each column.
 - CISD defined; handoff bar spans steps 2 and 3; down arrow on the plan funnel; tones on the coordination slide; plain meanings for the three core capabilities; larger lifeline titles; growing-incident milestones on the NRF slider; more space on the ESF standby slide.
