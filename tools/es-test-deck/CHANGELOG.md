@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.6 - 2026-11-20
+- Resource cycle: light tones for before, during and after the incident, with a legend.
+
 ## 2.1.5 - 2026-11-20
 - IS-700 slides: tinted cards on the NIMS and three-levels slides; larger stage titles on a wider resource management cycle.
 
