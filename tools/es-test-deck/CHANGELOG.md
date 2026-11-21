@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.5.0 - 2026-11-21
+- New IS-5.A Hazardous Materials section at the end: divider, big-themes slide, and 11 slides across the five units. Reuses the study guide's IS-5.A diagrams.
+
 ## 2.4.2 - 2026-11-21
 - Bolder shape titles on the Cockpit habits, Keep the crew sharp and Mission base slides.
 

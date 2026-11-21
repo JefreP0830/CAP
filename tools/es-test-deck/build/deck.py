@@ -10,7 +10,7 @@ GUIDE = HERE.parent.parent / "es-test-guides" / "build"
 sys.path.insert(0, str(GUIDE))
 import build as G  # the study companion generator; its write step only runs as __main__
 
-VERSION = "2.4.2"
+VERSION = "2.5.0"
 
 # ---------------------------------------------------------------- guide CSS, minus mobile and print rules
 def strip_media(css, query):
@@ -517,6 +517,7 @@ TH116=themes("CAPT 116","General Emergency Services",["Who gets help first","Sma
 TH100=themes("IS-100","Introduction to ICS",["Who does what","Span of control","Unity of command","Common terminology","Dispatch and check-in"],"IS-100 &middot; Introduction to the Incident Command System (ICS)")
 TH700=themes("IS-700","NIMS",["The shared playbook","Three levels, one response","Resource management"],"IS-700 &middot; National Incident Management System (NIMS)")
 TH117=themes("CAPT 117 Part 1","Stress care",["Stress care: sooner is better","Four places stress shows up"],"CAPT 117 &middot; Emergency Services continuing education")
+K5="IS-5.A &middot; An Introduction to Hazardous Materials"
 TH200=themes("IS-200","Basic ICS",["Incident types","Leader titles","Changing who is in charge","How a plan reaches the field","Specific goals"],"IS-200 &middot; Basic ICS for Initial Response")
 TH800=themes("IS-800","NRF",["Help starts local","Who coordinates","Five mission areas","Community lifelines","Always on","Emergency Support Functions"],"IS-800 &middot; National Response Framework (NRF)")
 o=_SL
@@ -539,7 +540,45 @@ TH116]+o[22:29]+[
  pslide("Debrief",DEB,"Nobody leaves without knowing what they still owe.",["Ten minutes of AAR."],kick="1600–1615"),
  dict(kind="div", kick="Optional", title="Stretch", chips=["CAPT 117 Part 2","CAPT 117 Part 3"], notes=["Take-home tests. Use if time allows."]),
  themes("CAPT 117 Part 2","Crew Resource Management",["Teamwork in the aircraft","Speak up and break the chain","Fly, then find the way, then talk","Close every loop","Keep the crew sharp"],"CAPT 117 &middot; Emergency Services continuing education")]+o[31:33]+[CREW,
- themes("CAPT 117 Part 3","Mission base",["Before you go","Check in","Keep the log","Check out"],"CAPT 117 &middot; Emergency Services continuing education")]+o[33:34]
+ themes("CAPT 117 Part 3","Mission base",["Before you go","Check in","Keep the log","Check out"],"CAPT 117 &middot; Emergency Services continuing education")]+o[33:34]+[
+ dict(kind="div", kick="FEMA Independent Study", title="IS-5.A Hazardous Materials", chips=["Laws","Warning signs","Finding hazmat","Health","Protect yourself"], notes=["An Introduction to Hazardous Materials. Five units, one big idea: know it, avoid it, report it."]),
+ themes("IS-5.A","Hazardous materials",["Who plans for a spill","Read the warning signs","Find the hazard","How it hurts you","Protect yourself"],K5)]+[
+ dict(kind="slide", kick=K5, title=t, vis=v, take=tk, notes=n, w=w, wmin=600) for t,v,tk,n,w in [
+ ("Unit 1 &middot; Who plans for a spill", G.T3, "Your town&rsquo;s LEPC writes the plan, and anyone can read it.",
+  ["LEPC: Local Emergency Planning Committee. SERC: State Emergency Response Commission.",
+   "Why the law exists: a gas leak in Bhopal, India killed at least 1,700 people.",
+   "Big spill? Report it to the National Response Center, which the Coast Guard staffs 24 hours a day."], 968),
+ ("Unit 2 &middot; The diamond on buildings", G.NFPA, "Blue is health, red is fire, yellow is reactivity, white is special. 4 is the worst.",
+  ["You see this on tanks and buildings, not on trucks.",
+   "Ask: a diamond shows a crossed-out W. What does that mean? (It reacts with water. Don&rsquo;t spray it.)"], 900),
+ ("Unit 2 &middot; Reading a truck", G.DOTFIND, "Placard, then ID number, then shipping papers, then the guidebook.",
+  ["The Emergency Response Guidebook (ERG) is for the first few minutes on scene.",
+   "Ask: where are the shipping papers? (Within the driver&rsquo;s reach, or in the driver&rsquo;s door.)"], 800),
+ ("Unit 2 &middot; The nine hazard classes", G.DOTC, "Class 3 liquids like gasoline cause the most accidents. Class 8 corrosives come next.",
+  ["The lower the flash point, the more dangerous the liquid.",
+   "Ask: which class is radioactive? (7.)"], 968),
+ ("Unit 3 &middot; Finding hazmat", G.LIFE + '<p class="lab">Clues that something is wrong</p>' + G.CLUES, "Your nose is the worst detector. If something seems wrong, leave and call.",
+  ["Hazmat can show up at any stage of its life, from the factory to the dump.",
+   "Never pick up or touch a suspicious substance."], 968),
+ ("Unit 3 &middot; The Safety Data Sheet", G.SDS, "Every chemical at work has a sheet that says what it does and what to do.",
+  ["SDS used to be called MSDS (Material Safety Data Sheet).",
+   "OSHA requires employers to keep them where workers can see them."], 800),
+ ("Unit 4 &middot; How it gets in", G.ROUTES, "Breathe it, touch it, swallow it, or get cut by it.",
+  ["Injection is the fastest: straight into the blood.",
+   "Ask: a worker eats lunch at a dusty workbench. Which route? (Ingestion.)"], 720),
+ ("Unit 4 &middot; Dose makes the poison", G.DOSE, "More dose, more harm. Even table salt can kill in a big enough dose.",
+  ["Acute: a big dose all at once. Chronic: a little at a time for years.",
+   "LD50: the dose that kills half of a test group."], 720),
+ ("Unit 4 &middot; How hazmat moves", G.MEDIA, "Chemicals travel through air, water and soil, and can jump from one to another.",
+  ["Groundwater is the hardest to clean, and half the country drinks it.",
+   "Biomagnification: poison builds up as it moves up the food chain."], 720),
+ ("Unit 5 &middot; Protect yourself", G.PROTECT, "Upstream, uphill, upwind, then get far away.",
+  ["Caught in the cloud? Move crosswind, not straight away from it.",
+   "Ask: told to shelter in place. Windows open or closed? (Closed, and turn off the fans.)"], 900),
+ ("Unit 5 &middot; Decontamination", G.DECON, "Wash, strip from the top down, wash, change, bag it.",
+  ["Skip the water if the chemical reacts with water.",
+   "Never get into your car while contaminated. You&rsquo;ll spread it (cross-contamination)."], 720),
+ ]]
 S=_SL
 S[:]=NEW
 
