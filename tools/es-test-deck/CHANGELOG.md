@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.0 - 2026-11-20
+- Reordered to run test day: title, day at a glance, class start, stations, station map, the cycle, then Operational Periods 1 to 3, each followed by its review slides, then debrief.
+- OP 1: login and CAPT 116. OP 2: IS-100 and IS-700. OP 3: CAPT 117 Part 1, IS-200, IS-800.
+- Removed the roadmap, the FEMA and eServices dividers, the CAPT 117 Part 2 and 3 slides and the closing slide.
+
 ## 1.1.0 - 2026-11-17
 - Plain-language pass for ages 12 to 17: every title and takeaway rewritten in everyday words, with analogies (school play, sports team, relay baton, dimmer switch, gear closet).
 - New deck-only visuals: incident types with everyday examples, leader-title ladder, relay-style transfer of command, NIMS pillars as cards, three levels as cards, simpler tiered response, mission areas, cockpit habits, CISM timeline, and field rules without citations.

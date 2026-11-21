@@ -10,7 +10,7 @@ GUIDE = HERE.parent.parent / "es-test-guides" / "build"
 sys.path.insert(0, str(GUIDE))
 import build as G  # the study companion generator; its write step only runs as __main__
 
-VERSION = "1.1.0"
+VERSION = "2.0.0"
 
 # ---------------------------------------------------------------- guide CSS, minus mobile and print rules
 def strip_media(css, query):
@@ -258,7 +258,7 @@ def divider(part, title, chips, notes):
     S.append(dict(kind="div", kick=part, title=title, chips=chips, notes=notes))
 
 S.append(dict(kind="title", kick="Classroom review", title="Emergency Services and FEMA Test Prep",
-  sub="Four Federal Emergency Management Agency (FEMA) tests first, then two eServices tests. One idea per slide.",
+  sub="Test day: the plan, then each operational period&rsquo;s review. Federal Emergency Management Agency (FEMA) and eServices tests.",
   notes=["Today: the few big ideas each test keeps asking about. Then you take the tests.",
          "Passing shows you learned the basics. Real skills come next, with a mentor and a skills evaluator.",
          "Every slide has a question to ask the class in these notes. Get answers out loud before moving on."]))
@@ -437,6 +437,82 @@ slide(K, "Part 3 &middot; Mission base", MBASE_KID,
 slide("Wrap-up", "Now take the tests", CLOSE, "Keep the study companion open while you test.",
   ["Save every certificate PDF.",
    "Next: hands-on training with a mentor, then sign-off by a skills evaluator."], w=900)
+
+
+# ---------------------------------------------------------------- test-day plan slides (v2.0)
+_SL=S
+B="#001489";T="#E6E8F3";S="#9EA2A2";K="#000";H="#63666A"
+def room(x,y,w,h,t,sub="",kind="st"):
+    fill={"st":T,"off":"url(#hx)","free":"#fff","test":"#C9CEEA"}[kind]; stroke=B if kind in("st","test") else S
+    tc=B if kind in("st","test") else H
+    o=f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="{fill}" stroke="{stroke}" stroke-width="1.2"/>'
+    cx=x+w/2; cy=y+h/2
+    if kind=="off": o+=f'<rect x="{cx-52}" y="{cy-11}" width="104" height="22" fill="#fff"/>'
+    o+=f'<text x="{cx}" y="{cy-(8 if sub else 0)}" text-anchor="middle" dominant-baseline="central" font-size="{15 if kind!="off" else 12}" font-weight="700" fill="{tc}">{t}</text>'
+    if sub: o+=f'<text x="{cx}" y="{cy+12}" text-anchor="middle" dominant-baseline="central" font-size="12" fill="{K}">{sub}</text>'
+    return o
+MAPSVG=f'''<svg class="map" style="width:100%;height:auto" viewBox="0 0 680 540" xmlns="http://www.w3.org/2000/svg">
+<defs><pattern id="hx" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" stroke="{S}" stroke-width="1.2"/></pattern>
+<marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="{B}" stroke-width="1.8"/></marker></defs>
+{room(40,20,206,93,"Supply","","off")}
+{room(246,20,160,93,"Check-in / Status","","st")}
+{room(406,20,217,93,"Login Help","","st")}
+{room(40,113,131,93,"Conf","","off")}
+{room(40,206,131,192,"Comm","","off")}
+<rect x="171" y="113" width="320" height="285" fill="#fff" stroke="{S}" stroke-width="1.5"/>
+{room(203,118,265,58,"Staging","","st")}
+<rect x="178" y="185" width="18" height="190" fill="{K}"/>
+<text x="187" y="280" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="700" fill="#fff" transform="rotate(-90 187 280)">Big screen / Status</text>
+{room(203,185,159,190,"Briefing","","st")}
+{room(370,185,98,190,"Testing","","test")}
+{room(491,160,132,96,"Restroom","","free")}
+{room(491,256,132,142,"Kitchen","","free")}
+{room(40,398,131,93,"Office","","free")}
+{room(222,398,188,93,"Overflow testing","","test")}
+{room(410,398,213,93,"Office","","off")}
+<text x="560" y="126" text-anchor="middle" font-size="12" font-weight="700" fill="{K}">In / Out</text>
+<line x1="620" y1="144" x2="491" y2="144" stroke="{B}" stroke-width="2" marker-end="url(#ah)"/>
+<line x1="196" y1="520" x2="196" y2="402" stroke="{B}" stroke-width="2" marker-end="url(#ah)"/>
+<text x="196" y="534" text-anchor="middle" font-size="12" font-weight="700" fill="{K}">In / Out</text>
+</svg>'''
+
+DAY=[("0830–0900","Setup","","Set up facility"),("0900–0920","Class Start","Assignments","Assign stations, explain cycle"),
+("0920–1100","OP 1","Access + GES","Validate login, complete CAPT116"),("1100–1245","OP 2","GTM3","Complete IS100, IS700"),
+("1245–1600","OP 3","GTM1 + Stretch","Complete CAPT117 p1, IS200, IS800"),("1600–1615","Debrief","","Conduct AAR, assign open actions"),
+("1615–1645","Reset","","Log out computers, reset facility")]
+DAYV='<table class="dk-day">'+"".join(f'<tr><td class="t">{t}</td><td class="p">{p_}</td><td class="f">{f}</td><td>{o}</td></tr>' for t,p_,f,o in DAY)+'</table>'
+STATV=cards([("1 adult","Floor Ops","Keep the line moving.","Staging full, seats filled fast"),
+ ("2 adults","Test Ops","Keep every test seat testing.","Pull stuck cadets fast"),
+ ("2 adults","Check-in / Status","Know where every cadet stands.","Attendance, logins, the board"),
+ ("2 adults","Login Help","Get every cadet logged in.","Find the code, get them in")],4)
+CYC=[("Plan","Check Status (board). Review objective."),("Assign","Sequence cadets."),("Brief","Review test content."),
+ ("Do","Complete testing and report results."),("Check","Review Status (board)."),("Adjust","After-action review (AAR). Capture retakes.")]
+def cycv(times=None):
+    return '<div class="dk-cyc">'+"".join(f'<div><span class="n">{i+1}</span><b>{st}</b>'+(f'<span class="tm">{times[i]}</span>' if times else '')+f'<span class="a">{a}</span></div>' for i,(st,a) in enumerate(CYC))+'</div>'
+def opv(obj, flow, times):
+    return (f'<p class="dk-obj"><span>Objective:</span> {obj}</p><p class="lab">Cadet flow</p>'
+      +G.flow([(x,"") for x in flow],"dk-cflow")+'<p class="lab">Cycle</p>'+cycv(times))
+def pslide(title, vis, take, notes, w=968, kick="Test day plan"):
+    return dict(kind="slide", kick=kick, title=title, vis=vis, take=take, notes=notes, w=w, wmin=w)
+DEB='<div class="dk-cyc dk-deb">'+"".join(f'<div><b>{t}</b><span class="a">{a}</span></div>' for t,a in [("1600","Review final Status Board."),("1602","AAR: one thing to keep, one to change."),("1612","Each unit leader hears which tests are outstanding.")])+'</div><div class="aar3"><div>What did we plan?</div><div>What happened?</div><div>What do we change?</div></div>'
+o=_SL
+NEW=[o[0],
+ pslide("The day at a glance",DAYV,"Lunch: 5-Guys pickup order at 1300.",["Walk the day top to bottom.","Each operational period has one objective."]),
+ pslide("Class Start",cards([("1","Situation","About 27 cadets, at least 10 shared computers, plus brought devices.",""),("2","Stations","Four stations, seven adults.",""),("3","Map","Where each station works.",""),("4","Cycle","How every period runs.","")],4),
+   "&ldquo;This is an incident. I am the Incident Commander.&rdquo;",["Mission: every cadet who can log in leaves with GES and GTM3 tests done.","Then: &ldquo;Operational Period 1 begins now.&rdquo;"],w=760),
+ pslide("Stations",STATV,"Problems go to the Incident Commander.",["Name each adult to a station."],w=760),
+ pslide("Station map",MAPSVG,"Staging is a holding area. Testing and overflow are where cadets test.",["Walk the room: Check-in / Status, Login Help, Staging, Briefing, Testing, Overflow."],w=680),
+ pslide("Every period runs the same cycle",cycv(),"Plan, Do, Check, Adjust.",["Cadets see the Incident Command System working, period by period."],w=800),
+ pslide("Operational Period 1",opv("Validate login, complete CAPT116",["Briefing","Check in","Log in","Test","Report"],["0920","0923","0925","0945","1050","1055"]),
+   "Ready now? Skip the brief and go to Staging.",["Login first: next slide.","Then the CAPT 116 review."],kick="0920–1100"),
+ o[2]]+o[22:29]+[
+ pslide("Operational Period 2",opv("Complete IS100, IS700",["Briefing","Test","Report"],["1100","1105","1110","1130","1235","1240"]),
+   "Ready now? Skip the brief and go to Staging.",["Review IS-100, then IS-700."],kick="1100–1245")]+o[4:6]+o[11:14]+[
+ pslide("Operational Period 3",opv("Complete CAPT117 p1, IS200, IS800",["Briefing","Test","Report"],["1245","1250","1255","1325","1550","1555"]),
+   "Ready now? Skip the brief and go to Staging.",["Review CAPT 117 Part 1, then IS-200, then IS-800.","Test order: CAPT 117 Part 1, retakes, IS-200, IS-800."],kick="1245–1600")]+o[29:31]+o[6:11]+o[14:21]+[
+ pslide("Debrief",DEB,"Nobody leaves without knowing what they still owe.",["Ten minutes of AAR."],kick="1600–1615")]
+S=_SL
+S[:]=NEW
 
 # ---------------------------------------------------------------- render
 def notes_html(n):
