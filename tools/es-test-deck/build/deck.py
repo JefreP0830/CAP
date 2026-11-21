@@ -10,7 +10,7 @@ GUIDE = HERE.parent.parent / "es-test-guides" / "build"
 sys.path.insert(0, str(GUIDE))
 import build as G  # the study companion generator; its write step only runs as __main__
 
-VERSION = "2.1.2"
+VERSION = "2.1.3"
 
 # ---------------------------------------------------------------- guide CSS, minus mobile and print rules
 def strip_media(css, query):
@@ -500,7 +500,7 @@ NEW=[o[0],
  pslide("The day at a glance",DAYV,"Lunch: 5-Guys pickup order at 1300.",["Walk the day top to bottom.","Each operational period has one objective."]),
  pslide("Stations",STATV,"Problems go to the Incident Commander.",["Name each adult to a station."],w=760),
  pslide("Station map",MAPSVG,"Staging is a holding area. Testing and overflow are where cadets test.",["Walk the room: Check-in / Status, Login Help, Staging, Briefing, Testing, Overflow."],w=680),
- pslide("Every period runs the same cycle",cycv(),"Plan, Do, Check, Adjust.",["Cadets see the Incident Command System working, period by period."],w=800),
+ pslide("Every period runs the same cycle",cycv()+'<svg viewBox="0 0 800 56" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg"><defs><marker id="lp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#001489"/></marker></defs><path d="M737.5 2 V34 H62.5 V8" fill="none" stroke="#001489" stroke-width="3" marker-end="url(#lp)"/><rect x="330" y="24" width="140" height="22" fill="#fff"/><text x="400" y="40" text-anchor="middle" font-size="15" font-weight="700" fill="#001489" font-family="Arial">Repeat</text></svg>',"Plan, Do, Check, Adjust.",["Cadets see the Incident Command System working, period by period."],w=800),
  dict(kind="div", kick="0920–1100", title="Operational Period 1", chips=["Login","CAPT 116"], notes=["Announce: Operational Period 1 begins now."]),
  pslide("Operational Period 1",opv("Validate login, complete CAPT116",["Briefing","Check in","Log in","Test","Report"],["0920","0923","0925","0945","1050","1055"]),
    "Ready now? Skip the brief and go to Staging.",["Next: the CAPT 116 review."],kick="0920–1100"),

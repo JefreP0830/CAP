@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.3 - 2026-11-20
+- Cycle slide: return arrow from Adjust back to Plan.
+
 ## 2.1.2 - 2026-11-20
 - Removed the Class Start slide (covered verbally).
 
