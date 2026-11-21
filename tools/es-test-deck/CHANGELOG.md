@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.0 - 2026-11-20
+- Divider slide before each operational period, showing its time and tests.
+
 ## 2.0.0 - 2026-11-20
 - Reordered to run test day: title, day at a glance, class start, stations, station map, the cycle, then Operational Periods 1 to 3, each followed by its review slides, then debrief.
 - OP 1: login and CAPT 116. OP 2: IS-100 and IS-700. OP 3: CAPT 117 Part 1, IS-200, IS-800.
