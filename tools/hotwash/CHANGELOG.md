@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2 - 2026-11-22
+
+- One Copy button for the email; Open in mail app removed.
+
 ## 1.2.1 - 2026-11-22
 
 - Date is now Event date, blank by default (the email's own send date records when it went out). Blank prints N/A.

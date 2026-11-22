@@ -103,12 +103,11 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
     <div class="subj"><input id="subject" readonly aria-label="Email subject"><button type="button" class="btn" id="copySubj">Copy subject</button></div>
     <div class="preview" id="preview"></div>
     <div class="btns">
-      <button type="button" class="btn primary" id="copyBody">Copy email</button>
-      <button type="button" class="btn" id="mailto">Open in mail app</button>
+      <button type="button" class="btn primary" id="copyBody">Copy</button>
       <button type="button" class="btn" id="clear">Clear</button>
     </div>
     <div class="status" id="status" role="status"></div>
-    <p class="fine">Copy email puts formatted text on the clipboard; paste it into Gmail or Outlook. Open in mail app starts a plain-text message. Nothing typed here is saved. A hotwash is the quick version; use the After Action Review for the full write-up.</p>
+    <p class="fine">Copy puts the formatted email on the clipboard; paste it into Gmail or Outlook. Nothing typed here is saved. A hotwash is the quick version; use the After Action Review for the full write-up.</p>
   </div>
 </div>
 
@@ -213,11 +212,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
   document.addEventListener("input", render);
   document.addEventListener("change", render);
   $("copySubj").addEventListener("click", () => copy(null, $("subject").value, "Subject"));
-  $("copyBody").addEventListener("click", () => { const m = model(); copy(html(m), plain(m), "Email"); });
-  $("mailto").addEventListener("click", () => {
-    const m = model();
-    location.href = `mailto:?subject=${encodeURIComponent(m.subject)}&body=${encodeURIComponent(plain(m))}`;
-  });
+  $("copyBody").addEventListener("click", () => { const m = model(); copy(html(m), plain(m), "Email text"); });
   $("clear").addEventListener("click", () => {
     if (hasContent() && !confirm("Clear the hotwash? Nothing is saved.")) return;
     ["activity", "date", "mission", "by", "saw", "insight"].forEach(id => $(id).value = "");
