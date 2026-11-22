@@ -39,10 +39,8 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
 .row2.even{grid-template-columns:1fr 2fr}
 .row2{display:grid;grid-template-columns:2fr 1fr;gap:10px}
 
-.step{margin:16px 0 4px;border-bottom:1.5px solid var(--head);padding-bottom:3px;display:flex;align-items:baseline;gap:10px}
-.step .k{font:700 22px/1 var(--f-title);color:var(--blue);width:18px}
-.step h2{margin:0;font-weight:400;font-size:16px;color:var(--head)}
-.step h2 i{font-style:normal;font-size:13.33px;margin-left:6px}
+.step{margin:16px 0 6px;border-bottom:1.5px solid var(--head);padding-bottom:3px;font-weight:400;font-size:13.33px;color:var(--head);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.step b{font:700 22px/1 var(--f-title);color:var(--blue);letter-spacing:.03em;margin-right:6px}
 .hint{font-size:12px;color:var(--head);margin:4px 0 6px}
 
 .act{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1.2fr) minmax(0,1fr) 24px;gap:6px;margin-bottom:6px}
@@ -88,16 +86,13 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
       <label class="f"><span>Facilitator last name</span><input id="by" autocomplete="off"></label>
     </div>
 
-    <div class="step"><span class="k">S</span><h2>Saw<i>What we observed</i></h2></div>
-    <p class="hint">Facts only: what happened, numbers, times. No names attached to mistakes.</p>
+    <h2 class="step"><b>SAW</b>what was observed. (Facts only)</h2>
     <textarea id="saw" placeholder="Started 12 minutes late&#10;All planned tasks completed"></textarea>
 
-    <div class="step"><span class="k">I</span><h2>Insight<i>What we learned</i></h2></div>
-    <p class="hint">Why it happened. What to keep doing, and what to change.</p>
+    <h2 class="step"><b>INSIGHT</b>what was learned. (Why, keep, change)</h2>
     <textarea id="insight" placeholder="Check-in was the bottleneck&#10;The pre-brief worked; keep it"></textarea>
 
-    <div class="step"><span class="k">X</span><h2>Execute<i>What we will do to improve</i></h2></div>
-    <p class="hint">Each action gets an owner (duty position) and a due date.</p>
+    <h2 class="step"><b>EXECUTE</b>what will improve it. (Action, owner, due)</h2>
     <div id="acts"></div>
     <button type="button" class="add" id="addAct">+ Add action</button>
   </div>
@@ -149,9 +144,9 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
       head: act || "Event",
       meta: [...(type ? [["Type", type]] : []), ["Event date", date || "N/A"], ["Mission ID", $("mission").value.trim() || "N/A"]],
       sections: [
-        ["SAW", "what we observed", lines("saw")],
-        ["INSIGHT", "what we learned", lines("insight")],
-        ["EXECUTE", "what we will do to improve", acts().map(actText)]
+        ["SAW", "what was observed", lines("saw")],
+        ["INSIGHT", "what was learned", lines("insight")],
+        ["EXECUTE", "what will improve it", acts().map(actText)]
       ],
       by: [$("by").value.trim(), $("capid").value.trim() && `CAPID ${$("capid").value.trim()}`].filter(Boolean).join(", ")
     };

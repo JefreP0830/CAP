@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.4 - 2026-11-22
+
+- Each section title is one line: full word in bold CAP blue, then a smaller prompt (e.g. SAW what was observed. (Facts only)). Email labels match.
+
 ## 1.2.3 - 2026-11-22
 
 - Facilitator row split: CAPID (left) and Facilitator last name (right). Email reads "Facilitator: Last name, CAPID 000000".
