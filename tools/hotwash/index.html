@@ -71,7 +71,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
   <div class="in">
     <div class="row2">
       <label class="f"><span>Event title</span><input id="activity" autocomplete="off"></label>
-      <label class="f"><span>Date</span><input id="date" type="date"></label>
+      <label class="f"><span>Event date</span><input id="date" type="date"></label>
     </div>
     <div class="row2">
       <label class="f"><span>Mission ID</span><input id="mission" autocomplete="off" placeholder="Enter ID or leave blank"></label>
@@ -144,7 +144,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
     return {
       subject: ["Hotwash", act, date].filter(Boolean).join(" - "),
       head: act || "Event",
-      meta: [...(type ? [["Type", type]] : []), ["Date", date || "N/A"], ["Mission ID", $("mission").value.trim() || "N/A"]],
+      meta: [...(type ? [["Type", type]] : []), ["Event date", date || "N/A"], ["Mission ID", $("mission").value.trim() || "N/A"]],
       sections: [
         ["SAW", "what we observed", lines("saw")],
         ["INSIGHT", "what we learned", lines("insight")],
@@ -174,7 +174,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
     if (m.by) h += `<p style="margin:14px 0 0;color:#4D4D4D">Facilitator: ${esc(m.by)}</p>`;
     return h + "</div>";
   }
-  const hasContent = () => ["activity", "mission", "by", "saw", "insight"].some(id => $(id).value.trim()) || acts().length;
+  const hasContent = () => ["activity", "date", "mission", "by", "saw", "insight"].some(id => $(id).value.trim()) || acts().length;
 
   function render() {
     const m = model();
@@ -220,7 +220,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
   });
   $("clear").addEventListener("click", () => {
     if (hasContent() && !confirm("Clear the hotwash? Nothing is saved.")) return;
-    ["activity", "mission", "by", "saw", "insight"].forEach(id => $(id).value = "");
+    ["activity", "date", "mission", "by", "saw", "insight"].forEach(id => $(id).value = "");
     document.querySelectorAll("input[name=mode]").forEach(i => i.checked = false);
     $("acts").innerHTML = ""; for (let i = 0; i < 3; i++) addAct();
     render();
@@ -228,8 +228,6 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
   window.addEventListener("beforeunload", e => { if (hasContent()) { e.preventDefault(); e.returnValue = ""; } });
 
   for (let i = 0; i < 3; i++) addAct();
-  const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-  $("date").value = d.toISOString().slice(0, 10);
   render();
 })();
 </script>

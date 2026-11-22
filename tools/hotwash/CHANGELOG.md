@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1 - 2026-11-22
+
+- Date is now Event date, blank by default (the email's own send date records when it went out). Blank prints N/A.
+
 ## 1.2.0 - 2026-11-22
 
 - Meeting / Non-meeting choice removed: one Event title field for every hotwash.
