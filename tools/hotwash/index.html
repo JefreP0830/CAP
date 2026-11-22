@@ -48,7 +48,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
 .act button:hover{color:var(--ink)}
 .add{font:inherit;font-size:12px;color:var(--blue);background:none;border:0;padding:4px 0;cursor:pointer}
 
-.out h2{margin:0 0 6px;font-weight:400;font-size:16px;color:var(--head);border-bottom:1.5px solid var(--head);padding-bottom:3px}
+.out h2{margin:0 0 3px;font-weight:400;font-size:12px;color:var(--head);letter-spacing:.02em}
 .subj{display:flex;gap:8px;align-items:center;margin-bottom:8px}
 .subj input{flex:1;background:var(--tint)}
 .preview{border:1px solid var(--rule);border-radius:3px;padding:14px 16px;min-height:220px;font-family:Arial,Helvetica,sans-serif;font-size:14.67px;color:#222;line-height:1.35;background:var(--paper)}
@@ -98,7 +98,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
   </div>
 
   <div class="out">
-    <h2>Email</h2>
+    <h2>Email title</h2>
     <div class="subj"><input id="subject" readonly aria-label="Email subject"><button type="button" class="btn" id="copySubj">Copy subject</button></div>
     <div class="preview" id="preview"></div>
     <div class="btns">
@@ -140,7 +140,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
   function model() {
     const act = $("activity").value.trim(), date = fmtDate(), type = radio("mode");
     return {
-      subject: ["Hotwash", act, date].filter(Boolean).join(" - "),
+      subject: "Hotwash : " + [act, date].filter(Boolean).join(" "),
       head: act || "Event",
       meta: [...(type ? [["Type", type]] : []), ["Event date", date || "N/A"], ["Mission ID", $("mission").value.trim() || "N/A"]],
       sections: [

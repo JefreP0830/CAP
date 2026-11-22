@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.2 - 2026-11-22
+
+- "Email title" label at field-label size; subject reads "Hotwash : <event title> <event date>".
+
 ## 1.3.1 - 2026-11-22
 
 - Example text removed from Saw and Insight; every text field now shows a plain "Enter ..." prompt.
