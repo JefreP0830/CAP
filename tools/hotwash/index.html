@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Hotwash</title>
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap">
+<style>
+/* Tokens copied from shared/brand/cap-brand.css (CAP Brand Portal / CAPR 900-2). */
+:root{
+  --paper:#FFFFFF; --ink:#4D4D4D; --head:#63666A; --rule:#9EA2A2; --tint:#F1F2F2; --field:#F4F5F5;
+  --blue:#001489; --yellow:#FFCD00;
+  --f-title:"Rajdhani", Arial, sans-serif; --f-body:Arial, Helvetica, sans-serif;
+  color-scheme:light;
+}
+html,body{margin:0;background:var(--paper);color:var(--ink)}
+body{font-family:var(--f-body);font-size:14.67px;line-height:1.2}
+.bar{display:flex;align-items:center;gap:12px;padding:12px max(16px, env(safe-area-inset-left, 0px));border-bottom:3px solid var(--blue)}
+.bar a{color:var(--blue);text-decoration:none}
+.bar h1{flex:1;margin:0;font:600 22px var(--f-title);color:var(--blue)}
+.wrap{max-width:1040px;margin:0 auto;padding:18px max(16px, env(safe-area-inset-left, 0px)) 40px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
+@media (max-width:820px){.wrap{grid-template-columns:1fr}}
+
+.mn{margin:0 0 14px;font-size:13.33px;color:var(--ink);grid-column:1/-1;max-width:80ch}
+.mn b{font:700 16px var(--f-title);color:var(--blue);letter-spacing:.04em}
+
+.f{display:flex;flex-direction:column;gap:3px;margin-bottom:10px}
+.f > span{font-size:12px;color:var(--head);letter-spacing:.02em}
+input,textarea{font:inherit;color:#000;border:0;border-bottom:1px solid var(--rule);background:var(--field);padding:7px 8px;border-radius:2px 2px 0 0;min-width:0}
+textarea{display:block;width:100%;box-sizing:border-box;min-height:5.2em;resize:vertical;line-height:1.3}
+input:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+.row2{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+
+.step{margin:16px 0 4px;border-bottom:1.5px solid var(--head);padding-bottom:3px;display:flex;align-items:baseline;gap:10px}
+.step .k{font:700 22px/1 var(--f-title);color:var(--blue);width:18px}
+.step h2{margin:0;font-weight:400;font-size:16px;color:var(--head)}
+.step h2 i{font-style:normal;font-size:13.33px;margin-left:6px}
+.hint{font-size:12px;color:var(--head);margin:4px 0 6px}
+
+.act{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1.2fr) minmax(0,1fr) 24px;gap:6px;margin-bottom:6px}
+.act button{border:0;background:none;color:var(--rule);font-size:16px;cursor:pointer;padding:0}
+.act button:hover{color:var(--ink)}
+.add{font:inherit;font-size:12px;color:var(--blue);background:none;border:0;padding:4px 0;cursor:pointer}
+
+.out h2{margin:0 0 6px;font-weight:400;font-size:16px;color:var(--head);border-bottom:1.5px solid var(--head);padding-bottom:3px}
+.subj{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.subj input{flex:1;background:var(--tint)}
+.preview{border:1px solid var(--rule);border-radius:3px;padding:14px 16px;min-height:220px;font-family:Arial,Helvetica,sans-serif;font-size:14.67px;color:#222;line-height:1.35;background:var(--paper)}
+.preview .empty{color:#8A8D8F}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.btn{font:inherit;font-size:13.33px;height:36px;box-sizing:border-box;color:var(--blue);background:var(--paper);border:1px solid var(--blue);border-radius:3px;padding:0 14px;cursor:pointer}
+.btn.primary{color:#FFFFFF;background:var(--blue)}
+.status{font-size:12px;color:var(--head);min-height:1.2em;margin-top:6px}
+.fine{font-size:12px;color:var(--head);margin-top:14px;line-height:1.45}
+</style>
+</head>
+<body>
+<div class="bar"><a href="../../">CAP Tools</a><h1>Hotwash</h1></div>
+
+<div class="wrap">
+  <p class="mn"><b>CHECK SIX</b> &nbsp;Pilots check six o'clock to see what is behind them. A hotwash does the same, in three parts:
+    <b>S</b>aw, <b>I</b>nsight, e<b>X</b>ecute. Run it before people leave; ten minutes is enough. One item per line.</p>
+
+  <div class="in">
+    <div class="row2">
+      <label class="f"><span>Activity</span><input id="activity" autocomplete="off" placeholder="Weekly meeting, FTX, CommEx..."></label>
+      <label class="f"><span>Date</span><input id="date" type="date"></label>
+    </div>
+    <label class="f"><span>Facilitator (grade and name)</span><input id="by" autocomplete="off"></label>
+
+    <div class="step"><span class="k">S</span><h2>Saw<i>What we observed</i></h2></div>
+    <p class="hint">Facts only: what happened, numbers, times. No names attached to mistakes.</p>
+    <textarea id="saw" placeholder="Started 12 minutes late; sign-in line backed up&#10;All 14 cadets passed the uniform inspection"></textarea>
+
+    <div class="step"><span class="k">I</span><h2>Insight<i>What we learned</i></h2></div>
+    <p class="hint">Why it happened. What to keep doing, and what to change.</p>
+    <textarea id="insight" placeholder="One sign-in sheet for 30 people is the bottleneck&#10;Pre-inspection by flight sergeants works; keep it"></textarea>
+
+    <div class="step"><span class="k">X</span><h2>Execute<i>What we will do to improve</i></h2></div>
+    <p class="hint">Each action gets an owner (duty position) and a due date.</p>
+    <div id="acts"></div>
+    <button type="button" class="add" id="addAct">+ Add action</button>
+  </div>
+
+  <div class="out">
+    <h2>Email</h2>
+    <div class="subj"><input id="subject" readonly aria-label="Email subject"><button type="button" class="btn" id="copySubj">Copy subject</button></div>
+    <div class="preview" id="preview"></div>
+    <div class="btns">
+      <button type="button" class="btn primary" id="copyBody">Copy email</button>
+      <button type="button" class="btn" id="mailto">Open in mail app</button>
+      <button type="button" class="btn" id="clear">Clear</button>
+    </div>
+    <div class="status" id="status" role="status"></div>
+    <p class="fine">Copy email puts formatted text on the clipboard; paste it into Gmail or Outlook. Open in mail app starts a plain-text message. Nothing typed here is saved. A hotwash is the quick version; use the After Action Review for the full write-up.</p>
+  </div>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const $ = id => document.getElementById(id);
+  const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const lines = id => $(id).value.split(/\r?\n/).map(s => s.replace(/^\s*[-*•]\s*/, "").trim()).filter(Boolean);
+
+  function addAct(focus) {
+    const d = document.createElement("div");
+    d.className = "act";
+    d.innerHTML = `<input aria-label="Action" placeholder="Action"><input aria-label="Owner" placeholder="Owner"><input aria-label="Due" placeholder="Due"><button type="button" aria-label="Remove action">&times;</button>`;
+    $("acts").appendChild(d);
+    if (focus) d.querySelector("input").focus();
+  }
+  const acts = () => [...$("acts").children].map(r => [...r.querySelectorAll("input")].map(i => i.value.trim())).filter(a => a[0]);
+
+  function fmtDate() {
+    const v = $("date").value;
+    if (!v) return "";
+    const [y, m, d] = v.split("-").map(Number);
+    return `${d} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][m - 1]} ${y}`;
+  }
+  function actText(a) {
+    const tail = [a[1] && `Owner: ${a[1]}`, a[2] && `Due: ${a[2]}`].filter(Boolean).join(", ");
+    return tail ? `${a[0]} (${tail})` : a[0];
+  }
+  function model() {
+    const act = $("activity").value.trim(), date = fmtDate();
+    return {
+      subject: ["Hotwash", act, date].filter(Boolean).join(" - "),
+      head: [act || "Activity", date].filter(Boolean).join(", "),
+      sections: [
+        ["SAW", "what we observed", lines("saw")],
+        ["INSIGHT", "what we learned", lines("insight")],
+        ["EXECUTE", "what we will do to improve", acts().map(actText)]
+      ],
+      by: $("by").value.trim()
+    };
+  }
+  function plain(m) {
+    let t = `HOTWASH: ${m.head}\n`;
+    for (const [k, sub, items] of m.sections) {
+      t += `\n${k} (${sub})\n`;
+      t += items.length ? items.map(i => `- ${i}`).join("\n") + "\n" : "- None noted\n";
+    }
+    if (m.by) t += `\nFacilitator: ${m.by}\n`;
+    return t;
+  }
+  function html(m) {
+    const H = 'style="margin:14px 0 4px;font-family:Arial,sans-serif;font-size:14px;color:#001489;font-weight:bold"';
+    let h = `<div style="font-family:Arial,sans-serif;font-size:14px;color:#222">`;
+    h += `<p style="margin:0 0 4px;font-size:16px;color:#001489;font-weight:bold">HOTWASH: ${esc(m.head)}</p>`;
+    for (const [k, sub, items] of m.sections) {
+      h += `<p ${H}>${k} <span style="font-weight:normal;color:#63666A">(${sub})</span></p>`;
+      h += `<ul style="margin:0;padding-left:20px">${(items.length ? items : ["None noted"]).map(i => `<li>${esc(i)}</li>`).join("")}</ul>`;
+    }
+    if (m.by) h += `<p style="margin:14px 0 0;color:#4D4D4D">Facilitator: ${esc(m.by)}</p>`;
+    return h + "</div>";
+  }
+  const hasContent = () => ["activity", "by", "saw", "insight"].some(id => $(id).value.trim()) || acts().length;
+
+  function render() {
+    const m = model();
+    $("subject").value = m.subject;
+    $("preview").innerHTML = hasContent() ? html(m) : `<span class="empty">Your email appears here as you type.</span>`;
+  }
+  function say(msg) { $("status").textContent = msg; clearTimeout(say.t); say.t = setTimeout(() => $("status").textContent = "", 4000); }
+
+  async function copy(htmlStr, text, what) {
+    try {
+      if (htmlStr && window.ClipboardItem) {
+        await navigator.clipboard.write([new ClipboardItem({
+          "text/html": new Blob([htmlStr], { type: "text/html" }),
+          "text/plain": new Blob([text], { type: "text/plain" })
+        })]);
+      } else {
+        await navigator.clipboard.writeText(text);
+      }
+      say(`${what} copied.`);
+    } catch {
+      // Fallback for browsers that block the async clipboard (e.g. file:// pages).
+      const ta = document.createElement("textarea");
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      const ok = document.execCommand("copy"); ta.remove();
+      say(ok ? `${what} copied as plain text.` : "Copy blocked by the browser. Select the preview and copy it by hand.");
+    }
+  }
+
+  $("addAct").addEventListener("click", () => { addAct(true); render(); });
+  $("acts").addEventListener("click", e => {
+    if (e.target.tagName !== "BUTTON") return;
+    if ($("acts").children.length > 1) e.target.parentElement.remove();
+    else e.target.parentElement.querySelectorAll("input").forEach(i => i.value = "");
+    render();
+  });
+  document.addEventListener("input", render);
+  $("copySubj").addEventListener("click", () => copy(null, $("subject").value, "Subject"));
+  $("copyBody").addEventListener("click", () => { const m = model(); copy(html(m), plain(m), "Email"); });
+  $("mailto").addEventListener("click", () => {
+    const m = model();
+    location.href = `mailto:?subject=${encodeURIComponent(m.subject)}&body=${encodeURIComponent(plain(m))}`;
+  });
+  $("clear").addEventListener("click", () => {
+    if (hasContent() && !confirm("Clear the hotwash? Nothing is saved.")) return;
+    ["activity", "by", "saw", "insight"].forEach(id => $(id).value = "");
+    $("acts").innerHTML = ""; for (let i = 0; i < 3; i++) addAct();
+    render();
+  });
+  window.addEventListener("beforeunload", e => { if (hasContent()) { e.preventDefault(); e.returnValue = ""; } });
+
+  for (let i = 0; i < 3; i++) addAct();
+  const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+  $("date").value = d.toISOString().slice(0, 10);
+  render();
+})();
+</script>
+</body>
+</html>
