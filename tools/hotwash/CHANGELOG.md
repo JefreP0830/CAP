@@ -2,7 +2,7 @@
 
 ## 1.3.3 - 2026-11-22
 
-- Email carries a CHECK SIX line under the title bar: (S)aw · (I)nsight · e(X)ecute.
+- Title bar carries a gray italic byline: Check your SIX.
 
 ## 1.3.2 - 2026-11-22
 
