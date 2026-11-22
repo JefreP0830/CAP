@@ -13,5 +13,5 @@ Pilots check six o'clock to see what is behind them.
 | I | Insight | What we learned: why it happened, what to keep, what to change |
 | X | eXecute | What we will do to improve: action, owner (duty position), due date |
 
-Copy email puts formatted HTML and plain text on the clipboard. Nothing is saved (D-004).
+Copy puts the email on the clipboard as formatted HTML and plain text. Nothing is saved (D-004).
 Use the After Action Review (`tools/aar/`) for the full write-up.
