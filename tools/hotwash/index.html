@@ -41,7 +41,11 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
 .row2{display:grid;grid-template-columns:2fr 1fr;gap:10px}
 
 .step{margin:16px 0 6px;border-bottom:1.5px solid var(--head);padding-bottom:3px;font-weight:400;font-size:13.33px;color:var(--head);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.step b{font:700 22px/1 var(--f-title);color:var(--blue);letter-spacing:.03em;margin-right:6px}
+.step b{font:700 22px/1 var(--f-title);letter-spacing:.03em;margin-right:6px}
+.step b i{font-style:normal}
+.step .g{color:var(--rule)}
+.step .k{color:#000000}
+.step .r{color:#4050A7} /* CAP Ultramarine at 75% on white */
 .hint{font-size:12px;color:var(--head);margin:4px 0 6px}
 
 .act{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1.2fr) minmax(0,1fr) 24px;gap:6px;margin-bottom:6px}
@@ -87,13 +91,13 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
       <label class="f"><span>Facilitator last name</span><input id="by" autocomplete="off" placeholder="Enter last name"></label>
     </div>
 
-    <h2 class="step"><b>(S)AW</b>what was observed. (Facts only)</h2>
+    <h2 class="step"><b><i class="g">(</i><i class="k">S</i><i class="g">)</i><i class="r">AW</i></b>what was observed. (Facts only)</h2>
     <textarea id="saw" placeholder="Enter observations"></textarea>
 
-    <h2 class="step"><b>(I)NSIGHT</b>what was learned. (Why, keep, change)</h2>
+    <h2 class="step"><b><i class="g">(</i><i class="k">I</i><i class="g">)</i><i class="r">NSIGHT</i></b>what was learned. (Why, keep, change)</h2>
     <textarea id="insight" placeholder="Enter lessons learned"></textarea>
 
-    <h2 class="step"><b>e(X)ECUTE</b>what will improve it. (Action, CAPID, due)</h2>
+    <h2 class="step"><b><i class="r">e</i><i class="g">(</i><i class="k">X</i><i class="g">)</i><i class="r">ECUTE</i></b>what will improve it. (Action, CAPID, due)</h2>
     <div id="acts"></div>
     <button type="button" class="add" id="addAct">+ Add action</button>
   </div>
@@ -145,9 +149,9 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
       head: act || "Event",
       meta: [...(type ? [["Type", type]] : []), ["Event date", date || "N/A"], ["Mission ID", $("mission").value.trim() || "N/A"]],
       sections: [
-        ["(S)AW", "what was observed", lines("saw")],
-        ["(I)NSIGHT", "what was learned", lines("insight")],
-        ["e(X)ECUTE", "what will improve it", acts().map(actText)]
+        [["", "S", "AW"], "what was observed", lines("saw")],
+        [["", "I", "NSIGHT"], "what was learned", lines("insight")],
+        [["e", "X", "ECUTE"], "what will improve it", acts().map(actText)]
       ],
       by: [$("by").value.trim(), $("capid").value.trim() && `CAPID ${$("capid").value.trim()}`].filter(Boolean).join(", ")
     };
@@ -155,7 +159,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
   function plain(m) {
     let t = `HOTWASH: ${m.head}\nCheck your SIX\n` + m.meta.map(([k, v]) => `${k}: ${v}`).join(" | ") + "\n";
     for (const [k, sub, items] of m.sections) {
-      t += `\n${k} (${sub})\n`;
+      t += `\n${k[0]}(${k[1]})${k[2]} (${sub})\n`;
       t += items.length ? items.map(i => `- ${i}`).join("\n") + "\n" : "- None noted\n";
     }
     if (m.by) t += `\nFacilitator: ${m.by}\n`;
@@ -167,7 +171,8 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
     h += `<table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:100%"><tr><td style="background:#001489;color:#FFFFFF;font-family:Arial,sans-serif;font-size:17px;font-weight:bold;padding:10px 14px">HOTWASH: ${esc(m.head)}<div style="margin-top:2px;font-size:13px;font-weight:normal;font-style:italic;color:#C9CCCC">Check your SIX</div></td></tr></table>`;
     h += `<p style="margin:8px 0 0;font-size:13px;color:#4D4D4D">${m.meta.map(([k, v]) => `${k}: ${esc(v)}`).join(" &nbsp;|&nbsp; ")}</p>`;
     for (const [k, sub, items] of m.sections) {
-      h += `<p ${H}>${k} <span style="font-weight:normal;color:#63666A">(${sub})</span></p>`;
+      const lab = `<span style="color:#4050A7">${k[0]}</span><span style="color:#9EA2A2">(</span><span style="color:#000000">${k[1]}</span><span style="color:#9EA2A2">)</span><span style="color:#4050A7">${k[2]}</span>`;
+      h += `<p ${H}>${lab} <span style="font-weight:normal;color:#63666A">(${sub})</span></p>`;
       h += `<ul style="margin:0;padding-left:20px">${(items.length ? items : ["None noted"]).map(i => `<li>${esc(i)}</li>`).join("")}</ul>`;
     }
     if (m.by) h += `<p style="margin:14px 0 0;color:#4D4D4D">Facilitator: ${esc(m.by)}</p>`;

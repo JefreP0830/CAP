@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.4 - 2026-11-22
+
+- Section titles in form and email: gray brackets, black key letter, rest of the word in CAP Ultramarine at 75% (#4050A7).
+
 ## 1.3.3 - 2026-11-22
 
 - Title bar carries a gray italic byline: Check your SIX.
