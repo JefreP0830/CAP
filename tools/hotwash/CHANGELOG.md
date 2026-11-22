@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.0 - 2026-11-22
+
+- Titles read (S)AW, (I)NSIGHT, e(X)ECUTE, in the form and the email.
+- Action owner is now a CAPID, so one person cannot pose as several owners.
+
 ## 1.2.4 - 2026-11-22
 
 - Each section title is one line: full word in bold CAP blue, then a smaller prompt (e.g. SAW what was observed. (Facts only)). Email labels match.

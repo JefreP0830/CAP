@@ -86,13 +86,13 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
       <label class="f"><span>Facilitator last name</span><input id="by" autocomplete="off"></label>
     </div>
 
-    <h2 class="step"><b>SAW</b>what was observed. (Facts only)</h2>
+    <h2 class="step"><b>(S)AW</b>what was observed. (Facts only)</h2>
     <textarea id="saw" placeholder="Started 12 minutes late&#10;All planned tasks completed"></textarea>
 
-    <h2 class="step"><b>INSIGHT</b>what was learned. (Why, keep, change)</h2>
+    <h2 class="step"><b>(I)NSIGHT</b>what was learned. (Why, keep, change)</h2>
     <textarea id="insight" placeholder="Check-in was the bottleneck&#10;The pre-brief worked; keep it"></textarea>
 
-    <h2 class="step"><b>EXECUTE</b>what will improve it. (Action, owner, due)</h2>
+    <h2 class="step"><b>e(X)ECUTE</b>what will improve it. (Action, CAPID, due)</h2>
     <div id="acts"></div>
     <button type="button" class="add" id="addAct">+ Add action</button>
   </div>
@@ -120,7 +120,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
   function addAct(focus) {
     const d = document.createElement("div");
     d.className = "act";
-    d.innerHTML = `<input aria-label="Action" placeholder="Action"><input aria-label="Owner" placeholder="Owner"><input aria-label="Due" placeholder="Due"><button type="button" aria-label="Remove action">&times;</button>`;
+    d.innerHTML = `<input aria-label="Action" placeholder="Action"><input aria-label="Owner CAPID" placeholder="CAPID" inputmode="numeric"><input aria-label="Due" placeholder="Due"><button type="button" aria-label="Remove action">&times;</button>`;
     $("acts").appendChild(d);
     if (focus) d.querySelector("input").focus();
   }
@@ -133,7 +133,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
     return `${d} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][m - 1]} ${y}`;
   }
   function actText(a) {
-    const tail = [a[1] && `Owner: ${a[1]}`, a[2] && `Due: ${a[2]}`].filter(Boolean).join(", ");
+    const tail = [a[1] && `CAPID: ${a[1]}`, a[2] && `Due: ${a[2]}`].filter(Boolean).join(", ");
     return tail ? `${a[0]} (${tail})` : a[0];
   }
   const radio = n => (document.querySelector(`input[name=${n}]:checked`) || {}).value || "";
@@ -144,9 +144,9 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
       head: act || "Event",
       meta: [...(type ? [["Type", type]] : []), ["Event date", date || "N/A"], ["Mission ID", $("mission").value.trim() || "N/A"]],
       sections: [
-        ["SAW", "what was observed", lines("saw")],
-        ["INSIGHT", "what was learned", lines("insight")],
-        ["EXECUTE", "what will improve it", acts().map(actText)]
+        ["(S)AW", "what was observed", lines("saw")],
+        ["(I)NSIGHT", "what was learned", lines("insight")],
+        ["e(X)ECUTE", "what will improve it", acts().map(actText)]
       ],
       by: [$("by").value.trim(), $("capid").value.trim() && `CAPID ${$("capid").value.trim()}`].filter(Boolean).join(", ")
     };
