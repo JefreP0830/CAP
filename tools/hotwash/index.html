@@ -43,7 +43,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
 .step{margin:16px 0 6px;border-bottom:1.5px solid var(--head);padding-bottom:3px;font-weight:400;font-size:13.33px;color:var(--head);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .step b{font:700 22px/1 var(--f-title);letter-spacing:.03em;margin-right:6px}
 .step b i{font-style:normal}
-.step .g{color:var(--rule)}
+.step .g{color:var(--rule);font:400 20px/1 Arial,Helvetica,sans-serif;padding:0 1px}
 .step .k{color:#000000}
 .step .r{color:#4050A7} /* CAP Ultramarine at 75% on white */
 .hint{font-size:12px;color:var(--head);margin:4px 0 6px}
@@ -171,7 +171,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
     h += `<table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:100%"><tr><td style="background:#001489;color:#FFFFFF;font-family:Arial,sans-serif;font-size:17px;font-weight:bold;padding:10px 14px">HOTWASH: ${esc(m.head)}<div style="margin-top:2px;font-size:13px;font-weight:normal;font-style:italic;color:#C9CCCC">Check your SIX</div></td></tr></table>`;
     h += `<p style="margin:8px 0 0;font-size:13px;color:#4D4D4D">${m.meta.map(([k, v]) => `${k}: ${esc(v)}`).join(" &nbsp;|&nbsp; ")}</p>`;
     for (const [k, sub, items] of m.sections) {
-      const lab = `<span style="color:#4050A7">${k[0]}</span><span style="color:#9EA2A2">(</span><span style="color:#000000">${k[1]}</span><span style="color:#9EA2A2">)</span><span style="color:#4050A7">${k[2]}</span>`;
+      const lab = `<span style="color:#4050A7">${k[0]}</span><span style="color:#9EA2A2;font-weight:normal">(</span><span style="color:#000000">${k[1]}</span><span style="color:#9EA2A2;font-weight:normal">)</span><span style="color:#4050A7">${k[2]}</span>`;
       h += `<p ${H}>${lab} <span style="font-weight:normal;color:#63666A">(${sub})</span></p>`;
       h += `<ul style="margin:0;padding-left:20px">${(items.length ? items : ["None noted"]).map(i => `<li>${esc(i)}</li>`).join("")}</ul>`;
     }
