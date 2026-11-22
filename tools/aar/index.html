@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>After Action Review</title>
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap">
+<style>
+/* Tokens copied from shared/brand/cap-brand.css (CAP Brand Portal / CAPR 900-2). */
+:root{
+  --paper:#FFFFFF; --ink:#4D4D4D; --head:#63666A; --rule:#9EA2A2; --tint:#F1F2F2; --field:#F4F5F5;
+  --blue:#001489; --yellow:#FFCD00;
+  --f-title:"Rajdhani", Arial, sans-serif; --f-body:Arial, Helvetica, sans-serif;
+  color-scheme:light;
+}
+html,body{margin:0;background:#EEF0F0;color:var(--ink)}
+body{font-family:var(--f-body);font-size:14.67px;line-height:1.2}
+
+/* ---- screen chrome (never printed) */
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:12px max(16px, env(safe-area-inset-left, 0px));background:var(--paper);border-bottom:3px solid var(--blue)}
+.bar a{color:var(--blue);text-decoration:none;font-size:14.67px}
+.bar h1{flex:1;margin:0;font:600 22px var(--f-title);color:var(--blue);white-space:nowrap}
+.btn{font:inherit;font-size:13.33px;height:36px;box-sizing:border-box;color:var(--blue);background:var(--paper);border:1px solid var(--blue);border-radius:3px;padding:0 12px;cursor:pointer}
+.btn.primary{color:#FFFFFF;background:var(--blue)}
+.btn:focus-visible,.tog input:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.tog{display:flex;align-items:center;gap:8px;font-size:13.33px;color:var(--ink);cursor:pointer}
+.tog input{width:18px;height:18px;accent-color:var(--blue)}
+
+.check{width:816px;max-width:calc(100% - 32px);box-sizing:border-box;margin:16px auto 0;background:var(--paper);border:1px solid #D9DBDB;padding:12px 18px}
+.check h2{margin:0 0 6px;font-weight:400;font-size:14.67px;color:var(--head);letter-spacing:.03em}
+.check ul{margin:0;padding:0;list-style:none;columns:2;column-gap:24px}
+.check li{font-size:13.33px;padding:3px 0 3px 18px;position:relative;break-inside:avoid}
+.check li::before{content:"";position:absolute;left:0;top:6px;width:9px;height:9px;border:1.5px solid var(--rule);border-radius:50%}
+.check li.ok::before{background:var(--blue);border-color:var(--blue)}
+.check li.ok{color:var(--head)}
+.check .fine{margin:8px 0 0;font-size:12px;color:var(--head)}
+
+/* ---- the sheet */
+.sheet{width:816px;max-width:calc(100% - 32px);box-sizing:border-box;margin:16px auto 32px;background:var(--paper);border:1px solid #D9DBDB;box-shadow:0 1px 4px rgba(0,0,0,.14);padding:44px 52px 48px}
+.title{font:700 26.67px/1.05 var(--f-title);color:var(--blue);margin:0;letter-spacing:.01em}
+.byline{margin:2px 0 0;font-size:14.67px;color:var(--ink)}
+h2.sec{margin:20px 0 6px;font-weight:400;font-size:18.67px;color:var(--head);border-bottom:1.5px solid var(--head);padding-bottom:3px}
+h2.sec .q{font-size:13.33px;color:var(--head);margin-left:8px}
+.hint{font-size:12px;color:var(--head);margin:0 0 6px}
+
+.grid{display:grid;gap:8px 12px;margin-top:14px}
+.g3{grid-template-columns:2fr 1fr 1.4fr}
+.g4{grid-template-columns:.8fr 1.4fr 1fr 1.4fr}
+.f{display:flex;flex-direction:column;gap:2px;min-width:0}
+.f > span{font-size:12px;color:var(--head);letter-spacing:.02em}
+.f input,.f select{font:inherit;color:#000;border:0;border-bottom:1px solid var(--rule);background:var(--field);padding:5px 6px;min-width:0;border-radius:2px 2px 0 0}
+.f input:focus-visible,.f select:focus-visible,[contenteditable]:focus-visible,td select:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+.sda-only{display:none}
+body.sda .sda-only{display:flex}
+body.sda li.sda-only{display:list-item}
+
+.area{min-height:4.8em;background:var(--field);border-bottom:1px solid var(--rule);padding:6px 8px;color:#000;white-space:pre-wrap;border-radius:2px 2px 0 0}
+.area.short{min-height:2.6em}
+[contenteditable][data-ph]:empty::before{content:attr(data-ph);color:#8A8D8F}
+
+.chips{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:4px;font-size:13.33px}
+.chips label{display:flex;align-items:center;gap:5px;cursor:pointer}
+.chips input{accent-color:var(--blue);width:15px;height:15px;margin:0}
+.chips .lab{font-size:12px;color:var(--head);letter-spacing:.02em;min-width:56px}
+
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+th{font-weight:400;font-size:12px;color:var(--head);text-align:left;padding:4px 6px;border-bottom:1px solid var(--head);letter-spacing:.02em}
+td{padding:0;border-bottom:1px solid var(--rule);vertical-align:top}
+td [contenteditable]{min-height:1.2em;padding:6px;color:#000;white-space:pre-wrap;word-wrap:break-word}
+td select{font:inherit;font-size:13.33px;color:#000;width:100%;border:0;background:transparent;padding:6px 2px}
+.x{width:24px;text-align:center}
+td.x button{border:0;background:none;color:var(--rule);font:16px var(--f-body);cursor:pointer;padding:6px 0;width:100%}
+td.x button:hover{color:var(--ink)}
+.add{margin-top:6px;font:inherit;font-size:12px;color:var(--blue);background:none;border:0;padding:4px 0;cursor:pointer}
+.add:focus-visible{outline:2px solid var(--blue)}
+.c-topic{width:150px}.c-rate{width:104px}.c-owner{width:150px}.c-due{width:104px}
+
+.refs{font-size:12px;color:var(--head);margin:22px 0 0;border-top:1px solid #D9DBDB;padding-top:8px;line-height:1.5}
+.refs a{color:var(--blue)}
+
+@media (max-width:700px){
+  .sheet{padding:24px 16px}
+  .g3,.g4{grid-template-columns:1fr 1fr}
+  .check ul{columns:1}
+  .c-topic{width:110px}.c-owner{width:100px}
+}
+
+/* ---- print: Letter, chrome off, empty rows and placeholders gone */
+@page{size:Letter;margin:.55in .6in}
+@media print{
+  html,body{background:#FFFFFF}
+  body{font-size:11pt}
+  .bar,.check,.add,.x,.refs,.noprint{display:none !important}
+  :focus,:focus-visible{outline:none !important}
+  [contenteditable]{caret-color:transparent}
+  .sheet{width:auto;max-width:none;margin:0;padding:0;border:0;box-shadow:none}
+  [contenteditable][data-ph]:empty::before{content:""}
+  .f input,.f select,.area{background:none}
+  .f select{appearance:none;-webkit-appearance:none}
+  td select{appearance:none;-webkit-appearance:none}
+  tr.blank{display:none}
+  .chips label.off{display:none}
+  .area:empty{min-height:1.4em}
+  h2.sec{break-after:avoid}
+  tr{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <a href="../../">CAP Tools</a>
+  <h1>After Action Review</h1>
+  <label class="tog"><input type="checkbox" id="sdaToggle"> For a cadet SDA</label>
+  <button type="button" class="btn" id="clearBtn">Clear</button>
+  <button type="button" class="btn primary" id="printBtn">Print / Save PDF</button>
+</div>
+
+<section class="check" id="check" hidden aria-live="polite">
+  <h2>SDA SELF-CHECK &nbsp;(CAPP 60-32 rubric, A1.7)</h2>
+  <ul id="checkList"></ul>
+  <p class="fine">This checks completeness only. Your senior mentor scores the AAR on the CAPP 60-32 rubric (19 of 24 to pass) and judges tone, big-picture value and spelling. This panel does not print.</p>
+</section>
+
+<main class="sheet" id="sheet">
+  <h1 class="title">After Action Review</h1>
+  <p class="byline">Civil Air Patrol</p>
+
+  <div class="grid g3">
+    <label class="f"><span>Activity or project</span><input id="activity" autocomplete="off"></label>
+    <label class="f"><span>Date(s)</span><input id="dates" autocomplete="off"></label>
+    <label class="f"><span>Location</span><input id="location" autocomplete="off"></label>
+  </div>
+  <div class="grid g4">
+    <label class="f"><span>Author grade</span><input id="grade" autocomplete="off"></label>
+    <label class="f"><span>Author last name</span><input id="lastName" autocomplete="off"></label>
+    <label class="f"><span>CAPID</span><input id="capid" inputmode="numeric" autocomplete="off"></label>
+    <label class="f"><span>Duty position</span><input id="duty" autocomplete="off"></label>
+  </div>
+  <div class="grid g4">
+    <label class="f"><span>Unit</span><input id="unit" autocomplete="off"></label>
+    <label class="f"><span>Date prepared</span><input id="prepared" type="date"></label>
+    <label class="f sda-only"><span>SDA for achievement</span>
+      <select id="achievement">
+        <option value=""></option>
+        <option>Achievement 9</option><option>Achievement 10</option><option>Achievement 11</option><option>Achievement 12</option>
+        <option>Achievement 13</option><option>Achievement 14</option><option>Achievement 15</option><option>Achievement 16</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="f" style="margin-top:10px"><span>Key staff (role, grade, name)</span>
+    <div class="area short" contenteditable="true" id="keyStaff" data-ph="Project officer, C/2d Lt Doe; Senior advisor, Capt Roe; Safety, Lt Poe"></div>
+  </div>
+
+  <div class="f" style="margin-top:10px"><span>Input gathered from</span>
+    <div class="chips" id="who">
+      <span class="lab">Who</span>
+      <label><input type="checkbox" value="Participants"> Participants</label>
+      <label><input type="checkbox" value="Cadet staff"> Cadet staff</label>
+      <label><input type="checkbox" value="Senior staff"> Senior staff</label>
+      <label><input type="checkbox" value="Parents"> Parents</label>
+      <label><input type="checkbox" value="Host or facility"> Host or facility</label>
+      <label><input type="checkbox" value="Outside agency"> Outside agency</label>
+    </div>
+    <div class="chips" id="how">
+      <span class="lab">How</span>
+      <label><input type="checkbox" value="Hotwash"> Hotwash</label>
+      <label><input type="checkbox" value="Survey"> Survey</label>
+      <label><input type="checkbox" value="Interviews"> Interviews</label>
+      <label><input type="checkbox" value="Observation and logs"> Observation and logs</label>
+    </div>
+  </div>
+
+  <h2 class="sec">1. Goals and results<span class="q">What was supposed to happen, and did it?</span></h2>
+  <p class="hint noprint">One row per goal. Give the result as data: counts, times, scores, percentages.</p>
+  <table id="goals">
+    <thead><tr><th>Goal</th><th>Measure of success</th><th>Result (data)</th><th class="c-rate">Rating</th><th class="x"></th></tr></thead>
+    <tbody></tbody>
+  </table>
+  <button type="button" class="add" data-add="goals">+ Add goal</button>
+
+  <h2 class="sec">2. What happened<span class="q">The facts, in order</span></h2>
+  <div class="area" contenteditable="true" id="summary" data-ph="Short factual summary in time order. Numbers beat adjectives. No names attached to mistakes."></div>
+
+  <h2 class="sec">3. Sustain<span class="q">What went well, and why</span></h2>
+  <table id="sustain">
+    <thead><tr><th class="c-topic">Topic</th><th>What worked</th><th>Why it worked</th><th class="x"></th></tr></thead>
+    <tbody></tbody>
+  </table>
+  <button type="button" class="add" data-add="sustain">+ Add sustain</button>
+
+  <h2 class="sec">4. Improve<span class="q">What fell short, why, and the fix</span></h2>
+  <table id="improve">
+    <thead><tr><th class="c-topic">Topic</th><th>What fell short</th><th>Root cause and fix</th><th class="x"></th></tr></thead>
+    <tbody></tbody>
+  </table>
+  <button type="button" class="add" data-add="improve">+ Add improve</button>
+
+  <h2 class="sec">5. Action plan<span class="q">Who does what, by when</span></h2>
+  <p class="hint noprint">Name the owner by duty position, not by person, so the action survives a staff change.</p>
+  <table id="actions">
+    <thead><tr><th>Action</th><th class="c-owner">Owner (duty position)</th><th class="c-due">Due</th><th class="x"></th></tr></thead>
+    <tbody></tbody>
+  </table>
+  <button type="button" class="add" data-add="actions">+ Add action</button>
+
+  <h2 class="sec">6. Bottom line for next year's team</h2>
+  <div class="area short" contenteditable="true" id="bottomLine" data-ph="Two or three sentences: the most important thing the next project officer should know."></div>
+
+  <p class="refs">
+    Standards: CAPP 60-32, <i>Staff Duty Analysis Guide</i> (May 2023), §3.7 and rubric A1.7, including the 11-topic AAR content outline;
+    Army TC 25-20, <i>A Leader's Guide to After-Action Reviews</i> (the four questions);
+    FEMA HSEEP improvement plan (action, owner, due date).
+    CAP AAR exemplar: <a href="https://www.gocivilairpatrol.com/programs/cadets/library/cadet-staff-duty-analysis" target="_blank" rel="noopener">Cadet Staff Duty Analysis library</a>.
+    Nothing typed here is saved. Print or save as PDF before closing.
+  </p>
+</main>
+
+<script>
+(() => {
+  "use strict";
+  // CAPP 60-32 AAR content outline: 11 major topics and their subtopics.
+  const TOPICS = {
+    "Goals and objectives": "right goals chosen, degree of success, performance against metrics, opportunities for growth",
+    "Human capital": "staff selection, staff training, roles and structure, registration trends, cadet-senior relations, discipline, awards, special needs, distinguished visitors",
+    "Program": "curriculum, clarity of plans and checklists, instructor fidelity to plan, pacing and challenge, assessment, variety of activities and methods, fun vs. boredom",
+    "Schedule": "sequencing, downtime, operational tempo, time per activity, short-notice changes",
+    "Physical resources": "training space, lodging, meals, host facility and vendors, alternate facilities, equipment",
+    "Transportation": "travel to and from, movement during, adequacy of vehicles, motor pool or bus company",
+    "Communications": "before, during and after; content; points of confusion; web; radio; group texts",
+    "Marketing": "internal publicity before and after, external media, parent communications",
+    "Safety and risk": "hazards identified, controls applied, safety briefings, wingman system, equipment, health services, injuries, vehicle or aircraft mishaps",
+    "Budget": "revenue, scholarships, purchasing, money handling, planned vs. actual cost",
+    "Administration": "registration, in-processing, base access and security, out-processing, credit and graduation, on-site office support"
+  };
+  const RATINGS = ["", "Met", "Partly met", "Not met"];
+  const $ = id => document.getElementById(id);
+
+  const cell = ph => `<td><div contenteditable="true" data-ph="${ph}"></div></td>`;
+  const sel = (opts, cls) => `<td${cls ? ` class="${cls}"` : ""}><select>${opts.map(o => `<option>${o}</option>`).join("")}</select></td>`;
+  const del = `<td class="x"><button type="button" title="Remove row" aria-label="Remove row">&times;</button></td>`;
+  const topicSel = sel(["", ...Object.keys(TOPICS), "Other"]);
+
+  const ROWS = {
+    goals:   () => cell("e.g., Qualify 8 cadets in CAPT 116") + cell("8 of 8 pass") + cell("7 passed (88%)") + sel(RATINGS) + del,
+    sustain: () => topicSel + cell("What worked") + cell("Why it worked, so it can be repeated") + del,
+    improve: () => topicSel + cell("What fell short") + cell("Root cause, then the fix") + del,
+    actions: () => cell("Specific action") + cell("e.g., Cadet Logistics") + cell("Date") + del
+  };
+  const START = { goals: 3, sustain: 3, improve: 3, actions: 3 };
+
+  function addRow(id) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = ROWS[id]();
+    $(id).tBodies[0].appendChild(tr);
+    return tr;
+  }
+  function resetTables() {
+    for (const id in START) {
+      $(id).tBodies[0].innerHTML = "";
+      for (let i = 0; i < START[id]; i++) addRow(id);
+    }
+  }
+
+  // Topic choice swaps in that topic's subtopics as the prompt (CAPP 60-32 asks for 3 per topic).
+  document.addEventListener("change", e => {
+    const s = e.target;
+    if (s.tagName === "SELECT" && s.closest("#sustain, #improve")) {
+      const first = s.closest("tr").querySelector("[contenteditable]");
+      const t = TOPICS[s.value];
+      first.dataset.ph = t ? "Cover 3 of: " + t : (s.closest("#sustain") ? "What worked" : "What fell short");
+    }
+    update();
+  });
+  document.addEventListener("input", update);
+  document.addEventListener("click", e => {
+    const a = e.target.closest("[data-add]");
+    if (a) { addRow(a.dataset.add).querySelector("[contenteditable], select").focus(); update(); return; }
+    const x = e.target.closest("td.x button");
+    if (x) {
+      const tbody = x.closest("tbody");
+      if (tbody.rows.length > 1) x.closest("tr").remove();
+      else x.closest("tr").querySelectorAll("[contenteditable]").forEach(c => c.textContent = "");
+      update();
+    }
+  });
+  // Paste as plain text only.
+  document.addEventListener("paste", e => {
+    if (!e.target.closest("[contenteditable]")) return;
+    e.preventDefault();
+    document.execCommand("insertText", false, (e.clipboardData || window.clipboardData).getData("text/plain"));
+  });
+
+  const txt = el => (el.innerText || el.value || "").trim();
+  const words = s => (s.match(/[A-Za-z0-9][A-Za-z0-9'’.%/-]*/g) || []).length;
+  const rowsOf = id => [...$(id).tBodies[0].rows].map(r => ({
+    tr: r,
+    cells: [...r.querySelectorAll("[contenteditable]")].map(txt),
+    sel: [...r.querySelectorAll("select")].map(s => s.value)
+  }));
+  const filled = r => r.cells.some(Boolean);
+  const checked = id => [...$(id).querySelectorAll("input:checked")].length;
+
+  function update() {
+    // Mark blank rows and unchecked chips so they drop out of the printout.
+    for (const id in START) rowsOf(id).forEach(r => r.tr.classList.toggle("blank", !filled(r)));
+    document.querySelectorAll(".chips label").forEach(l => l.classList.toggle("off", !l.querySelector("input").checked));
+
+    if (!document.body.classList.contains("sda")) return;
+    const goals = rowsOf("goals").filter(filled);
+    const sus = rowsOf("sustain").filter(filled), imp = rowsOf("improve").filter(filled);
+    const topics = new Set([...sus, ...imp].map(r => r.sel[0]).filter(t => t && t !== "Other"));
+    const narrative = [...document.querySelectorAll(".sheet [contenteditable]")].map(txt).join(" ");
+    const wc = words(narrative);
+    const items = [
+      [txt($("lastName")) && txt($("capid")) && $("achievement").value, "Author last name, CAPID and achievement"],
+      [txt($("activity")) && txt($("dates")) && txt($("keyStaff")), "Labels activity, dates, key staff and author (item 1)"],
+      [goals.length && goals.every(r => r.cells[0] && r.cells[2] && r.sel[0]), "Each goal has a result and a rating (items 2, 7)"],
+      [words(txt($("summary"))) >= 60, "What happened is a factual summary of 60+ words (item 3)"],
+      [sus.some(r => r.cells[0] && r.cells[1]), "At least one sustain, with why (item 4)"],
+      [imp.some(r => r.cells[0] && r.cells[1]), "At least one improve, with how (item 5)"],
+      [topics.size >= 5, `Covers 5 of the 11 outline topics: ${topics.size} so far (item 8)`],
+      [checked("who") >= 3, "Input from 3 or more stakeholder groups (item 10)"],
+      [rowsOf("actions").some(r => r.cells[0] && r.cells[1]), "Action plan names an owner (item 12)"],
+      [wc >= 500 && wc <= 700, `About 500 to 700 words: ${wc} now (§3.7)`]
+    ];
+    $("checkList").innerHTML = items.map(([ok, label]) => `<li class="${ok ? "ok" : ""}">${label}</li>`).join("");
+  }
+
+  function setSda(on) {
+    document.body.classList.toggle("sda", on);
+    $("check").hidden = !on;
+    update();
+  }
+  $("sdaToggle").addEventListener("change", e => setSda(e.target.checked));
+
+  function anyContent() {
+    return [...document.querySelectorAll(".sheet [contenteditable]")].some(c => txt(c)) ||
+      [...document.querySelectorAll(".sheet input:not([type=checkbox]):not([type=date])")].some(i => i.value.trim());
+  }
+  $("clearBtn").addEventListener("click", () => {
+    if (anyContent() && !confirm("Clear the whole form? Nothing is saved, so this cannot be undone.")) return;
+    document.querySelectorAll(".sheet input").forEach(i => { if (i.type === "checkbox") i.checked = false; else i.value = ""; });
+    document.querySelectorAll(".sheet [contenteditable]").forEach(c => c.textContent = "");
+    $("achievement").value = "";
+    resetTables();
+    $("prepared").valueAsDate = new Date();
+    update();
+  });
+  $("printBtn").addEventListener("click", () => { document.activeElement && document.activeElement.blur(); update(); window.print(); });
+  window.addEventListener("beforeprint", update);
+  // Nothing persists (repo decision D-004), so warn before the page is closed with work on it.
+  window.addEventListener("beforeunload", e => { if (anyContent()) { e.preventDefault(); e.returnValue = ""; } });
+
+  resetTables();
+  const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+  $("prepared").value = d.toISOString().slice(0, 10);
+  if (new URLSearchParams(location.search).has("sda")) { $("sdaToggle").checked = true; setSda(true); }
+  update();
+})();
+</script>
+</body>
+</html>
