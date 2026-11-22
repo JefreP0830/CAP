@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.0 - 2026-11-22
+
+- Meeting / Non-meeting choice removed: one Event title field for every hotwash.
+- Live / Training is now optional and always shown beside Mission ID; omitted from the email when not picked.
+
 ## 1.1.0 - 2026-11-22
 
 - Meeting / Non-meeting choice; Non-meeting asks for the event or activity name and Live or Training.
