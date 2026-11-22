@@ -36,6 +36,7 @@ input:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px soli
 .radios label{display:flex;align-items:center;gap:6px;cursor:pointer}
 .radios input{accent-color:var(--blue);width:16px;height:16px;margin:0}
 input::placeholder,textarea::placeholder{color:#8A8D8F}
+.row2.even{grid-template-columns:1fr 1fr}
 .row2{display:grid;grid-template-columns:2fr 1fr;gap:10px}
 
 .step{margin:16px 0 4px;border-bottom:1.5px solid var(--head);padding-bottom:3px;display:flex;align-items:baseline;gap:10px}
@@ -82,7 +83,10 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
         </div>
       </div>
     </div>
-    <label class="f"><span>Facilitator (grade and name)</span><input id="by" autocomplete="off"></label>
+    <div class="row2 even">
+      <label class="f"><span>CAPID</span><input id="capid" inputmode="numeric" autocomplete="off"></label>
+      <label class="f"><span>Facilitator last name</span><input id="by" autocomplete="off"></label>
+    </div>
 
     <div class="step"><span class="k">S</span><h2>Saw<i>What we observed</i></h2></div>
     <p class="hint">Facts only: what happened, numbers, times. No names attached to mistakes.</p>
@@ -149,7 +153,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
         ["INSIGHT", "what we learned", lines("insight")],
         ["EXECUTE", "what we will do to improve", acts().map(actText)]
       ],
-      by: $("by").value.trim()
+      by: [$("by").value.trim(), $("capid").value.trim() && `CAPID ${$("capid").value.trim()}`].filter(Boolean).join(", ")
     };
   }
   function plain(m) {
@@ -173,7 +177,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
     if (m.by) h += `<p style="margin:14px 0 0;color:#4D4D4D">Facilitator: ${esc(m.by)}</p>`;
     return h + "</div>";
   }
-  const hasContent = () => ["activity", "date", "mission", "by", "saw", "insight"].some(id => $(id).value.trim()) || acts().length;
+  const hasContent = () => ["activity", "date", "mission", "capid", "by", "saw", "insight"].some(id => $(id).value.trim()) || acts().length;
 
   function render() {
     const m = model();
@@ -215,7 +219,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
   $("copyBody").addEventListener("click", () => { const m = model(); copy(html(m), plain(m), "Email text"); });
   $("clear").addEventListener("click", () => {
     if (hasContent() && !confirm("Clear the hotwash? Nothing is saved.")) return;
-    ["activity", "date", "mission", "by", "saw", "insight"].forEach(id => $(id).value = "");
+    ["activity", "date", "mission", "capid", "by", "saw", "insight"].forEach(id => $(id).value = "");
     document.querySelectorAll("input[name=mode]").forEach(i => i.checked = false);
     $("acts").innerHTML = ""; for (let i = 0; i < 3; i++) addAct();
     render();

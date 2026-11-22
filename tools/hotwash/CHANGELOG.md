@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.3 - 2026-11-22
+
+- Facilitator row split: CAPID (left) and Facilitator last name (right). Email reads "Facilitator: Last name, CAPID 000000".
+
 ## 1.2.2 - 2026-11-22
 
 - One Copy button for the email; Open in mail app removed.
