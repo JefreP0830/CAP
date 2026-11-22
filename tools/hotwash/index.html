@@ -69,7 +69,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
 
   <div class="in">
     <div class="row2">
-      <label class="f"><span>Event title</span><input id="activity" autocomplete="off"></label>
+      <label class="f"><span>Event title</span><input id="activity" autocomplete="off" placeholder="Enter event title"></label>
       <label class="f"><span>Event date</span><input id="date" type="date"></label>
     </div>
     <div class="row2">
@@ -82,15 +82,15 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
       </div>
     </div>
     <div class="row2 even">
-      <label class="f"><span>CAPID</span><input id="capid" inputmode="numeric" autocomplete="off"></label>
-      <label class="f"><span>Facilitator last name</span><input id="by" autocomplete="off"></label>
+      <label class="f"><span>CAPID</span><input id="capid" inputmode="numeric" autocomplete="off" placeholder="Enter CAPID"></label>
+      <label class="f"><span>Facilitator last name</span><input id="by" autocomplete="off" placeholder="Enter last name"></label>
     </div>
 
     <h2 class="step"><b>(S)AW</b>what was observed. (Facts only)</h2>
-    <textarea id="saw" placeholder="Started 12 minutes late&#10;All planned tasks completed"></textarea>
+    <textarea id="saw" placeholder="Enter one observation per line"></textarea>
 
     <h2 class="step"><b>(I)NSIGHT</b>what was learned. (Why, keep, change)</h2>
-    <textarea id="insight" placeholder="Check-in was the bottleneck&#10;The pre-brief worked; keep it"></textarea>
+    <textarea id="insight" placeholder="Enter one lesson per line"></textarea>
 
     <h2 class="step"><b>e(X)ECUTE</b>what will improve it. (Action, CAPID, due)</h2>
     <div id="acts"></div>
@@ -120,7 +120,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
   function addAct(focus) {
     const d = document.createElement("div");
     d.className = "act";
-    d.innerHTML = `<input aria-label="Action" placeholder="Action"><input aria-label="Owner CAPID" placeholder="CAPID" inputmode="numeric"><input aria-label="Due" placeholder="Due"><button type="button" aria-label="Remove action">&times;</button>`;
+    d.innerHTML = `<input aria-label="Action" placeholder="Enter action"><input aria-label="Owner CAPID" placeholder="Enter CAPID" inputmode="numeric"><input aria-label="Due" placeholder="Enter due"><button type="button" aria-label="Remove action">&times;</button>`;
     $("acts").appendChild(d);
     if (focus) d.querySelector("input").focus();
   }

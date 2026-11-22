@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.1 - 2026-11-22
+
+- Example text removed from Saw and Insight; every text field now shows a plain "Enter ..." prompt.
+
 ## 1.3.0 - 2026-11-22
 
 - Titles read (S)AW, (I)NSIGHT, e(X)ECUTE, in the form and the email.
