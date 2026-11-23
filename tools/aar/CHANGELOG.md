@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.1 - 2026-11-22
+
+- Sustains tag on a green tint, Improves tag on a red tint (prints in color).
+
 ## 2.0.0 - 2026-11-22
 
 - Rebuilt to match Jef's original Antigravity AAR form, part for part and field for field,

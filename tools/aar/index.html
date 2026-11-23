@@ -45,7 +45,9 @@ section.part{margin-top:16px}
 
 .sub{margin-top:10px}
 .sub-title{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:14.67px;color:#000;margin-bottom:4px}
-.sub-title .tag{font-size:11px;color:var(--head);letter-spacing:.03em;text-transform:uppercase;white-space:nowrap}
+.sub-title .tag{font-size:11px;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap;padding:2px 8px;border-radius:2px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.tag.sustain{background:#E3F1E6;color:#1E6B34}
+.tag.improve{background:#F7E1E6;color:#BA0C2F}
 .prompt{font-size:12px;color:var(--head);margin:0 0 6px;line-height:1.35}
 .prompt b{font-weight:700;color:var(--ink)}
 
@@ -196,7 +198,7 @@ td{padding:4px 4px;border-bottom:1px solid var(--line);vertical-align:top}
     <p class="prompt"><b>Analysis Principles:</b> Conduct an objective, blameless evaluation focused on systemic processes, resource allocation, communication pathways, and procedural execution across key operational domains (e.g., Goals &amp; Objectives, Human Capital, Program/Curriculum, Schedule &amp; Tempo, Logistics, Transportation, Communications, Safety &amp; Risk Management, Budget, Administration).</p>
 
     <div class="sub">
-      <div class="sub-title"><span>1. What Went Well and Why? (Sustains)</span><span class="tag">Success Factors &amp; Repeatable Processes</span></div>
+      <div class="sub-title"><span>1. What Went Well and Why? (Sustains)</span><span class="tag sustain">Success Factors &amp; Repeatable Processes</span></div>
       <p class="prompt">Identify specific procedures, preparations, equipment, leadership decisions, or inter-team dynamics that produced success. Explain the <b>cause-and-effect</b> mechanism so it can be institutionalized for future activities.</p>
       <table>
         <thead><tr><th>Success Factor (What worked?)</th><th>Root Cause (Why did it work?)</th></tr></thead>
@@ -205,7 +207,7 @@ td{padding:4px 4px;border-bottom:1px solid var(--line);vertical-align:top}
     </div>
 
     <div class="sub">
-      <div class="sub-title"><span>2. What Did Not Go as Planned and Why? (Improves)</span><span class="tag">Fail Points &amp; Root Cause Analysis</span></div>
+      <div class="sub-title"><span>2. What Did Not Go as Planned and Why? (Improves)</span><span class="tag improve">Fail Points &amp; Root Cause Analysis</span></div>
       <p class="prompt">Analyze friction points, operational delays, resource bottlenecks, or communication breakdowns. Identify the <b>underlying systemic root cause</b> (inadequate planning, unclear expectations, resource deficit, or external dependencies) rather than assessing personal blame.</p>
       <table>
         <thead><tr><th>Fail Point (What went wrong?)</th><th>Root Cause (Why did the failure occur?)</th></tr></thead>
