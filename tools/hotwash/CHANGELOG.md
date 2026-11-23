@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.6.0 - 2026-11-22
+
+- by WHEN is a date picker, fixed at 140px so the full date shows; Do WHAT takes the rest of the row. Email still shows the date as DD MMM.
+
 ## 1.5.7 - 2026-11-22
 
 - Action dates in the email bold, CAP Scarlet Red.

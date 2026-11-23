@@ -11,7 +11,7 @@ Pilots check six o'clock to see what is behind them.
 |---|---|---|
 | S | (S)ee | What actually happened: facts, numbers, times |
 | I | (I)dentify | Where we can improve, and why it happened |
-| X | e(X)ecute | On these actions: do WHAT, by WHEN |
+| X | e(X)ecute | On these actions: do WHAT, by WHEN (date picker) |
 
 Copy puts the email on the clipboard as formatted HTML and plain text. Nothing is saved (D-004).
 Use the After Action Review (`tools/aar/`) for the full write-up.

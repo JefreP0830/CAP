@@ -48,7 +48,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
 .step .r{color:#4050A7} /* CAP Ultramarine at 75% on white */
 .hint{font-size:12px;color:var(--head);margin:4px 0 6px}
 
-.act{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,1fr) 24px;gap:6px;margin-bottom:6px}
+.act{display:grid;grid-template-columns:minmax(0,1fr) 140px 24px;gap:6px;margin-bottom:6px}
 .act button{border:0;background:none;color:var(--rule);font-size:16px;cursor:pointer;padding:0}
 .act button:hover{color:var(--ink)}
 .add{font:inherit;font-size:12px;color:var(--blue);background:none;border:0;padding:4px 0;cursor:pointer}
@@ -125,7 +125,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
   function addAct(focus) {
     const d = document.createElement("div");
     d.className = "act";
-    d.innerHTML = `<input aria-label="Do what" placeholder="Do WHAT"><input aria-label="By when" placeholder="by WHEN"><button type="button" aria-label="Remove action">&times;</button>`;
+    d.innerHTML = `<input aria-label="Do what" placeholder="Do WHAT"><input type="date" aria-label="By when" title="by WHEN"><button type="button" aria-label="Remove action">&times;</button>`;
     $("acts").appendChild(d);
     if (focus) d.querySelector("input").focus();
   }
