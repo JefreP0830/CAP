@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.0 - 2026-11-22
+
+- CHECK SIX words changed: (S)EE what actually happened, (I)DENTIFY where we can improve, e(X)ECUTE on these actions. Form, email, menu and README updated.
+
 ## 1.3.4 - 2026-11-22
 
 - Section titles in form and email: gray brackets, black key letter, rest of the word in CAP Ultramarine at 75% (#4050A7).

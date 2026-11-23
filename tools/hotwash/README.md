@@ -9,9 +9,9 @@ Pilots check six o'clock to see what is behind them.
 
 | Letter | Part | Prompt |
 |---|---|---|
-| S | (S)aw | What we observed: facts, numbers, times |
-| I | (I)nsight | What we learned: why it happened, what to keep, what to change |
-| X | e(X)ecute | What we will do to improve: action, owner's CAPID, due date |
+| S | (S)ee | What actually happened: facts, numbers, times |
+| I | (I)dentify | Where we can improve, and why it happened |
+| X | e(X)ecute | On these actions: action, owner's CAPID, due date |
 
 Copy puts the email on the clipboard as formatted HTML and plain text. Nothing is saved (D-004).
 Each action's owner is recorded by CAPID, so one person cannot stand in for several.
