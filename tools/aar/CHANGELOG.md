@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.2 - 2026-11-22
+
+- Checklist headings renamed: Involved in AAR; AAR Feedback Format. More space above them.
+
 ## 2.0.1 - 2026-11-22
 
 - Sustains tag on a green tint, Improves tag on a red tint (prints in color).
