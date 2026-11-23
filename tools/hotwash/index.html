@@ -104,7 +104,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
 
   <div class="out">
     <h2>Email title</h2>
-    <div class="subj"><input id="subject" readonly aria-label="Email subject"><button type="button" class="btn" id="copySubj">Copy subject</button></div>
+    <div class="subj"><input id="subject" readonly aria-label="Email subject"></div>
     <div class="preview" id="preview"></div>
     <div class="btns">
       <button type="button" class="btn primary" id="copyBody">Copy</button>
@@ -216,7 +216,6 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
   });
   document.addEventListener("input", render);
   document.addEventListener("change", render);
-  $("copySubj").addEventListener("click", () => copy(null, $("subject").value, "Subject"));
   $("copyBody").addEventListener("click", () => { const m = model(); copy(html(m), plain(m), "Email text"); });
   $("clear").addEventListener("click", () => {
     if (hasContent() && !confirm("Clear the hotwash? Nothing is saved.")) return;

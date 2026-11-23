@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.1 - 2026-11-22
+
+- Copy subject button removed; the email title field stays (select and copy by hand).
+
 ## 1.5.0 - 2026-11-22
 
 - Execute rows are now two fields: Do WHAT (3/5) and by WHEN (2/5). Action owner CAPID removed.
