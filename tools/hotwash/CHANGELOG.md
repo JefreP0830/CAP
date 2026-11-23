@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.7 - 2026-11-22
+
+- Action dates in the email bold, CAP Scarlet Red.
+
 ## 1.5.6 - 2026-11-22
 
 - Action date in the email set to 12px.
