@@ -138,8 +138,8 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
     return `${d} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][m - 1]} ${y}`;
   }
   function actText(a) {
-    const tail = a[1] && `by ${a[1]}`;
-    return tail ? `${a[0]}, ${tail}` : a[0];
+    // Date first, upper case, then the action; an em space keeps the gap in HTML and plain text.
+    return a[1] ? `${a[1].toUpperCase()}\u2003${a[0]}` : a[0];
   }
   const radio = n => (document.querySelector(`input[name=${n}]:checked`) || {}).value || "";
   function model() {

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.3 - 2026-11-22
+
+- Email lists each action date first, in capitals, then the action (5 DEC 2026  Run the ...).
+
 ## 1.5.2 - 2026-11-22
 
 - Execute rows: Do WHAT 80%, by WHEN 20%.
