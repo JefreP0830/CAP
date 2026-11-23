@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.1 - 2026-11-23
+
+- Footer no longer calls this a "Civil Air Patrol Standard AAR Form"; it is not an official CAP form.
+
 ## 2.2.0 - 2026-11-23
 
 - Print layout: sheet 1 Parts I-II (with Mission Objectives), sheet 2 Part III alone, sheet 3 Parts IV-V. Breaks apply to blank and filled forms.
