@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.3 - 2026-11-23
+
+- Part III domain list now covers all 11 CAPP 60-32 topics: Logistics & Resources, and Marketing / Public Affairs added.
+
 ## 2.0.2 - 2026-11-22
 
 - Checklist headings renamed: Involved in AAR; AAR Feedback Format. More space above them.
