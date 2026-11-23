@@ -60,6 +60,9 @@ textarea{resize:vertical;line-height:1.3;overflow:hidden;display:block;field-siz
 input:focus-visible,textarea:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
 
 .checks{display:grid;gap:4px;font-size:13.33px}
+.domains{margin:4px 0 6px}
+.dom-grid{grid-template-columns:repeat(3,1fr);gap:4px 12px}
+#domCount.met{color:var(--blue)}
 .checks label,.mm label{display:flex;align-items:center;gap:6px;cursor:pointer}
 input[type=checkbox]{accent-color:var(--blue);width:15px;height:15px;margin:0;flex:none}
 
@@ -83,6 +86,7 @@ td{padding:4px 4px;border-bottom:1px solid var(--line);vertical-align:top}
 .pb{height:0}
 
 @media (max-width:720px){
+  .dom-grid{grid-template-columns:1fr 1fr}
   .sheet{padding:20px 14px}
   .g4,.g-line2,.g-line3{grid-template-columns:1fr 1fr !important}
   .g2,.sign{grid-template-columns:1fr !important}
@@ -195,14 +199,29 @@ td{padding:4px 4px;border-bottom:1px solid var(--line);vertical-align:top}
   <!-- PART III -->
   <section class="part">
     <div class="part-head"><h2>Part III: Analysis of Performance</h2><span class="ref">Ref: Cause-and-Effect Analysis &middot; CAPP 60-32 Outline Standards</span></div>
-    <p class="prompt"><b>Analysis Principles:</b> Conduct an objective, blameless evaluation focused on systemic processes, resource allocation, communication pathways, and procedural execution across key operational domains (e.g., Goals &amp; Objectives, Human Capital, Program/Curriculum, Schedule &amp; Tempo, Logistics &amp; Resources, Transportation, Communications, Marketing / Public Affairs, Safety &amp; Risk Management, Budget, Administration).</p>
+    <p class="prompt"><b>Analysis Principles:</b> Conduct an objective, blameless evaluation focused on systemic processes, resource allocation, communication pathways, and procedural execution across key operational domains.</p>
+    <div class="f domains"><span>Domains covered in this AAR <i id="domCount">Select at least 5; give 3 specific points for each</i></span>
+      <div class="checks dom-grid">
+        <label><input type="checkbox" id="domGoals"> Goals &amp; Objectives</label>
+        <label><input type="checkbox" id="domHuman"> Human Capital</label>
+        <label><input type="checkbox" id="domProgram"> Program/Curriculum</label>
+        <label><input type="checkbox" id="domSchedule"> Schedule &amp; Tempo</label>
+        <label><input type="checkbox" id="domLogistics"> Logistics &amp; Resources</label>
+        <label><input type="checkbox" id="domTransport"> Transportation</label>
+        <label><input type="checkbox" id="domComms"> Communications</label>
+        <label><input type="checkbox" id="domMarketing"> Marketing / Public Affairs</label>
+        <label><input type="checkbox" id="domSafety"> Safety &amp; Risk Management</label>
+        <label><input type="checkbox" id="domBudget"> Budget</label>
+        <label><input type="checkbox" id="domAdmin"> Administration</label>
+      </div>
+    </div>
 
     <div class="sub">
       <div class="sub-title"><span>1. What Went Well and Why? (Sustains)</span><span class="tag sustain">Success Factors &amp; Repeatable Processes</span></div>
       <p class="prompt">Identify specific procedures, preparations, equipment, leadership decisions, or inter-team dynamics that produced success. Explain the <b>cause-and-effect</b> mechanism so it can be institutionalized for future activities.</p>
       <table>
         <thead><tr><th>Success Factor (What worked?)</th><th>Root Cause (Why did it work?)</th></tr></thead>
-        <tbody><tr><td><textarea id="susSuccessFactor" style="min-height:200px"></textarea></td><td><textarea id="susRootCause" style="min-height:200px"></textarea></td></tr></tbody>
+        <tbody><tr><td><textarea id="susSuccessFactor" style="min-height:180px"></textarea></td><td><textarea id="susRootCause" style="min-height:180px"></textarea></td></tr></tbody>
       </table>
     </div>
 
@@ -211,7 +230,7 @@ td{padding:4px 4px;border-bottom:1px solid var(--line);vertical-align:top}
       <p class="prompt">Analyze friction points, operational delays, resource bottlenecks, or communication breakdowns. Identify the <b>underlying systemic root cause</b> (inadequate planning, unclear expectations, resource deficit, or external dependencies) rather than assessing personal blame.</p>
       <table>
         <thead><tr><th>Fail Point (What went wrong?)</th><th>Root Cause (Why did the failure occur?)</th></tr></thead>
-        <tbody><tr><td><textarea id="impFrictionPoint" style="min-height:200px"></textarea></td><td><textarea id="impRootCause" style="min-height:200px"></textarea></td></tr></tbody>
+        <tbody><tr><td><textarea id="impFrictionPoint" style="min-height:180px"></textarea></td><td><textarea id="impRootCause" style="min-height:180px"></textarea></td></tr></tbody>
       </table>
     </div>
   </section>
@@ -295,6 +314,14 @@ function autoExpandTextareas() { document.querySelectorAll("textarea").forEach(f
 document.addEventListener("input", e => { if (e.target.tagName === "TEXTAREA") fit(e.target); });
 window.addEventListener("beforeprint", () => { document.body.classList.toggle("filled", anyContent()); autoExpandTextareas(); });
 
+// Domains: CAPP 60-32 asks for at least 5 of the 11, with 3 points each.
+function domCount() {
+  const n = document.querySelectorAll(".dom-grid input:checked").length, el = $("domCount");
+  el.textContent = n ? `${n} selected; at least 5, with 3 specific points each` : "Select at least 5; give 3 specific points for each";
+  el.classList.toggle("met", n >= 5);
+}
+document.addEventListener("change", e => { if (e.target.closest(".dom-grid")) domCount(); });
+
 function anyContent() {
   return [...document.querySelectorAll("input[type=text], textarea")].some(el => el.value.trim());
 }
@@ -303,6 +330,7 @@ function clearForm() {
   document.querySelectorAll("input[type=text], textarea").forEach(el => el.value = "");
   document.querySelectorAll("input[type=checkbox]").forEach(el => el.checked = false);
   $("dispMentorSig").textContent = "";
+  domCount();
   autoExpandTextareas();
 }
 // Nothing persists (repo decision D-004), so warn before the page is closed with work on it.
@@ -325,6 +353,8 @@ function loadSampleData() {
   ["chkStudents", "chkCadre", "chkSenior", "chkHost", "chkLog", "chkExternal",
    "mthHotwash", "mthSurveys", "mthStaffConf", "mthHostDebrief", "mthLogReview"].forEach(id => $(id).checked = true);
   $("mthInterviews").checked = false;
+  ["domGoals", "domSchedule", "domLogistics", "domComms", "domSafety", "domAdmin"].forEach(id => $(id).checked = true);
+  domCount();
 
   $("plannedObjectives").value =
 `• Stated Mission & Scope: Conduct a 36-hour weekend field training exercise (FTX) certifying cadet ground team members in advanced ELT search, backcountry navigation, and emergency wilderness survival.

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.0 - 2026-11-23
+
+- Part III: the 11 domains are now tick boxes (Domains covered in this AAR), with a live count toward the CAPP 60-32 minimum of 5, 3 points each.
+
 ## 2.0.3 - 2026-11-23
 
 - Part III domain list now covers all 11 CAPP 60-32 topics: Logistics & Resources, and Marketing / Public Affairs added.
