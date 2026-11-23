@@ -101,7 +101,7 @@ td{padding:4px 4px;border-bottom:1px solid var(--line);vertical-align:top}
   input[type=text]{background:none}
   textarea{background:none;border:1px solid var(--line);height:auto !important;field-sizing:content}
   :focus,:focus-visible{outline:none !important}
-  body:not(.filled) .pb{break-before:page} /* fixed 3-page layout for a blank form to fill by hand */
+  .pb{break-before:page} /* sheet 1: Parts I-II; sheet 2: Part III; sheet 3: Parts IV-V */
   .part-head,.sub-title,.prompt{break-after:avoid}
   tr,.sign{break-inside:avoid}
 }
@@ -174,16 +174,14 @@ td{padding:4px 4px;border-bottom:1px solid var(--line);vertical-align:top}
     <div class="sub">
       <div class="sub-title"><span>1. Planned Objectives (What was supposed to happen?)</span></div>
       <p class="prompt">Summarize planned objectives, operational timeline, and success criteria per the approved Activity Plan.</p>
-      <textarea id="plannedObjectives" style="min-height:190px"></textarea>
+      <textarea id="plannedObjectives" style="min-height:110px"></textarea>
     </div>
     <div class="sub">
       <div class="sub-title"><span>2. Operational Reality (What actually happened?)</span></div>
       <p class="prompt">Detail the chronological sequence of events, operational reality, key deviations, and recorded metrics.</p>
-      <textarea id="actualExecution" style="min-height:190px"></textarea>
+      <textarea id="actualExecution" style="min-height:110px"></textarea>
     </div>
   </section>
-
-  <div class="pb"></div>
 
   <!-- PART II (CONT.) -->
   <section class="part">
@@ -193,6 +191,8 @@ td{padding:4px 4px;border-bottom:1px solid var(--line);vertical-align:top}
       <tbody id="goalsTableBody"></tbody>
     </table>
   </section>
+
+  <div class="pb"></div>
 
   <!-- PART III -->
   <section class="part">
@@ -219,7 +219,7 @@ td{padding:4px 4px;border-bottom:1px solid var(--line);vertical-align:top}
       <p class="prompt">Identify specific procedures, preparations, equipment, leadership decisions, or inter-team dynamics that produced success. Explain the <b>cause-and-effect</b> mechanism so it can be institutionalized for future activities.</p>
       <table>
         <thead><tr><th>Success Factor (What worked?)</th><th>Root Cause (Why did it work?)</th></tr></thead>
-        <tbody><tr><td><textarea id="susSuccessFactor" style="min-height:180px"></textarea></td><td><textarea id="susRootCause" style="min-height:180px"></textarea></td></tr></tbody>
+        <tbody><tr><td><textarea id="susSuccessFactor" style="min-height:280px"></textarea></td><td><textarea id="susRootCause" style="min-height:280px"></textarea></td></tr></tbody>
       </table>
     </div>
 
@@ -228,7 +228,7 @@ td{padding:4px 4px;border-bottom:1px solid var(--line);vertical-align:top}
       <p class="prompt">Analyze friction points, operational delays, resource bottlenecks, or communication breakdowns. Identify the <b>underlying systemic root cause</b> (inadequate planning, unclear expectations, resource deficit, or external dependencies) rather than assessing personal blame.</p>
       <table>
         <thead><tr><th>Fail Point (What went wrong?)</th><th>Root Cause (Why did the failure occur?)</th></tr></thead>
-        <tbody><tr><td><textarea id="impFrictionPoint" style="min-height:180px"></textarea></td><td><textarea id="impRootCause" style="min-height:180px"></textarea></td></tr></tbody>
+        <tbody><tr><td><textarea id="impFrictionPoint" style="min-height:280px"></textarea></td><td><textarea id="impRootCause" style="min-height:280px"></textarea></td></tr></tbody>
       </table>
     </div>
   </section>

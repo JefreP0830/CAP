@@ -19,6 +19,6 @@ Fill it on screen and print to Letter or save as PDF, or print it blank to fill 
 
 - Load Sample AAR fills a worked example (fictional names, unit and CAPIDs).
 - Text boxes grow with their content, on screen and on paper.
-- A blank form prints on three fixed pages; a filled form flows onto as many pages as it needs.
+- Prints as three sheets: Parts I-II, Part III, Parts IV-V. A long filled-in form adds pages within a sheet as needed.
 - Author name, rank and CAPID in Part I and Part V mirror each other.
 - Nothing is saved (D-004). The page warns before closing with work on it.

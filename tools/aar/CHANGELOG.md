@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.2.0 - 2026-11-23
+
+- Print layout: sheet 1 Parts I-II (with Mission Objectives), sheet 2 Part III alone, sheet 3 Parts IV-V. Breaks apply to blank and filled forms.
+- Part II boxes shorter and Part III boxes taller on the blank printout to fit that layout.
+
 ## 2.1.1 - 2026-11-23
 
 - Header: organization line and Document Ref box removed; title only.
