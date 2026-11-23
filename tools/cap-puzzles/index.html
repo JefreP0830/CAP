@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>CAP Puzzles</title>
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap">
+<style>
+/* Tokens copied from shared/brand/cap-brand.css (CAP Brand Portal / CAPR 900-2). */
+:root{
+  --paper:#FFFFFF; --ink:#4D4D4D; --head:#63666A; --rule:#9EA2A2; --tint:#F1F2F2; --block:#D9DBDB;
+  --blue:#001489; --red:#BA0C2F;
+  --f-title:"Rajdhani", Arial, sans-serif; --f-body:Arial, Helvetica, sans-serif;
+  color-scheme:light;
+}
+html,body{margin:0;background:var(--tint);color:var(--ink)}
+body{font-family:var(--f-body);font-size:14.67px;line-height:1.2}
+
+/* Controls (screen only) */
+.panel{background:var(--paper);border-bottom:1px solid var(--rule)}
+.pwrap{max-width:8.5in;margin:0 auto;padding:22px max(16px, env(safe-area-inset-left, 0px)) 18px}
+.apptitle{font-family:var(--f-title);font-weight:700;font-size:32px;line-height:1.05;color:var(--blue);margin:0}
+.appsub{margin:4px 0 0;color:var(--ink)}
+.row{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:flex-end;margin-top:16px}
+.fld{display:flex;flex-direction:column;gap:5px;font-size:13.33px;color:var(--head)}
+.fld input[type=text],.fld select,textarea{font:inherit;font-size:14.67px;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:6px 8px;min-height:36px;box-sizing:border-box}
+.fld input[type=text]{width:300px;max-width:78vw}
+.fld select{min-width:210px}
+.seg{display:inline-flex;border:1px solid var(--rule);border-radius:3px;overflow:hidden}
+.seg label{display:flex;align-items:center;padding:0 14px;height:34px;cursor:pointer;color:var(--ink);font-size:14.67px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label:has(input:checked){background:var(--blue);color:#FFFFFF}
+.seg label:has(input:focus-visible){outline:2px solid var(--blue);outline-offset:-2px}
+input:focus-visible,select:focus-visible,textarea:focus-visible,.btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.btn{font:inherit;font-size:13.33px;line-height:1.2;box-sizing:border-box;height:36px;color:var(--blue);background:var(--paper);border:1px solid var(--blue);border-radius:3px;padding:0 12px;cursor:pointer;display:inline-flex;align-items:center}
+.btn:hover{background:var(--tint)}
+.btn.primary{background:var(--blue);color:#FFFFFF}
+.btn.primary:hover{background:#00106B}
+.acts{display:flex;flex-wrap:wrap;gap:10px}
+.status{margin:12px 0 0;font-size:13.33px;color:var(--ink);min-height:16px}
+.status.warn{color:var(--red)}
+details{margin-top:14px;border-top:1px solid var(--block);padding-top:10px}
+summary{cursor:pointer;color:var(--head);font-size:13.33px}
+.own{margin-top:10px}
+textarea{width:100%;min-height:150px;font-family:"Courier New",monospace;font-size:13.33px;line-height:1.35;resize:vertical}
+.hint{font-size:12px;color:var(--head);margin:6px 0 0;max-width:80ch}
+.prompt{display:none;margin-top:8px}
+.prompt.show{display:block}
+
+/* Sheets: letter paper */
+.sheets{padding:24px 12px 48px;display:flex;flex-direction:column;align-items:center;gap:24px;overflow-x:auto}
+.sheet{background:var(--paper);width:8.5in;min-height:11in;box-sizing:border-box;padding:0.5in;box-shadow:0 1px 4px rgba(0,0,0,.18);flex:none}
+.shead{display:flex;justify-content:space-between;align-items:flex-start;gap:18px}
+.ptitle{font-family:var(--f-title);font-weight:700;font-size:26.67px;line-height:1.05;color:var(--blue);margin:0}
+.byline{margin:4px 0 0;font-size:14.67px;color:var(--ink)}
+.namebox{font-size:13.33px;color:var(--ink);white-space:nowrap;line-height:2}
+.namebox span{display:inline-block;border-bottom:1px solid var(--ink);width:2.1in;margin-left:6px}
+.namebox .d{width:1.1in}
+.kicker{font-size:14.67px;color:var(--head);margin:0}
+.gridwrap{display:flex;justify-content:center;margin:0.22in 0 0.2in}
+.grid{display:grid;border:1.5px solid #000}
+.cell{position:relative;box-sizing:border-box;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);background:var(--block)}
+.cell.on{background:#FFFFFF;border-color:transparent;outline:1px solid #000;outline-offset:-0.5px}
+.grid .cell.lastc{border-right:0}.grid .cell.lastr{border-bottom:0}
+.num{position:absolute;top:1px;left:2px;font-size:10px;line-height:1;color:#000}
+.ltr{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--f-body);color:#000;padding-top:3px}
+.clues{display:grid;grid-template-columns:1fr 1fr;gap:0 0.35in}
+.clues h2{font-weight:400;font-size:16px;color:var(--head);margin:0 0 4px;border-bottom:1px solid var(--head);padding-bottom:2px}
+.clues ol{list-style:none;margin:0;padding:0}
+.clues li{display:grid;grid-template-columns:26px 1fr;margin:0 0 3px;break-inside:avoid}
+.clues li b{font-weight:400;color:#000;font-variant-numeric:tabular-nums}
+.clues .ans{color:#000;letter-spacing:.03em}
+.clues.compact li{font-size:13.33px}
+.src{font-size:11px;color:var(--head);margin:0.15in 0 0}
+.empty{color:var(--head);text-align:center;padding-top:3in}
+
+@media print{
+  @page{size:letter;margin:0}
+  html,body{background:#FFFFFF}
+  .panel{display:none}
+  .sheets{padding:0;gap:0;display:block}
+  .sheet{box-shadow:none;width:8.5in;height:11in;min-height:0;overflow:hidden;page-break-after:always;break-after:page}
+  .sheet:last-child{page-break-after:auto;break-after:auto}
+  body.only-puzzle #keySheet{display:none}
+  body.only-key #puzzleSheet{display:none}
+  .cell,.grid{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<div class="panel">
+  <div class="pwrap">
+    <h1 class="apptitle">CAP Puzzles</h1>
+    <p class="appsub">Crossword with answer key, printable on letter paper. More puzzle types to follow.</p>
+
+    <div class="row">
+      <label class="fld">Topic (puzzle title)
+        <input type="text" id="topic" list="topicList" placeholder="e.g. Principles of Flight" autocomplete="off">
+        <datalist id="topicList"></datalist>
+      </label>
+      <label class="fld">CAP category (byline)
+        <select id="category"></select>
+      </label>
+      <div class="fld">Grid
+        <div class="seg" role="radiogroup" aria-label="Grid size">
+          <label><input type="radio" name="size" value="10" checked>10 x 10</label>
+          <label><input type="radio" name="size" value="15">15 x 15</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="acts">
+        <button class="btn primary" id="make" type="button">Make puzzle</button>
+        <button class="btn" id="again" type="button">New layout</button>
+        <button class="btn" id="printPuzzle" type="button">Print puzzle</button>
+        <button class="btn" id="printKey" type="button">Print answer key</button>
+        <button class="btn" id="printBoth" type="button">Print both</button>
+      </div>
+    </div>
+    <p class="status" id="status" role="status"></p>
+
+    <details id="ownBox">
+      <summary>Use my own words (any topic)</summary>
+      <div class="own">
+        <textarea id="own" spellcheck="false" placeholder="ANSWER | clue, one per line&#10;LIFT | Upward force a wing produces&#10;ANGLE OF ATTACK | Angle between the wing's chord line and the oncoming air"></textarea>
+        <p class="hint">One entry per line: answer, a bar ( | ), then the clue. Spaces in an answer are fine; the clue shows the word lengths. When this box has entries, the puzzle uses them instead of the built-in list. Nothing is saved; copy your list somewhere if you want it later.</p>
+        <div class="acts" style="margin-top:10px">
+          <button class="btn" id="copyPrompt" type="button">Copy a word-list prompt for Claude</button>
+          <button class="btn" id="clearOwn" type="button">Clear my words</button>
+        </div>
+        <div class="prompt" id="promptBox">
+          <p class="hint">Copy failed in this browser. Select the text below and copy it by hand.</p>
+          <textarea id="promptText" readonly style="min-height:120px"></textarea>
+        </div>
+        <p class="hint">Check every clue an AI writes against the current CAP publication before you hand the puzzle out.</p>
+      </div>
+    </details>
+  </div>
+</div>
+
+<div class="sheets">
+  <section class="sheet" id="puzzleSheet"><p class="empty">Choose a topic and select Make puzzle.</p></section>
+  <section class="sheet" id="keySheet" hidden></section>
+</div>
+
+<script>
+"use strict";
+/* ------------------------------------------------------------------
+   Built-in word banks. Category = byline. Topic = puzzle title.
+   Clues are general aerospace / CAP facts; anything rule-driven
+   should be checked against the current CAP publication.
+   Format: "ANSWER | clue"
+------------------------------------------------------------------ */
+const BANKS = {
+"Aerospace Education": {
+"Principles of Flight": `
+LIFT | Upward force a wing produces
+WEIGHT | Force of gravity pulling an aircraft down
+THRUST | Forward force from a propeller or jet engine
+DRAG | Force that resists an aircraft's motion through the air
+AIRFOIL | Shape of a wing in cross-section, designed to produce lift
+ANGLE OF ATTACK | Angle between the wing's chord line and the oncoming air
+STALL | Loss of lift when the critical angle of attack is exceeded
+BERNOULLI | Scientist whose principle links faster airflow to lower pressure
+NEWTON | His third law: for every action there is an equal and opposite reaction
+CAMBER | Curve of an airfoil from front to back
+CHORD | Imaginary straight line from a wing's leading edge to its trailing edge
+LEADING EDGE | Front edge of a wing
+TRAILING EDGE | Rear edge of a wing
+PITCH | Nose-up or nose-down movement about the lateral axis
+ROLL | Movement about the longitudinal axis, one wing up and one down
+YAW | Nose-left or nose-right movement about the vertical axis
+AILERON | Hinged surface near the wingtip that rolls the airplane
+ELEVATOR | Tail control surface that changes pitch
+RUDDER | Tail control surface that controls yaw
+FLAPS | Wing panels lowered to add lift and drag for landing
+FUSELAGE | Main body of an airplane
+EMPENNAGE | Tail section of an airplane
+PROPELLER | Spinning blades that turn engine power into thrust
+TRIM TAB | Small adjustable surface that relieves control pressure
+RELATIVE WIND | Airflow opposite the aircraft's flight path
+WING | Main lifting surface of an airplane`,
+"Aircraft Instruments and Controls": `
+ALTIMETER | Instrument that shows altitude above sea level
+AIRSPEED | ___ indicator: shows speed through the air
+COMPASS | Magnetic instrument that shows heading
+TACHOMETER | Instrument that shows engine RPM
+HEADING | Direction the airplane's nose is pointed
+ATTITUDE | ___ indicator: shows pitch and bank against an artificial horizon
+TURN COORDINATOR | Instrument showing rate of turn and whether the turn is coordinated
+PITOT TUBE | Probe that senses ram air pressure for the airspeed indicator
+STATIC PORT | Opening that senses outside air pressure for the altimeter
+GYROSCOPE | Spinning device that keeps the attitude indicator stable
+VERTICAL SPEED | ___ indicator: shows rate of climb or descent
+KNOT | One nautical mile per hour
+YOKE | Control wheel a pilot uses for pitch and roll
+THROTTLE | Control that sets engine power
+MIXTURE | Control that sets the fuel-to-air ratio
+TRANSPONDER | Radio that replies to air traffic control radar with a code
+SQUAWK | Air traffic control word for setting a transponder code
+RUDDER PEDALS | Foot controls for yaw and ground steering
+FUEL GAUGE | Shows how much fuel is in the tanks
+CHECKLIST | Written list pilots follow so no step is missed`,
+"Space and Rocketry": `
+ORBIT | Curved path of a satellite around a planet
+GRAVITY | Force that pulls objects toward each other
+SATELLITE | Object that orbits a planet
+ROCKET | Vehicle pushed by its exhaust; it works even in a vacuum
+NOZZLE | Rocket part that shapes and speeds up the exhaust
+PAYLOAD | Cargo a rocket carries to space
+APOLLO | NASA program that landed astronauts on the Moon
+ARMSTRONG | First person to walk on the Moon, 1969
+GAGARIN | First human in space, 1961
+SPUTNIK | First artificial satellite, launched 1957
+GODDARD | Launched the first liquid-fueled rocket, 1926
+ASTRONAUT | Person trained to fly in space
+NASA | U.S. space agency created in 1958
+HUBBLE | Space telescope launched in 1990
+ATMOSPHERE | Layer of gases surrounding Earth
+LAUNCH PAD | Site a rocket lifts off from
+MERCURY | First U.S. human spaceflight program
+GEMINI | NASA two-person spacecraft program between Mercury and Apollo
+COUNTDOWN | Timed sequence leading to liftoff
+ESCAPE VELOCITY | Speed needed to break free of a planet's gravity
+SPACE STATION | Crewed orbiting laboratory, like the ISS
+MARS | The red planet
+MOON | Earth's only natural satellite
+COMET | Icy body that grows a tail near the Sun`,
+"Aviation Pioneers": `
+WRIGHT | Last name of Orville and Wilbur, who made the first powered flight
+KITTY HAWK | North Carolina site of the first powered flight, 1903
+EARHART | Amelia ___, first woman to fly solo across the Atlantic, 1932
+LINDBERGH | Charles ___, first solo nonstop flight across the Atlantic, 1927
+YEAGER | Chuck ___, first pilot to fly faster than sound, 1947
+DOOLITTLE | Jimmy ___, led the 1942 bombing raid on Tokyo
+RICKENBACKER | Eddie ___, top American fighter ace of World War I
+COCHRAN | Jacqueline ___, first woman to break the sound barrier, 1953
+TUSKEGEE | ___ Airmen, the first Black military pilots in the U.S. Army Air Forces
+COLEMAN | Bessie ___, first African American woman to earn a pilot's license
+MITCHELL | Billy ___, early champion of military air power
+ARNOLD | Hap ___, only officer to hold five-star rank in both the Army and the Air Force
+CURTISS | Glenn ___, early aviator and aircraft builder
+BLERIOT | Louis ___, first to fly an airplane across the English Channel, 1909
+GLENN | John ___, first American to orbit Earth, 1962
+RIDE | Sally ___, first American woman in space, 1983
+JEMISON | Mae ___, first African American woman in space, 1992
+MONTGOLFIER | Brothers whose hot-air balloon carried the first people aloft, 1783
+DA VINCI | Renaissance artist who sketched flying machines`,
+"Aviation Weather": `
+CUMULUS | Puffy, heaped clouds
+STRATUS | Flat, layered clouds
+CIRRUS | Thin, wispy, high-altitude clouds
+CUMULONIMBUS | Towering thunderstorm cloud
+FRONT | Boundary between two air masses
+DEW POINT | Temperature at which air becomes saturated
+HUMIDITY | Amount of water vapor in the air
+FOG | Cloud at ground level
+TURBULENCE | Bumpy, irregular air motion
+ICING | Ice forming on an aircraft's surfaces
+WIND SHEAR | Sudden change in wind speed or direction over a short distance
+CROSSWIND | Wind blowing across the runway
+HEADWIND | Wind blowing against the direction of flight
+TAILWIND | Wind blowing from behind the aircraft
+VISIBILITY | How far you can see
+CEILING | Height of the lowest broken or overcast cloud layer
+METAR | Routine aviation weather report for an airport
+BAROMETER | Instrument that measures air pressure
+ISOBAR | Map line connecting points of equal pressure
+JET STREAM | Fast, narrow band of high-altitude wind
+LIGHTNING | Electrical discharge from a thunderstorm
+THUNDERSTORM | Storm with lightning, heavy rain, and strong gusts`
+},
+"Cadet Programs": {
+"Cadet Achievements and Awards": `
+CURRY | Achievement 1, named for CAP's first national commander
+ARNOLD | Achievement 2, named for General Hap ___
+FEIK | Achievement 3, named for aviation pioneer Mary ___
+WRIGHT BROTHERS | Milestone award that completes Phase I
+MITCHELL | Milestone award that earns the grade of cadet second lieutenant
+EARHART | Milestone award that earns the grade of cadet captain
+EAKER | Milestone award that earns the grade of cadet lieutenant colonel
+SPAATZ | CAP's highest cadet award
+RIBBON | Worn on the uniform to show an award
+PROMOTION | Moving up in grade
+MILESTONE | Major award that closes a phase of the cadet program
+PHASE | One of four stages of the cadet program
+ACHIEVEMENT | Step in the cadet program, earned in leadership, aerospace, fitness, and character
+GRADE | The rank a cadet holds
+CADET | Member of CAP's youth program`,
+"Cadet Program Basics": `
+CADET | Member of CAP's youth program
+TWELVE | Minimum age to join a community squadron as a cadet
+ENCAMPMENT | Multi-day immersive training, usually held in summer
+INTEGRITY | Core value: doing what is right, even when no one is watching
+SERVICE | Core value: Volunteer ___
+EXCELLENCE | Core value: always giving your best
+RESPECT | Core value: treating others with dignity
+LEADERSHIP | Cadet program element on learning to lead
+AEROSPACE | Cadet program element on flight and space
+FITNESS | Cadet program element on staying physically active
+CHARACTER | Cadet program element on values and ethics
+WINGMAN | Teammate who looks out for you
+MENTOR | Experienced member who guides a newer one
+FLIGHT | Group of cadets within a squadron
+SQUADRON | CAP's local unit
+ELEMENT | Smallest group in a flight
+OATH | Cadet ___: "I pledge that I will serve faithfully..."
+ORIENTATION | ___ flight: a cadet's introductory ride in a CAP aircraft
+UNIFORM | Worn with pride to every meeting
+GRADE | The rank a cadet holds
+CHAIN OF COMMAND | Line of authority from the top leader down to each member`,
+"Drill and Ceremonies": `
+ATTENTION | Basic position: heels together, body straight, eyes forward
+PARADE REST | Position with feet apart and hands clasped behind the back
+AT EASE | Command: keep your right foot in place and stay silent
+FALL IN | Command to form up
+DISMISSED | Command that ends the formation
+RIGHT FACE | Command to turn 90 degrees to the right
+ABOUT FACE | Command to turn to the rear
+SALUTE | Courtesy rendered with the right hand
+GUIDON | Small flag that identifies a unit
+FORMATION | Organized arrangement of cadets
+COLUMN | Formation with elements one behind another
+RANK | Line of people side by side
+FILE | Line of people one behind another
+INTERVAL | Space between people side by side
+DISTANCE | Space between people front to back
+CADENCE | Uniform rhythm of marching
+PREPARATORY | ___ command: tells what movement to make
+EXECUTION | Command of ___: tells when to make the movement
+COLOR GUARD | Team that carries the flags
+FORWARD MARCH | Command to begin marching
+HALT | Command to stop marching
+GUIDE | Person who sets the direction and pace of a formation
+MARK TIME | Marching in place`
+},
+"Emergency Services": {
+"Search and Rescue": `
+ELT | Emergency locator transmitter (abbr.)
+BEACON | Device that transmits a distress signal
+SEARCH | Looking for a missing aircraft or person
+RESCUE | Bringing a survivor to safety
+GROUND TEAM | Searchers who work on foot or by vehicle
+AIRCREW | Pilot, observer, and scanner together
+SCANNER | Aircrew member who watches out the window for clues
+OBSERVER | Aircrew member who helps navigate and manage the search
+SORTIE | One flight, or one ground team deployment
+MISSION | Tasked CAP operation with a mission number
+GRID | Square search area on a map
+CLUE | Any sign that leads searchers toward the subject
+SUBJECT | The missing person or aircraft being searched for
+DISTRESS | Condition of serious danger needing help
+MAYDAY | Spoken radio distress call
+FLARE | Bright light lit or fired to attract searchers
+WHISTLE | Signal device: three blasts call for help
+SHELTER | Survival priority: protection from the weather
+SQUARE | Expanding ___: a search pattern that grows outward from a point
+PHOTO | Aerial ___: imagery CAP flies after a disaster
+DISASTER RELIEF | Help after floods, storms, and other emergencies
+FIRST AID | Immediate care for an injury
+TRIAGE | Sorting the injured by how urgently they need care`,
+"Land Navigation": `
+COMPASS | Tool whose needle points to magnetic north
+AZIMUTH | Direction measured clockwise from north, in degrees
+BEARING | Direction from one point to another
+DECLINATION | Difference between true north and magnetic north
+CONTOUR LINE | Map line joining points of equal elevation
+LEGEND | Map box that explains the symbols
+SCALE | Ratio between map distance and ground distance
+LATITUDE | Distance north or south of the equator
+LONGITUDE | Distance east or west of the prime meridian
+EQUATOR | Zero degrees latitude
+MERIDIAN | Line of longitude
+TOPOGRAPHIC | Kind of map that shows terrain and elevation
+GPS | Satellite system that shows your position
+WAYPOINT | Stored position along a route
+PACE COUNT | Number of steps you take to cover 100 meters
+TERRAIN | Shape and features of the land
+RIDGE | Line of high ground
+VALLEY | Low ground between hills
+SADDLE | Low point between two hilltops`,
+"ICS and NIMS": `
+INCIDENT | Event that needs an emergency response
+COMMAND | ICS function that sets objectives and holds overall authority
+OPERATIONS | ICS section that does the tactical work
+PLANNING | ICS section that tracks the situation and writes the plan
+LOGISTICS | ICS section that provides supplies, facilities, and services
+FINANCE | ICS section that tracks costs and time (with Administration)
+SPAN OF CONTROL | Number of people one supervisor can manage well
+UNIFIED COMMAND | Agencies sharing command of one incident
+NIMS | National Incident Management System (abbr.)
+FEMA | Federal Emergency Management Agency (abbr.)
+STAGING AREA | Place where resources wait for an assignment
+ACTION PLAN | Incident ___: the objectives for one operational period
+CHECK IN | Reporting your arrival at an incident
+PLAIN LANGUAGE | Clear words used on the radio instead of codes
+TRANSFER | ___ of command: handing command to a new person
+BRIEFING | Meeting that gives teams their assignments
+SAFETY OFFICER | Command staff member who watches for hazards
+LIAISON | ___ officer: command staff contact for other agencies
+RESOURCES | People, equipment, and supplies at an incident
+UNITY | ___ of command: each person reports to only one supervisor`
+},
+"Communications": {
+"Phonetic Alphabet": `
+BRAVO | Phonetic word for B
+CHARLIE | Phonetic word for C
+DELTA | Phonetic word for D
+ECHO | Phonetic word for E
+FOXTROT | Phonetic word for F
+GOLF | Phonetic word for G
+HOTEL | Phonetic word for H
+INDIA | Phonetic word for I
+KILO | Phonetic word for K
+LIMA | Phonetic word for L
+MIKE | Phonetic word for M
+NOVEMBER | Phonetic word for N
+OSCAR | Phonetic word for O
+PAPA | Phonetic word for P
+QUEBEC | Phonetic word for Q
+ROMEO | Phonetic word for R
+SIERRA | Phonetic word for S
+TANGO | Phonetic word for T
+UNIFORM | Phonetic word for U
+VICTOR | Phonetic word for V
+WHISKEY | Phonetic word for W
+YANKEE | Phonetic word for Y
+ZULU | Phonetic word for Z`,
+"Radio Prowords": `
+ROGER | I have received your last transmission satisfactorily
+WILCO | I have received your message, understand it, and will comply
+OVER | This is the end of my transmission; a response is expected
+OUT | This is the end of my transmission; no response is expected
+BREAK | Separates one part of a message from another
+SAY AGAIN | Repeat your last transmission
+AFFIRMATIVE | Yes
+NEGATIVE | No
+WAIT | I must pause for a few seconds
+CORRECTION | I made an error; here is the correct version
+I SPELL | I will spell the next word phonetically
+READ BACK | Repeat this transmission back to me exactly as received
+THIS IS | Proword said just before the sender's call sign
+FIGURES | Numbers follow
+SILENCE | Stop all transmissions at once (said three times)
+RADIO CHECK | What is my signal strength and readability?
+LOUD AND CLEAR | Your signal is strong and easy to understand
+MAYDAY | Spoken distress signal, said three times
+PAN PAN | Spoken urgency signal, one step below Mayday`,
+"Radio Basics": `
+REPEATER | Station that receives and retransmits signals to extend range
+SIMPLEX | Radio-to-radio contact on one frequency, no repeater
+FREQUENCY | Cycles per second of a radio wave, measured in hertz
+ANTENNA | Part that sends and receives radio waves
+SQUELCH | Control that silences noise when no one is talking
+CALL SIGN | Name that identifies a station on the air
+NET | Group of stations working on a common frequency
+NET CONTROL | Station that directs a net
+HANDHELD | Portable radio you carry
+VHF | Very high frequency (abbr.)
+HERTZ | Unit of frequency
+TRANSMIT | To send a signal
+RECEIVE | To pick up a signal
+MICROPHONE | What you speak into
+PUSH TO TALK | Button you press to transmit
+BATTERY | Power source for a portable radio
+CHANNEL | Preset frequency on a radio
+STATIC | Crackling noise on the radio
+LINE OF SIGHT | VHF signals travel mostly by ___
+RADIO WAVE | Electromagnetic energy that carries the signal`
+},
+"Leadership": {
+"Leadership Basics": `
+LEADERSHIP | Influencing others to accomplish a mission
+FOLLOWERSHIP | Supporting your leader and team well
+TEAMWORK | Members working together toward one goal
+DELEGATION | Giving someone a task and the authority to do it
+FEEDBACK | Information about performance, used to improve
+VISION | Picture of where the team is going
+MOTIVATION | What drives someone to act
+COMMUNICATION | Sharing information so it is understood
+ACCOUNTABILITY | Owning your actions and their results
+MENTORING | Guiding a less experienced member over time
+INITIATIVE | Acting without being told
+EMPATHY | Understanding how someone else feels
+DECISION | A choice a leader commits to
+CONFLICT | Disagreement a leader helps resolve
+HOTWASH | Quick review held right after an event
+DEBRIEF | Discussion after a task about what happened
+SMART | Kind of goal: specific, measurable, achievable, relevant, time-bound
+DISCIPLINE | Self-control and following standards
+EXAMPLE | Leading by ___
+TRUST | Foundation of every strong team
+LISTENING | Active ___: giving the speaker your full attention
+RESPONSIBILITY | Duty to carry out a task
+GOAL | Result a team works toward`,
+"Character and Core Values": `
+INTEGRITY | CAP core value: doing what is right, even when no one is watching
+SERVICE | CAP core value: Volunteer ___
+EXCELLENCE | CAP core value: always giving your best
+RESPECT | CAP core value: treating others with dignity
+HONESTY | Telling the truth
+COURAGE | Doing the right thing despite fear
+FAIRNESS | Treating everyone by the same standard
+RESPONSIBILITY | Being someone others can count on
+CITIZENSHIP | Being a good member of your community and country
+KINDNESS | Being caring toward others
+ETHICS | Principles of right and wrong
+LOYALTY | Faithful support of your team
+HUMILITY | Not thinking you are better than others
+SELFLESS | Putting others' needs first
+VOLUNTEER | Someone who serves without pay
+DIGNITY | Worth that every person deserves to have respected
+CHARACTER | Who you are when no one is watching`
+},
+"Safety": {
+"Safety and Risk Management": `
+RISK | Chance of loss or injury from a hazard
+HAZARD | Condition that could cause harm
+MISHAP | Unplanned event that causes injury or damage
+SEVERITY | How bad the outcome of a hazard could be
+PROBABILITY | How likely a hazard is to cause harm
+RISK MANAGEMENT | Process of finding hazards and reducing the risk
+SAFETY OFFICER | Member who leads the unit's safety program
+BRIEFING | Safety ___: short talk before an activity
+HYDRATION | Drinking enough water
+HEAT EXHAUSTION | Heat illness with heavy sweating, weakness, and nausea
+HEATSTROKE | Life-threatening heat illness: call 911
+HYPOTHERMIA | Dangerously low body temperature
+FROSTBITE | Freezing of skin and tissue
+SUNBURN | Skin damage from too much sun
+PPE | Personal protective equipment (abbr.)
+REFLECTIVE | Kind of vest that makes you easy to see
+FOD | Foreign object debris on the ramp that can damage aircraft (abbr.)
+FLIGHT LINE | Ramp area where aircraft park and move
+PROPELLER | Always treat this as if the engine could start
+EXTINGUISHER | Tool for putting out a small fire
+EVACUATION | Organized exit during an emergency
+EARPLUGS | Hearing protection near loud engines
+WINGMAN | Buddy who watches out for your safety
+SPOTTER | Person who guides a vehicle while it backs up`
+},
+"CAP History": {
+"CAP History": `
+CIVIL AIR PATROL | Organization founded December 1, 1941
+DECEMBER | Month CAP was founded, in 1941
+COASTAL PATROL | World War II CAP mission watching the coast for enemy submarines
+SUBMARINE | Enemy vessel CAP coastal patrols hunted in World War II
+LA GUARDIA | Fiorello ___, civil defense director who signed CAP's founding order
+WILSON | Gill Robb ___, aviator credited with the idea for CAP
+CHARTER | Congress granted CAP this in 1946, making it a nonprofit corporation
+AUXILIARY | CAP became the Air Force's official civilian ___ in 1948
+TOTAL FORCE | Since 2015, CAP is part of the Air Force's ___
+MAXWELL | Alabama Air Force base where CAP National Headquarters is located
+SEMPER VIGILANS | CAP motto, Latin for "Always Vigilant"
+GOLD MEDAL | Congressional ___ awarded to CAP's World War II members
+CADET | CAP's youth program, begun in 1942
+MISSIONS | CAP's three: emergency services, cadet programs, aerospace education
+WING | CAP has 52 of these: one per state, plus DC and Puerto Rico
+REGION | CAP groups its wings into eight of these
+VOLUNTEER | What CAP members are`
+}
+};
+
+/* ------------------------------ helpers ------------------------------ */
+const $ = id => document.getElementById(id);
+const norm = s => s.toUpperCase().replace(/[^A-Z]/g, "");
+const enumOf = s => {
+  const parts = s.trim().split(/[\s-]+/).map(norm).filter(Boolean);
+  return parts.length > 1 ? " (" + parts.map(p => p.length).join(",") + ")" : "";
+};
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+function parseList(text) {
+  const out = [], seen = new Set();
+  for (const raw of text.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line) continue;
+    let i = line.indexOf("|");
+    if (i < 0) i = line.indexOf("\t");
+    if (i < 0) { const m = line.match(/\s[-:]\s/); if (m) i = m.index + 1; }
+    if (i < 0) continue;
+    const ans = line.slice(0, i).trim(), clue = line.slice(i + 1).replace(/^[-:\s]+/, "").trim();
+    const w = norm(ans);
+    if (w.length < 3 || !clue || seen.has(w)) continue;
+    seen.add(w);
+    out.push({ w, ans, clue: clue + enumOf(ans) });
+  }
+  return out;
+}
+
+/* ------------------------------ setup ------------------------------ */
+const catSel = $("category"), topicIn = $("topic");
+for (const cat of Object.keys(BANKS)) catSel.add(new Option(cat, cat));
+const dl = $("topicList");
+for (const [cat, topics] of Object.entries(BANKS)) for (const t of Object.keys(topics)) dl.appendChild(new Option(t, t));
+topicIn.value = "Principles of Flight";
+
+function findTopic(name) {
+  const key = name.trim().toLowerCase();
+  for (const [cat, topics] of Object.entries(BANKS))
+    for (const t of Object.keys(topics)) if (t.toLowerCase() === key) return { cat, t };
+  return null;
+}
+topicIn.addEventListener("change", () => { const f = findTopic(topicIn.value); if (f) catSel.value = f.cat; });
+
+/* ------------------------------ generator ------------------------------ */
+const SIZES = { 10: { cell: 0.56, max: 14, tries: 400 }, 15: { cell: 0.38, max: 22, tries: 300 } };
+
+function fits(g, N, w, r, c, dir) {
+  const dr = dir === "D" ? 1 : 0, dc = dir === "A" ? 1 : 0, L = w.length;
+  if (r < 0 || c < 0 || r + dr * (L - 1) >= N || c + dc * (L - 1) >= N) return -1;
+  const br = r - dr, bc = c - dc, ar = r + dr * L, ac = c + dc * L;
+  if (br >= 0 && bc >= 0 && g[br][bc]) return -1;
+  if (ar < N && ac < N && g[ar][ac]) return -1;
+  let cross = 0;
+  for (let i = 0; i < L; i++) {
+    const rr = r + dr * i, cc = c + dc * i, ch = g[rr][cc];
+    if (ch) { if (ch !== w[i]) return -1; cross++; }
+    else {
+      const r1 = rr + dc, c1 = cc + dr, r2 = rr - dc, c2 = cc - dr;
+      if (r1 < N && c1 < N && g[r1][c1]) return -1;
+      if (r2 >= 0 && c2 >= 0 && g[r2][c2]) return -1;
+    }
+  }
+  return cross === L ? -1 : cross;
+}
+function put(g, w, r, c, dir) {
+  const dr = dir === "D" ? 1 : 0, dc = dir === "A" ? 1 : 0;
+  for (let i = 0; i < w.length; i++) g[r + dr * i][c + dc * i] = w[i];
+}
+function bestSpot(g, N, w) {
+  let best = null, mid = (N - 1) / 2;
+  for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) for (const dir of ["A", "D"]) {
+    const x = fits(g, N, w, r, c, dir);
+    if (x < 1) continue;
+    const cr = dir === "D" ? r + (w.length - 1) / 2 : r, cc = dir === "A" ? c + (w.length - 1) / 2 : c;
+    const s = x * 10 - (Math.abs(cr - mid) + Math.abs(cc - mid)) * 0.6 + Math.random() * 4;
+    if (!best || s > best.s) best = { r, c, dir, s, x };
+  }
+  return best;
+}
+function generate(entries, N) {
+  const { max, tries } = SIZES[N];
+  let best = null;
+  for (let t = 0; t < tries; t++) {
+    const pool = shuffle(entries.slice()).slice(0, entries.length)
+      .map(e => ({ e, k: e.w.length + Math.random() * 3 })).sort((a, b) => b.k - a.k).map(o => o.e);
+    if (!pool.length) break;
+    const g = Array.from({ length: N }, () => Array(N).fill(""));
+    const placed = [];
+    const f = pool[0], r0 = Math.floor(N / 2), c0 = Math.floor(Math.random() * (N - f.w.length + 1));
+    put(g, f.w, r0, c0, "A"); placed.push({ ...f, r: r0, c: c0, dir: "A" });
+    let pending = pool.slice(1), crossings = 0, progress = true;
+    while (progress && placed.length < max && pending.length) {
+      progress = false; const rest = [];
+      for (const e of pending) {
+        if (placed.length >= max) { rest.push(e); continue; }
+        const p = bestSpot(g, N, e.w);
+        if (p) { put(g, e.w, p.r, p.c, p.dir); placed.push({ ...e, r: p.r, c: p.c, dir: p.dir }); crossings += p.x; progress = true; }
+        else rest.push(e);
+      }
+      pending = rest;
+    }
+    const score = placed.length * 100 + crossings;
+    if (!best || score > best.score) best = { score, placed };
+  }
+  return best ? recenter(best.placed, N) : null;
+}
+function recenter(placed, N) {
+  let r0 = N, r1 = 0, c0 = N, c1 = 0;
+  for (const p of placed) {
+    const L = p.w.length - 1;
+    r0 = Math.min(r0, p.r); c0 = Math.min(c0, p.c);
+    r1 = Math.max(r1, p.dir === "D" ? p.r + L : p.r); c1 = Math.max(c1, p.dir === "A" ? p.c + L : p.c);
+  }
+  const dr = Math.floor((N - 1 - r1 - r0) / 2), dc = Math.floor((N - 1 - c1 - c0) / 2);
+  const out = placed.map(p => ({ ...p, r: p.r + dr, c: p.c + dc }));
+  const g = Array.from({ length: N }, () => Array(N).fill(""));
+  for (const p of out) put(g, p.w, p.r, p.c, p.dir);
+  const starts = [...new Set(out.map(p => p.r * N + p.c))].sort((a, b) => a - b);
+  const numAt = new Map(starts.map((k, i) => [k, i + 1]));
+  for (const p of out) p.n = numAt.get(p.r * N + p.c);
+  return { N, g, words: out, numAt };
+}
+
+/* ------------------------------ render ------------------------------ */
+let current = null;
+
+function gridHTML(P, withLetters) {
+  const { N, g, numAt } = P, cs = SIZES[N].cell;
+  let h = `<div class="grid" style="grid-template-columns:repeat(${N},${cs}in);grid-auto-rows:${cs}in">`;
+  for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
+    const ch = g[r][c], n = numAt.get(r * N + c);
+    const edge = (c === N - 1 ? " lastc" : "") + (r === N - 1 ? " lastr" : "");
+    h += `<div class="cell${ch ? " on" : ""}${edge}">` +
+      (n ? `<span class="num">${n}</span>` : "") +
+      (ch && withLetters ? `<span class="ltr" style="font-size:${N === 10 ? 22 : 16}px">${ch}</span>` : "") + `</div>`;
+  }
+  return h + "</div>";
+}
+function clueLists(P, withAnswers) {
+  const list = dir => P.words.filter(w => w.dir === dir).sort((a, b) => a.n - b.n)
+    .map(w => `<li><b>${w.n}</b><span>${withAnswers ? `<span class="ans">${esc(w.ans.toUpperCase())}</span>` : esc(w.clue)}</span></li>`).join("");
+  const compact = P.words.length > 16 ? " compact" : "";
+  return `<div class="clues${compact}"><div><h2>Across</h2><ol>${list("A")}</ol></div><div><h2>Down</h2><ol>${list("D")}</ol></div></div>`;
+}
+function header(title, byline, key) {
+  return `<div class="shead"><div><h1 class="ptitle">${esc(title)}</h1><p class="byline">${esc(byline)}</p></div>` +
+    (key ? `<p class="kicker">Answer key</p>` : `<div class="namebox">Name<span></span><br>Date<span class="d"></span></div>`) + `</div>`;
+}
+function render() {
+  if (!current) return;
+  const { P, title, byline, source } = current;
+  $("puzzleSheet").innerHTML = header(title, byline, false) + `<div class="gridwrap">${gridHTML(P, false)}</div>` + clueLists(P, false);
+  $("keySheet").innerHTML = header(title, byline, true) + `<div class="gridwrap">${gridHTML(P, true)}</div>` + clueLists(P, true) +
+    `<p class="src">${esc(source)}</p>`;
+  $("keySheet").hidden = false;
+}
+
+function make(keepWords) {
+  const N = +document.querySelector('input[name=size]:checked').value;
+  const title = topicIn.value.trim(), byline = catSel.value;
+  const st = $("status"); st.className = "status";
+  let entries, source;
+  const own = $("own").value.trim();
+  if (own) {
+    entries = parseList(own); source = "Word list: entered by the puzzle maker.";
+    if (!entries.length) { st.className = "status warn"; st.textContent = "No usable lines in My own words. Use: ANSWER | clue"; return; }
+  } else {
+    const f = findTopic(title);
+    if (!f) {
+      st.className = "status warn";
+      st.textContent = title ? `No built-in word list for "${title}". Pick a topic from the list, or open "Use my own words" below.` : "Enter a topic.";
+      if (title) $("ownBox").open = true;
+      return;
+    }
+    entries = parseList(BANKS[f.cat][f.t]); source = `Word list: CAP Puzzles built-in list, ${f.t}.`;
+  }
+  if (!title) { st.className = "status warn"; st.textContent = "Enter a topic; it becomes the puzzle title."; return; }
+  const usable = entries.filter(e => e.w.length <= N);
+  const tooLong = entries.length - usable.length;
+  if (usable.length < 4) { st.className = "status warn"; st.textContent = `Only ${usable.length} words fit a ${N} x ${N} grid. Add more words or choose 15 x 15.`; return; }
+  const P = generate(usable, N);
+  current = { P, title, byline, source };
+  render();
+  let msg = `${P.words.length} of ${usable.length} words placed.`;
+  if (tooLong) msg += ` ${tooLong} too long for ${N} x ${N}.`;
+  if (P.words.length < 6) { st.className = "status warn"; msg += " That is a thin puzzle; try New layout or add words."; }
+  st.textContent = msg + " Select New layout for a different arrangement.";
+}
+
+function printAs(cls) {
+  if (!current) { make(); if (!current) return; }
+  document.body.classList.remove("only-puzzle", "only-key");
+  if (cls) document.body.classList.add(cls);
+  window.print();
+}
+window.addEventListener("afterprint", () => document.body.classList.remove("only-puzzle", "only-key"));
+
+$("make").addEventListener("click", () => make());
+$("again").addEventListener("click", () => make());
+$("printPuzzle").addEventListener("click", () => printAs("only-puzzle"));
+$("printKey").addEventListener("click", () => printAs("only-key"));
+$("printBoth").addEventListener("click", () => printAs(""));
+document.querySelectorAll('input[name=size]').forEach(r => r.addEventListener("change", () => { if (current) make(); }));
+$("clearOwn").addEventListener("click", () => { $("own").value = ""; $("own").focus(); });
+
+$("copyPrompt").addEventListener("click", async () => {
+  const N = +document.querySelector('input[name=size]:checked').value;
+  const topic = topicIn.value.trim() || "[your topic]";
+  const text =
+`Make a crossword word list for Civil Air Patrol cadets (ages 12 to 16).
+Topic: ${topic}
+CAP category: ${catSel.value}
+Give 30 entries, one per line, exactly in this form:
+ANSWER | clue
+Rules:
+- Answers are 3 to ${N} letters (spaces between words are fine).
+- Every clue must be factually correct and match current CAP publications; leave out anything you cannot verify.
+- Plain language, no trick clues, no abbreviations a cadet would not know.
+- Output only the list, no numbering or commentary.`;
+  const box = $("promptBox"), ta = $("promptText");
+  try { await navigator.clipboard.writeText(text); box.classList.remove("show"); $("status").className = "status"; $("status").textContent = "Prompt copied. Paste it into Claude, then paste the list it returns into the box above."; }
+  catch { ta.value = text; box.classList.add("show"); ta.focus(); ta.select(); }
+});
+
+make();
+</script>
+</body>
+</html>

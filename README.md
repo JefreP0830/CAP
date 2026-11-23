@@ -15,6 +15,7 @@ run time, in the browser, on the machine you are using.
 | [NLD Operations Plan](tools/nld-ops-plan/) | Vermont Wing plan for CAP National Legislative Day 2027 | Draft for review |
 | [After Action Review](tools/aar/) | Five-part AAR form for any activity or SDA, with a worked example | Draft for review |
 | [Hotwash](tools/hotwash/) | CHECK SIX (See, Identify, eXecute) hotwash email for any meeting, mission or training event | Draft for review |
+| [CAP Puzzles](tools/cap-puzzles/) | Topic crosswords (10 x 10 or 15 x 15) with answer key, built-in CAP word lists or your own | Draft for review |
 | [Unit Operations Checklist](tools/monthly-ops/) | Printable FY calendar of recurring compliance tasks by month and officer | Draft for review |
 
 ## Layout
