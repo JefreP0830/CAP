@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.5 - 2026-11-22
+
+- Action date in the email up 25% (10.5px to 13px).
+
 ## 1.5.4 - 2026-11-22
 
 - Action dates shortened to DD MMM (05 DEC) when the entry reads as a date, shown at 0.75x size in the email.

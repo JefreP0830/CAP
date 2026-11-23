@@ -150,10 +150,10 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
     if ((m = v.match(/^([A-Za-z]{3,})\.?\s+(\d{1,2})/)) && mi(m[1]) >= 0) return `${dd(+m[2])} ${MON[mi(m[1])]}`;
     return v.toUpperCase();
   }
-  // Action item: date first, then the action. Plain text uses an em space; HTML shrinks the date to 0.75x.
+  // Action item: date first, then the action. Plain text uses an em space; HTML sets the date at 13px.
   const actItem = a => ({ due: shortDue(a[1]), text: a[0] });
   const itemText = i => typeof i === "string" ? i : (i.due ? `${i.due}\u2003${i.text}` : i.text);
-  const itemHtml = i => typeof i === "string" ? esc(i) : (i.due ? `<span style="font-size:10.5px;color:#4D4D4D">${esc(i.due)}</span>&emsp;${esc(i.text)}` : esc(i.text));
+  const itemHtml = i => typeof i === "string" ? esc(i) : (i.due ? `<span style="font-size:13px;color:#4D4D4D">${esc(i.due)}</span>&emsp;${esc(i.text)}` : esc(i.text));
   const radio = n => (document.querySelector(`input[name=${n}]:checked`) || {}).value || "";
   function model() {
     const act = $("activity").value.trim(), date = fmtDate(), type = radio("mode");
