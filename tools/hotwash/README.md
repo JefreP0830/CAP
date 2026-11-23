@@ -11,8 +11,7 @@ Pilots check six o'clock to see what is behind them.
 |---|---|---|
 | S | (S)ee | What actually happened: facts, numbers, times |
 | I | (I)dentify | Where we can improve, and why it happened |
-| X | e(X)ecute | On these actions: action, owner's CAPID, due date |
+| X | e(X)ecute | On these actions: do WHAT, by WHEN |
 
 Copy puts the email on the clipboard as formatted HTML and plain text. Nothing is saved (D-004).
-Each action's owner is recorded by CAPID, so one person cannot stand in for several.
 Use the After Action Review (`tools/aar/`) for the full write-up.

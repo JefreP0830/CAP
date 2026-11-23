@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.5.0 - 2026-11-22
+
+- Execute rows are now two fields: Do WHAT (3/5) and by WHEN (2/5). Action owner CAPID removed.
+- Bracketed prompts removed from IDENTIFY and EXECUTE titles.
+
 ## 1.4.0 - 2026-11-22
 
 - CHECK SIX words changed: (S)EE what actually happened, (I)DENTIFY where we can improve, e(X)ECUTE on these actions. Form, email, menu and README updated.
