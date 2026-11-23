@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.4 - 2026-11-22
+
+- Action dates shortened to DD MMM (05 DEC) when the entry reads as a date, shown at 0.75x size in the email.
+
 ## 1.5.3 - 2026-11-22
 
 - Email lists each action date first, in capitals, then the action (5 DEC 2026  Run the ...).

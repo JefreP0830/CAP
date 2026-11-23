@@ -137,10 +137,23 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
     const [y, m, d] = v.split("-").map(Number);
     return `${d} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][m - 1]} ${y}`;
   }
-  function actText(a) {
-    // Date first, upper case, then the action; an em space keeps the gap in HTML and plain text.
-    return a[1] ? `${a[1].toUpperCase()}\u2003${a[0]}` : a[0];
+  // "by WHEN" is free text; shorten anything that reads as a date to DD MMM (05 DEC).
+  const MON = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+  function shortDue(v) {
+    v = v.trim();
+    if (!v) return "";
+    const dd = n => String(n).padStart(2, "0"), mi = w => MON.indexOf(w.slice(0, 3).toUpperCase());
+    let m;
+    if ((m = v.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/))) return `${dd(+m[3])} ${MON[+m[2] - 1]}`;
+    if ((m = v.match(/^(\d{1,2})[\/.-](\d{1,2})(?:[\/.-]\d{2,4})?$/)) && +m[1] <= 12) return `${dd(+m[2])} ${MON[+m[1] - 1]}`;
+    if ((m = v.match(/^(\d{1,2})(?:st|nd|rd|th)?\s+([A-Za-z]{3,})/)) && mi(m[2]) >= 0) return `${dd(+m[1])} ${MON[mi(m[2])]}`;
+    if ((m = v.match(/^([A-Za-z]{3,})\.?\s+(\d{1,2})/)) && mi(m[1]) >= 0) return `${dd(+m[2])} ${MON[mi(m[1])]}`;
+    return v.toUpperCase();
   }
+  // Action item: date first, then the action. Plain text uses an em space; HTML shrinks the date to 0.75x.
+  const actItem = a => ({ due: shortDue(a[1]), text: a[0] });
+  const itemText = i => typeof i === "string" ? i : (i.due ? `${i.due}\u2003${i.text}` : i.text);
+  const itemHtml = i => typeof i === "string" ? esc(i) : (i.due ? `<span style="font-size:10.5px;color:#4D4D4D">${esc(i.due)}</span>&emsp;${esc(i.text)}` : esc(i.text));
   const radio = n => (document.querySelector(`input[name=${n}]:checked`) || {}).value || "";
   function model() {
     const act = $("activity").value.trim(), date = fmtDate(), type = radio("mode");
@@ -151,7 +164,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
       sections: [
         [["", "S", "EE"], "what actually happened", lines("saw")],
         [["", "I", "DENTIFY"], "where we can improve", lines("insight")],
-        [["e", "X", "ECUTE"], "on these actions", acts().map(actText)]
+        [["e", "X", "ECUTE"], "on these actions", acts().map(actItem)]
       ],
       by: [$("by").value.trim(), $("capid").value.trim() && `CAPID ${$("capid").value.trim()}`].filter(Boolean).join(", ")
     };
@@ -160,7 +173,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
     let t = `HOTWASH: ${m.head}\nCheck your SIX\n` + m.meta.map(([k, v]) => `${k}: ${v}`).join(" | ") + "\n";
     for (const [k, sub, items] of m.sections) {
       t += `\n${k[0]}(${k[1]})${k[2]} (${sub})\n`;
-      t += items.length ? items.map(i => `- ${i}`).join("\n") + "\n" : "- None noted\n";
+      t += items.length ? items.map(i => `- ${itemText(i)}`).join("\n") + "\n" : "- None noted\n";
     }
     if (m.by) t += `\nFacilitator: ${m.by}\n`;
     return t;
@@ -173,7 +186,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
     for (const [k, sub, items] of m.sections) {
       const lab = `<span style="color:#4050A7">${k[0]}</span><span style="color:#9EA2A2;font-weight:normal">(</span><span style="color:#000000">${k[1]}</span><span style="color:#9EA2A2;font-weight:normal">)</span><span style="color:#4050A7">${k[2]}</span>`;
       h += `<p ${H}>${lab} <span style="font-weight:normal;color:#63666A">(${sub})</span></p>`;
-      h += `<ul style="margin:0;padding-left:20px">${(items.length ? items : ["None noted"]).map(i => `<li>${esc(i)}</li>`).join("")}</ul>`;
+      h += `<ul style="margin:0;padding-left:20px">${(items.length ? items : ["None noted"]).map(i => `<li>${itemHtml(i)}</li>`).join("")}</ul>`;
     }
     if (m.by) h += `<p style="margin:14px 0 0;color:#4D4D4D">Facilitator: ${esc(m.by)}</p>`;
     return h + "</div>";
