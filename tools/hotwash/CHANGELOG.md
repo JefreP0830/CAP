@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.6 - 2026-11-22
+
+- Action date in the email set to 12px.
+
 ## 1.5.5 - 2026-11-22
 
 - Action date in the email up 25% (10.5px to 13px).

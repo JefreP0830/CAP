@@ -150,10 +150,10 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
     if ((m = v.match(/^([A-Za-z]{3,})\.?\s+(\d{1,2})/)) && mi(m[1]) >= 0) return `${dd(+m[2])} ${MON[mi(m[1])]}`;
     return v.toUpperCase();
   }
-  // Action item: date first, then the action. Plain text uses an em space; HTML sets the date at 13px.
+  // Action item: date first, then the action. Plain text uses an em space; HTML sets the date at 12px.
   const actItem = a => ({ due: shortDue(a[1]), text: a[0] });
   const itemText = i => typeof i === "string" ? i : (i.due ? `${i.due}\u2003${i.text}` : i.text);
-  const itemHtml = i => typeof i === "string" ? esc(i) : (i.due ? `<span style="font-size:13px;color:#4D4D4D">${esc(i.due)}</span>&emsp;${esc(i.text)}` : esc(i.text));
+  const itemHtml = i => typeof i === "string" ? esc(i) : (i.due ? `<span style="font-size:12px;color:#4D4D4D">${esc(i.due)}</span>&emsp;${esc(i.text)}` : esc(i.text));
   const radio = n => (document.querySelector(`input[name=${n}]:checked`) || {}).value || "";
   function model() {
     const act = $("activity").value.trim(), date = fmtDate(), type = radio("mode");
@@ -182,7 +182,7 @@ input::placeholder,textarea::placeholder{color:#8A8D8F}
     const H = 'style="margin:14px 0 4px;font-family:Arial,sans-serif;font-size:14px;color:#001489;font-weight:bold"';
     let h = `<div style="font-family:Arial,sans-serif;font-size:14px;color:#222">`;
     h += `<table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:100%"><tr><td style="background:#001489;color:#FFFFFF;font-family:Arial,sans-serif;font-size:17px;font-weight:bold;padding:10px 14px">HOTWASH: ${esc(m.head)}<div style="margin-top:2px;font-size:13px;font-weight:normal;font-style:italic;color:#C9CCCC">Check your SIX</div></td></tr></table>`;
-    h += `<p style="margin:8px 0 0;font-size:13px;color:#4D4D4D">${m.meta.map(([k, v]) => `${k}: ${esc(v)}`).join(" &nbsp;|&nbsp; ")}</p>`;
+    h += `<p style="margin:8px 0 0;font-size:12px;color:#4D4D4D">${m.meta.map(([k, v]) => `${k}: ${esc(v)}`).join(" &nbsp;|&nbsp; ")}</p>`;
     for (const [k, sub, items] of m.sections) {
       const lab = `<span style="color:#4050A7">${k[0]}</span><span style="color:#9EA2A2;font-weight:normal">(</span><span style="color:#000000">${k[1]}</span><span style="color:#9EA2A2;font-weight:normal">)</span><span style="color:#4050A7">${k[2]}</span>`;
       h += `<p ${H}>${lab} <span style="font-weight:normal;color:#63666A">(${sub})</span></p>`;
