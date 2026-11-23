@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.0 - 2026-11-22
+
+- Rebuilt to match Jef's original Antigravity AAR form, part for part and field for field,
+  in the CAP Tools style (gray section titles, CAP Ultramarine, Arial body, Rajdhani title,
+  no icons). The lean 1.0.0 redesign is retired; it stays in git history.
+- Sample data uses fictional unit and 000001-style CAPIDs (repo data rule).
+- Filled forms print in full without clipping; blank forms keep the fixed three-page layout.
+
 ## 1.0.0 - 2026-11-22
 
 - Rebuilt from the Antigravity AAR form. Structure now follows the CAPP 60-32 AAR rubric (A1.7)

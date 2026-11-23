@@ -11,101 +11,93 @@
 <style>
 /* Tokens copied from shared/brand/cap-brand.css (CAP Brand Portal / CAPR 900-2). */
 :root{
-  --paper:#FFFFFF; --ink:#4D4D4D; --head:#63666A; --rule:#9EA2A2; --tint:#F1F2F2; --field:#F4F5F5;
+  --paper:#FFFFFF; --ink:#4D4D4D; --head:#63666A; --rule:#9EA2A2; --line:#D9DBDB; --tint:#F4F5F5;
   --blue:#001489; --yellow:#FFCD00;
   --f-title:"Rajdhani", Arial, sans-serif; --f-body:Arial, Helvetica, sans-serif;
   color-scheme:light;
 }
+*{box-sizing:border-box}
 html,body{margin:0;background:#EEF0F0;color:var(--ink)}
 body{font-family:var(--f-body);font-size:14.67px;line-height:1.2}
 
 /* ---- screen chrome (never printed) */
 .bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:12px max(16px, env(safe-area-inset-left, 0px));background:var(--paper);border-bottom:3px solid var(--blue)}
-.bar a{color:var(--blue);text-decoration:none;font-size:14.67px}
+.bar a{color:var(--blue);text-decoration:none}
 .bar h1{flex:1;margin:0;font:600 22px var(--f-title);color:var(--blue);white-space:nowrap}
-.btn{font:inherit;font-size:13.33px;height:36px;box-sizing:border-box;color:var(--blue);background:var(--paper);border:1px solid var(--blue);border-radius:3px;padding:0 12px;cursor:pointer}
+.btn{font:inherit;font-size:13.33px;height:36px;color:var(--blue);background:var(--paper);border:1px solid var(--blue);border-radius:3px;padding:0 12px;cursor:pointer}
 .btn.primary{color:#FFFFFF;background:var(--blue)}
-.btn:focus-visible,.tog input:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
-.tog{display:flex;align-items:center;gap:8px;font-size:13.33px;color:var(--ink);cursor:pointer}
-.tog input{width:18px;height:18px;accent-color:var(--blue)}
+.btn:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
 
-.check{width:816px;max-width:calc(100% - 32px);box-sizing:border-box;margin:16px auto 0;background:var(--paper);border:1px solid #D9DBDB;padding:12px 18px}
-.check h2{margin:0 0 6px;font-weight:400;font-size:14.67px;color:var(--head);letter-spacing:.03em}
-.check ul{margin:0;padding:0;list-style:none;columns:2;column-gap:24px}
-.check li{font-size:13.33px;padding:3px 0 3px 18px;position:relative;break-inside:avoid}
-.check li::before{content:"";position:absolute;left:0;top:6px;width:9px;height:9px;border:1.5px solid var(--rule);border-radius:50%}
-.check li.ok::before{background:var(--blue);border-color:var(--blue)}
-.check li.ok{color:var(--head)}
-.check .fine{margin:8px 0 0;font-size:12px;color:var(--head)}
+/* ---- the sheet: 8.5 x 11 */
+.sheet{width:8.5in;max-width:calc(100% - 24px);margin:16px auto 32px;background:var(--paper);border:1px solid var(--line);box-shadow:0 1px 4px rgba(0,0,0,.14);padding:.5in}
 
-/* ---- the sheet */
-.sheet{width:816px;max-width:calc(100% - 32px);box-sizing:border-box;margin:16px auto 32px;background:var(--paper);border:1px solid #D9DBDB;box-shadow:0 1px 4px rgba(0,0,0,.14);padding:44px 52px 48px}
-.title{font:700 26.67px/1.05 var(--f-title);color:var(--blue);margin:0;letter-spacing:.01em}
-.byline{margin:2px 0 0;font-size:14.67px;color:var(--ink)}
-h2.sec{margin:20px 0 6px;font-weight:400;font-size:18.67px;color:var(--head);border-bottom:1.5px solid var(--head);padding-bottom:3px}
-h2.sec .q{font-size:13.33px;color:var(--head);margin-left:8px}
-.hint{font-size:12px;color:var(--head);margin:0 0 6px}
+.doc-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;border-bottom:3px solid var(--blue);padding-bottom:8px;margin-bottom:6px}
+.org{font-size:12px;color:var(--ink);letter-spacing:.06em;text-transform:uppercase}
+.title{margin:2px 0 0;font:700 26.67px/1.05 var(--f-title);color:var(--blue);text-transform:uppercase;letter-spacing:.02em}
+.ref-box{border:1px solid var(--rule);padding:5px 10px;text-align:right;min-width:150px}
+.ref-box span{display:block;font-size:11px;color:var(--head);letter-spacing:.04em;text-transform:uppercase}
+.ref-box b{font-size:13.33px;color:#000;font-weight:400}
 
-.grid{display:grid;gap:8px 12px;margin-top:14px}
-.g3{grid-template-columns:2fr 1fr 1.4fr}
-.g4{grid-template-columns:.8fr 1.4fr 1fr 1.4fr}
-.f{display:flex;flex-direction:column;gap:2px;min-width:0}
-.f > span{font-size:12px;color:var(--head);letter-spacing:.02em}
-.f input,.f select{font:inherit;color:#000;border:0;border-bottom:1px solid var(--rule);background:var(--field);padding:5px 6px;min-width:0;border-radius:2px 2px 0 0}
-.f input:focus-visible,.f select:focus-visible,[contenteditable]:focus-visible,td select:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
-.sda-only{display:none}
-body.sda .sda-only{display:flex}
-body.sda li.sda-only{display:list-item}
+section.part{margin-top:16px}
+.part-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1.5px solid var(--head);padding-bottom:3px;margin-bottom:8px}
+.part-head h2{margin:0;font-weight:400;font-size:18.67px;color:var(--head)}
+.part-head .ref{font-size:11px;color:var(--head);text-align:right}
 
-.area{min-height:4.8em;background:var(--field);border-bottom:1px solid var(--rule);padding:6px 8px;color:#000;white-space:pre-wrap;border-radius:2px 2px 0 0}
-.area.short{min-height:2.6em}
-[contenteditable][data-ph]:empty::before{content:attr(data-ph);color:#8A8D8F}
+.sub{margin-top:10px}
+.sub-title{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:14.67px;color:#000;margin-bottom:4px}
+.sub-title .tag{font-size:11px;color:var(--head);letter-spacing:.03em;text-transform:uppercase;white-space:nowrap}
+.prompt{font-size:12px;color:var(--head);margin:0 0 6px;line-height:1.35}
+.prompt b{font-weight:700;color:var(--ink)}
 
-.chips{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:4px;font-size:13.33px}
-.chips label{display:flex;align-items:center;gap:5px;cursor:pointer}
-.chips input{accent-color:var(--blue);width:15px;height:15px;margin:0}
-.chips .lab{font-size:12px;color:var(--head);letter-spacing:.02em;min-width:56px}
+.grid{display:grid;gap:8px 12px;margin-bottom:8px}
+.f{display:flex;flex-direction:column;gap:3px;min-width:0}
+.f > span{font-size:12px;color:var(--head);letter-spacing:.02em;display:flex;justify-content:space-between;gap:8px}
+.f > span i{font-style:normal;font-size:11px}
+input[type=text],textarea{font:inherit;color:#000;width:100%;min-width:0;border:0;border-bottom:1px solid var(--rule);background:var(--tint);padding:5px 6px;border-radius:2px 2px 0 0}
+textarea{resize:vertical;line-height:1.3;overflow:hidden;display:block;field-sizing:content}
+input:focus-visible,textarea:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+
+.checks{display:grid;gap:4px;font-size:13.33px}
+.checks label,.mm label{display:flex;align-items:center;gap:6px;cursor:pointer}
+input[type=checkbox]{accent-color:var(--blue);width:15px;height:15px;margin:0;flex:none}
 
 table{width:100%;border-collapse:collapse;table-layout:fixed}
 th{font-weight:400;font-size:12px;color:var(--head);text-align:left;padding:4px 6px;border-bottom:1px solid var(--head);letter-spacing:.02em}
-td{padding:0;border-bottom:1px solid var(--rule);vertical-align:top}
-td [contenteditable]{min-height:1.2em;padding:6px;color:#000;white-space:pre-wrap;word-wrap:break-word}
-td select{font:inherit;font-size:13.33px;color:#000;width:100%;border:0;background:transparent;padding:6px 2px}
-.x{width:24px;text-align:center}
-td.x button{border:0;background:none;color:var(--rule);font:16px var(--f-body);cursor:pointer;padding:6px 0;width:100%}
-td.x button:hover{color:var(--ink)}
-.add{margin-top:6px;font:inherit;font-size:12px;color:var(--blue);background:none;border:0;padding:4px 0;cursor:pointer}
-.add:focus-visible{outline:2px solid var(--blue)}
-.c-topic{width:150px}.c-rate{width:104px}.c-owner{width:150px}.c-due{width:104px}
+td{padding:4px 4px;border-bottom:1px solid var(--line);vertical-align:top}
+.mm{display:flex;justify-content:space-around;font-size:13.33px;padding-top:4px}
 
-.refs{font-size:12px;color:var(--head);margin:22px 0 0;border-top:1px solid #D9DBDB;padding-top:8px;line-height:1.5}
-.refs a{color:var(--blue)}
+.sign{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sign > div{border:1px solid var(--line);padding:10px}
+.sign h3{margin:0 0 6px;font-weight:400;font-size:12px;color:var(--head);letter-spacing:.04em;text-transform:uppercase}
+.sign p{margin:0 0 8px;font-size:12px;color:var(--ink);line-height:1.35}
+.sigline{margin-top:14px;border-top:1px solid var(--ink);padding-top:3px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;color:var(--head)}
+.sigline input{width:110px}
+#dispMentorSig{margin-top:4px;font-size:13.33px;color:#000;min-height:1.2em}
 
-@media (max-width:700px){
-  .sheet{padding:24px 16px}
-  .g3,.g4{grid-template-columns:1fr 1fr}
-  .check ul{columns:1}
-  .c-topic{width:110px}.c-owner{width:100px}
+.foot{display:flex;justify-content:space-between;gap:20px;margin-top:18px;border-top:1px solid var(--line);padding-top:8px;font-size:11px;color:var(--head);line-height:1.45}
+.foot b{font-weight:400;letter-spacing:.04em}
+.foot .r{text-align:right;white-space:nowrap;letter-spacing:.04em}
+
+.pb{height:0}
+
+@media (max-width:720px){
+  .sheet{padding:20px 14px}
+  .g4,.g-line2,.g-line3{grid-template-columns:1fr 1fr !important}
+  .g2,.sign{grid-template-columns:1fr !important}
+  .doc-head{flex-wrap:wrap}
 }
 
-/* ---- print: Letter, chrome off, empty rows and placeholders gone */
-@page{size:Letter;margin:.55in .6in}
+@page{size:Letter;margin:.45in .5in}
 @media print{
   html,body{background:#FFFFFF}
-  body{font-size:11pt}
-  .bar,.check,.add,.x,.refs,.noprint{display:none !important}
-  :focus,:focus-visible{outline:none !important}
-  [contenteditable]{caret-color:transparent}
+  .bar{display:none !important}
   .sheet{width:auto;max-width:none;margin:0;padding:0;border:0;box-shadow:none}
-  [contenteditable][data-ph]:empty::before{content:""}
-  .f input,.f select,.area{background:none}
-  .f select{appearance:none;-webkit-appearance:none}
-  td select{appearance:none;-webkit-appearance:none}
-  tr.blank{display:none}
-  .chips label.off{display:none}
-  .area:empty{min-height:1.4em}
-  h2.sec{break-after:avoid}
-  tr{break-inside:avoid}
+  input[type=text]{background:none}
+  textarea{background:none;border:1px solid var(--line);height:auto !important;field-sizing:content}
+  :focus,:focus-visible{outline:none !important}
+  body:not(.filled) .pb{break-before:page} /* fixed 3-page layout for a blank form to fill by hand */
+  .part-head,.sub-title,.prompt{break-after:avoid}
+  tr,.sign{break-inside:avoid}
 }
 </style>
 </head>
@@ -114,254 +106,290 @@ td.x button:hover{color:var(--ink)}
 <div class="bar">
   <a href="../../">CAP Tools</a>
   <h1>After Action Review</h1>
-  <label class="tog"><input type="checkbox" id="sdaToggle"> For a cadet SDA</label>
-  <button type="button" class="btn" id="clearBtn">Clear</button>
-  <button type="button" class="btn primary" id="printBtn">Print / Save PDF</button>
+  <button type="button" class="btn" onclick="loadSampleData()" title="Fill the form with a worked example">Load Sample AAR</button>
+  <button type="button" class="btn" onclick="clearForm()">Clear Form</button>
+  <button type="button" class="btn primary" onclick="window.print()">Print / Save PDF</button>
 </div>
 
-<section class="check" id="check" hidden aria-live="polite">
-  <h2>SDA SELF-CHECK &nbsp;(CAPP 60-32 rubric, A1.7)</h2>
-  <ul id="checkList"></ul>
-  <p class="fine">This checks completeness only. Your senior mentor scores the AAR on the CAPP 60-32 rubric (19 of 24 to pass) and judges tone, big-picture value and spelling. This panel does not print.</p>
-</section>
-
-<main class="sheet" id="sheet">
-  <h1 class="title">After Action Review</h1>
-  <p class="byline">Civil Air Patrol</p>
-
-  <div class="grid g3">
-    <label class="f"><span>Activity or project</span><input id="activity" autocomplete="off"></label>
-    <label class="f"><span>Date(s)</span><input id="dates" autocomplete="off"></label>
-    <label class="f"><span>Location</span><input id="location" autocomplete="off"></label>
-  </div>
-  <div class="grid g4">
-    <label class="f"><span>Author grade</span><input id="grade" autocomplete="off"></label>
-    <label class="f"><span>Author last name</span><input id="lastName" autocomplete="off"></label>
-    <label class="f"><span>CAPID</span><input id="capid" inputmode="numeric" autocomplete="off"></label>
-    <label class="f"><span>Duty position</span><input id="duty" autocomplete="off"></label>
-  </div>
-  <div class="grid g4">
-    <label class="f"><span>Unit</span><input id="unit" autocomplete="off"></label>
-    <label class="f"><span>Date prepared</span><input id="prepared" type="date"></label>
-    <label class="f sda-only"><span>SDA for achievement</span>
-      <select id="achievement">
-        <option value=""></option>
-        <option>Achievement 9</option><option>Achievement 10</option><option>Achievement 11</option><option>Achievement 12</option>
-        <option>Achievement 13</option><option>Achievement 14</option><option>Achievement 15</option><option>Achievement 16</option>
-      </select>
-    </label>
-  </div>
-
-  <div class="f" style="margin-top:10px"><span>Key staff (role, grade, name)</span>
-    <div class="area short" contenteditable="true" id="keyStaff" data-ph="Project officer, C/2d Lt Doe; Senior advisor, Capt Roe; Safety, Lt Poe"></div>
-  </div>
-
-  <div class="f" style="margin-top:10px"><span>Input gathered from</span>
-    <div class="chips" id="who">
-      <span class="lab">Who</span>
-      <label><input type="checkbox" value="Participants"> Participants</label>
-      <label><input type="checkbox" value="Cadet staff"> Cadet staff</label>
-      <label><input type="checkbox" value="Senior staff"> Senior staff</label>
-      <label><input type="checkbox" value="Parents"> Parents</label>
-      <label><input type="checkbox" value="Host or facility"> Host or facility</label>
-      <label><input type="checkbox" value="Outside agency"> Outside agency</label>
+<main class="sheet" id="aarFormContainer">
+  <header class="doc-head">
+    <div>
+      <div class="org">Civil Air Patrol &middot; United States Air Force Auxiliary</div>
+      <h1 class="title">After Action Review (AAR)</h1>
     </div>
-    <div class="chips" id="how">
-      <span class="lab">How</span>
-      <label><input type="checkbox" value="Hotwash"> Hotwash</label>
-      <label><input type="checkbox" value="Survey"> Survey</label>
-      <label><input type="checkbox" value="Interviews"> Interviews</label>
-      <label><input type="checkbox" value="Observation and logs"> Observation and logs</label>
+    <div class="ref-box"><span>Document Ref</span><b>AAR-STD-FORM</b></div>
+  </header>
+
+  <!-- PART I -->
+  <section class="part">
+    <div class="part-head"><h2>Part I: Administrative Data</h2><span class="ref">Ref: CAPP 60-32 Technical Formatting &middot; CAPR 60-1 &sect; 5.2</span></div>
+
+    <div class="grid">
+      <label class="f"><span>Event / Activity Title</span><input type="text" id="eventTitle"></label>
     </div>
-  </div>
+    <div class="grid g-line2" style="grid-template-columns:1.2fr 1.5fr 1.3fr .7fr">
+      <label class="f"><span>Event Date(s)</span><input type="text" id="eventDates"></label>
+      <label class="f"><span>Location</span><input type="text" id="eventLocation"></label>
+      <label class="f"><span>Charter Unit</span><input type="text" id="charterUnit"></label>
+      <label class="f"><span>SDA#</span><input type="text" id="sdaNumber"></label>
+    </div>
+    <div class="grid g-line3" style="grid-template-columns:.8fr .8fr 1.6fr 1.4fr">
+      <label class="f"><span>CAPID</span><input type="text" id="authorCapid" inputmode="numeric"></label>
+      <label class="f"><span>Rank</span><input type="text" id="authorRank"></label>
+      <label class="f"><span>Name</span><input type="text" id="authorName"></label>
+      <label class="f"><span>Duty Pos</span><input type="text" id="dutyPosition"></label>
+    </div>
 
-  <h2 class="sec">1. Goals and results<span class="q">What was supposed to happen, and did it?</span></h2>
-  <p class="hint noprint">One row per goal. Give the result as data: counts, times, scores, percentages.</p>
-  <table id="goals">
-    <thead><tr><th>Goal</th><th>Measure of success</th><th>Result (data)</th><th class="c-rate">Rating</th><th class="x"></th></tr></thead>
-    <tbody></tbody>
-  </table>
-  <button type="button" class="add" data-add="goals">+ Add goal</button>
+    <div class="grid g2" style="grid-template-columns:1fr 1fr;margin-top:6px">
+      <div class="f"><span>Stakeholders Consulted <i>Parties Engaged</i></span>
+        <div class="checks">
+          <label><input type="checkbox" id="chkStudents"> Activity Participants / Trainees</label>
+          <label><input type="checkbox" id="chkCadre"> Staff Cadre &amp; Instructors</label>
+          <label><input type="checkbox" id="chkSenior"> Senior Member Leadership / Staff</label>
+          <label><input type="checkbox" id="chkHost"> Host Agency / Facility Coordinator</label>
+          <label><input type="checkbox" id="chkLog"> Logistics, Comms &amp; Safety Officers</label>
+          <label><input type="checkbox" id="chkExternal"> Parents / Public / External Agencies</label>
+        </div>
+      </div>
+      <div class="f"><span>Consultation Methods <i>Feedback Format</i></span>
+        <div class="checks">
+          <label><input type="checkbox" id="mthHotwash"> Post-Activity Hot-Wash Debrief</label>
+          <label><input type="checkbox" id="mthSurveys"> Written Critique / Feedback Surveys</label>
+          <label><input type="checkbox" id="mthStaffConf"> Staff / Cadre Exit Conference</label>
+          <label><input type="checkbox" id="mthHostDebrief"> Host Agency / Landowner Debrief</label>
+          <label><input type="checkbox" id="mthLogReview"> Direct Observation &amp; Log / SQTR Review</label>
+          <label><input type="checkbox" id="mthInterviews"> One-on-One Interviews / Field Notes</label>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <h2 class="sec">2. What happened<span class="q">The facts, in order</span></h2>
-  <div class="area" contenteditable="true" id="summary" data-ph="Short factual summary in time order. Numbers beat adjectives. No names attached to mistakes."></div>
+  <!-- PART II -->
+  <section class="part">
+    <div class="part-head"><h2>Part II: Execution &amp; Overview</h2><span class="ref">Ref: USAF Core AAR Standard</span></div>
+    <div class="sub">
+      <div class="sub-title"><span>1. Planned Objectives (What was supposed to happen?)</span></div>
+      <p class="prompt">Summarize planned objectives, operational timeline, and success criteria per the approved Activity Plan.</p>
+      <textarea id="plannedObjectives" style="min-height:190px"></textarea>
+    </div>
+    <div class="sub">
+      <div class="sub-title"><span>2. Operational Reality (What actually happened?)</span></div>
+      <p class="prompt">Detail the chronological sequence of events, operational reality, key deviations, and recorded metrics.</p>
+      <textarea id="actualExecution" style="min-height:190px"></textarea>
+    </div>
+  </section>
 
-  <h2 class="sec">3. Sustain<span class="q">What went well, and why</span></h2>
-  <table id="sustain">
-    <thead><tr><th class="c-topic">Topic</th><th>What worked</th><th>Why it worked</th><th class="x"></th></tr></thead>
-    <tbody></tbody>
-  </table>
-  <button type="button" class="add" data-add="sustain">+ Add sustain</button>
+  <div class="pb"></div>
 
-  <h2 class="sec">4. Improve<span class="q">What fell short, why, and the fix</span></h2>
-  <table id="improve">
-    <thead><tr><th class="c-topic">Topic</th><th>What fell short</th><th>Root cause and fix</th><th class="x"></th></tr></thead>
-    <tbody></tbody>
-  </table>
-  <button type="button" class="add" data-add="improve">+ Add improve</button>
+  <!-- PART II (CONT.) -->
+  <section class="part">
+    <div class="part-head"><h2>Part II (Cont.): Mission Objectives</h2><span class="ref">Target vs. Actual Performance Assessment</span></div>
+    <table>
+      <thead><tr><th style="width:38%">Planned Goal / Objective</th><th style="width:22%;text-align:center">Goal Status</th><th style="width:20%">Target Metric</th><th style="width:20%">Actual Result</th></tr></thead>
+      <tbody id="goalsTableBody"></tbody>
+    </table>
+  </section>
 
-  <h2 class="sec">5. Action plan<span class="q">Who does what, by when</span></h2>
-  <p class="hint noprint">Name the owner by duty position, not by person, so the action survives a staff change.</p>
-  <table id="actions">
-    <thead><tr><th>Action</th><th class="c-owner">Owner (duty position)</th><th class="c-due">Due</th><th class="x"></th></tr></thead>
-    <tbody></tbody>
-  </table>
-  <button type="button" class="add" data-add="actions">+ Add action</button>
+  <!-- PART III -->
+  <section class="part">
+    <div class="part-head"><h2>Part III: Analysis of Performance</h2><span class="ref">Ref: Cause-and-Effect Analysis &middot; CAPP 60-32 Outline Standards</span></div>
+    <p class="prompt"><b>Analysis Principles:</b> Conduct an objective, blameless evaluation focused on systemic processes, resource allocation, communication pathways, and procedural execution across key operational domains (e.g., Goals &amp; Objectives, Human Capital, Program/Curriculum, Schedule &amp; Tempo, Logistics, Transportation, Communications, Safety &amp; Risk Management, Budget, Administration).</p>
 
-  <h2 class="sec">6. Bottom line for next year's team</h2>
-  <div class="area short" contenteditable="true" id="bottomLine" data-ph="Two or three sentences: the most important thing the next project officer should know."></div>
+    <div class="sub">
+      <div class="sub-title"><span>1. What Went Well and Why? (Sustains)</span><span class="tag">Success Factors &amp; Repeatable Processes</span></div>
+      <p class="prompt">Identify specific procedures, preparations, equipment, leadership decisions, or inter-team dynamics that produced success. Explain the <b>cause-and-effect</b> mechanism so it can be institutionalized for future activities.</p>
+      <table>
+        <thead><tr><th>Success Factor (What worked?)</th><th>Root Cause (Why did it work?)</th></tr></thead>
+        <tbody><tr><td><textarea id="susSuccessFactor" style="min-height:200px"></textarea></td><td><textarea id="susRootCause" style="min-height:200px"></textarea></td></tr></tbody>
+      </table>
+    </div>
 
-  <p class="refs">
-    Standards: CAPP 60-32, <i>Staff Duty Analysis Guide</i> (May 2023), §3.7 and rubric A1.7, including the 11-topic AAR content outline;
-    Army TC 25-20, <i>A Leader's Guide to After-Action Reviews</i> (the four questions);
-    FEMA HSEEP improvement plan (action, owner, due date).
-    CAP AAR exemplar: <a href="https://www.gocivilairpatrol.com/programs/cadets/library/cadet-staff-duty-analysis" target="_blank" rel="noopener">Cadet Staff Duty Analysis library</a>.
-    Nothing typed here is saved. Print or save as PDF before closing.
-  </p>
+    <div class="sub">
+      <div class="sub-title"><span>2. What Did Not Go as Planned and Why? (Improves)</span><span class="tag">Fail Points &amp; Root Cause Analysis</span></div>
+      <p class="prompt">Analyze friction points, operational delays, resource bottlenecks, or communication breakdowns. Identify the <b>underlying systemic root cause</b> (inadequate planning, unclear expectations, resource deficit, or external dependencies) rather than assessing personal blame.</p>
+      <table>
+        <thead><tr><th>Fail Point (What went wrong?)</th><th>Root Cause (Why did the failure occur?)</th></tr></thead>
+        <tbody><tr><td><textarea id="impFrictionPoint" style="min-height:200px"></textarea></td><td><textarea id="impRootCause" style="min-height:200px"></textarea></td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="pb"></div>
+
+  <!-- PART IV -->
+  <section class="part">
+    <div class="part-head"><h2>Part IV: Recommendations &amp; Conclusion</h2><span class="ref">Ref: Actionable Continuity &middot; Service Learning Integration</span></div>
+    <div class="sub">
+      <div class="sub-title"><span>1. Actionable Corrective Actions (Preventive Solutions)</span></div>
+      <p class="prompt">List actionable recommendations to prevent identified fail points and improve future iterations.</p>
+      <textarea id="correctiveActionsText" style="min-height:170px"></textarea>
+    </div>
+    <div class="sub">
+      <div class="sub-title"><span>2. Conclusion &amp; Leadership Takeaways</span></div>
+      <p class="prompt">Summarize key takeaways, operational impact, and lessons learned to benefit future leadership teams.</p>
+      <textarea id="conclusionTakeaways" style="min-height:170px"></textarea>
+    </div>
+  </section>
+
+  <!-- PART V -->
+  <section class="part">
+    <div class="part-head"><h2>Part V: Administrative Review &amp; Endorsement</h2><span class="ref">Ref: Operational Sign-Off &middot; Mentorship &amp; Evaluation</span></div>
+    <div class="sign">
+      <div>
+        <h3>Author / Action Officer Certification</h3>
+        <p>I certify that this After Action Review presents a thorough, factual, and objective analysis of the activity's execution, achievements, and lessons learned.</p>
+        <div class="grid" style="grid-template-columns:1.5fr .6fr 1fr;margin-top:14px">
+          <label class="f"><span>Name</span><input type="text" id="certAuthorName"></label>
+          <label class="f"><span>Rank</span><input type="text" id="certAuthorRank"></label>
+          <label class="f"><span>CAPID</span><input type="text" id="certAuthorCapid" inputmode="numeric"></label>
+        </div>
+      </div>
+      <div>
+        <h3>Reviewing Officer</h3>
+        <label class="f"><span>Comments</span><textarea id="mentorComments" style="min-height:80px"></textarea></label>
+        <div class="sigline"><span>Signature of Reviewing Officer</span><span>Date: <input type="text" id="mentorDate"></span></div>
+        <div id="dispMentorSig"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div><b>GOVERNING COMPLIANCE &amp; REFERENCES:</b> CAPR 60-1, <i>Cadet Program Management</i> (&sect; 5.2 Service Learning &amp; Staff Progress); CAPP 60-32, <i>Cadet Staff Duty Analysis Guide</i> (Technical Document &amp; Rubric Standards); AFDP 1-1, <i>Leadership and Development</i> (DAF 4-Part Core AAR Standard: Intent, Reality, Analysis, Recommendations); CAPR 160-1, <i>Civil Air Patrol Safety Program</i>. Usable across all operational echelons and mission disciplines.</div>
+    <div class="r">CIVIL AIR PATROL<br>STANDARD AAR FORM</div>
+  </footer>
 </main>
 
 <script>
+"use strict";
+const $ = id => document.getElementById(id);
+
+// Goals table: three rows; Met and Missed are mutually exclusive.
 (() => {
-  "use strict";
-  // CAPP 60-32 AAR content outline: 11 major topics and their subtopics.
-  const TOPICS = {
-    "Goals and objectives": "right goals chosen, degree of success, performance against metrics, opportunities for growth",
-    "Human capital": "staff selection, staff training, roles and structure, registration trends, cadet-senior relations, discipline, awards, special needs, distinguished visitors",
-    "Program": "curriculum, clarity of plans and checklists, instructor fidelity to plan, pacing and challenge, assessment, variety of activities and methods, fun vs. boredom",
-    "Schedule": "sequencing, downtime, operational tempo, time per activity, short-notice changes",
-    "Physical resources": "training space, lodging, meals, host facility and vendors, alternate facilities, equipment",
-    "Transportation": "travel to and from, movement during, adequacy of vehicles, motor pool or bus company",
-    "Communications": "before, during and after; content; points of confusion; web; radio; group texts",
-    "Marketing": "internal publicity before and after, external media, parent communications",
-    "Safety and risk": "hazards identified, controls applied, safety briefings, wingman system, equipment, health services, injuries, vehicle or aircraft mishaps",
-    "Budget": "revenue, scholarships, purchasing, money handling, planned vs. actual cost",
-    "Administration": "registration, in-processing, base access and security, out-processing, credit and graduation, on-site office support"
-  };
-  const RATINGS = ["", "Met", "Partly met", "Not met"];
-  const $ = id => document.getElementById(id);
-
-  const cell = ph => `<td><div contenteditable="true" data-ph="${ph}"></div></td>`;
-  const sel = (opts, cls) => `<td${cls ? ` class="${cls}"` : ""}><select>${opts.map(o => `<option>${o}</option>`).join("")}</select></td>`;
-  const del = `<td class="x"><button type="button" title="Remove row" aria-label="Remove row">&times;</button></td>`;
-  const topicSel = sel(["", ...Object.keys(TOPICS), "Other"]);
-
-  const ROWS = {
-    goals:   () => cell("e.g., Qualify 8 cadets in CAPT 116") + cell("8 of 8 pass") + cell("7 passed (88%)") + sel(RATINGS) + del,
-    sustain: () => topicSel + cell("What worked") + cell("Why it worked, so it can be repeated") + del,
-    improve: () => topicSel + cell("What fell short") + cell("Root cause, then the fix") + del,
-    actions: () => cell("Specific action") + cell("e.g., Cadet Logistics") + cell("Date") + del
-  };
-  const START = { goals: 3, sustain: 3, improve: 3, actions: 3 };
-
-  function addRow(id) {
-    const tr = document.createElement("tr");
-    tr.innerHTML = ROWS[id]();
-    $(id).tBodies[0].appendChild(tr);
-    return tr;
+  const tb = $("goalsTableBody");
+  for (let n = 1; n <= 3; n++) {
+    tb.insertAdjacentHTML("beforeend",
+      `<tr><td><input type="text" id="goal${n}"></td>
+       <td><div class="mm"><label><input type="checkbox" id="goalMet${n}"> Met</label><label><input type="checkbox" id="goalMissed${n}"> Missed</label></div></td>
+       <td><input type="text" id="targetMetric${n}"></td><td><input type="text" id="actualResult${n}"></td></tr>`);
+    $(`goalMet${n}`).addEventListener("click", e => { if (e.target.checked) $(`goalMissed${n}`).checked = false; });
+    $(`goalMissed${n}`).addEventListener("click", e => { if (e.target.checked) $(`goalMet${n}`).checked = false; });
   }
-  function resetTables() {
-    for (const id in START) {
-      $(id).tBodies[0].innerHTML = "";
-      for (let i = 0; i < START[id]; i++) addRow(id);
-    }
-  }
-
-  // Topic choice swaps in that topic's subtopics as the prompt (CAPP 60-32 asks for 3 per topic).
-  document.addEventListener("change", e => {
-    const s = e.target;
-    if (s.tagName === "SELECT" && s.closest("#sustain, #improve")) {
-      const first = s.closest("tr").querySelector("[contenteditable]");
-      const t = TOPICS[s.value];
-      first.dataset.ph = t ? "Cover 3 of: " + t : (s.closest("#sustain") ? "What worked" : "What fell short");
-    }
-    update();
-  });
-  document.addEventListener("input", update);
-  document.addEventListener("click", e => {
-    const a = e.target.closest("[data-add]");
-    if (a) { addRow(a.dataset.add).querySelector("[contenteditable], select").focus(); update(); return; }
-    const x = e.target.closest("td.x button");
-    if (x) {
-      const tbody = x.closest("tbody");
-      if (tbody.rows.length > 1) x.closest("tr").remove();
-      else x.closest("tr").querySelectorAll("[contenteditable]").forEach(c => c.textContent = "");
-      update();
-    }
-  });
-  // Paste as plain text only.
-  document.addEventListener("paste", e => {
-    if (!e.target.closest("[contenteditable]")) return;
-    e.preventDefault();
-    document.execCommand("insertText", false, (e.clipboardData || window.clipboardData).getData("text/plain"));
-  });
-
-  const txt = el => (el.innerText || el.value || "").trim();
-  const words = s => (s.match(/[A-Za-z0-9][A-Za-z0-9'’.%/-]*/g) || []).length;
-  const rowsOf = id => [...$(id).tBodies[0].rows].map(r => ({
-    tr: r,
-    cells: [...r.querySelectorAll("[contenteditable]")].map(txt),
-    sel: [...r.querySelectorAll("select")].map(s => s.value)
-  }));
-  const filled = r => r.cells.some(Boolean);
-  const checked = id => [...$(id).querySelectorAll("input:checked")].length;
-
-  function update() {
-    // Mark blank rows and unchecked chips so they drop out of the printout.
-    for (const id in START) rowsOf(id).forEach(r => r.tr.classList.toggle("blank", !filled(r)));
-    document.querySelectorAll(".chips label").forEach(l => l.classList.toggle("off", !l.querySelector("input").checked));
-
-    if (!document.body.classList.contains("sda")) return;
-    const goals = rowsOf("goals").filter(filled);
-    const sus = rowsOf("sustain").filter(filled), imp = rowsOf("improve").filter(filled);
-    const topics = new Set([...sus, ...imp].map(r => r.sel[0]).filter(t => t && t !== "Other"));
-    const narrative = [...document.querySelectorAll(".sheet [contenteditable]")].map(txt).join(" ");
-    const wc = words(narrative);
-    const items = [
-      [txt($("lastName")) && txt($("capid")) && $("achievement").value, "Author last name, CAPID and achievement"],
-      [txt($("activity")) && txt($("dates")) && txt($("keyStaff")), "Labels activity, dates, key staff and author (item 1)"],
-      [goals.length && goals.every(r => r.cells[0] && r.cells[2] && r.sel[0]), "Each goal has a result and a rating (items 2, 7)"],
-      [words(txt($("summary"))) >= 60, "What happened is a factual summary of 60+ words (item 3)"],
-      [sus.some(r => r.cells[0] && r.cells[1]), "At least one sustain, with why (item 4)"],
-      [imp.some(r => r.cells[0] && r.cells[1]), "At least one improve, with how (item 5)"],
-      [topics.size >= 5, `Covers 5 of the 11 outline topics: ${topics.size} so far (item 8)`],
-      [checked("who") >= 3, "Input from 3 or more stakeholder groups (item 10)"],
-      [rowsOf("actions").some(r => r.cells[0] && r.cells[1]), "Action plan names an owner (item 12)"],
-      [wc >= 500 && wc <= 700, `About 500 to 700 words: ${wc} now (§3.7)`]
-    ];
-    $("checkList").innerHTML = items.map(([ok, label]) => `<li class="${ok ? "ok" : ""}">${label}</li>`).join("");
-  }
-
-  function setSda(on) {
-    document.body.classList.toggle("sda", on);
-    $("check").hidden = !on;
-    update();
-  }
-  $("sdaToggle").addEventListener("change", e => setSda(e.target.checked));
-
-  function anyContent() {
-    return [...document.querySelectorAll(".sheet [contenteditable]")].some(c => txt(c)) ||
-      [...document.querySelectorAll(".sheet input:not([type=checkbox]):not([type=date])")].some(i => i.value.trim());
-  }
-  $("clearBtn").addEventListener("click", () => {
-    if (anyContent() && !confirm("Clear the whole form? Nothing is saved, so this cannot be undone.")) return;
-    document.querySelectorAll(".sheet input").forEach(i => { if (i.type === "checkbox") i.checked = false; else i.value = ""; });
-    document.querySelectorAll(".sheet [contenteditable]").forEach(c => c.textContent = "");
-    $("achievement").value = "";
-    resetTables();
-    $("prepared").valueAsDate = new Date();
-    update();
-  });
-  $("printBtn").addEventListener("click", () => { document.activeElement && document.activeElement.blur(); update(); window.print(); });
-  window.addEventListener("beforeprint", update);
-  // Nothing persists (repo decision D-004), so warn before the page is closed with work on it.
-  window.addEventListener("beforeunload", e => { if (anyContent()) { e.preventDefault(); e.returnValue = ""; } });
-
-  resetTables();
-  const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-  $("prepared").value = d.toISOString().slice(0, 10);
-  if (new URLSearchParams(location.search).has("sda")) { $("sdaToggle").checked = true; setSda(true); }
-  update();
 })();
+
+// Author fields in Part I and the certification block mirror each other.
+[["authorName", "certAuthorName"], ["authorRank", "certAuthorRank"], ["authorCapid", "certAuthorCapid"]].forEach(([a, b]) => {
+  $(a).addEventListener("input", () => $(b).value = $(a).value);
+  $(b).addEventListener("input", () => $(a).value = $(b).value);
+});
+function updateAuthorSig() {
+  $("certAuthorName").value = $("authorName").value;
+  $("certAuthorRank").value = $("authorRank").value;
+  $("certAuthorCapid").value = $("authorCapid").value;
+}
+
+// Textareas grow with their content so nothing is cut off on screen or on paper.
+function fit(t) { t.style.height = "auto"; t.style.height = (t.scrollHeight + 4) + "px"; }
+function autoExpandTextareas() { document.querySelectorAll("textarea").forEach(fit); }
+document.addEventListener("input", e => { if (e.target.tagName === "TEXTAREA") fit(e.target); });
+window.addEventListener("beforeprint", () => { document.body.classList.toggle("filled", anyContent()); autoExpandTextareas(); });
+
+function anyContent() {
+  return [...document.querySelectorAll("input[type=text], textarea")].some(el => el.value.trim());
+}
+function clearForm() {
+  if (anyContent() && !confirm("Clear this After Action Review? Nothing is saved, so this cannot be undone.")) return;
+  document.querySelectorAll("input[type=text], textarea").forEach(el => el.value = "");
+  document.querySelectorAll("input[type=checkbox]").forEach(el => el.checked = false);
+  $("dispMentorSig").textContent = "";
+  autoExpandTextareas();
+}
+// Nothing persists (repo decision D-004), so warn before the page is closed with work on it.
+window.addEventListener("beforeunload", e => { if (anyContent()) { e.preventDefault(); e.returnValue = ""; } });
+
+// Worked example. Names, unit details and CAPIDs are fictional.
+function loadSampleData() {
+  $("eventTitle").value = "Operation Green Mountain: Joint Search & Rescue / Cadet Field Training Exercise";
+  $("eventDates").value = "17 Oct 2026 – 18 Oct 2026";
+  $("eventLocation").value = "Ethan Allen Firing Range / Camp Ethan Allen Training Site, Jericho, VT";
+  $("charterUnit").value = "NER-VT-000 Example Composite Squadron";
+  $("sdaNumber").value = "2";
+  $("authorCapid").value = "000001";
+  $("authorRank").value = "C/Capt";
+  $("authorName").value = "Michael R. Vance";
+  $("dutyPosition").value = "Cadet Exercise Commander / Ground Team Leader 3";
+  updateAuthorSig();
+  $("dispMentorSig").textContent = "Lt Col Kathryn E. Thorne, CAP (CAPID 000002)";
+
+  ["chkStudents", "chkCadre", "chkSenior", "chkHost", "chkLog", "chkExternal",
+   "mthHotwash", "mthSurveys", "mthStaffConf", "mthHostDebrief", "mthLogReview"].forEach(id => $(id).checked = true);
+  $("mthInterviews").checked = false;
+
+  $("plannedObjectives").value =
+`• Stated Mission & Scope: Conduct a 36-hour weekend field training exercise (FTX) certifying cadet ground team members in advanced ELT search, backcountry navigation, and emergency wilderness survival.
+• Commander's Intent: Foster autonomous cadet decision-making while executing tactical search sorties under zero-mishap conditions per CAPR 160-1.
+• Planned Milestones:
+- Day 1, 0800: In-processing & equipment check; 1000: Direction Finding (DF) round-robin; 1400: Practice search sorties; 2100: Night bivouac operations.
+- Day 2, 0730: Full-mission profile ELT beacon find; 1300: Out-processing and graduation.
+• Target Success Metrics: Attain 100% participation (30 cadets); qualify at least 22 cadets in Basic Ground Team (GTM3); maintain zero safety mishaps; adhere to budget ceiling of $600.00.`;
+
+  $("actualExecution").value =
+`• Chronological Sequence of Execution:
+- Day 1: Commenced at 0815 (15m delay due to registration bottleneck). DF instruction executed smoothly from 1030–1300. Field sorties commenced at 1445 after a 45m lunch delay. Night bivouac and cold-weather shelters established successfully by 2045.
+- Day 2: Sortie launch on time at 0800. Beacon target located at 1115 (3h 15m elapsed). Bivouac teardown completed by 1400; final dismissal at 1430.
+• Operational Realities & Deviations:
+- Afternoon rain shower at 1500 prompted immediate implementation of foul-weather gear protocols; no sorties cancelled.
+- Grid Sector 4 experienced heavy multipath RF reflections, extending search duration by 50 minutes beyond planned sortie windows.
+• Quantitative Metrics Achieved: 29 cadets completed training (97% attendance); 24 cadets earned full GTM3 endorsements; zero safety mishaps recorded; total expenditure was $542.50 ($57.50 under budget).`;
+
+  const goals = [
+    ["Certify minimum 22 cadets in GTM3 task proficiencies", true, "22 cadets qualified", "24 cadets qualified (109%)"],
+    ["Achieve zero safety incidents across 36 hours", true, "0 safety mishaps", "0 safety mishaps"],
+    ["Adhere to operational schedule within ±20 minutes", false, "±20 min variance", "+45 min (lunch overrun)"]
+  ];
+  goals.forEach(([g, met, t, a], i) => {
+    const n = i + 1;
+    $(`goal${n}`).value = g; $(`goalMet${n}`).checked = met; $(`goalMissed${n}`).checked = !met;
+    $(`targetMetric${n}`).value = t; $(`actualResult${n}`).value = a;
+  });
+
+  $("susSuccessFactor").value =
+`• Communications: Deploying an elevated VHF-FM tactical cross-band repeater on Ridge B provided 100% continuous radio coverage between mission base and all 3 ground search teams across rugged terrain.
+• Safety & Health: Zero hypothermia, dehydration, or gear-deficiency casualties occurred despite 42°F ambient temperature and intermittent cold rain throughout the weekend.
+• Training Proficiencies: All cadet search teams successfully located their practice emergency beacon transmitters within 45 minutes of field deployment.`;
+
+  $("susRootCause").value =
+`• Communications: Advance radio propagation survey conducted 5 days prior identified severe terrain blockage, enabling communications cadre to pre-stage an elevated mast before sorties launched.
+• Safety & Health: Mandatory 24-hour pack checklist inspections were executed during Friday evening bivouac, and designated cadet wingman checks were enforced every 90 minutes.
+• Training Proficiencies: Instructors paired novice trainees with experienced Phase IV cadet mentors in 3-person buddy pods, enabling immediate peer feedback and hands-on technique correction.`;
+
+  $("impFrictionPoint").value =
+`• Administration: Saturday morning check-in caused a 25-minute delay to the safety briefing and generated vehicle backup at the military facility entry gate.
+• Logistics & Mess: Saturday field lunch distribution required 75 minutes instead of the budgeted 30 minutes, directly curtailing afternoon search sorties.
+• Navigation Gear: Two navigation stations experienced inaccurate bearings due to unverified magnetic declination offsets on 5 squadron loaner compasses.`;
+
+  $("impRootCause").value =
+`• Administration: The administrative staff relied entirely on a single physical paper roster to verify medical forms that could have been collected and pre-screened digitally prior to departure.
+• Logistics & Mess: Mess staff unpacked bulk ingredients on-site rather than pre-packaging individual flight rations in advance, creating an inefficient single-file line bottleneck.
+• Navigation Gear: Pre-activity gear inspections focused exclusively on personal cadet equipment; squadron-owned navigation gear had not been audited or calibrated since the previous quarter.`;
+
+  $("correctiveActionsText").value =
+`1. IN-PROCESSING GATE CONGESTION & DOCUMENT VERIFICATION:
+• Corrective Action: Establish an electronic document pre-screening process through the Wing registration portal 5 days prior to activity departure. Create a dedicated express drop-off lane at the military gate for pre-cleared cadets to eliminate entry bottlenecks.
+2. FIELD MESS DISTRIBUTION SCHEDULE OVERRUN:
+• Corrective Action: Mandate pre-assembled sack meals boxed by flight rather than unpacking bulk ingredients in the field. Set up two parallel disbursement points separated by 30 feet to reduce meal line duration from 75 minutes to 25 minutes.
+3. UNCALIBRATED COMPASSES & UNIT NAVIGATION GEAR GAPS:
+• Corrective Action: Institute a mandatory pre-deployment gear check protocol (D-7) for all squadron loaner equipment bins, inspecting and setting the proper 14°W magnetic declination offset on all unit compasses before packing.`;
+
+  $("conclusionTakeaways").value =
+`• Organizational & Operational Impact: Operation Green Mountain successfully expanded Wing ground search capability by qualifying 24 new GTM3 personnel, directly enhancing our operational readiness for real-world Air Force-assigned SAR missions. Inter-flight cohesion and communications discipline operated at encampment-level quality.
+• Critical Takeaways for Future Leaders: Future exercise commanders must recognize that logistics and administrative friction directly dictate operational tempo. Implementing digital document pre-clearance and pre-packaged meal distribution will easily preserve over 60 minutes of field daylight for operational sorties.
+• Cadet Leadership Development: Serving as Cadet Exercise Commander highlighted the essential balance between rigid schedule execution and tactical flexibility. Empowering flight commanders to adjust search intervals based on local terrain conditions proved far more effective than centralized micromanagement.`;
+
+  $("mentorComments").value = "Outstanding After Action Review. Capt Vance demonstrated superior cause-and-effect analysis, avoided personal fault, and provided actionable, resourced recommendations that will directly benefit our Wing training staff for next year's operational plan.";
+  autoExpandTextareas();
+}
+
+autoExpandTextareas();
 </script>
 </body>
 </html>

@@ -13,7 +13,7 @@ run time, in the browser, on the machine you are using.
 | [Cadet Promotion Tracker](tools/cadet-promotion-tracker/) | Squadron-level promotion view from the weekly eServices Cadet Full Track Report | Porting from Antigravity |
 | [CAP Rule Changes](tools/pub-forecast/) | Monthly plain-language summary of CAP publication changes plus forecasts, for Vermont Wing | Prototype for review |
 | [NLD Operations Plan](tools/nld-ops-plan/) | Vermont Wing plan for CAP National Legislative Day 2027 | Draft for review |
-| [After Action Review](tools/aar/) | Lean AAR form on the CAPP 60-32 rubric, with an SDA self-check | Draft for review |
+| [After Action Review](tools/aar/) | Five-part AAR form for any activity or SDA, with a worked example | Draft for review |
 | [Hotwash](tools/hotwash/) | CHECK SIX (See, Identify, eXecute) hotwash email for any meeting, mission or training event | Draft for review |
 | [Unit Operations Checklist](tools/monthly-ops/) | Printable FY calendar of recurring compliance tasks by month and officer | Draft for review |
 
