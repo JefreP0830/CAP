@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.2 - 2026-11-22
+
+- Execute rows: Do WHAT 80%, by WHEN 20%.
+
 ## 1.5.1 - 2026-11-22
 
 - Copy subject button removed; the email title field stays (select and copy by hand).
