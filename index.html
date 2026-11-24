@@ -15,13 +15,19 @@
   a.tool:hover, a.tool:focus-visible { border-color: var(--u); }
   a.tool img { width: 48px; height: 48px; }
   a.tool strong { display: block; color: #000; font-size: 13pt; }
-  h2 { margin: 22px 0 8px; font-size: 14pt; font-weight: normal; color: #63666A; }
-  h2:first-child { margin-top: 0; }
-  .group { display: grid; gap: 10px; }
+  details.sec { border-bottom: 1px solid var(--rule); }
+  details.sec summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; min-height: 52px; padding: 6px 2px; font-size: 15pt; color: #63666A; }
+  details.sec summary::-webkit-details-marker { display: none; }
+  details.sec summary:focus-visible { outline: 2px solid var(--u); outline-offset: 2px; }
+  details.sec summary .cnt { font-size: 11pt; color: var(--body); }
+  details.sec[open] summary { color: var(--u); }
+  details.sec[open] summary .cnt::after { content: " \00B7  hide"; }
+  details.sec:not([open]) summary .cnt::after { content: " \00B7  show"; }
+  .group { display: grid; gap: 10px; padding: 2px 0 16px; }
   @media (max-width: 600px) {
-    main { padding-top: 14px; }
-    h2 { margin: 16px 0 6px; font-size: 12pt; }
-    .group { gap: 6px; }
+    main { padding-top: 8px; }
+    details.sec summary { font-size: 13pt; min-height: 48px; }
+    .group { gap: 6px; padding-bottom: 12px; }
     a.tool { padding: 8px 10px; gap: 10px; min-height: 48px; }
     a.tool img { width: 32px; height: 32px; }
     a.tool strong { font-size: 12pt; }
@@ -32,7 +38,8 @@
 <body>
 <header><h1>CAP Tools</h1></header>
 <main>
-  <h2>Cadet Tools</h2>
+  <details class="sec">
+  <summary><span>Cadet Tools</span><span class="cnt">5 tools</span></summary>
   <div class="group">
   <a class="tool" href="tools/drill-test/app/">
     <img src="tools/drill-test/app/icons/icon-192.png" alt="">
@@ -55,7 +62,9 @@
     <span><strong>Honor Cadet Evaluator</strong><span class="d">Score cadets 1 to 3 in five categories, submit a PDF, tally the PDFs, and announce the Honor Cadet.</span></span>
   </a>
   </div>
-  <h2>Squadron Tools</h2>
+  </details>
+  <details class="sec">
+  <summary><span>Squadron Tools</span><span class="cnt">3 tools</span></summary>
   <div class="group">
   <a class="tool" href="tools/cadet-promotion-tracker/">
     <img src="tools/cadet-promotion-tracker/icons/icon-192.png" alt="">
@@ -70,7 +79,9 @@
     <span><strong>OCP Uniform Worksheet</strong><span class="d">One-page cadet self-check of OCP uniform items and sizes, for the supply officer.</span></span>
   </a>
   </div>
-  <h2>Wing Tools</h2>
+  </details>
+  <details class="sec">
+  <summary><span>Wing Tools</span><span class="cnt">2 tools</span></summary>
   <div class="group">
   <a class="tool" href="tools/pub-forecast/">
     <img src="tools/pub-forecast/icons/icon-192.png" alt="">
@@ -81,6 +92,7 @@
     <span><strong>NLD Operations Plan</strong><span class="d">Vermont Wing plan for National Legislative Day 2027: schedule, travel, safety, budget.</span></span>
   </a>
   </div>
+  </details>
 </main>
 </body>
 </html>
