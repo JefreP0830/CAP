@@ -9,21 +9,26 @@ initiative, leadership, military bearing, teamwork and reliability.
 | 2 | Meets expectations |
 | 3 | Exceeds expectations |
 
-Any 1 or 3 needs one observed example, so scores rest on what an evaluator saw.
+Overall score is out of 15. A 3 needs a Why observation; a 1 needs a Why Not observation.
 
 ## Flow
 
-1. Flight commanders and the first sergeant score their cadets on the Score tab, then copy
-   their scores as a text block and send it to the cadet commander.
-2. The command staff pastes every block on the Tally tab. Cadets are ranked by overall
-   average; ties and incomplete scores are flagged; observed examples are listed by cadet.
-3. The command staff selects on the Select tab, which builds the announcement and the
-   Honor Wall entry.
+1. **Score.** A cadet command team member (C/CC, C/DC, C/XO, C/1st SGT, C/Flt CC, C/Flt SGT)
+   enters their CAPID, last name and role; the recognition period defaults to the current
+   two-month block. For each cadet: CAPID, last name, flight, duty position, five scores and
+   observations. Loading the eServices Cadet Full Track Report (optional, same file the Cadet
+   Promotion Tracker reads) fills last name from CAPID and back. Submit checks the sheet, builds
+   a PDF and opens the share menu (or downloads it on a computer), like the Drill Evaluator.
+2. **Tally.** The command staff drops every submitted PDF on the Tally tab. The scores ride
+   inside each PDF (base64 JSON in the PDF Keywords field, prefix `HCE1:`), so nothing is
+   retyped. Cadets are ranked by overall score; ties, incomplete scores and mixed periods are
+   flagged; observations are listed by cadet.
+3. **Select.** The top-ranked cadet is preselected (unless tied) and the reason is drafted from
+   the Why observations. The command staff edits either, then saves a selection record PDF and
+   copies the announcement and Honor Wall entry.
 
-The How to use tab walks cadets through these steps. The Rubric and rules tab prints the
-rubric and a blank score sheet on letter paper.
-
-Nothing is saved (D-004). Scores live only while the page is open; the copied block is the
-record. No names are stored in this repository.
+Nothing is saved in the browser (D-004); the PDFs are the record. No names are stored in this
+repository. PDFs are built with jsPDF 2.5.1 and jspdf-autotable 3.8.2 from cdnjs, so Submit
+needs an internet connection.
 
 Honor Cadet is a unit-level recognition, not a CAP decoration under CAPR 39-3.

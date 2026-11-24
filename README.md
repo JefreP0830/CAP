@@ -17,7 +17,7 @@ run time, in the browser, on the machine you are using.
 | [Hotwash](tools/hotwash/) | CHECK SIX (See, Identify, eXecute) hotwash email for any meeting, mission or training event | Draft for review |
 | [CAP Puzzles](tools/cap-puzzles/) | Topic crosswords (10 x 10 or 15 x 15) with answer key, built-in CAP word lists or your own | Draft for review |
 | [Unit Operations Checklist](tools/monthly-ops/) | Printable FY calendar of recurring compliance tasks by month and officer | Draft for review |
-| [Honor Cadet Evaluator](tools/honor-cadet/) | Five-category, 1-3 Honor Cadet scoring with tally, selection and Honor Wall entry | Draft for review |
+| [Honor Cadet Evaluator](tools/honor-cadet/) | Command team scores cadets 1-3 in five categories and submits a PDF; tally reads the PDFs and drafts the selection | Draft for review |
 
 ## Layout
 

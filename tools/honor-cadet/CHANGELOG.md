@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.0.0 - 2026-11-24
+
+- Score tab: evaluator CAPID, last name and cadet command team role; period is a from/to date range defaulting to the current two-month block.
+- Cadet rows: CAPID, last name, flight, duty position; flight carries to the next cadet; optional Cadet Full Track Report fills last name from CAPID and back.
+- Overall score out of 15 on every cadet; Why and Why Not observations (3 needs Why, 1 needs Why Not).
+- Submit validates the sheet and produces a PDF sent through the share menu, like the Drill Evaluator; replaces copy and paste.
+- Tally reads scores straight out of the submitted PDFs; flags ties, incomplete scores and mixed periods.
+- Select preselects the top cadet, drafts the reason from Why observations, and saves a selection record PDF.
+- "Remove" renamed "Remove this cadet" and shown only when there is more than one cadet.
+
 ## 1.0.0 - 2026-11-24
 
 - First draft for review: How to use, Score, Tally, Select, and Rubric and rules tabs.

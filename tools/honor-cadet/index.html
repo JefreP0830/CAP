@@ -8,26 +8,24 @@
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <style>
 /* VOICE: plain unit form, calm and fair, built for a quick evaluation at a meeting
-   IDEA: a CAP scoresheet on a clipboard: rubric on top, score grid below
+   IDEA: a CAP scoresheet: rubric anchors under every score, submitted as a PDF like the Drill Evaluator
    PICTURE: the live score grid is the picture
    COLOUR and TYPE: CAP Ultramarine for headings and selected scores, Silver Gray rules, 70% black body; Rajdhani title, Arial body
    LAYOUT: one column, tabs How to use / Score / Tally / Select / Rubric; prints to 8.5x11 */
-.bar{display:flex;align-items:center;gap:12px;padding:12px max(16px,4vw);border-bottom:3px solid var(--blue)}
-.bar a{color:var(--blue);text-decoration:none}
-.steps h2{margin-top:18px}
-.steps ol{margin:0 0 6px;padding-left:1.6em}
-.steps li{margin-bottom:8px}
-.steps .who{font-size:14px;color:var(--sec);margin:0 0 8px}
 /* Tokens copied from shared/brand/cap-brand.css (CAP Brand Portal / CAPR 900-2). */
 :root{color-scheme:light;--bg:#fff;--ink:#4D4D4D;--full:#000;--blue:#001489;--gray:#9EA2A2;--rule:#d5d8d8;--soft:#F4F5F5;--red:#BA0C2F;--sec:#63666A}
 *{box-sizing:border-box;min-width:0}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.2 Arial,Helvetica,sans-serif;overflow-x:clip}
 p,li{line-height:1.2;margin:0 0 6px}
+.bar{display:flex;align-items:center;gap:12px;padding:12px max(16px,4vw);border-bottom:3px solid var(--blue)}
+.bar a{color:var(--blue);text-decoration:none}
 .wrap{max-width:1000px;margin:0 auto;padding:clamp(20px,3vw,40px) max(4vw,16px)}
 h1{font:700 34px/1.05 Rajdhani,Arial,sans-serif;color:var(--blue);margin:0}
-.by{font-size:15px;color:var(--ink);margin:6px 0 18px}
+.by{font-size:15px;margin:6px 0 18px}
 h2{font-size:21px;font-weight:normal;color:var(--sec);margin:22px 0 8px}
 h3{font-size:17px;font-weight:normal;color:var(--sec);margin:16px 0 6px}
 nav{display:flex;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--gray);margin-bottom:16px}
@@ -36,12 +34,14 @@ nav button[aria-selected=true]{color:var(--blue);border-bottom-color:var(--blue)
 section[hidden]{display:none}
 label{display:block;font-size:14px;color:var(--sec);margin-bottom:4px}
 input,select,textarea{font:16px Arial,sans-serif;color:var(--full);border:1px solid var(--gray);border-radius:4px;padding:9px 10px;width:100%;background:#fff;min-height:44px}
-textarea{min-height:90px;resize:vertical}
+textarea{min-height:64px;resize:vertical}
 input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:12px}
+.bad{border-color:var(--red)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:12px}
 .btn{font:16px Arial,sans-serif;min-height:44px;padding:10px 16px;border-radius:4px;border:1px solid var(--blue);background:#fff;color:var(--blue);cursor:pointer}
 .btn.pri{background:var(--blue);color:#fff}
 .btn.quiet{border-color:var(--gray);color:var(--ink)}
+.btn:disabled{opacity:.5;cursor:default}
 .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0}
 .note{font-size:14px;color:var(--sec)}
 .panel{border:1px solid var(--rule);border-radius:6px;padding:14px;margin:12px 0;box-shadow:0 2px 5px rgba(0,20,137,.08)}
@@ -52,38 +52,48 @@ td.n,th.n{text-align:right;white-space:nowrap}
 .rub td{font-size:14px}
 .rub td:first-child{color:var(--full);white-space:nowrap}
 .card{border:1px solid var(--rule);border-radius:6px;padding:12px;margin:10px 0}
-.card .top{display:flex;gap:8px;flex-wrap:wrap;align-items:end}
-.card .top>div{flex:1 1 200px}
-.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:10px;margin:10px 0}
+.card .who{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:10px}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:10px;margin:12px 0}
 .seg{display:flex;border:1px solid var(--gray);border-radius:4px;overflow:hidden}
+.seg.bad{border-color:var(--red)}
 .seg button{flex:1;font:16px Arial,sans-serif;min-height:44px;border:0;border-right:1px solid var(--gray);background:#fff;color:var(--ink);cursor:pointer}
 .seg button:last-child{border-right:0}
 .seg button[aria-pressed=true]{background:var(--blue);color:#fff}
 .anc{font-size:13px;color:var(--sec);margin-top:4px;min-height:2.4em}
-.tot{font-size:15px;color:var(--full)}
+.obs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:10px}
+.cfoot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:10px;border-top:1px solid var(--rule);padding-top:10px}
+.overall{font-size:17px;color:var(--full)}
+.overall span{font-size:14px;color:var(--sec)}
 .warn{color:var(--red);font-size:14px}
 .strong{color:var(--full)}
 .scroll{overflow-x:auto}
-.pick{color:var(--blue)}
-pre{white-space:pre-wrap;background:var(--soft);border:1px solid var(--rule);border-radius:4px;padding:10px;font:14px/1.3 Consolas,monospace;overflow-x:auto}
+.errs{border:1px solid var(--red);border-radius:6px;padding:10px 14px;margin:12px 0}
+.errs ul{margin:6px 0 0;padding-left:1.2em}
+.drop{border:1px dashed var(--gray);border-radius:6px;padding:18px;text-align:center;margin:10px 0}
+body.dragging .drop{border-color:var(--blue);background:var(--soft)}
+pre{white-space:pre-wrap;background:var(--soft);border:1px solid var(--rule);border-radius:4px;padding:10px;font:15px/1.3 Arial,sans-serif}
+.steps ol{margin:0 0 6px;padding-left:1.6em}
+.steps li{margin-bottom:8px}
+.steps .who2{font-size:14px;color:var(--sec);margin:0 0 8px}
 footer{margin-top:28px;border-top:1px solid var(--rule);padding-top:10px;font-size:13px;color:var(--sec)}
 .printonly{display:none}
 @media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:8em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;white-space:normal;color:var(--sec)}.stack td:empty{display:none}}
 @media print{
   @page{size:letter;margin:0.5in}
-  body{font-size:11pt}nav,.row,.noprint,footer .noprint{display:none!important}
-  section{display:none!important}section.print-target{display:block!important}
-  .printonly{display:block}.panel,.card{box-shadow:none;break-inside:avoid}
-  h1{font-size:20pt}
+  body{font-size:10pt}.bar,nav,.row,.noprint,footer{display:none!important}
+  section{display:none!important}section#rubric{display:block!important}
+  .printonly{display:block}.panel{box-shadow:none}
+  h1{font-size:20pt}.rub td{font-size:9pt}
+  #paperGrid td{height:26px}
 }
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
 <body>
-<div class="bar noprint"><a href="../../">CAP Tools</a></div>
+<div class="bar"><a href="../../">CAP Tools</a></div>
 <div class="wrap">
 <h1>Honor Cadet Evaluator</h1>
-<p class="by">Five categories, scored 1 to 3, with an observed example behind every score that stands out.</p>
+<p class="by">Five categories, scored 1 to 3, with observations behind every score that stands out.</p>
 
 <nav role="tablist">
   <button role="tab" data-tab="howto" aria-selected="true">How to use</button>
@@ -96,94 +106,102 @@ footer{margin-top:28px;border-top:1px solid var(--rule);padding-top:10px;font-si
 <!-- HOW TO USE -->
 <section id="howto" class="steps">
   <p>Every two months the unit names one Honor Cadet. Here is how the tool gets you there.</p>
-  <h2>First, score the cadets</h2>
-  <p class="who">Flight commanders and the first sergeant, near the end of each two-month period</p>
+  <h2>First, score your cadets</h2>
+  <p class="who2">Command team: C/CC, C/DC, C/XO, C/1st SGT, C/Flt CC, C/Flt SGT, near the end of each two-month period</p>
   <ol>
-    <li>Open the Score tab. Type your grade and name, pick your role, and type the period (for example, Jan–Feb 2027).</li>
-    <li>Tap Add cadet for each cadet you lead. Type their grade and name.</li>
+    <li>Open the Score tab. Enter your CAPID, last name and role. The recognition period fills itself in; change it only if it's wrong.</li>
+    <li>Optional: load this week's Cadet Full Track Report. Then typing a CAPID or a last name fills in the other.</li>
+    <li>For each cadet, enter CAPID, last name, flight and duty position. Tap Add cadet for the next one; the flight carries over.</li>
     <li>Tap 1, 2 or 3 in each of the five categories. The line under the buttons tells you what that score means. Score only what you saw this period.</li>
-    <li>Gave a 1 or a 3? Write one thing you saw and when. The red note goes away once you do.</li>
-    <li>Tap Copy my scores and send the block to the cadet commander by email or text. Do this before you close the page: nothing is saved.</li>
+    <li>Gave a 3? Write it under Why. Gave a 1? Write it under Why Not. Say what you saw and when.</li>
+    <li>Tap Submit. The tool checks your sheet, builds a PDF and opens your share menu. Send it to the cadet commander. On a computer the PDF downloads; email it from there.</li>
   </ol>
-  <h2>Then, add up the scores</h2>
-  <p class="who">Command staff</p>
-  <ol start="6">
-    <li>Open the Tally tab. Paste each evaluator's block and tap Add to tally.</li>
-    <li>Check that every evaluator is listed under Evaluators included.</li>
-    <li>Read the ranking and the observed examples. Ties and incomplete scores are flagged.</li>
+  <h2>Then, tally the scores</h2>
+  <p class="who2">Command staff</p>
+  <ol start="7">
+    <li>Save every submitted PDF to one folder.</li>
+    <li>Open the Tally tab and drop all the PDFs on the box, or tap Choose PDFs. The tool reads the scores out of them and ranks the cadets.</li>
+    <li>Check that every evaluator is listed. Ties and incomplete scores are flagged.</li>
   </ol>
-  <h2>Finally, pick and announce</h2>
-  <p class="who">Command staff</p>
-  <ol start="9">
-    <li>Open the Select tab. Choose the cadet. The scores help you decide; they don't decide for you.</li>
-    <li>Write the reason, using the observed examples, and set the announcement date.</li>
-    <li>Tap Build announcement. Read it at the last meeting of the period or the first meeting of the next, and post the Honor Wall entry with a photo.</li>
+  <h2>Finally, select and announce</h2>
+  <p class="who2">Command staff</p>
+  <ol start="10">
+    <li>Open the Select tab. The top-ranked cadet is picked and the reason is drafted from the Why observations. The scores help you decide; they don't decide for you, so change either one.</li>
+    <li>Tap Save selection record. Keep the PDF; it is the unit's record of the decision.</li>
+    <li>Read the announcement at the last meeting of the period or the first meeting of the next, and post the Honor Wall entry with a photo.</li>
   </ol>
-  <p class="note">Scoring on paper? Print the blank score sheet from the Rubric and rules tab, then type the scores in later.</p>
+  <p class="note">Scoring on paper? Print the blank score sheet from the Rubric and rules tab, then enter it here and submit.</p>
 </section>
 
 <!-- SCORE -->
 <section id="score" hidden>
   <div class="grid">
-    <div><label for="evName">Evaluator</label><input id="evName" placeholder="Grade and last name"></div>
-    <div><label for="evRole">Role</label><select id="evRole"><option>Flight Commander</option><option>First Sergeant</option><option>Command Staff</option><option>Other</option></select></div>
-    <div><label for="period">Recognition period</label><input id="period" placeholder="e.g. Jan–Feb 2027"></div>
+    <div><label for="evCapid">Evaluator CAPID</label><input id="evCapid" inputmode="numeric" autocomplete="off"></div>
+    <div><label for="evLast">Evaluator last name</label><input id="evLast" autocomplete="off"></div>
+    <div><label for="evRole">Role</label><select id="evRole"><option value="">Choose</option><option>C/CC</option><option>C/DC</option><option>C/XO</option><option>C/1st SGT</option><option>C/Flt CC</option><option>C/Flt SGT</option></select></div>
   </div>
-  <p class="note" style="margin-top:8px">Score what you saw during the period, not reputation. A 1 or a 3 needs one observed example.</p>
+  <div class="grid" style="margin-top:12px">
+    <div><label for="pFrom">Recognition period from</label><input id="pFrom" type="date"></div>
+    <div><label for="pTo">Recognition period to</label><input id="pTo" type="date"></div>
+    <div><label for="roster">Cadet Full Track Report (optional)</label><input id="roster" type="file" accept=".csv,.xlsx,.xls"><p class="note" id="rosterMsg">Fills names from CAPIDs. Read on this device only.</p></div>
+  </div>
+  <datalist id="capids"></datalist><datalist id="lasts"></datalist>
   <div id="cadets"></div>
+  <div class="row"><button class="btn" id="addCadet">Add cadet</button></div>
+  <div id="errs" class="errs" hidden></div>
   <div class="row">
-    <button class="btn pri" id="addCadet">Add cadet</button>
-    <button class="btn" id="copyMine">Copy my scores</button>
-    <button class="btn quiet" id="clearMine">Clear my sheet</button>
-    <span class="note" id="copyMsg" aria-live="polite"></span>
+    <button class="btn pri" id="submit">Submit</button>
+    <span class="note">Builds the PDF and opens your share menu. Nothing is saved on this device.</span>
   </div>
-  <div id="exportBox" hidden><p class="note">Send this block to the command staff. They paste it on the Tally tab.</p><pre id="exportText"></pre></div>
+  <div id="done" class="panel" hidden>
+    <p class="strong" id="doneMsg"></p>
+    <div class="row" style="margin-bottom:0"><button class="btn" id="shareAgain">Share again</button><button class="btn" id="savePdf">Save PDF</button><button class="btn quiet" id="newSheet">Start a new sheet</button></div>
+  </div>
 </section>
 
 <!-- TALLY -->
 <section id="tally" hidden>
-  <p>Paste each evaluator's copied block below. Your own sheet on this device is included automatically.</p>
-  <label for="pasteIn">Evaluator blocks</label>
-  <textarea id="pasteIn" placeholder="Paste one or more copied blocks here"></textarea>
-  <div class="row"><button class="btn pri" id="addPaste">Add to tally</button><button class="btn quiet" id="clearPaste">Clear pasted blocks</button><span class="note" id="pasteMsg" aria-live="polite"></span></div>
-  <p class="note" id="sources"></p>
+  <div class="drop">
+    <p>Drop the submitted PDFs here</p>
+    <label for="pdfs" class="btn" style="display:inline-flex;align-items:center;color:var(--blue);font-size:16px;margin:6px 0 0">Choose PDFs</label>
+    <input id="pdfs" type="file" accept="application/pdf,.pdf" multiple hidden>
+  </div>
+  <p class="note" id="loadMsg" aria-live="polite"></p>
+  <div id="srcList"></div>
   <div class="scroll"><table class="stack" id="tallyTable"></table></div>
-  <p class="note">Ranked by overall average (out of 3). Ties are flagged; the command staff breaks them using the observed examples.</p>
-  <h3>Observed examples</h3>
+  <p class="note" id="tallyNote" hidden>Ranked by overall score (average of evaluators, out of 15). Ties are flagged; the command staff breaks them using the observations.</p>
   <div id="evidence"></div>
 </section>
 
 <!-- SELECT -->
 <section id="select" hidden>
-  <p>The command staff makes the final selection. Scores inform the decision; they don't make it.</p>
-  <div class="grid">
-    <div><label for="selCadet">Selected Honor Cadet</label><select id="selCadet"></select></div>
-    <div><label for="selPeriod">Recognition period</label><input id="selPeriod" placeholder="e.g. Jan–Feb 2027"></div>
-    <div><label for="selDate">Announcement date</label><input id="selDate" type="date"></div>
-  </div>
-  <div style="margin-top:12px"><label for="selWhy">Reason for selection (from observed examples)</label><textarea id="selWhy"></textarea></div>
-  <div class="row"><button class="btn pri" id="makeAnn">Build announcement and Honor Wall entry</button><span class="note" id="annMsg" aria-live="polite"></span></div>
-  <div id="annOut" hidden>
+  <p id="selEmpty" class="note">Load the submitted PDFs on the Tally tab first.</p>
+  <div id="selBody" hidden>
+    <div class="grid">
+      <div><label for="selCadet">Honor Cadet</label><select id="selCadet"></select></div>
+      <div><label for="selDate">Announcement date</label><input id="selDate" type="date"></div>
+      <div><label for="selBy">Selected by (last name)</label><input id="selBy" autocomplete="off"></div>
+    </div>
+    <div style="margin-top:12px"><label for="selWhy">Reason for selection</label><textarea id="selWhy" style="min-height:110px"></textarea></div>
     <h3>Announcement</h3><pre id="annText"></pre>
     <h3>Honor Wall entry</h3><pre id="wallText"></pre>
-    <p class="note">Honor Wall shows name, photograph, and the period. Add the photo when posting.</p>
+    <div class="row"><button class="btn pri" id="saveRecord">Save selection record</button><button class="btn" id="copyAnn">Copy announcement</button><span class="note" id="selMsg" aria-live="polite"></span></div>
   </div>
 </section>
 
 <!-- RUBRIC -->
 <section id="rubric" hidden>
-  <div class="printonly"><div class="grid"><p>Evaluator: ____________________</p><p>Role: ____________________</p><p>Period: ____________________</p></div></div>
   <h2>Rubric</h2>
   <div class="scroll"><table class="rub stack" id="rubTable"></table></div>
   <div class="printonly">
-    <h2>Score sheet</h2>
+    <p style="margin-top:10px">Evaluator CAPID ________ &nbsp; Last name ______________ &nbsp; Role ________ &nbsp; Period ______________</p>
     <table id="paperGrid"></table>
   </div>
   <div class="noprint">
     <h2>Recommended program rules</h2>
     <ul>
       <li>Two-month recognition cycle; a new Honor Cadet every two months.</li>
-      <li>Flight commanders and the first sergeant score; the command staff selects.</li>
+      <li>The cadet command team scores; the command staff selects.</li>
       <li>Announce at the last meeting of the period or the first meeting of the next; a certificate or similar recognition.</li>
       <li>No uniform accent. The recognition is the reward.</li>
       <li>Not a duty position. Duty positions stay based on ability, experience, qualifications and unit need.</li>
@@ -191,90 +209,197 @@ footer{margin-top:28px;border-top:1px solid var(--rule);padding-top:10px;font-si
       <li>Honor Wall: name, photograph, and the period earned.</li>
     </ul>
     <p class="note">Each unit commander sets the final rules. Adjust before launch.</p>
-    <div class="row"><button class="btn" id="printSheet">Print rubric and blank score sheet</button><span class="note" id="printMsg" aria-live="polite"></span></div>
+    <div class="row"><button class="btn" id="printSheet">Print rubric and blank score sheet</button></div>
   </div>
 </section>
 
-<footer>Unit-level recognition tool. Honor Cadet is not a CAP decoration under CAPR 39-3. Nothing is saved or sent: copy your scores before you close the page.</footer>
+<footer>Unit-level recognition tool. Honor Cadet is not a CAP decoration under CAPR 39-3. Nothing is saved on this device; submitted PDFs are the record.</footer>
 </div>
 
 <script>
 {
 const CATS=[
- {k:'ini',n:'Initiative',a:['Waits to be told; needs reminders to start.','Does assigned tasks without reminders.','Sees what needs doing and acts without direction; goes beyond what is required.']},
- {k:'lea',n:'Leadership',a:['Rarely guides or helps others.','Leads well when assigned; sets a good example.','Assists less-experienced cadets unprompted; mentors and teaches.']},
- {k:'bea',n:'Military bearing',a:['Lapses in uniform or customs and courtesies.','Proper uniform, customs and courtesies.','Sets the standard others follow; corrects lapses respectfully.']},
- {k:'tea',n:'Teamwork',a:['Works apart from the flight or team.','Cooperates and does a fair share.','Lifts the team; helps the unit beyond what is asked.']},
- {k:'rel',n:'Reliability',a:['Misses commitments or arrives unprepared.','Arrives prepared; follows through.','Never needs a reminder; others count on them.']}
+ {k:'ini',n:'Initiative',s:'Init',a:['Waits to be told; needs reminders to start.','Does assigned tasks without reminders.','Sees what needs doing and acts without direction; goes beyond what is required.']},
+ {k:'lea',n:'Leadership',s:'Lead',a:['Rarely guides or helps others.','Leads well when assigned; sets a good example.','Assists less-experienced cadets unprompted; mentors and teaches.']},
+ {k:'bea',n:'Military bearing',s:'Bear',a:['Lapses in uniform or customs and courtesies.','Proper uniform, customs and courtesies.','Sets the standard others follow; corrects lapses respectfully.']},
+ {k:'tea',n:'Teamwork',s:'Team',a:['Works apart from the flight or team.','Cooperates and does a fair share.','Lifts the team; helps the unit beyond what is asked.']},
+ {k:'rel',n:'Reliability',s:'Rel',a:['Misses commitments or arrives unprepared.','Arrives prepared; follows through.','Never needs a reminder; others count on them.']}
 ];
 const LV=['Improvement needed','Meets expectations','Exceeds expectations'];
+const TAG='HCE1:';
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-// Nothing persists (repo decision D-004): state lives only while the page is open.
-let S={ev:'',role:'Flight Commander',period:'',cadets:[],pasted:[],sel:{c:'',p:'',d:'',w:''}};
-const save=()=>{};
-let uid=Date.now();
-if(!S.cadets.length)S.cadets.push({id:uid++,name:'',s:{},ex:''});
+const pad=n=>String(n).padStart(2,'0');
+const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const dd=s=>{if(!s)return '';const[y,m,d]=s.split('-');return (+d)+' '+MON[+m-1]+' '+y};
+const periodLabel=(f,t)=>{if(!f||!t)return '';const[a,b]=[f.split('-'),t.split('-')];return a[0]===b[0]?MON[+a[1]-1]+'–'+MON[+b[1]-1]+' '+b[0]:MON[+a[1]-1]+' '+a[0]+'–'+MON[+b[1]-1]+' '+b[0]};
+const blankCadet=fl=>({id:Math.random().toString(36).slice(2),capid:'',last:'',flight:fl||'',duty:'',s:{},why:'',whyNot:''});
 
-// tabs
+// Nothing persists (repo decision D-004): state lives only while the page is open.
+let roster=[];               // [{capid,last}] from an optional eServices export
+let cadets=[blankCadet()];
+let lastPdf=null;            // {blob,name}
+let subs=[];                 // parsed submissions
+let showErr=false;
+
+/* tabs */
+const TABS=['howto','score','tally','select','rubric'];
 const tabs=[...document.querySelectorAll('nav button')];
-function show(t){tabs.forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===t));['howto','score','tally','select','rubric'].forEach(x=>{$(x).hidden=x!==t});if(t==='tally')renderTally();if(t==='select')renderSelect();}
+function show(t){tabs.forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===t));TABS.forEach(x=>{$(x).hidden=x!==t});if(t==='select')renderSelect();}
 tabs.forEach(b=>b.addEventListener('click',()=>{show(b.dataset.tab);try{history.replaceState(null,'','#'+b.dataset.tab)}catch(e){}}));
 
-// rubric
-$('rubTable').innerHTML='<thead><tr><th>Category</th><th>1 · '+LV[0]+'</th><th>2 · '+LV[1]+'</th><th>3 · '+LV[2]+'</th></tr></thead><tbody>'+CATS.map(c=>'<tr><td>'+c.n+'</td>'+c.a.map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('')+'</tbody>';
-$('paperGrid').innerHTML='<thead><tr><th>Cadet</th>'+CATS.map(c=>'<th class="n">'+c.n+'</th>').join('')+'<th>Observed example (needed for any 1 or 3)</th></tr></thead><tbody>'+Array.from({length:10},()=>'<tr><td style="height:34px"></td>'+CATS.map(()=>'<td></td>').join('')+'<td></td></tr>').join('')+'</tbody>';
+/* rubric + paper sheet */
+$('rubTable').innerHTML='<thead><tr><th>Category</th>'+LV.map((l,i)=>'<th>'+(i+1)+' · '+l+'</th>').join('')+'</tr></thead><tbody>'+CATS.map(c=>'<tr><td>'+c.n+'</td>'+c.a.map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('')+'</tbody>';
+$('paperGrid').innerHTML='<thead><tr><th>CAPID</th><th>Last name</th><th>Flight</th><th>Duty position</th>'+CATS.map(c=>'<th class="n">'+c.s+'</th>').join('')+'<th class="n">Overall</th></tr></thead><tbody>'+Array.from({length:8},()=>'<tr><td></td><td></td><td></td><td></td>'+CATS.map(()=>'<td></td>').join('')+'<td></td></tr><tr><td colspan="10" style="height:44px;vertical-align:top;color:var(--sec)">Why / Why Not:</td></tr>').join('')+'</tbody>';
+$('printSheet').onclick=()=>{try{window.print()}catch(e){}};
 
-// score
-$('evName').value=S.ev;$('evRole').value=S.role;$('period').value=S.period;
-$('evName').oninput=e=>{S.ev=e.target.value;save()};
-$('evRole').onchange=e=>{S.role=e.target.value;save()};
-$('period').oninput=e=>{S.period=e.target.value;save()};
-function cadetCheck(c){const scored=CATS.filter(k=>c.s[k.k]).length;const tot=CATS.reduce((a,k)=>a+(c.s[k.k]||0),0);const ext=CATS.some(k=>c.s[k.k]===1||c.s[k.k]===3);const need=ext&&!c.ex.trim();return{scored,tot,need}}
-function cadetFoot(c){const r=cadetCheck(c);return '<span class="tot">'+r.tot+' of 15</span> <span class="note">('+r.scored+' of 5 scored)</span>'+(r.need?' <span class="warn">Add an observed example for the 1 or 3.</span>':'')}
+/* period defaults to the current two-month block (Jan–Feb, Mar–Apr, ...) */
+{const n=new Date(),m=n.getMonth()-(n.getMonth()%2);$('pFrom').value=iso(new Date(n.getFullYear(),m,1));$('pTo').value=iso(new Date(n.getFullYear(),m+2,0));}
+
+/* optional roster: eServices Cadet Full Track Report (CSV or Excel) */
+function parseCSV(text){const lines=[];let row=[],cur='',q=false;for(let i=0;i<text.length;i++){const c=text[i];if(q){if(c==='"'&&text[i+1]==='"'){cur+='"';i++}else if(c==='"')q=false;else cur+=c}else if(c==='"')q=true;else if(c===','){row.push(cur);cur=''}else if(c==='\n'||c==='\r'){if(c==='\r'&&text[i+1]==='\n')i++;row.push(cur);lines.push(row);row=[];cur=''}else cur+=c}if(cur||row.length){row.push(cur);lines.push(row)}const head=(lines.shift()||[]).map(h=>h.trim());return lines.filter(l=>l.some(v=>v.trim())).map(l=>Object.fromEntries(head.map((h,i)=>[h,(l[i]??'').trim()])))}
+$('roster').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{let rows;
+  if(/\.csv$/i.test(f.name))rows=parseCSV(await f.text());
+  else{if(typeof XLSX==='undefined'){await new Promise((ok,no)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=ok;s.onerror=no;document.head.appendChild(s)})}const wb=XLSX.read(new Uint8Array(await f.arrayBuffer()),{type:'array'});rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''})}
+  const m=new Map();rows.forEach(r=>{const c=String(r.CAPID??'').trim(),l=String(r.NameLast??'').trim();if(c&&l)m.set(c,{capid:c,last:l})});
+  if(!m.size)throw new Error('no CAPID / NameLast columns');
+  roster=[...m.values()].sort((a,b)=>a.last.localeCompare(b.last));
+  $('capids').innerHTML=roster.map(r=>'<option value="'+esc(r.capid)+'">'+esc(r.last)+'</option>').join('');
+  $('lasts').innerHTML=roster.map(r=>'<option value="'+esc(r.last)+'">'+esc(r.capid)+'</option>').join('');
+  $('rosterMsg').textContent=roster.length+' cadets loaded. Type a CAPID or last name.';
+ }catch(err){roster=[];$('rosterMsg').textContent='Could not read that file as a Cadet Full Track Report ('+err.message+'). Enter cadets by hand.'}});
+
+/* score sheet */
+const overall=c=>CATS.reduce((a,k)=>a+(c.s[k.k]||0),0);
+const scored=c=>CATS.filter(k=>c.s[k.k]).length;
+function cadetIssues(c){const e=[];if(!/^\d{6}$/.test(c.capid.trim()))e.push('CAPID (6 digits)');if(!c.last.trim())e.push('last name');if(!c.flight.trim())e.push('flight');if(!c.duty.trim())e.push('duty position');
+ const miss=CATS.filter(k=>!c.s[k.k]).map(k=>k.n);if(miss.length)e.push('score for '+miss.join(', '));
+ if(CATS.some(k=>c.s[k.k]===3)&&!c.why.trim())e.push('Why observation (for the 3)');
+ if(CATS.some(k=>c.s[k.k]===1)&&!c.whyNot.trim())e.push('Why Not observation (for the 1)');return e}
+function footHTML(c){const n=scored(c);const t=overall(c);return '<span class="overall">Overall '+t+' / 15 <span>('+(n?(t/n).toFixed(2):'0.00')+' average, '+n+' of 5 scored)</span></span>'}
+function fld(c,f,label,extra){const bad=showErr&&!String(c[f]).trim()?' bad':'';return '<div><label for="'+f+c.id+'">'+label+'</label><input id="'+f+c.id+'" data-f="'+f+'" class="'+bad+'" value="'+esc(c[f])+'" autocomplete="off"'+(extra||'')+'></div>'}
 function renderCadets(){
- $('cadets').innerHTML=S.cadets.map(c=>'<div class="card" data-id="'+c.id+'"><div class="top"><div><label for="n'+c.id+'">Cadet (grade and name)</label><input id="n'+c.id+'" data-f="name" value="'+esc(c.name)+'"></div><button class="btn quiet" data-del="'+c.id+'">Remove</button></div><div class="cats">'+CATS.map(k=>'<div><label>'+k.n+'</label><div class="seg" role="group" aria-label="'+k.n+'">'+[1,2,3].map(v=>'<button data-k="'+k.k+'" data-v="'+v+'" aria-pressed="'+(c.s[k.k]===v)+'" title="'+esc(LV[v-1]+': '+k.a[v-1])+'">'+v+'</button>').join('')+'</div><div class="anc" data-anc="'+k.k+'">'+(c.s[k.k]?esc(k.a[c.s[k.k]-1]):'')+'</div></div>').join('')+'</div><label for="x'+c.id+'">Observed example</label><textarea id="x'+c.id+'" data-f="ex" style="min-height:60px" placeholder="What you saw, when">'+esc(c.ex)+'</textarea><p class="foot" style="margin-top:6px">'+cadetFoot(c)+'</p></div>').join('');
+ $('cadets').innerHTML=cadets.map((c,i)=>'<div class="card" data-id="'+c.id+'"><p class="note" style="margin-bottom:8px">Cadet '+(i+1)+'</p><div class="who">'+
+  fld(c,'capid','Cadet CAPID',' inputmode="numeric" list="capids"')+fld(c,'last','Cadet last name',' list="lasts"')+fld(c,'flight','Flight')+fld(c,'duty','Duty position')+'</div>'+
+  '<div class="cats">'+CATS.map(k=>'<div><label>'+k.n+'</label><div class="seg'+(showErr&&!c.s[k.k]?' bad':'')+'" role="group" aria-label="'+k.n+'">'+[1,2,3].map(v=>'<button data-k="'+k.k+'" data-v="'+v+'" aria-pressed="'+(c.s[k.k]===v)+'">'+v+'</button>').join('')+'</div><div class="anc" data-anc="'+k.k+'">'+(c.s[k.k]?esc(k.a[c.s[k.k]-1]):'')+'</div></div>').join('')+'</div>'+
+  '<div class="obs"><div><label for="why'+c.id+'">Why: observations (required for any 3)</label><textarea id="why'+c.id+'" data-f="why" placeholder="What you saw, and when">'+esc(c.why)+'</textarea></div><div><label for="whyNot'+c.id+'">Why Not: observations (required for any 1)</label><textarea id="whyNot'+c.id+'" data-f="whyNot" placeholder="What you saw, and when">'+esc(c.whyNot)+'</textarea></div></div>'+
+  '<div class="cfoot"><span class="foot">'+footHTML(c)+'</span>'+(cadets.length>1?'<button class="btn quiet" data-del="1">Remove this cadet</button>':'')+'</div></div>').join('');
 }
-$('cadets').addEventListener('click',e=>{const card=e.target.closest('.card');if(!card)return;const c=S.cadets.find(x=>x.id==card.dataset.id);
- if(e.target.dataset.del){S.cadets=S.cadets.filter(x=>x!==c);if(!S.cadets.length)S.cadets.push({id:uid++,name:'',s:{},ex:''});save();renderCadets();return}
+const cardOf=el=>{const card=el.closest('.card');return card?[card,cadets.find(x=>x.id===card.dataset.id)]:[]};
+$('cadets').addEventListener('click',e=>{const[card,c]=cardOf(e.target);if(!c)return;
+ if(e.target.dataset.del){cadets=cadets.filter(x=>x!==c);renderCadets();return}
  const b=e.target.closest('.seg button');if(!b)return;const k=b.dataset.k,v=+b.dataset.v;c.s[k]=c.s[k]===v?undefined:v;
- b.parentElement.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',c.s[k]===+x.dataset.v));card.querySelector('[data-anc='+k+']').textContent=c.s[k]?CATS.find(z=>z.k===k).a[c.s[k]-1]:'';card.querySelector('.foot').innerHTML=cadetFoot(c);save()});
-$('cadets').addEventListener('input',e=>{const card=e.target.closest('.card');const f=e.target.dataset.f;if(!card||!f)return;const c=S.cadets.find(x=>x.id==card.dataset.id);c[f]=e.target.value;card.querySelector('.foot').innerHTML=cadetFoot(c);save()});
-$('addCadet').onclick=()=>{S.cadets.push({id:uid++,name:'',s:{},ex:''});save();renderCadets();const l=S.cadets[S.cadets.length-1];$('n'+l.id).focus()};
-$('clearMine').onclick=()=>{if($('clearMine').dataset.arm){S.cadets=[{id:uid++,name:'',s:{},ex:''}];save();renderCadets();$('clearMine').textContent='Clear my sheet';delete $('clearMine').dataset.arm;$('copyMsg').textContent='Sheet cleared.'}else{$('clearMine').dataset.arm=1;$('clearMine').textContent='Tap again to clear'}};
+ b.parentElement.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',c.s[k]===+x.dataset.v));b.parentElement.classList.toggle('bad',showErr&&!c.s[k]);
+ card.querySelector('[data-anc='+k+']').textContent=c.s[k]?CATS.find(z=>z.k===k).a[c.s[k]-1]:'';card.querySelector('.foot').innerHTML=footHTML(c)});
+$('cadets').addEventListener('input',e=>{const[card,c]=cardOf(e.target);const f=e.target.dataset.f;if(!c||!f)return;c[f]=e.target.value;e.target.classList.remove('bad');
+ if(roster.length&&(f==='capid'||f==='last')){const v=e.target.value.trim().toLowerCase();const hit=roster.find(r=>f==='capid'?r.capid===v:r.last.toLowerCase()===v);
+  if(hit){const o=f==='capid'?'last':'capid';const other=card.querySelector('[data-f='+o+']');if(!other.value.trim()){c[o]=hit[o];other.value=hit[o];other.classList.remove('bad')}}}});
+$('addCadet').onclick=()=>{cadets.push(blankCadet(cadets[cadets.length-1].flight));renderCadets();$('capid'+cadets[cadets.length-1].id).focus()};
 
-// export block: one line per cadet, tab separated
-function myBlock(){const lines=['HONOR-CADET-SCORES','Evaluator\t'+S.ev,'Role\t'+S.role,'Period\t'+S.period];S.cadets.filter(c=>c.name.trim()).forEach(c=>lines.push(['Cadet',c.name.trim(),...CATS.map(k=>c.s[k.k]||''),c.ex.replace(/\s+/g,' ').trim()].join('\t')));lines.push('END');return lines.join('\n')}
-$('copyMine').onclick=async()=>{const t=myBlock();$('exportText').textContent=t;$('exportBox').hidden=false;try{await navigator.clipboard.writeText(t);$('copyMsg').textContent='Copied.'}catch(e){$('copyMsg').textContent='Select the block below and copy it.'}};
-function parse(txt){const out=[];const blocks=txt.split('HONOR-CADET-SCORES').slice(1);blocks.forEach(b=>{const ev={ev:'',role:'',period:'',rows:[]};b.split('\n').forEach(l=>{const p=l.split('\t');if(p[0]==='Evaluator')ev.ev=p[1]||'';else if(p[0]==='Role')ev.role=p[1]||'';else if(p[0]==='Period')ev.period=p[1]||'';else if(p[0]==='Cadet'&&p[1])ev.rows.push({name:p[1],s:CATS.map((k,i)=>{const v=parseInt(p[2+i]);return v>=1&&v<=3?v:null}),ex:p[7]||''})});if(ev.rows.length)out.push(ev)});return out}
-$('addPaste').onclick=()=>{const got=parse($('pasteIn').value);if(!got.length){$('pasteMsg').textContent='No score block found. Paste the full block, first line to END.';return}
- got.forEach(g=>{S.pasted=S.pasted.filter(p=>!(p.ev===g.ev&&p.role===g.role&&p.period===g.period));S.pasted.push(g)});save();$('pasteIn').value='';$('pasteMsg').textContent='Added '+got.length+' evaluator block'+(got.length>1?'s':'')+'.';renderTally()};
-$('clearPaste').onclick=()=>{S.pasted=[];save();$('pasteMsg').textContent='Pasted blocks cleared.';renderTally()};
+function sheetIssues(){const e=[];if(!/^\d{6}$/.test($('evCapid').value.trim()))e.push('Your CAPID (6 digits)');if(!$('evLast').value.trim())e.push('Your last name');if(!$('evRole').value)e.push('Your role');
+ const f=$('pFrom').value,t=$('pTo').value;if(!f||!t||f>t)e.push('Recognition period (from must be before to)');
+ const seen=new Set();cadets.forEach((c,i)=>{const x=cadetIssues(c);if(x.length)e.push('Cadet '+(i+1)+(c.last.trim()?' ('+c.last.trim()+')':'')+': '+x.join(', '));const k=c.capid.trim();if(k&&seen.has(k))e.push('Cadet '+(i+1)+': CAPID '+k+' is listed twice');seen.add(k)});return e}
 
-function sources(){const mine={ev:S.ev||'This device',role:S.role,period:S.period,rows:S.cadets.filter(c=>c.name.trim()).map(c=>({name:c.name.trim(),s:CATS.map(k=>c.s[k.k]||null),ex:c.ex}))};const all=S.pasted.filter(p=>!(p.ev===S.ev&&p.role===S.role&&S.ev));if(mine.rows.length)all.push(mine);return all}
-function tally(){const m=new Map();sources().forEach(src=>src.rows.forEach(r=>{const key=r.name.toLowerCase().replace(/\s+/g,' ');if(!m.has(key))m.set(key,{name:r.name,sum:CATS.map(()=>0),cnt:CATS.map(()=>0),evs:new Set(),ex:[]});const t=m.get(key);t.evs.add(src.ev+'|'+src.role);r.s.forEach((v,i)=>{if(v){t.sum[i]+=v;t.cnt[i]++}});if(r.ex&&r.ex.trim())t.ex.push({by:src.ev+' ('+src.role+')',t:r.ex.trim()})}));
- const rows=[...m.values()].map(t=>{const av=t.sum.map((s,i)=>t.cnt[i]?s/t.cnt[i]:null);const have=av.filter(v=>v!==null);return Object.assign(t,{av,overall:have.length?have.reduce((a,b)=>a+b,0)/have.length:0,complete:have.length===CATS.length})});
- rows.sort((a,b)=>b.overall-a.overall||a.name.localeCompare(b.name));return rows}
+/* PDF */
+const BODY=[77,77,77],BLUE=[0,20,137],SEC=[99,102,106];
+function pdfHead(doc,title,sub){doc.setFont('helvetica','bold');doc.setFontSize(18);doc.setTextColor(...BLUE);doc.text(title,15,18);doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(...BODY);doc.text(sub,15,24);doc.setDrawColor(...BLUE);doc.setLineWidth(0.6);doc.line(15,27,200,27)}
+function kv(doc,k,v,x,y){doc.setFontSize(8);doc.setTextColor(...SEC);doc.text(k,x,y);doc.setFontSize(11);doc.setTextColor(0,0,0);doc.text(String(v),x,y+5)}
+function pdfFoot(doc){const n=doc.getNumberOfPages();for(let i=1;i<=n;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(...SEC);doc.text('Honor Cadet Evaluator  |  Unit-level recognition, not a CAP decoration under CAPR 39-3  |  Page '+i+' of '+n,15,290)}}
+const b64e=s=>btoa(unescape(encodeURIComponent(s)));
+const b64d=s=>decodeURIComponent(escape(atob(s)));
+function buildSubmission(){return{v:1,ev:{capid:$('evCapid').value.trim(),last:$('evLast').value.trim(),role:$('evRole').value},from:$('pFrom').value,to:$('pTo').value,at:new Date().toISOString(),
+ cadets:cadets.map(c=>({capid:c.capid.trim(),last:c.last.trim(),flight:c.flight.trim(),duty:c.duty.trim(),s:CATS.map(k=>c.s[k.k]),why:c.why.trim(),whyNot:c.whyNot.trim()}))}}
+function submissionPdf(S){const{jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'letter'});
+ doc.setProperties({title:'Honor Cadet evaluation',subject:'Honor Cadet Evaluator submission',keywords:TAG+b64e(JSON.stringify(S)),creator:'CAP Tools: Honor Cadet Evaluator'});
+ pdfHead(doc,'HONOR CADET EVALUATION','Civil Air Patrol  |  Recognition period '+periodLabel(S.from,S.to)+' ('+dd(S.from)+' to '+dd(S.to)+')');
+ kv(doc,'EVALUATOR CAPID',S.ev.capid,15,35);kv(doc,'EVALUATOR',S.ev.last,60,35);kv(doc,'ROLE',S.ev.role,115,35);kv(doc,'SUBMITTED',dd(S.at.slice(0,10)),160,35);
+ doc.autoTable({startY:47,head:[['CAPID','Last name','Flight','Duty position',...CATS.map(k=>k.s),'Overall']],
+  body:S.cadets.map(c=>[c.capid,c.last,c.flight,c.duty,...c.s.map(v=>v??''),c.s.reduce((a,b)=>a+(b||0),0)+' / 15']),
+  styles:{font:'helvetica',fontSize:9,textColor:BODY,lineColor:[213,216,216],lineWidth:0.2},headStyles:{fillColor:[255,255,255],textColor:SEC,fontStyle:'normal',lineWidth:{bottom:0.4},lineColor:[158,162,162]},
+  columnStyles:{4:{halign:'center'},5:{halign:'center'},6:{halign:'center'},7:{halign:'center'},8:{halign:'center'},9:{halign:'right',textColor:[0,0,0]}},margin:{left:15,right:15}});
+ let y=doc.lastAutoTable.finalY+8;doc.setFontSize(12);doc.setTextColor(...SEC);doc.text('Observations',15,y);y+=4;
+ doc.autoTable({startY:y,head:[['Cadet','Why','Why Not']],body:S.cadets.map(c=>[c.last+' ('+c.capid+')',c.why||'–',c.whyNot||'–']),
+  styles:{font:'helvetica',fontSize:9,textColor:BODY,lineColor:[213,216,216],lineWidth:0.2,valign:'top'},headStyles:{fillColor:[255,255,255],textColor:SEC,fontStyle:'normal'},columnStyles:{0:{cellWidth:38,textColor:[0,0,0]}},margin:{left:15,right:15}});
+ y=doc.lastAutoTable.finalY+8;if(y>255){doc.addPage();y=20}
+ doc.setFontSize(8);doc.setTextColor(...SEC);doc.text(doc.splitTextToSize('Scale: 1 '+LV[0]+'  |  2 '+LV[1]+'  |  3 '+LV[2]+'.  Categories: '+CATS.map(k=>k.s+' = '+k.n).join(', ')+'.',185),15,y);
+ pdfFoot(doc);return doc}
+async function sharePdf(){if(!lastPdf)return;const file=new File([lastPdf.blob],lastPdf.name,{type:'application/pdf'});
+ if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:lastPdf.title,text:lastPdf.text});return 'The PDF went to your share menu. Check that it was sent.'}catch(e){if(e.name==='AbortError')return 'Share closed. Tap Share again, or Save PDF and email it.'}}
+ savePdf();return 'This device has no share menu, so the PDF was downloaded. Email it to the cadet commander.'}
+function savePdf(){if(!lastPdf)return;const a=document.createElement('a');a.href=URL.createObjectURL(lastPdf.blob);a.download=lastPdf.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
+$('submit').onclick=async()=>{const e=sheetIssues();showErr=!!e.length;
+ if(e.length){$('errs').innerHTML='<p class="warn">Fix these before submitting:</p><ul>'+e.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>';$('errs').hidden=false;renderCadets();$('errs').scrollIntoView({behavior:'smooth',block:'center'});return}
+ $('errs').hidden=true;renderCadets();
+ if(!window.jspdf||!window.jspdf.jsPDF||!window.jspdf.jsPDF.API.autoTable){$('errs').innerHTML='<p class="warn">The PDF builder did not load. Check the internet connection and reload the page; your entries will be lost on reload, so print the page first if you need them.</p>';$('errs').hidden=false;return}
+ const S=buildSubmission();const doc=submissionPdf(S);
+ lastPdf={blob:doc.output('blob'),name:'HonorCadet_'+S.from.slice(0,7)+'_'+S.ev.capid+'.pdf',title:'Honor Cadet evaluation, '+periodLabel(S.from,S.to),text:'Honor Cadet evaluation from '+S.ev.role+' '+S.ev.last+' ('+S.cadets.length+' cadets), '+periodLabel(S.from,S.to)+'.'};
+ $('done').hidden=false;$('doneMsg').textContent='Submitted: '+S.cadets.length+' cadet'+(S.cadets.length>1?'s':'')+'. ';
+ $('doneMsg').textContent+=await sharePdf();$('done').scrollIntoView({behavior:'smooth',block:'center'})};
+$('shareAgain').onclick=async()=>{$('doneMsg').textContent=await sharePdf()};
+$('savePdf').onclick=()=>{savePdf();$('doneMsg').textContent='PDF saved to this device\'s downloads.'};
+$('newSheet').onclick=()=>{cadets=[blankCadet()];lastPdf=null;showErr=false;$('done').hidden=true;renderCadets();window.scrollTo(0,0)};
+
+/* tally: read submissions back out of the PDFs */
+function readTag(bytes){const t=new TextDecoder('latin1').decode(bytes);const m=t.match(/\/Keywords\s*\(HCE1:([A-Za-z0-9+\/=\s\\]+)\)/);if(!m)return null;return JSON.parse(b64d(m[1].replace(/[\s\\]/g,'')))}
+async function loadPdfs(files){const pdfs=files.filter(f=>/\.pdf$/i.test(f.name)||f.type==='application/pdf');if(!pdfs.length){$('loadMsg').textContent='No PDF files in that selection.';return}
+ const bad=[];let added=0;
+ for(const f of pdfs){try{const S=readTag(new Uint8Array(await f.arrayBuffer()));if(!S||!S.ev||!Array.isArray(S.cadets))throw 0;S.file=f.name;
+   const i=subs.findIndex(x=>x.ev.capid===S.ev.capid&&x.from===S.from&&x.to===S.to);if(i>=0){if(S.at>=subs[i].at)subs[i]=S}else subs.push(S);added++}catch(e){bad.push(f.name)}}
+ $('loadMsg').textContent='Read '+added+' submission'+(added===1?'':'s')+'.'+(bad.length?' Not an Honor Cadet Evaluator PDF: '+bad.join(', ')+'.':'');renderTally()}
+$('pdfs').addEventListener('change',e=>{loadPdfs([...e.target.files]);e.target.value=''});
+['dragenter','dragover'].forEach(t=>window.addEventListener(t,e=>{e.preventDefault();document.body.classList.add('dragging')}));
+['dragleave','drop'].forEach(t=>window.addEventListener(t,e=>{e.preventDefault();document.body.classList.remove('dragging')}));
+window.addEventListener('drop',e=>{if(e.dataTransfer.files.length){show('tally');loadPdfs([...e.dataTransfer.files])}});
+
+function tally(){const m=new Map();subs.forEach(S=>S.cadets.forEach(c=>{if(!m.has(c.capid))m.set(c.capid,{capid:c.capid,last:c.last,flight:c.flight,duty:c.duty,sum:CATS.map(()=>0),cnt:CATS.map(()=>0),evs:[],why:[],whyNot:[]});
+  const t=m.get(c.capid);const by=S.ev.role+' '+S.ev.last;t.evs.push(by);c.s.forEach((v,i)=>{if(v){t.sum[i]+=v;t.cnt[i]++}});if(c.why)t.why.push({by,t:c.why});if(c.whyNot)t.whyNot.push({by,t:c.whyNot})}));
+ return [...m.values()].map(t=>{const av=t.sum.map((s,i)=>t.cnt[i]?s/t.cnt[i]:null);return Object.assign(t,{av,overall:av.reduce((a,b)=>a+(b||0),0),complete:av.every(v=>v!==null)})}).sort((a,b)=>b.overall-a.overall||a.last.localeCompare(b.last))}
 const f2=v=>v===null?'–':v.toFixed(2);
-function renderTally(){const src=sources();$('sources').textContent=src.length?'Evaluators included: '+src.map(s=>s.ev+' ('+s.role+')').join(', ')+'.':'No scores yet.';
- const rows=tally();if(!rows.length){$('tallyTable').innerHTML='';$('evidence').innerHTML='<p class="note">Observed examples appear here once cadets are scored.</p>';return}
- const tie=v=>rows.filter(r=>Math.abs(r.overall-v)<1e-9).length>1;
- $('tallyTable').innerHTML='<thead><tr><th class="n">Rank</th><th>Cadet</th><th class="n">Evaluators</th>'+CATS.map(c=>'<th class="n">'+c.n+'</th>').join('')+'<th class="n">Overall</th><th></th></tr></thead><tbody>'+rows.map((r,i)=>'<tr><td class="n">'+(i+1)+'</td><td class="strong">'+esc(r.name)+'</td><td class="n">'+r.evs.size+'</td>'+r.av.map(v=>'<td class="n">'+f2(v)+'</td>').join('')+'<td class="n strong">'+r.overall.toFixed(2)+'</td><td>'+(tie(r.overall)?'<span class="warn">Tie</span> ':'')+(r.complete?'':'<span class="note">Incomplete</span>')+'</td></tr>').join('')+'</tbody>';
- $('evidence').innerHTML=rows.map(r=>'<div class="panel"><p class="strong">'+esc(r.name)+'</p>'+(r.ex.length?'<ul>'+r.ex.map(x=>'<li>'+esc(x.t)+' <span class="note">— '+esc(x.by)+'</span></li>').join('')+'</ul>':'<p class="note">No examples recorded.</p>')+'</div>').join('')}
+const isTie=(rows,r)=>rows.filter(x=>Math.abs(x.overall-r.overall)<1e-9).length>1;
+function renderTally(){const rows=tally();
+ $('srcList').innerHTML=subs.length?'<p>Evaluators included ('+subs.length+'): '+subs.map(S=>esc(S.ev.role+' '+S.ev.last)+' <span class="note">('+esc(periodLabel(S.from,S.to))+')</span>').join(', ')+'</p>'+(new Set(subs.map(S=>S.from+S.to)).size>1?'<p class="warn">These submissions cover different recognition periods. Load one period at a time.</p>':''):'';
+ $('tallyNote').hidden=!rows.length;
+ if(!rows.length){$('tallyTable').innerHTML='';$('evidence').innerHTML='';return}
+ $('tallyTable').innerHTML='<thead><tr><th class="n">Rank</th><th>Cadet</th><th>Flight</th><th class="n">Evaluators</th>'+CATS.map(c=>'<th class="n">'+c.n+'</th>').join('')+'<th class="n">Overall / 15</th><th></th></tr></thead><tbody>'+
+  rows.map((r,i)=>'<tr><td class="n">'+(i+1)+'</td><td class="strong">'+esc(r.last)+' <span class="note">'+esc(r.capid)+'</span></td><td>'+esc(r.flight)+'</td><td class="n">'+r.evs.length+'</td>'+r.av.map(v=>'<td class="n">'+f2(v)+'</td>').join('')+'<td class="n strong">'+r.overall.toFixed(2)+'</td><td>'+(isTie(rows,r)?'<span class="warn">Tie</span> ':'')+(r.complete?'':'<span class="note">Incomplete</span>')+'</td></tr>').join('')+'</tbody>';
+ const li=a=>a.length?'<ul>'+a.map(x=>'<li>'+esc(x.t)+' <span class="note">('+esc(x.by)+')</span></li>').join('')+'</ul>':'<p class="note">None recorded.</p>';
+ $('evidence').innerHTML='<h3>Observations</h3>'+rows.map(r=>'<div class="panel"><p class="strong">'+esc(r.last)+' <span class="note">'+esc(r.flight)+', '+esc(r.duty)+'</span></p><p class="note">Why</p>'+li(r.why)+'<p class="note">Why Not</p>'+li(r.whyNot)+'</div>').join('')}
 
-// select
-function renderSelect(){const rows=tally();const cur=S.sel.c;$('selCadet').innerHTML='<option value="">Choose a cadet</option>'+rows.map(r=>'<option'+(r.name===cur?' selected':'')+'>'+esc(r.name)+'</option>').join('');$('selPeriod').value=S.sel.p||S.period;$('selDate').value=S.sel.d;$('selWhy').value=S.sel.w}
-$('selCadet').onchange=e=>{S.sel.c=e.target.value;save()};$('selPeriod').oninput=e=>{S.sel.p=e.target.value;save()};$('selDate').onchange=e=>{S.sel.d=e.target.value;save()};$('selWhy').oninput=e=>{S.sel.w=e.target.value;save()};
-$('makeAnn').onclick=()=>{const c=S.sel.c,p=S.sel.p||S.period;if(!c||!p){$('annMsg').textContent='Choose a cadet and enter the period.';return}$('annMsg').textContent='';
- const d=S.sel.d?new Date(S.sel.d+'T12:00').toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}):'';
- $('annText').textContent='Honor Cadet, '+p+': '+c+'.'+(S.sel.w.trim()?'\n\n'+S.sel.w.trim():'')+'\n\nSelected by the cadet command staff from flight commander and first sergeant evaluations in initiative, leadership, military bearing, teamwork and reliability.'+(d?'\n\nAnnounced '+d+'.':'');
- $('wallText').textContent=c+'\nHonor Cadet\n'+p;$('annOut').hidden=false};
+/* select */
+let selKey='';const why={};
+function renderSelect(){const rows=tally();$('selEmpty').hidden=!!rows.length;$('selBody').hidden=!rows.length;if(!rows.length)return;
+ if(!rows.find(r=>r.capid===selKey))selKey=isTie(rows,rows[0])?'':rows[0].capid;
+ $('selCadet').innerHTML='<option value="">Choose a cadet</option>'+rows.map((r,i)=>'<option value="'+esc(r.capid)+'"'+(r.capid===selKey?' selected':'')+'>'+(i+1)+'. '+esc(r.last)+' ('+r.overall.toFixed(2)+')'+(isTie(rows,r)?' tie':'')+'</option>').join('');
+ if(!$('selDate').value)$('selDate').value=subs[0].to;
+ fillWhy();updateAnn()}
+function fillWhy(){const r=tally().find(x=>x.capid===selKey);if(!r){$('selWhy').value='';return}if(why[selKey]===undefined)why[selKey]=r.why.map(x=>x.t).join(' ');$('selWhy').value=why[selKey]}
+$('selCadet').onchange=e=>{selKey=e.target.value;fillWhy();updateAnn()};
+$('selWhy').oninput=e=>{if(selKey)why[selKey]=e.target.value;updateAnn()};
+$('selDate').onchange=updateAnn;$('selBy').oninput=updateAnn;
+function annParts(){const r=tally().find(x=>x.capid===selKey);if(!r)return null;const p=periodLabel(subs[0].from,subs[0].to);
+ const ann='Honor Cadet, '+p+': Cadet '+r.last+', '+r.flight+'.'+($('selWhy').value.trim()?'\n\n'+$('selWhy').value.trim():'')+'\n\nSelected by the cadet command staff from command team evaluations in initiative, leadership, military bearing, teamwork and reliability.'+($('selDate').value?'\n\nAnnounced '+dd($('selDate').value)+'.':'');
+ return{r,p,ann,wall:'Cadet '+r.last+'\nHonor Cadet\n'+p}}
+function updateAnn(){const a=annParts();$('annText').textContent=a?a.ann:'Choose a cadet.';$('wallText').textContent=a?a.wall:''}
+$('copyAnn').onclick=async()=>{const a=annParts();if(!a)return;try{await navigator.clipboard.writeText(a.ann);$('selMsg').textContent='Copied.'}catch(e){$('selMsg').textContent='Select the announcement text and copy it.'}};
+$('saveRecord').onclick=()=>{const a=annParts();if(!a){$('selMsg').textContent='Choose a cadet first.';return}if(!window.jspdf){$('selMsg').textContent='The PDF builder did not load. Check the connection and reload.';return}
+ const rows=tally();const{jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'letter'});
+ pdfHead(doc,'HONOR CADET SELECTION RECORD','Civil Air Patrol  |  Recognition period '+a.p+' ('+dd(subs[0].from)+' to '+dd(subs[0].to)+')');
+ kv(doc,'HONOR CADET',a.r.last+' ('+a.r.capid+')',15,35);kv(doc,'FLIGHT',a.r.flight,85,35);kv(doc,'SELECTED BY',$('selBy').value.trim()||'–',120,35);kv(doc,'ANNOUNCED',dd($('selDate').value)||'–',165,35);
+ doc.setFontSize(12);doc.setTextColor(...SEC);doc.text('Reason',15,52);doc.setFontSize(10);doc.setTextColor(...BODY);const lines=doc.splitTextToSize($('selWhy').value.trim()||'–',180);doc.text(lines,15,58);
+ let y=58+lines.length*4.6+6;doc.setFontSize(12);doc.setTextColor(...SEC);doc.text('Ranking',15,y);
+ doc.autoTable({startY:y+3,head:[['Rank','Cadet','CAPID','Flight','Evals',...CATS.map(k=>k.s),'Overall']],body:rows.map((r,i)=>[i+1,r.last,r.capid,r.flight,r.evs.length,...r.av.map(f2),r.overall.toFixed(2)+(isTie(rows,r)?' tie':'')]),
+  styles:{font:'helvetica',fontSize:9,textColor:BODY,lineColor:[213,216,216],lineWidth:0.2},headStyles:{fillColor:[255,255,255],textColor:SEC,fontStyle:'normal'},margin:{left:15,right:15},
+  didParseCell:d=>{if(d.section==='body'&&rows[d.row.index].capid===a.r.capid)d.cell.styles.textColor=BLUE}});
+ y=doc.lastAutoTable.finalY+8;doc.setFontSize(12);doc.setTextColor(...SEC);doc.text('Evaluators',15,y);doc.setFontSize(9);doc.setTextColor(...BODY);
+ doc.text(doc.splitTextToSize(subs.map(S=>S.ev.role+' '+S.ev.last+' ('+S.ev.capid+'), submitted '+dd(S.at.slice(0,10))).join('; '),180),15,y+5);
+ pdfFoot(doc);lastPdf={blob:doc.output('blob'),name:'HonorCadet_Selection_'+subs[0].from.slice(0,7)+'.pdf'};savePdf();$('selMsg').textContent='Selection record saved to downloads.'};
 
-$('printSheet').onclick=()=>{document.querySelectorAll('section').forEach(s=>s.classList.toggle('print-target',s.id==='rubric'));try{window.print();$('printMsg').textContent=''}catch(e){$('printMsg').textContent='Printing is blocked here; open the page in your browser to print.'}};
+/* leaving with an unsubmitted sheet */
+window.addEventListener('beforeunload',e=>{if(!lastPdf&&cadets.some(c=>scored(c))){e.preventDefault();e.returnValue=''}});
 
-window.addEventListener('beforeunload',e=>{if(S.cadets.some(c=>Object.values(c.s).some(Boolean))){e.preventDefault();e.returnValue=''}});
 renderCadets();
-const h=location.hash.slice(1);if(['howto','score','tally','select','rubric'].includes(h))show(h);
+const h=location.hash.slice(1);if(TABS.includes(h))show(h);
 }
 </script>
 </body>
