@@ -56,7 +56,8 @@ td.n,th.n{text-align:right;white-space:nowrap}
 .rub td{font-size:14px}
 .rub td:first-child{color:var(--full)}
 .card{border:1px solid var(--rule);border-radius:6px;padding:12px;margin:10px 0}
-.card .who{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:10px}
+.card .who{display:grid;grid-template-columns:.75fr 1.25fr .75fr 1.25fr;gap:10px}
+@media(max-width:600px){.card .who{grid-template-columns:.75fr 1.25fr}}
 .cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:10px;margin:12px 0}
 .seg{display:flex;border:1px solid var(--gray);border-radius:4px;overflow:hidden}
 .seg.bad{border-color:var(--red)}
@@ -120,7 +121,7 @@ footer{margin-top:28px;border-top:1px solid var(--rule);padding-top:10px;font-si
   <p class="who2">Command team: C/CC, C/DC, C/XO, C/1st SGT, C/Flt CC, C/Flt SGT, near the end of each two-month period</p>
   <ol>
     <li>Open 1. Score. Enter your CAPID, last name and role. The recognition period fills itself in; change it only if it's wrong.</li>
-    <li>Enter the cadet's CAPID, last name, flight and duty position.</li>
+    <li>Enter the candidate's CAPID, last name and flight. Add a duty position if they hold one; left blank, it reads N/A.</li>
     <li>Tap 1, 2 or 3 in each of the five categories. The line under the buttons tells you what that score means. Score only what you saw this period.</li>
     <li>Gave a 3? Write it under Why. Gave a 1? Write it under Why Not. Say what you saw and when.</li>
     <li>Tap Finish this cadet. The tool checks the card and folds it into a one-line summary with the overall score.</li>
@@ -268,7 +269,7 @@ $('printSheet').onclick=()=>{try{window.print()}catch(e){}};
 /* score sheet */
 const overall=c=>CATS.reduce((a,k)=>a+(c.s[k.k]||0),0);
 const scored=c=>CATS.filter(k=>c.s[k.k]).length;
-function cadetIssues(c){const e=[];if(!/^\d{6}$/.test(c.capid.trim()))e.push('CAPID (6 digits)');if(!c.last.trim())e.push('last name');if(!c.flight.trim())e.push('flight');if(!c.duty.trim())e.push('duty position');
+function cadetIssues(c){const e=[];if(!/^\d{6}$/.test(c.capid.trim()))e.push('CAPID (6 digits)');if(!c.last.trim())e.push('last name');if(!c.flight.trim())e.push('flight');
  const miss=CATS.filter(k=>!c.s[k.k]).map(k=>k.n);if(miss.length)e.push('score for '+miss.join(', '));
  if(c.capid.trim()&&cadets.some(x=>x!==c&&x.capid.trim()===c.capid.trim()))e.push('CAPID already used for another cadet');
  if(CATS.some(k=>c.s[k.k]===3)&&!c.why.trim())e.push('Why observation (for the 3)');
@@ -276,10 +277,10 @@ function cadetIssues(c){const e=[];if(!/^\d{6}$/.test(c.capid.trim()))e.push('CA
 function footHTML(c){const n=scored(c);const t=overall(c);return '<span class="overall">Overall '+t+' / 15 <span>('+(n?(t/n).toFixed(2):'0.00')+' average, '+n+' of 5 scored)</span></span>'}
 function fld(c,f,label,extra){const bad=c.err&&!String(c[f]).trim()?' bad':'';return '<div><label for="'+f+c.id+'">'+label+'</label><input id="'+f+c.id+'" data-f="'+f+'" class="'+bad+'" value="'+esc(c[f])+'" autocomplete="off"'+(extra||'')+'></div>'}
 function cardHTML(c,i){
- if(c.done)return '<div class="card" data-id="'+c.id+'"><div class="sum"><p><span class="strong">Cadet '+(i+1)+': '+esc(c.last)+'</span> <span class="note">'+esc(c.capid)+', '+esc(c.flight)+', '+esc(c.duty)+'</span><br><span class="overall">Overall '+overall(c)+' / 15</span></p><span><button class="btn quiet" data-edit="1">Edit</button>'+(cadets.length>1?' <button class="btn quiet" data-del="1">Remove</button>':'')+'</span></div></div>';
+ if(c.done)return '<div class="card" data-id="'+c.id+'"><div class="sum"><p><span class="strong">Candidate '+(i+1)+': '+esc(c.last)+'</span> <span class="note">'+esc(c.capid)+', '+esc(c.flight)+', '+esc(c.duty.trim()||'N/A')+'</span><br><span class="overall">Overall '+overall(c)+' / 15</span></p><span><button class="btn quiet" data-edit="1">Edit</button>'+(cadets.length>1?' <button class="btn quiet" data-del="1">Remove</button>':'')+'</span></div></div>';
  const iss=c.err?cadetIssues(c):[];
- return '<div class="card" data-id="'+c.id+'"><p class="note" style="margin-bottom:8px">Cadet '+(i+1)+'</p><div class="who">'+
-  fld(c,'capid','Cadet CAPID',' inputmode="numeric"')+fld(c,'last','Cadet last name')+fld(c,'flight','Flight')+fld(c,'duty','Duty position')+'</div>'+
+ return '<div class="card" data-id="'+c.id+'"><p class="note" style="margin-bottom:8px">Candidate '+(i+1)+'</p><div class="who">'+
+  fld(c,'capid','Cadet CAPID',' inputmode="numeric"')+fld(c,'last','Cadet last name')+fld(c,'flight','Flight')+fld(c,'duty','Duty position',' placeholder="N/A"')+'</div>'+
   '<div class="cats">'+CATS.map(k=>'<div><label>'+k.n+'</label><p class="def">'+k.d+'</p><div class="seg'+(c.err&&!c.s[k.k]?' bad':'')+'" role="group" aria-label="'+k.n+'">'+[1,2,3].map(v=>'<button data-k="'+k.k+'" data-v="'+v+'" aria-pressed="'+(c.s[k.k]===v)+'">'+v+'</button>').join('')+'</div><div class="anc" data-anc="'+k.k+'">'+(c.s[k.k]?esc(k.a[c.s[k.k]-1]):'')+'</div></div>').join('')+'</div>'+
   '<div class="obs"><div><label for="why'+c.id+'">Why: observations (required for any 3)</label><textarea id="why'+c.id+'" data-f="why" placeholder="What you saw, and when">'+esc(c.why)+'</textarea></div><div><label for="whyNot'+c.id+'">Why Not: observations (required for any 1)</label><textarea id="whyNot'+c.id+'" data-f="whyNot" placeholder="What you saw, and when">'+esc(c.whyNot)+'</textarea></div></div>'+
   (iss.length?'<div class="errs cerr"><p class="warn">Still needed: '+esc(iss.join('; '))+'.</p></div>':'')+
@@ -304,7 +305,7 @@ $('addCadet').onclick=()=>{$('errs').hidden=true;cadets.push(blankCadet(cadets[c
 
 function sheetIssues(){const e=[];if(!/^\d{6}$/.test($('evCapid').value.trim()))e.push('Your CAPID (6 digits)');if(!$('evLast').value.trim())e.push('Your last name');if(!$('evRole').value)e.push('Your role');
  const f=$('pFrom').value,t=$('pTo').value;if(!f||!t||f>t)e.push('Recognition period (from must be before to)');
- const seen=new Set();cadets.forEach((c,i)=>{const x=cadetIssues(c);if(x.length)e.push('Cadet '+(i+1)+(c.last.trim()?' ('+c.last.trim()+')':'')+': '+x.join(', '));const k=c.capid.trim();if(k&&seen.has(k))e.push('Cadet '+(i+1)+': CAPID '+k+' is listed twice');seen.add(k)});return e}
+ const seen=new Set();cadets.forEach((c,i)=>{const x=cadetIssues(c);if(x.length)e.push('Candidate '+(i+1)+(c.last.trim()?' ('+c.last.trim()+')':'')+': '+x.join(', '));const k=c.capid.trim();if(k&&seen.has(k))e.push('Candidate '+(i+1)+': CAPID '+k+' is listed twice');seen.add(k)});return e}
 
 /* PDF */
 const BODY=[77,77,77],BLUE=[0,20,137],SEC=[99,102,106];
@@ -314,7 +315,7 @@ function pdfFoot(doc){const n=doc.getNumberOfPages();for(let i=1;i<=n;i++){doc.s
 const b64e=s=>btoa(unescape(encodeURIComponent(s)));
 const b64d=s=>decodeURIComponent(escape(atob(s)));
 function buildSubmission(){return{v:1,ev:{capid:$('evCapid').value.trim(),last:$('evLast').value.trim(),role:$('evRole').value},from:$('pFrom').value,to:$('pTo').value,at:new Date().toISOString(),
- cadets:cadets.map(c=>({capid:c.capid.trim(),last:c.last.trim(),flight:c.flight.trim(),duty:c.duty.trim(),s:CATS.map(k=>c.s[k.k]),why:c.why.trim(),whyNot:c.whyNot.trim()}))}}
+ cadets:cadets.map(c=>({capid:c.capid.trim(),last:c.last.trim(),flight:c.flight.trim(),duty:c.duty.trim()||'N/A',s:CATS.map(k=>c.s[k.k]),why:c.why.trim(),whyNot:c.whyNot.trim()}))}}
 function submissionPdf(S){const{jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'letter'});
  doc.setProperties({title:'Honor Cadet evaluation',subject:'Honor Cadet Evaluator submission',keywords:TAG+b64e(JSON.stringify(S)),creator:'CAP Tools: Honor Cadet Evaluator'});
  pdfHead(doc,'HONOR CADET EVALUATION','Civil Air Patrol  |  Recognition period '+periodLabel(S.from,S.to)+' ('+dd(S.from)+' to '+dd(S.to)+')');

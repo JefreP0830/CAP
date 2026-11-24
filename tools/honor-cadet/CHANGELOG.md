@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.5.0 - 2026-11-24
+
+- Cards labeled Candidate 1, 2, 3.
+- Field widths: CAPID and Flight 0.75, Last name and Duty position 1.25 (two per row on phones).
+- Duty position optional; blank reads and submits as N/A.
+
 ## 2.4.0 - 2026-11-24
 
 - Finish this cadet button on each card: checks that cadet, lists what is still needed, and folds the card into a summary line (name, CAPID, flight, duty, overall) with Edit and Remove.
