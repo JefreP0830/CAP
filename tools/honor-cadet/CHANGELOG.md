@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.0 - 2026-11-24
+
+- Working tabs numbered and shaded as steps: 1. Score, 2. Tally, 3. Select; they stay on one row on phones. How to use refers to the numbered steps.
+
 ## 2.0.0 - 2026-11-24
 
 - Score tab: evaluator CAPID, last name and cadet command team role; period is a from/to date range defaulting to the current two-month block.

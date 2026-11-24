@@ -31,6 +31,10 @@ h3{font-size:17px;font-weight:normal;color:var(--sec);margin:16px 0 6px}
 nav{display:flex;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--gray);margin-bottom:16px}
 nav button{font:16px Arial,sans-serif;background:none;border:0;border-bottom:3px solid transparent;padding:12px 14px;min-height:44px;color:var(--ink);cursor:pointer}
 nav button[aria-selected=true]{color:var(--blue);border-bottom-color:var(--blue)}
+nav button.step{background:var(--soft);border:1px solid var(--rule);border-bottom-width:3px;border-radius:4px 4px 0 0;color:var(--full)}
+nav button.step[aria-selected=true]{background:var(--blue);border-color:var(--blue);color:#fff}
+.stepgrp{display:flex;gap:6px}
+@media(max-width:600px){.stepgrp{order:3;flex:1 1 100%}.stepgrp button{flex:1;padding:12px 6px}nav button{padding:12px 10px}}
 section[hidden]{display:none}
 label{display:block;font-size:14px;color:var(--sec);margin-bottom:4px}
 input,select,textarea{font:16px Arial,sans-serif;color:var(--full);border:1px solid var(--gray);border-radius:4px;padding:9px 10px;width:100%;background:#fff;min-height:44px}
@@ -97,9 +101,11 @@ footer{margin-top:28px;border-top:1px solid var(--rule);padding-top:10px;font-si
 
 <nav role="tablist">
   <button role="tab" data-tab="howto" aria-selected="true">How to use</button>
-  <button role="tab" data-tab="score" aria-selected="false">Score</button>
-  <button role="tab" data-tab="tally" aria-selected="false">Tally</button>
-  <button role="tab" data-tab="select" aria-selected="false">Select</button>
+  <span class="stepgrp">
+  <button role="tab" class="step" data-tab="score" aria-selected="false">1. Score</button>
+  <button role="tab" class="step" data-tab="tally" aria-selected="false">2. Tally</button>
+  <button role="tab" class="step" data-tab="select" aria-selected="false">3. Select</button>
+  </span>
   <button role="tab" data-tab="rubric" aria-selected="false">Rubric and rules</button>
 </nav>
 
@@ -109,7 +115,7 @@ footer{margin-top:28px;border-top:1px solid var(--rule);padding-top:10px;font-si
   <h2>First, score your cadets</h2>
   <p class="who2">Command team: C/CC, C/DC, C/XO, C/1st SGT, C/Flt CC, C/Flt SGT, near the end of each two-month period</p>
   <ol>
-    <li>Open the Score tab. Enter your CAPID, last name and role. The recognition period fills itself in; change it only if it's wrong.</li>
+    <li>Open 1. Score. Enter your CAPID, last name and role. The recognition period fills itself in; change it only if it's wrong.</li>
     <li>Optional: load this week's Cadet Full Track Report. Then typing a CAPID or a last name fills in the other.</li>
     <li>For each cadet, enter CAPID, last name, flight and duty position. Tap Add cadet for the next one; the flight carries over.</li>
     <li>Tap 1, 2 or 3 in each of the five categories. The line under the buttons tells you what that score means. Score only what you saw this period.</li>
@@ -120,13 +126,13 @@ footer{margin-top:28px;border-top:1px solid var(--rule);padding-top:10px;font-si
   <p class="who2">Command staff</p>
   <ol start="7">
     <li>Save every submitted PDF to one folder.</li>
-    <li>Open the Tally tab and drop all the PDFs on the box, or tap Choose PDFs. The tool reads the scores out of them and ranks the cadets.</li>
+    <li>Open 2. Tally and drop all the PDFs on the box, or tap Choose PDFs. The tool reads the scores out of them and ranks the cadets.</li>
     <li>Check that every evaluator is listed. Ties and incomplete scores are flagged.</li>
   </ol>
   <h2>Finally, select and announce</h2>
   <p class="who2">Command staff</p>
   <ol start="10">
-    <li>Open the Select tab. The top-ranked cadet is picked and the reason is drafted from the Why observations. The scores help you decide; they don't decide for you, so change either one.</li>
+    <li>Open 3. Select. The top-ranked cadet is picked and the reason is drafted from the Why observations. The scores help you decide; they don't decide for you, so change either one.</li>
     <li>Tap Save selection record. Keep the PDF; it is the unit's record of the decision.</li>
     <li>Read the announcement at the last meeting of the period or the first meeting of the next, and post the Honor Wall entry with a photo.</li>
   </ol>
@@ -175,7 +181,7 @@ footer{margin-top:28px;border-top:1px solid var(--rule);padding-top:10px;font-si
 
 <!-- SELECT -->
 <section id="select" hidden>
-  <p id="selEmpty" class="note">Load the submitted PDFs on the Tally tab first.</p>
+  <p id="selEmpty" class="note">Load the submitted PDFs in 2. Tally first.</p>
   <div id="selBody" hidden>
     <div class="grid">
       <div><label for="selCadet">Honor Cadet</label><select id="selCadet"></select></div>
