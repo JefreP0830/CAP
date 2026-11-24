@@ -15,51 +15,72 @@
   a.tool:hover, a.tool:focus-visible { border-color: var(--u); }
   a.tool img { width: 48px; height: 48px; }
   a.tool strong { display: block; color: #000; font-size: 13pt; }
+  h2 { margin: 22px 0 8px; font-size: 14pt; font-weight: normal; color: #63666A; }
+  h2:first-child { margin-top: 0; }
+  .group { display: grid; gap: 10px; }
+  @media (max-width: 600px) {
+    main { padding-top: 14px; }
+    h2 { margin: 16px 0 6px; font-size: 12pt; }
+    .group { gap: 6px; }
+    a.tool { padding: 8px 10px; gap: 10px; min-height: 48px; }
+    a.tool img { width: 32px; height: 32px; }
+    a.tool strong { font-size: 12pt; }
+    a.tool .d { display: none; }
+  }
 </style>
 </head>
 <body>
 <header><h1>CAP Tools</h1></header>
 <main>
+  <h2>Cadet Tools</h2>
+  <div class="group">
   <a class="tool" href="tools/cadet-promotion-tracker/">
     <img src="tools/cadet-promotion-tracker/icons/icon-192.png" alt="">
-    <span><strong>Cadet Promotion Tracker</strong>Unit promotion status from the eServices Cadet Promotions Full Track report.</span>
+    <span><strong>Cadet Promotion Tracker</strong><span class="d">Unit promotion status from the eServices Cadet Promotions Full Track report.</span></span>
   </a>
-  <a class="tool" href="tools/drill-test/app/" style="margin-top:10px">
+  <a class="tool" href="tools/drill-test/app/">
     <img src="tools/drill-test/app/icons/icon-192.png" alt="">
-    <span><strong>Drill Evaluator</strong>Score CAPP 60-34 drill tests on a phone, practice guides, and promotion scripts.</span>
+    <span><strong>Drill Evaluator</strong><span class="d">Score CAPP 60-34 drill tests on a phone, practice guides, and promotion scripts.</span></span>
   </a>
-  <a class="tool" href="tools/monthly-ops/" style="margin-top:10px">
-    <img src="tools/monthly-ops/icons/icon-192.png" alt="">
-    <span><strong>Unit Operations Checklist</strong>Recurring compliance tasks by month and officer, printable on letter paper.</span>
-  </a>
-  <a class="tool" href="tools/ocp-uniform-worksheet/" style="margin-top:10px">
-    <img src="tools/ocp-uniform-worksheet/icons/icon-192.png" alt="">
-    <span><strong>OCP Uniform Worksheet</strong>One-page cadet self-check of OCP uniform items and sizes, for the supply officer.</span>
-  </a>
-  <a class="tool" href="tools/pub-forecast/" style="margin-top:10px">
-    <img src="tools/pub-forecast/icons/icon-192.png" alt="">
-    <span><strong>CAP Rule Changes</strong>This month's CAP rule changes in plain words, and what may change next.</span>
-  </a>
-  <a class="tool" href="tools/nld-ops-plan/" style="margin-top:10px">
-    <img src="tools/nld-ops-plan/icons/icon-192.png" alt="">
-    <span><strong>NLD Operations Plan</strong>Vermont Wing plan for National Legislative Day 2027: schedule, travel, safety, budget.</span>
-  </a>
-  <a class="tool" href="tools/aar/" style="margin-top:10px">
-    <img src="tools/aar/icons/icon-192.png" alt="">
-    <span><strong>After Action Review</strong>Five-part AAR form for any activity or SDA, with a worked example. Prints to Letter or PDF.</span>
-  </a>
-  <a class="tool" href="tools/hotwash/" style="margin-top:10px">
-    <img src="tools/hotwash/icons/icon-192.png" alt="">
-    <span><strong>Hotwash</strong>CHECK SIX: See, Identify, eXecute. Builds a ready-to-paste hotwash email.</span>
-  </a>
-  <a class="tool" href="tools/cap-puzzles/" style="margin-top:10px">
-    <img src="tools/cap-puzzles/icons/icon-192.png" alt="">
-    <span><strong>CAP Puzzles</strong>Topic crosswords with an answer key, printable on letter paper.</span>
-  </a>
-  <a class="tool" href="tools/honor-cadet/" style="margin-top:10px">
+  <a class="tool" href="tools/honor-cadet/">
     <img src="tools/honor-cadet/icons/icon-192.png" alt="">
-    <span><strong>Honor Cadet Evaluator</strong>Score cadets 1 to 3 in five categories, submit a PDF, tally the PDFs, and announce the Honor Cadet.</span>
+    <span><strong>Honor Cadet Evaluator</strong><span class="d">Score cadets 1 to 3 in five categories, submit a PDF, tally the PDFs, and announce the Honor Cadet.</span></span>
   </a>
+  <a class="tool" href="tools/ocp-uniform-worksheet/">
+    <img src="tools/ocp-uniform-worksheet/icons/icon-192.png" alt="">
+    <span><strong>OCP Uniform Worksheet</strong><span class="d">One-page cadet self-check of OCP uniform items and sizes, for the supply officer.</span></span>
+  </a>
+  <a class="tool" href="tools/cap-puzzles/">
+    <img src="tools/cap-puzzles/icons/icon-192.png" alt="">
+    <span><strong>CAP Puzzles</strong><span class="d">Topic crosswords with an answer key, printable on letter paper.</span></span>
+  </a>
+  </div>
+  <h2>Squadron Tools</h2>
+  <div class="group">
+  <a class="tool" href="tools/monthly-ops/">
+    <img src="tools/monthly-ops/icons/icon-192.png" alt="">
+    <span><strong>Unit Operations Checklist</strong><span class="d">Recurring compliance tasks by month and officer, printable on letter paper.</span></span>
+  </a>
+  <a class="tool" href="tools/aar/">
+    <img src="tools/aar/icons/icon-192.png" alt="">
+    <span><strong>After Action Review</strong><span class="d">Five-part AAR form for any activity or SDA, with a worked example. Prints to Letter or PDF.</span></span>
+  </a>
+  <a class="tool" href="tools/hotwash/">
+    <img src="tools/hotwash/icons/icon-192.png" alt="">
+    <span><strong>Hotwash</strong><span class="d">CHECK SIX: See, Identify, eXecute. Builds a ready-to-paste hotwash email.</span></span>
+  </a>
+  </div>
+  <h2>Wing Tools</h2>
+  <div class="group">
+  <a class="tool" href="tools/pub-forecast/">
+    <img src="tools/pub-forecast/icons/icon-192.png" alt="">
+    <span><strong>CAP Rule Changes</strong><span class="d">This month's CAP rule changes in plain words, and what may change next.</span></span>
+  </a>
+  <a class="tool" href="tools/nld-ops-plan/">
+    <img src="tools/nld-ops-plan/icons/icon-192.png" alt="">
+    <span><strong>NLD Operations Plan</strong><span class="d">Vermont Wing plan for National Legislative Day 2027: schedule, travel, safety, budget.</span></span>
+  </a>
+  </div>
 </main>
 </body>
 </html>
