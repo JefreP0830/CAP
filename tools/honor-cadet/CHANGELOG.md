@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.0 - 2026-11-24
+
+- Removed the optional Cadet Full Track Report upload; cadets enter CAPID and last name directly.
+- "Add cadet" renamed "Add another cadet", with a one-line note on what it does.
+- Share fallback spelled out: Share and Save to this device buttons; every failure path tells the evaluator to attach the saved PDF to an email to the cadet commander.
+
 ## 2.1.0 - 2026-11-24
 
 - Working tabs numbered and shaded as steps: 1. Score, 2. Tally, 3. Select; they stay on one row on phones. How to use refers to the numbered steps.

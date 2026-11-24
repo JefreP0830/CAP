@@ -16,9 +16,9 @@ Overall score is out of 15. A 3 needs a Why observation; a 1 needs a Why Not obs
 1. **Score.** A cadet command team member (C/CC, C/DC, C/XO, C/1st SGT, C/Flt CC, C/Flt SGT)
    enters their CAPID, last name and role; the recognition period defaults to the current
    two-month block. For each cadet: CAPID, last name, flight, duty position, five scores and
-   observations. Loading the eServices Cadet Full Track Report (optional, same file the Cadet
-   Promotion Tracker reads) fills last name from CAPID and back. Submit checks the sheet, builds
-   a PDF and opens the share menu (or downloads it on a computer), like the Drill Evaluator.
+   observations. Submit checks the sheet, builds a PDF and opens the share menu, like
+   the Drill Evaluator. If sharing is unavailable or fails, the PDF is saved to the device and
+   the evaluator attaches it to an email.
 2. **Tally.** The command staff drops every submitted PDF on the Tally tab. The scores ride
    inside each PDF (base64 JSON in the PDF Keywords field, prefix `HCE1:`), so nothing is
    retyped. Cadets are ranked by overall score; ties, incomplete scores and mixed periods are

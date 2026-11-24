@@ -116,22 +116,21 @@ footer{margin-top:28px;border-top:1px solid var(--rule);padding-top:10px;font-si
   <p class="who2">Command team: C/CC, C/DC, C/XO, C/1st SGT, C/Flt CC, C/Flt SGT, near the end of each two-month period</p>
   <ol>
     <li>Open 1. Score. Enter your CAPID, last name and role. The recognition period fills itself in; change it only if it's wrong.</li>
-    <li>Optional: load this week's Cadet Full Track Report. Then typing a CAPID or a last name fills in the other.</li>
-    <li>For each cadet, enter CAPID, last name, flight and duty position. Tap Add cadet for the next one; the flight carries over.</li>
+    <li>Enter the first cadet's CAPID, last name, flight and duty position. When you finish a cadet, tap Add another cadet for the next one; the flight carries over.</li>
     <li>Tap 1, 2 or 3 in each of the five categories. The line under the buttons tells you what that score means. Score only what you saw this period.</li>
     <li>Gave a 3? Write it under Why. Gave a 1? Write it under Why Not. Say what you saw and when.</li>
-    <li>Tap Submit. The tool checks your sheet, builds a PDF and opens your share menu. Send it to the cadet commander. On a computer the PDF downloads; email it from there.</li>
+    <li>Tap Submit. The tool checks your sheet, builds a PDF and opens your share menu. Send it to the cadet commander. If the share menu does not open or fails, tap Save to this device, then attach the PDF to an email to the cadet commander.</li>
   </ol>
   <h2>Then, tally the scores</h2>
   <p class="who2">Command staff</p>
-  <ol start="7">
+  <ol start="6">
     <li>Save every submitted PDF to one folder.</li>
     <li>Open 2. Tally and drop all the PDFs on the box, or tap Choose PDFs. The tool reads the scores out of them and ranks the cadets.</li>
     <li>Check that every evaluator is listed. Ties and incomplete scores are flagged.</li>
   </ol>
   <h2>Finally, select and announce</h2>
   <p class="who2">Command staff</p>
-  <ol start="10">
+  <ol start="9">
     <li>Open 3. Select. The top-ranked cadet is picked and the reason is drafted from the Why observations. The scores help you decide; they don't decide for you, so change either one.</li>
     <li>Tap Save selection record. Keep the PDF; it is the unit's record of the decision.</li>
     <li>Read the announcement at the last meeting of the period or the first meeting of the next, and post the Honor Wall entry with a photo.</li>
@@ -149,11 +148,9 @@ footer{margin-top:28px;border-top:1px solid var(--rule);padding-top:10px;font-si
   <div class="grid" style="margin-top:12px">
     <div><label for="pFrom">Recognition period from</label><input id="pFrom" type="date"></div>
     <div><label for="pTo">Recognition period to</label><input id="pTo" type="date"></div>
-    <div><label for="roster">Cadet Full Track Report (optional)</label><input id="roster" type="file" accept=".csv,.xlsx,.xls"><p class="note" id="rosterMsg">Fills names from CAPIDs. Read on this device only.</p></div>
   </div>
-  <datalist id="capids"></datalist><datalist id="lasts"></datalist>
   <div id="cadets"></div>
-  <div class="row"><button class="btn" id="addCadet">Add cadet</button></div>
+  <div class="row"><button class="btn" id="addCadet">Add another cadet</button><span class="note">Opens a new card below for the next cadet you are scoring.</span></div>
   <div id="errs" class="errs" hidden></div>
   <div class="row">
     <button class="btn pri" id="submit">Submit</button>
@@ -161,7 +158,7 @@ footer{margin-top:28px;border-top:1px solid var(--rule);padding-top:10px;font-si
   </div>
   <div id="done" class="panel" hidden>
     <p class="strong" id="doneMsg"></p>
-    <div class="row" style="margin-bottom:0"><button class="btn" id="shareAgain">Share again</button><button class="btn" id="savePdf">Save PDF</button><button class="btn quiet" id="newSheet">Start a new sheet</button></div>
+    <div class="row" style="margin-bottom:0"><button class="btn" id="shareAgain">Share</button><button class="btn" id="savePdf">Save to this device</button><button class="btn quiet" id="newSheet">Start a new sheet</button></div>
   </div>
 </section>
 
@@ -243,7 +240,6 @@ const periodLabel=(f,t)=>{if(!f||!t)return '';const[a,b]=[f.split('-'),t.split('
 const blankCadet=fl=>({id:Math.random().toString(36).slice(2),capid:'',last:'',flight:fl||'',duty:'',s:{},why:'',whyNot:''});
 
 // Nothing persists (repo decision D-004): state lives only while the page is open.
-let roster=[];               // [{capid,last}] from an optional eServices export
 let cadets=[blankCadet()];
 let lastPdf=null;            // {blob,name}
 let subs=[];                 // parsed submissions
@@ -263,19 +259,6 @@ $('printSheet').onclick=()=>{try{window.print()}catch(e){}};
 /* period defaults to the current two-month block (Jan–Feb, Mar–Apr, ...) */
 {const n=new Date(),m=n.getMonth()-(n.getMonth()%2);$('pFrom').value=iso(new Date(n.getFullYear(),m,1));$('pTo').value=iso(new Date(n.getFullYear(),m+2,0));}
 
-/* optional roster: eServices Cadet Full Track Report (CSV or Excel) */
-function parseCSV(text){const lines=[];let row=[],cur='',q=false;for(let i=0;i<text.length;i++){const c=text[i];if(q){if(c==='"'&&text[i+1]==='"'){cur+='"';i++}else if(c==='"')q=false;else cur+=c}else if(c==='"')q=true;else if(c===','){row.push(cur);cur=''}else if(c==='\n'||c==='\r'){if(c==='\r'&&text[i+1]==='\n')i++;row.push(cur);lines.push(row);row=[];cur=''}else cur+=c}if(cur||row.length){row.push(cur);lines.push(row)}const head=(lines.shift()||[]).map(h=>h.trim());return lines.filter(l=>l.some(v=>v.trim())).map(l=>Object.fromEntries(head.map((h,i)=>[h,(l[i]??'').trim()])))}
-$('roster').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{let rows;
-  if(/\.csv$/i.test(f.name))rows=parseCSV(await f.text());
-  else{if(typeof XLSX==='undefined'){await new Promise((ok,no)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=ok;s.onerror=no;document.head.appendChild(s)})}const wb=XLSX.read(new Uint8Array(await f.arrayBuffer()),{type:'array'});rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''})}
-  const m=new Map();rows.forEach(r=>{const c=String(r.CAPID??'').trim(),l=String(r.NameLast??'').trim();if(c&&l)m.set(c,{capid:c,last:l})});
-  if(!m.size)throw new Error('no CAPID / NameLast columns');
-  roster=[...m.values()].sort((a,b)=>a.last.localeCompare(b.last));
-  $('capids').innerHTML=roster.map(r=>'<option value="'+esc(r.capid)+'">'+esc(r.last)+'</option>').join('');
-  $('lasts').innerHTML=roster.map(r=>'<option value="'+esc(r.last)+'">'+esc(r.capid)+'</option>').join('');
-  $('rosterMsg').textContent=roster.length+' cadets loaded. Type a CAPID or last name.';
- }catch(err){roster=[];$('rosterMsg').textContent='Could not read that file as a Cadet Full Track Report ('+err.message+'). Enter cadets by hand.'}});
-
 /* score sheet */
 const overall=c=>CATS.reduce((a,k)=>a+(c.s[k.k]||0),0);
 const scored=c=>CATS.filter(k=>c.s[k.k]).length;
@@ -287,7 +270,7 @@ function footHTML(c){const n=scored(c);const t=overall(c);return '<span class="o
 function fld(c,f,label,extra){const bad=showErr&&!String(c[f]).trim()?' bad':'';return '<div><label for="'+f+c.id+'">'+label+'</label><input id="'+f+c.id+'" data-f="'+f+'" class="'+bad+'" value="'+esc(c[f])+'" autocomplete="off"'+(extra||'')+'></div>'}
 function renderCadets(){
  $('cadets').innerHTML=cadets.map((c,i)=>'<div class="card" data-id="'+c.id+'"><p class="note" style="margin-bottom:8px">Cadet '+(i+1)+'</p><div class="who">'+
-  fld(c,'capid','Cadet CAPID',' inputmode="numeric" list="capids"')+fld(c,'last','Cadet last name',' list="lasts"')+fld(c,'flight','Flight')+fld(c,'duty','Duty position')+'</div>'+
+  fld(c,'capid','Cadet CAPID',' inputmode="numeric"')+fld(c,'last','Cadet last name')+fld(c,'flight','Flight')+fld(c,'duty','Duty position')+'</div>'+
   '<div class="cats">'+CATS.map(k=>'<div><label>'+k.n+'</label><div class="seg'+(showErr&&!c.s[k.k]?' bad':'')+'" role="group" aria-label="'+k.n+'">'+[1,2,3].map(v=>'<button data-k="'+k.k+'" data-v="'+v+'" aria-pressed="'+(c.s[k.k]===v)+'">'+v+'</button>').join('')+'</div><div class="anc" data-anc="'+k.k+'">'+(c.s[k.k]?esc(k.a[c.s[k.k]-1]):'')+'</div></div>').join('')+'</div>'+
   '<div class="obs"><div><label for="why'+c.id+'">Why: observations (required for any 3)</label><textarea id="why'+c.id+'" data-f="why" placeholder="What you saw, and when">'+esc(c.why)+'</textarea></div><div><label for="whyNot'+c.id+'">Why Not: observations (required for any 1)</label><textarea id="whyNot'+c.id+'" data-f="whyNot" placeholder="What you saw, and when">'+esc(c.whyNot)+'</textarea></div></div>'+
   '<div class="cfoot"><span class="foot">'+footHTML(c)+'</span>'+(cadets.length>1?'<button class="btn quiet" data-del="1">Remove this cadet</button>':'')+'</div></div>').join('');
@@ -299,8 +282,7 @@ $('cadets').addEventListener('click',e=>{const[card,c]=cardOf(e.target);if(!c)re
  b.parentElement.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',c.s[k]===+x.dataset.v));b.parentElement.classList.toggle('bad',showErr&&!c.s[k]);
  card.querySelector('[data-anc='+k+']').textContent=c.s[k]?CATS.find(z=>z.k===k).a[c.s[k]-1]:'';card.querySelector('.foot').innerHTML=footHTML(c)});
 $('cadets').addEventListener('input',e=>{const[card,c]=cardOf(e.target);const f=e.target.dataset.f;if(!c||!f)return;c[f]=e.target.value;e.target.classList.remove('bad');
- if(roster.length&&(f==='capid'||f==='last')){const v=e.target.value.trim().toLowerCase();const hit=roster.find(r=>f==='capid'?r.capid===v:r.last.toLowerCase()===v);
-  if(hit){const o=f==='capid'?'last':'capid';const other=card.querySelector('[data-f='+o+']');if(!other.value.trim()){c[o]=hit[o];other.value=hit[o];other.classList.remove('bad')}}}});
+});
 $('addCadet').onclick=()=>{cadets.push(blankCadet(cadets[cadets.length-1].flight));renderCadets();$('capid'+cadets[cadets.length-1].id).focus()};
 
 function sheetIssues(){const e=[];if(!/^\d{6}$/.test($('evCapid').value.trim()))e.push('Your CAPID (6 digits)');if(!$('evLast').value.trim())e.push('Your last name');if(!$('evRole').value)e.push('Your role');
@@ -331,8 +313,8 @@ function submissionPdf(S){const{jsPDF}=window.jspdf;const doc=new jsPDF({unit:'m
  doc.setFontSize(8);doc.setTextColor(...SEC);doc.text(doc.splitTextToSize('Scale: 1 '+LV[0]+'  |  2 '+LV[1]+'  |  3 '+LV[2]+'.  Categories: '+CATS.map(k=>k.s+' = '+k.n).join(', ')+'.',185),15,y);
  pdfFoot(doc);return doc}
 async function sharePdf(){if(!lastPdf)return;const file=new File([lastPdf.blob],lastPdf.name,{type:'application/pdf'});
- if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:lastPdf.title,text:lastPdf.text});return 'The PDF went to your share menu. Check that it was sent.'}catch(e){if(e.name==='AbortError')return 'Share closed. Tap Share again, or Save PDF and email it.'}}
- savePdf();return 'This device has no share menu, so the PDF was downloaded. Email it to the cadet commander.'}
+ if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:lastPdf.title,text:lastPdf.text});return 'The PDF went to your share menu. Check that it was sent.'}catch(e){if(e.name==='AbortError')return 'Share closed. Tap Share to try again, or Save to this device and attach the PDF to an email to the cadet commander.'}}
+ savePdf();return 'The share menu is not available here, so the PDF was saved to this device. Attach it to an email to the cadet commander.'}
 function savePdf(){if(!lastPdf)return;const a=document.createElement('a');a.href=URL.createObjectURL(lastPdf.blob);a.download=lastPdf.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
 $('submit').onclick=async()=>{const e=sheetIssues();showErr=!!e.length;
  if(e.length){$('errs').innerHTML='<p class="warn">Fix these before submitting:</p><ul>'+e.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>';$('errs').hidden=false;renderCadets();$('errs').scrollIntoView({behavior:'smooth',block:'center'});return}
@@ -343,7 +325,7 @@ $('submit').onclick=async()=>{const e=sheetIssues();showErr=!!e.length;
  $('done').hidden=false;$('doneMsg').textContent='Submitted: '+S.cadets.length+' cadet'+(S.cadets.length>1?'s':'')+'. ';
  $('doneMsg').textContent+=await sharePdf();$('done').scrollIntoView({behavior:'smooth',block:'center'})};
 $('shareAgain').onclick=async()=>{$('doneMsg').textContent=await sharePdf()};
-$('savePdf').onclick=()=>{savePdf();$('doneMsg').textContent='PDF saved to this device\'s downloads.'};
+$('savePdf').onclick=()=>{savePdf();$('doneMsg').textContent='PDF saved to this device (Downloads, or Files on a phone). Attach it to an email to the cadet commander.'};
 $('newSheet').onclick=()=>{cadets=[blankCadet()];lastPdf=null;showErr=false;$('done').hidden=true;renderCadets();window.scrollTo(0,0)};
 
 /* tally: read submissions back out of the PDFs */
