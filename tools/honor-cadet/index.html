@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Honor Cadet Evaluator</title>
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: plain unit form, calm and fair, built for a quick evaluation at a meeting
+   IDEA: a CAP scoresheet on a clipboard: rubric on top, score grid below
+   PICTURE: the live score grid is the picture
+   COLOUR and TYPE: CAP Ultramarine for headings and selected scores, Silver Gray rules, 70% black body; Rajdhani title, Arial body
+   LAYOUT: one column, tabs How to use / Score / Tally / Select / Rubric; prints to 8.5x11 */
+.bar{display:flex;align-items:center;gap:12px;padding:12px max(16px,4vw);border-bottom:3px solid var(--blue)}
+.bar a{color:var(--blue);text-decoration:none}
+.steps h2{margin-top:18px}
+.steps ol{margin:0 0 6px;padding-left:1.6em}
+.steps li{margin-bottom:8px}
+.steps .who{font-size:14px;color:var(--sec);margin:0 0 8px}
+/* Tokens copied from shared/brand/cap-brand.css (CAP Brand Portal / CAPR 900-2). */
+:root{color-scheme:light;--bg:#fff;--ink:#4D4D4D;--full:#000;--blue:#001489;--gray:#9EA2A2;--rule:#d5d8d8;--soft:#F4F5F5;--red:#BA0C2F;--sec:#63666A}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.2 Arial,Helvetica,sans-serif;overflow-x:clip}
+p,li{line-height:1.2;margin:0 0 6px}
+.wrap{max-width:1000px;margin:0 auto;padding:clamp(20px,3vw,40px) max(4vw,16px)}
+h1{font:700 34px/1.05 Rajdhani,Arial,sans-serif;color:var(--blue);margin:0}
+.by{font-size:15px;color:var(--ink);margin:6px 0 18px}
+h2{font-size:21px;font-weight:normal;color:var(--sec);margin:22px 0 8px}
+h3{font-size:17px;font-weight:normal;color:var(--sec);margin:16px 0 6px}
+nav{display:flex;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--gray);margin-bottom:16px}
+nav button{font:16px Arial,sans-serif;background:none;border:0;border-bottom:3px solid transparent;padding:12px 14px;min-height:44px;color:var(--ink);cursor:pointer}
+nav button[aria-selected=true]{color:var(--blue);border-bottom-color:var(--blue)}
+section[hidden]{display:none}
+label{display:block;font-size:14px;color:var(--sec);margin-bottom:4px}
+input,select,textarea{font:16px Arial,sans-serif;color:var(--full);border:1px solid var(--gray);border-radius:4px;padding:9px 10px;width:100%;background:#fff;min-height:44px}
+textarea{min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:12px}
+.btn{font:16px Arial,sans-serif;min-height:44px;padding:10px 16px;border-radius:4px;border:1px solid var(--blue);background:#fff;color:var(--blue);cursor:pointer}
+.btn.pri{background:var(--blue);color:#fff}
+.btn.quiet{border-color:var(--gray);color:var(--ink)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0}
+.note{font-size:14px;color:var(--sec)}
+.panel{border:1px solid var(--rule);border-radius:6px;padding:14px;margin:12px 0;box-shadow:0 2px 5px rgba(0,20,137,.08)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th{font-weight:normal;color:var(--sec);text-align:left;border-bottom:1px solid var(--gray);padding:8px 6px;vertical-align:bottom}
+td{border-bottom:1px solid var(--rule);padding:8px 6px;vertical-align:top}
+td.n,th.n{text-align:right;white-space:nowrap}
+.rub td{font-size:14px}
+.rub td:first-child{color:var(--full);white-space:nowrap}
+.card{border:1px solid var(--rule);border-radius:6px;padding:12px;margin:10px 0}
+.card .top{display:flex;gap:8px;flex-wrap:wrap;align-items:end}
+.card .top>div{flex:1 1 200px}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:10px;margin:10px 0}
+.seg{display:flex;border:1px solid var(--gray);border-radius:4px;overflow:hidden}
+.seg button{flex:1;font:16px Arial,sans-serif;min-height:44px;border:0;border-right:1px solid var(--gray);background:#fff;color:var(--ink);cursor:pointer}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed=true]{background:var(--blue);color:#fff}
+.anc{font-size:13px;color:var(--sec);margin-top:4px;min-height:2.4em}
+.tot{font-size:15px;color:var(--full)}
+.warn{color:var(--red);font-size:14px}
+.strong{color:var(--full)}
+.scroll{overflow-x:auto}
+.pick{color:var(--blue)}
+pre{white-space:pre-wrap;background:var(--soft);border:1px solid var(--rule);border-radius:4px;padding:10px;font:14px/1.3 Consolas,monospace;overflow-x:auto}
+footer{margin-top:28px;border-top:1px solid var(--rule);padding-top:10px;font-size:13px;color:var(--sec)}
+.printonly{display:none}
+@media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:8em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;white-space:normal;color:var(--sec)}.stack td:empty{display:none}}
+@media print{
+  @page{size:letter;margin:0.5in}
+  body{font-size:11pt}nav,.row,.noprint,footer .noprint{display:none!important}
+  section{display:none!important}section.print-target{display:block!important}
+  .printonly{display:block}.panel,.card{box-shadow:none;break-inside:avoid}
+  h1{font-size:20pt}
+}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+<div class="bar noprint"><a href="../../">CAP Tools</a></div>
+<div class="wrap">
+<h1>Honor Cadet Evaluator</h1>
+<p class="by">Five categories, scored 1 to 3, with an observed example behind every score that stands out.</p>
+
+<nav role="tablist">
+  <button role="tab" data-tab="howto" aria-selected="true">How to use</button>
+  <button role="tab" data-tab="score" aria-selected="false">Score</button>
+  <button role="tab" data-tab="tally" aria-selected="false">Tally</button>
+  <button role="tab" data-tab="select" aria-selected="false">Select</button>
+  <button role="tab" data-tab="rubric" aria-selected="false">Rubric and rules</button>
+</nav>
+
+<!-- HOW TO USE -->
+<section id="howto" class="steps">
+  <p>Every two months the unit names one Honor Cadet. Here is how the tool gets you there.</p>
+  <h2>First, score the cadets</h2>
+  <p class="who">Flight commanders and the first sergeant, near the end of each two-month period</p>
+  <ol>
+    <li>Open the Score tab. Type your grade and name, pick your role, and type the period (for example, Jan–Feb 2027).</li>
+    <li>Tap Add cadet for each cadet you lead. Type their grade and name.</li>
+    <li>Tap 1, 2 or 3 in each of the five categories. The line under the buttons tells you what that score means. Score only what you saw this period.</li>
+    <li>Gave a 1 or a 3? Write one thing you saw and when. The red note goes away once you do.</li>
+    <li>Tap Copy my scores and send the block to the cadet commander by email or text. Do this before you close the page: nothing is saved.</li>
+  </ol>
+  <h2>Then, add up the scores</h2>
+  <p class="who">Command staff</p>
+  <ol start="6">
+    <li>Open the Tally tab. Paste each evaluator's block and tap Add to tally.</li>
+    <li>Check that every evaluator is listed under Evaluators included.</li>
+    <li>Read the ranking and the observed examples. Ties and incomplete scores are flagged.</li>
+  </ol>
+  <h2>Finally, pick and announce</h2>
+  <p class="who">Command staff</p>
+  <ol start="9">
+    <li>Open the Select tab. Choose the cadet. The scores help you decide; they don't decide for you.</li>
+    <li>Write the reason, using the observed examples, and set the announcement date.</li>
+    <li>Tap Build announcement. Read it at the last meeting of the period or the first meeting of the next, and post the Honor Wall entry with a photo.</li>
+  </ol>
+  <p class="note">Scoring on paper? Print the blank score sheet from the Rubric and rules tab, then type the scores in later.</p>
+</section>
+
+<!-- SCORE -->
+<section id="score" hidden>
+  <div class="grid">
+    <div><label for="evName">Evaluator</label><input id="evName" placeholder="Grade and last name"></div>
+    <div><label for="evRole">Role</label><select id="evRole"><option>Flight Commander</option><option>First Sergeant</option><option>Command Staff</option><option>Other</option></select></div>
+    <div><label for="period">Recognition period</label><input id="period" placeholder="e.g. Jan–Feb 2027"></div>
+  </div>
+  <p class="note" style="margin-top:8px">Score what you saw during the period, not reputation. A 1 or a 3 needs one observed example.</p>
+  <div id="cadets"></div>
+  <div class="row">
+    <button class="btn pri" id="addCadet">Add cadet</button>
+    <button class="btn" id="copyMine">Copy my scores</button>
+    <button class="btn quiet" id="clearMine">Clear my sheet</button>
+    <span class="note" id="copyMsg" aria-live="polite"></span>
+  </div>
+  <div id="exportBox" hidden><p class="note">Send this block to the command staff. They paste it on the Tally tab.</p><pre id="exportText"></pre></div>
+</section>
+
+<!-- TALLY -->
+<section id="tally" hidden>
+  <p>Paste each evaluator's copied block below. Your own sheet on this device is included automatically.</p>
+  <label for="pasteIn">Evaluator blocks</label>
+  <textarea id="pasteIn" placeholder="Paste one or more copied blocks here"></textarea>
+  <div class="row"><button class="btn pri" id="addPaste">Add to tally</button><button class="btn quiet" id="clearPaste">Clear pasted blocks</button><span class="note" id="pasteMsg" aria-live="polite"></span></div>
+  <p class="note" id="sources"></p>
+  <div class="scroll"><table class="stack" id="tallyTable"></table></div>
+  <p class="note">Ranked by overall average (out of 3). Ties are flagged; the command staff breaks them using the observed examples.</p>
+  <h3>Observed examples</h3>
+  <div id="evidence"></div>
+</section>
+
+<!-- SELECT -->
+<section id="select" hidden>
+  <p>The command staff makes the final selection. Scores inform the decision; they don't make it.</p>
+  <div class="grid">
+    <div><label for="selCadet">Selected Honor Cadet</label><select id="selCadet"></select></div>
+    <div><label for="selPeriod">Recognition period</label><input id="selPeriod" placeholder="e.g. Jan–Feb 2027"></div>
+    <div><label for="selDate">Announcement date</label><input id="selDate" type="date"></div>
+  </div>
+  <div style="margin-top:12px"><label for="selWhy">Reason for selection (from observed examples)</label><textarea id="selWhy"></textarea></div>
+  <div class="row"><button class="btn pri" id="makeAnn">Build announcement and Honor Wall entry</button><span class="note" id="annMsg" aria-live="polite"></span></div>
+  <div id="annOut" hidden>
+    <h3>Announcement</h3><pre id="annText"></pre>
+    <h3>Honor Wall entry</h3><pre id="wallText"></pre>
+    <p class="note">Honor Wall shows name, photograph, and the period. Add the photo when posting.</p>
+  </div>
+</section>
+
+<!-- RUBRIC -->
+<section id="rubric" hidden>
+  <div class="printonly"><div class="grid"><p>Evaluator: ____________________</p><p>Role: ____________________</p><p>Period: ____________________</p></div></div>
+  <h2>Rubric</h2>
+  <div class="scroll"><table class="rub stack" id="rubTable"></table></div>
+  <div class="printonly">
+    <h2>Score sheet</h2>
+    <table id="paperGrid"></table>
+  </div>
+  <div class="noprint">
+    <h2>Recommended program rules</h2>
+    <ul>
+      <li>Two-month recognition cycle; a new Honor Cadet every two months.</li>
+      <li>Flight commanders and the first sergeant score; the command staff selects.</li>
+      <li>Announce at the last meeting of the period or the first meeting of the next; a certificate or similar recognition.</li>
+      <li>No uniform accent. The recognition is the reward.</li>
+      <li>Not a duty position. Duty positions stay based on ability, experience, qualifications and unit need.</li>
+      <li>Priority consideration to mentor prospective cadets, if willing; it carries no authority over other cadets.</li>
+      <li>Honor Wall: name, photograph, and the period earned.</li>
+    </ul>
+    <p class="note">Each unit commander sets the final rules. Adjust before launch.</p>
+    <div class="row"><button class="btn" id="printSheet">Print rubric and blank score sheet</button><span class="note" id="printMsg" aria-live="polite"></span></div>
+  </div>
+</section>
+
+<footer>Unit-level recognition tool. Honor Cadet is not a CAP decoration under CAPR 39-3. Nothing is saved or sent: copy your scores before you close the page.</footer>
+</div>
+
+<script>
+{
+const CATS=[
+ {k:'ini',n:'Initiative',a:['Waits to be told; needs reminders to start.','Does assigned tasks without reminders.','Sees what needs doing and acts without direction; goes beyond what is required.']},
+ {k:'lea',n:'Leadership',a:['Rarely guides or helps others.','Leads well when assigned; sets a good example.','Assists less-experienced cadets unprompted; mentors and teaches.']},
+ {k:'bea',n:'Military bearing',a:['Lapses in uniform or customs and courtesies.','Proper uniform, customs and courtesies.','Sets the standard others follow; corrects lapses respectfully.']},
+ {k:'tea',n:'Teamwork',a:['Works apart from the flight or team.','Cooperates and does a fair share.','Lifts the team; helps the unit beyond what is asked.']},
+ {k:'rel',n:'Reliability',a:['Misses commitments or arrives unprepared.','Arrives prepared; follows through.','Never needs a reminder; others count on them.']}
+];
+const LV=['Improvement needed','Meets expectations','Exceeds expectations'];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+// Nothing persists (repo decision D-004): state lives only while the page is open.
+let S={ev:'',role:'Flight Commander',period:'',cadets:[],pasted:[],sel:{c:'',p:'',d:'',w:''}};
+const save=()=>{};
+let uid=Date.now();
+if(!S.cadets.length)S.cadets.push({id:uid++,name:'',s:{},ex:''});
+
+// tabs
+const tabs=[...document.querySelectorAll('nav button')];
+function show(t){tabs.forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===t));['howto','score','tally','select','rubric'].forEach(x=>{$(x).hidden=x!==t});if(t==='tally')renderTally();if(t==='select')renderSelect();}
+tabs.forEach(b=>b.addEventListener('click',()=>{show(b.dataset.tab);try{history.replaceState(null,'','#'+b.dataset.tab)}catch(e){}}));
+
+// rubric
+$('rubTable').innerHTML='<thead><tr><th>Category</th><th>1 · '+LV[0]+'</th><th>2 · '+LV[1]+'</th><th>3 · '+LV[2]+'</th></tr></thead><tbody>'+CATS.map(c=>'<tr><td>'+c.n+'</td>'+c.a.map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('')+'</tbody>';
+$('paperGrid').innerHTML='<thead><tr><th>Cadet</th>'+CATS.map(c=>'<th class="n">'+c.n+'</th>').join('')+'<th>Observed example (needed for any 1 or 3)</th></tr></thead><tbody>'+Array.from({length:10},()=>'<tr><td style="height:34px"></td>'+CATS.map(()=>'<td></td>').join('')+'<td></td></tr>').join('')+'</tbody>';
+
+// score
+$('evName').value=S.ev;$('evRole').value=S.role;$('period').value=S.period;
+$('evName').oninput=e=>{S.ev=e.target.value;save()};
+$('evRole').onchange=e=>{S.role=e.target.value;save()};
+$('period').oninput=e=>{S.period=e.target.value;save()};
+function cadetCheck(c){const scored=CATS.filter(k=>c.s[k.k]).length;const tot=CATS.reduce((a,k)=>a+(c.s[k.k]||0),0);const ext=CATS.some(k=>c.s[k.k]===1||c.s[k.k]===3);const need=ext&&!c.ex.trim();return{scored,tot,need}}
+function cadetFoot(c){const r=cadetCheck(c);return '<span class="tot">'+r.tot+' of 15</span> <span class="note">('+r.scored+' of 5 scored)</span>'+(r.need?' <span class="warn">Add an observed example for the 1 or 3.</span>':'')}
+function renderCadets(){
+ $('cadets').innerHTML=S.cadets.map(c=>'<div class="card" data-id="'+c.id+'"><div class="top"><div><label for="n'+c.id+'">Cadet (grade and name)</label><input id="n'+c.id+'" data-f="name" value="'+esc(c.name)+'"></div><button class="btn quiet" data-del="'+c.id+'">Remove</button></div><div class="cats">'+CATS.map(k=>'<div><label>'+k.n+'</label><div class="seg" role="group" aria-label="'+k.n+'">'+[1,2,3].map(v=>'<button data-k="'+k.k+'" data-v="'+v+'" aria-pressed="'+(c.s[k.k]===v)+'" title="'+esc(LV[v-1]+': '+k.a[v-1])+'">'+v+'</button>').join('')+'</div><div class="anc" data-anc="'+k.k+'">'+(c.s[k.k]?esc(k.a[c.s[k.k]-1]):'')+'</div></div>').join('')+'</div><label for="x'+c.id+'">Observed example</label><textarea id="x'+c.id+'" data-f="ex" style="min-height:60px" placeholder="What you saw, when">'+esc(c.ex)+'</textarea><p class="foot" style="margin-top:6px">'+cadetFoot(c)+'</p></div>').join('');
+}
+$('cadets').addEventListener('click',e=>{const card=e.target.closest('.card');if(!card)return;const c=S.cadets.find(x=>x.id==card.dataset.id);
+ if(e.target.dataset.del){S.cadets=S.cadets.filter(x=>x!==c);if(!S.cadets.length)S.cadets.push({id:uid++,name:'',s:{},ex:''});save();renderCadets();return}
+ const b=e.target.closest('.seg button');if(!b)return;const k=b.dataset.k,v=+b.dataset.v;c.s[k]=c.s[k]===v?undefined:v;
+ b.parentElement.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',c.s[k]===+x.dataset.v));card.querySelector('[data-anc='+k+']').textContent=c.s[k]?CATS.find(z=>z.k===k).a[c.s[k]-1]:'';card.querySelector('.foot').innerHTML=cadetFoot(c);save()});
+$('cadets').addEventListener('input',e=>{const card=e.target.closest('.card');const f=e.target.dataset.f;if(!card||!f)return;const c=S.cadets.find(x=>x.id==card.dataset.id);c[f]=e.target.value;card.querySelector('.foot').innerHTML=cadetFoot(c);save()});
+$('addCadet').onclick=()=>{S.cadets.push({id:uid++,name:'',s:{},ex:''});save();renderCadets();const l=S.cadets[S.cadets.length-1];$('n'+l.id).focus()};
+$('clearMine').onclick=()=>{if($('clearMine').dataset.arm){S.cadets=[{id:uid++,name:'',s:{},ex:''}];save();renderCadets();$('clearMine').textContent='Clear my sheet';delete $('clearMine').dataset.arm;$('copyMsg').textContent='Sheet cleared.'}else{$('clearMine').dataset.arm=1;$('clearMine').textContent='Tap again to clear'}};
+
+// export block: one line per cadet, tab separated
+function myBlock(){const lines=['HONOR-CADET-SCORES','Evaluator\t'+S.ev,'Role\t'+S.role,'Period\t'+S.period];S.cadets.filter(c=>c.name.trim()).forEach(c=>lines.push(['Cadet',c.name.trim(),...CATS.map(k=>c.s[k.k]||''),c.ex.replace(/\s+/g,' ').trim()].join('\t')));lines.push('END');return lines.join('\n')}
+$('copyMine').onclick=async()=>{const t=myBlock();$('exportText').textContent=t;$('exportBox').hidden=false;try{await navigator.clipboard.writeText(t);$('copyMsg').textContent='Copied.'}catch(e){$('copyMsg').textContent='Select the block below and copy it.'}};
+function parse(txt){const out=[];const blocks=txt.split('HONOR-CADET-SCORES').slice(1);blocks.forEach(b=>{const ev={ev:'',role:'',period:'',rows:[]};b.split('\n').forEach(l=>{const p=l.split('\t');if(p[0]==='Evaluator')ev.ev=p[1]||'';else if(p[0]==='Role')ev.role=p[1]||'';else if(p[0]==='Period')ev.period=p[1]||'';else if(p[0]==='Cadet'&&p[1])ev.rows.push({name:p[1],s:CATS.map((k,i)=>{const v=parseInt(p[2+i]);return v>=1&&v<=3?v:null}),ex:p[7]||''})});if(ev.rows.length)out.push(ev)});return out}
+$('addPaste').onclick=()=>{const got=parse($('pasteIn').value);if(!got.length){$('pasteMsg').textContent='No score block found. Paste the full block, first line to END.';return}
+ got.forEach(g=>{S.pasted=S.pasted.filter(p=>!(p.ev===g.ev&&p.role===g.role&&p.period===g.period));S.pasted.push(g)});save();$('pasteIn').value='';$('pasteMsg').textContent='Added '+got.length+' evaluator block'+(got.length>1?'s':'')+'.';renderTally()};
+$('clearPaste').onclick=()=>{S.pasted=[];save();$('pasteMsg').textContent='Pasted blocks cleared.';renderTally()};
+
+function sources(){const mine={ev:S.ev||'This device',role:S.role,period:S.period,rows:S.cadets.filter(c=>c.name.trim()).map(c=>({name:c.name.trim(),s:CATS.map(k=>c.s[k.k]||null),ex:c.ex}))};const all=S.pasted.filter(p=>!(p.ev===S.ev&&p.role===S.role&&S.ev));if(mine.rows.length)all.push(mine);return all}
+function tally(){const m=new Map();sources().forEach(src=>src.rows.forEach(r=>{const key=r.name.toLowerCase().replace(/\s+/g,' ');if(!m.has(key))m.set(key,{name:r.name,sum:CATS.map(()=>0),cnt:CATS.map(()=>0),evs:new Set(),ex:[]});const t=m.get(key);t.evs.add(src.ev+'|'+src.role);r.s.forEach((v,i)=>{if(v){t.sum[i]+=v;t.cnt[i]++}});if(r.ex&&r.ex.trim())t.ex.push({by:src.ev+' ('+src.role+')',t:r.ex.trim()})}));
+ const rows=[...m.values()].map(t=>{const av=t.sum.map((s,i)=>t.cnt[i]?s/t.cnt[i]:null);const have=av.filter(v=>v!==null);return Object.assign(t,{av,overall:have.length?have.reduce((a,b)=>a+b,0)/have.length:0,complete:have.length===CATS.length})});
+ rows.sort((a,b)=>b.overall-a.overall||a.name.localeCompare(b.name));return rows}
+const f2=v=>v===null?'–':v.toFixed(2);
+function renderTally(){const src=sources();$('sources').textContent=src.length?'Evaluators included: '+src.map(s=>s.ev+' ('+s.role+')').join(', ')+'.':'No scores yet.';
+ const rows=tally();if(!rows.length){$('tallyTable').innerHTML='';$('evidence').innerHTML='<p class="note">Observed examples appear here once cadets are scored.</p>';return}
+ const tie=v=>rows.filter(r=>Math.abs(r.overall-v)<1e-9).length>1;
+ $('tallyTable').innerHTML='<thead><tr><th class="n">Rank</th><th>Cadet</th><th class="n">Evaluators</th>'+CATS.map(c=>'<th class="n">'+c.n+'</th>').join('')+'<th class="n">Overall</th><th></th></tr></thead><tbody>'+rows.map((r,i)=>'<tr><td class="n">'+(i+1)+'</td><td class="strong">'+esc(r.name)+'</td><td class="n">'+r.evs.size+'</td>'+r.av.map(v=>'<td class="n">'+f2(v)+'</td>').join('')+'<td class="n strong">'+r.overall.toFixed(2)+'</td><td>'+(tie(r.overall)?'<span class="warn">Tie</span> ':'')+(r.complete?'':'<span class="note">Incomplete</span>')+'</td></tr>').join('')+'</tbody>';
+ $('evidence').innerHTML=rows.map(r=>'<div class="panel"><p class="strong">'+esc(r.name)+'</p>'+(r.ex.length?'<ul>'+r.ex.map(x=>'<li>'+esc(x.t)+' <span class="note">— '+esc(x.by)+'</span></li>').join('')+'</ul>':'<p class="note">No examples recorded.</p>')+'</div>').join('')}
+
+// select
+function renderSelect(){const rows=tally();const cur=S.sel.c;$('selCadet').innerHTML='<option value="">Choose a cadet</option>'+rows.map(r=>'<option'+(r.name===cur?' selected':'')+'>'+esc(r.name)+'</option>').join('');$('selPeriod').value=S.sel.p||S.period;$('selDate').value=S.sel.d;$('selWhy').value=S.sel.w}
+$('selCadet').onchange=e=>{S.sel.c=e.target.value;save()};$('selPeriod').oninput=e=>{S.sel.p=e.target.value;save()};$('selDate').onchange=e=>{S.sel.d=e.target.value;save()};$('selWhy').oninput=e=>{S.sel.w=e.target.value;save()};
+$('makeAnn').onclick=()=>{const c=S.sel.c,p=S.sel.p||S.period;if(!c||!p){$('annMsg').textContent='Choose a cadet and enter the period.';return}$('annMsg').textContent='';
+ const d=S.sel.d?new Date(S.sel.d+'T12:00').toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}):'';
+ $('annText').textContent='Honor Cadet, '+p+': '+c+'.'+(S.sel.w.trim()?'\n\n'+S.sel.w.trim():'')+'\n\nSelected by the cadet command staff from flight commander and first sergeant evaluations in initiative, leadership, military bearing, teamwork and reliability.'+(d?'\n\nAnnounced '+d+'.':'');
+ $('wallText').textContent=c+'\nHonor Cadet\n'+p;$('annOut').hidden=false};
+
+$('printSheet').onclick=()=>{document.querySelectorAll('section').forEach(s=>s.classList.toggle('print-target',s.id==='rubric'));try{window.print();$('printMsg').textContent=''}catch(e){$('printMsg').textContent='Printing is blocked here; open the page in your browser to print.'}};
+
+window.addEventListener('beforeunload',e=>{if(S.cadets.some(c=>Object.values(c.s).some(Boolean))){e.preventDefault();e.returnValue=''}});
+renderCadets();
+const h=location.hash.slice(1);if(['howto','score','tally','select','rubric'].includes(h))show(h);
+}
+</script>
+</body>
+</html>
