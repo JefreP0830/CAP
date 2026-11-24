@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.4.0 - 2026-11-24
+
+- Finish this cadet button on each card: checks that cadet, lists what is still needed, and folds the card into a summary line (name, CAPID, flight, duty, overall) with Edit and Remove.
+- Submit and Add another cadet appear only when every cadet is finished; Submit comes first and names the count.
+- How to use updated for score, finish, add or submit.
+
 ## 2.3.0 - 2026-11-24
 
 - One-line definition under each category title (13px gray), also in the rubric table.
