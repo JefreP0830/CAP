@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.0 - 2026-11-24
+
+- One-line definition under each category title (13px gray), also in the rubric table.
+
 ## 2.2.0 - 2026-11-24
 
 - Removed the optional Cadet Full Track Report upload; cadets enter CAPID and last name directly.

@@ -54,7 +54,7 @@ th{font-weight:normal;color:var(--sec);text-align:left;border-bottom:1px solid v
 td{border-bottom:1px solid var(--rule);padding:8px 6px;vertical-align:top}
 td.n,th.n{text-align:right;white-space:nowrap}
 .rub td{font-size:14px}
-.rub td:first-child{color:var(--full);white-space:nowrap}
+.rub td:first-child{color:var(--full)}
 .card{border:1px solid var(--rule);border-radius:6px;padding:12px;margin:10px 0}
 .card .who{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:10px}
 .cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:10px;margin:12px 0}
@@ -63,6 +63,7 @@ td.n,th.n{text-align:right;white-space:nowrap}
 .seg button{flex:1;font:16px Arial,sans-serif;min-height:44px;border:0;border-right:1px solid var(--gray);background:#fff;color:var(--ink);cursor:pointer}
 .seg button:last-child{border-right:0}
 .seg button[aria-pressed=true]{background:var(--blue);color:#fff}
+.def{font-size:13px;line-height:1.2;color:var(--sec);margin:-2px 0 6px;min-height:2.4em}
 .anc{font-size:13px;color:var(--sec);margin-top:4px;min-height:2.4em}
 .obs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:10px}
 .cfoot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:10px;border-top:1px solid var(--rule);padding-top:10px}
@@ -222,11 +223,11 @@ footer{margin-top:28px;border-top:1px solid var(--rule);padding-top:10px;font-si
 <script>
 {
 const CATS=[
- {k:'ini',n:'Initiative',s:'Init',a:['Waits to be told; needs reminders to start.','Does assigned tasks without reminders.','Sees what needs doing and acts without direction; goes beyond what is required.']},
- {k:'lea',n:'Leadership',s:'Lead',a:['Rarely guides or helps others.','Leads well when assigned; sets a good example.','Assists less-experienced cadets unprompted; mentors and teaches.']},
- {k:'bea',n:'Military bearing',s:'Bear',a:['Lapses in uniform or customs and courtesies.','Proper uniform, customs and courtesies.','Sets the standard others follow; corrects lapses respectfully.']},
- {k:'tea',n:'Teamwork',s:'Team',a:['Works apart from the flight or team.','Cooperates and does a fair share.','Lifts the team; helps the unit beyond what is asked.']},
- {k:'rel',n:'Reliability',s:'Rel',a:['Misses commitments or arrives unprepared.','Arrives prepared; follows through.','Never needs a reminder; others count on them.']}
+ {k:'ini',d:'Acts without being told.',n:'Initiative',s:'Init',a:['Waits to be told; needs reminders to start.','Does assigned tasks without reminders.','Sees what needs doing and acts without direction; goes beyond what is required.']},
+ {k:'lea',d:'Guides and helps other cadets.',n:'Leadership',s:'Lead',a:['Rarely guides or helps others.','Leads well when assigned; sets a good example.','Assists less-experienced cadets unprompted; mentors and teaches.']},
+ {k:'bea',d:'Uniform, customs and courtesies, conduct.',n:'Military bearing',s:'Bear',a:['Lapses in uniform or customs and courtesies.','Proper uniform, customs and courtesies.','Sets the standard others follow; corrects lapses respectfully.']},
+ {k:'tea',d:'Works with and for the flight.',n:'Teamwork',s:'Team',a:['Works apart from the flight or team.','Cooperates and does a fair share.','Lifts the team; helps the unit beyond what is asked.']},
+ {k:'rel',d:'Prepared, on time, follows through.',n:'Reliability',s:'Rel',a:['Misses commitments or arrives unprepared.','Arrives prepared; follows through.','Never needs a reminder; others count on them.']}
 ];
 const LV=['Improvement needed','Meets expectations','Exceeds expectations'];
 const TAG='HCE1:';
@@ -252,7 +253,7 @@ function show(t){tabs.forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===
 tabs.forEach(b=>b.addEventListener('click',()=>{show(b.dataset.tab);try{history.replaceState(null,'','#'+b.dataset.tab)}catch(e){}}));
 
 /* rubric + paper sheet */
-$('rubTable').innerHTML='<thead><tr><th>Category</th>'+LV.map((l,i)=>'<th>'+(i+1)+' · '+l+'</th>').join('')+'</tr></thead><tbody>'+CATS.map(c=>'<tr><td>'+c.n+'</td>'+c.a.map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('')+'</tbody>';
+$('rubTable').innerHTML='<thead><tr><th>Category</th>'+LV.map((l,i)=>'<th>'+(i+1)+' · '+l+'</th>').join('')+'</tr></thead><tbody>'+CATS.map(c=>'<tr><td>'+c.n+'<br><span class="note">'+c.d+'</span></td>'+c.a.map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('')+'</tbody>';
 $('paperGrid').innerHTML='<thead><tr><th>CAPID</th><th>Last name</th><th>Flight</th><th>Duty position</th>'+CATS.map(c=>'<th class="n">'+c.s+'</th>').join('')+'<th class="n">Overall</th></tr></thead><tbody>'+Array.from({length:8},()=>'<tr><td></td><td></td><td></td><td></td>'+CATS.map(()=>'<td></td>').join('')+'<td></td></tr><tr><td colspan="10" style="height:44px;vertical-align:top;color:var(--sec)">Why / Why Not:</td></tr>').join('')+'</tbody>';
 $('printSheet').onclick=()=>{try{window.print()}catch(e){}};
 
@@ -271,7 +272,7 @@ function fld(c,f,label,extra){const bad=showErr&&!String(c[f]).trim()?' bad':'';
 function renderCadets(){
  $('cadets').innerHTML=cadets.map((c,i)=>'<div class="card" data-id="'+c.id+'"><p class="note" style="margin-bottom:8px">Cadet '+(i+1)+'</p><div class="who">'+
   fld(c,'capid','Cadet CAPID',' inputmode="numeric"')+fld(c,'last','Cadet last name')+fld(c,'flight','Flight')+fld(c,'duty','Duty position')+'</div>'+
-  '<div class="cats">'+CATS.map(k=>'<div><label>'+k.n+'</label><div class="seg'+(showErr&&!c.s[k.k]?' bad':'')+'" role="group" aria-label="'+k.n+'">'+[1,2,3].map(v=>'<button data-k="'+k.k+'" data-v="'+v+'" aria-pressed="'+(c.s[k.k]===v)+'">'+v+'</button>').join('')+'</div><div class="anc" data-anc="'+k.k+'">'+(c.s[k.k]?esc(k.a[c.s[k.k]-1]):'')+'</div></div>').join('')+'</div>'+
+  '<div class="cats">'+CATS.map(k=>'<div><label>'+k.n+'</label><p class="def">'+k.d+'</p><div class="seg'+(showErr&&!c.s[k.k]?' bad':'')+'" role="group" aria-label="'+k.n+'">'+[1,2,3].map(v=>'<button data-k="'+k.k+'" data-v="'+v+'" aria-pressed="'+(c.s[k.k]===v)+'">'+v+'</button>').join('')+'</div><div class="anc" data-anc="'+k.k+'">'+(c.s[k.k]?esc(k.a[c.s[k.k]-1]):'')+'</div></div>').join('')+'</div>'+
   '<div class="obs"><div><label for="why'+c.id+'">Why: observations (required for any 3)</label><textarea id="why'+c.id+'" data-f="why" placeholder="What you saw, and when">'+esc(c.why)+'</textarea></div><div><label for="whyNot'+c.id+'">Why Not: observations (required for any 1)</label><textarea id="whyNot'+c.id+'" data-f="whyNot" placeholder="What you saw, and when">'+esc(c.whyNot)+'</textarea></div></div>'+
   '<div class="cfoot"><span class="foot">'+footHTML(c)+'</span>'+(cadets.length>1?'<button class="btn quiet" data-del="1">Remove this cadet</button>':'')+'</div></div>').join('');
 }
