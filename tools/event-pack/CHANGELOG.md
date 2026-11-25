@@ -1,5 +1,10 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25e
+
+- Removed "Field uniform with cap": it is uniform, not pack equipment. O-0001 lists it, so check the uniform in a uniform inspection. Counts now Event 21, 24 HR 49 / 56, Multi-Day 33 / 68 / 75.
+- Kept as pack items: spare uniform, spare rank and cutouts, shoe shine kit, sewing kit (carried in the extended pack, not worn); reflective vest, watch, ID (equipment carried on the person).
+
 ## 2026.11.25d
 
 - Opens straight to the inspection (Event pack); no standards screen, no "Back to standards".

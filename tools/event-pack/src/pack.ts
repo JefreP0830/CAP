@@ -53,9 +53,7 @@ export const SOURCE = 'Ground & UDF Team Tasks (24 May 2004), Task O-0001';
 
 export const PACK: PackItem[] = [
   // On your person
-  { group: 'On your person', item: 'Field uniform with cap', sub: 'hard hat or bright colored cap', req: 'T',
-    spec: 'Complete uniform with cap. The cap may be replaced by a hard hat or bright colored cap based on mission needs.',
-    now: 'The guide says BDU. Wear the current CAP field uniform (CAPR 39-1).' },
+  // The uniform (O-0001 "complete uniform with cap") is not inspected here: it is uniform, not pack equipment.
   { group: 'On your person', item: 'Notepad and pencil', req: 'T' },
   { group: 'On your person', item: 'CAP ID and CAPF 101 card', req: 'T',
     spec: 'Including 101 card, 76 card, First Aid card, etc.',
