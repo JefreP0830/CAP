@@ -1,4 +1,4 @@
-# Event Pack Inspection
+# Pack Inspection
 
 Phone app for inspecting a CAP pack against the national Ground & UDF Team Tasks guide
 (24 May 2004), Task O-0001. Choose Event (24-hour pack items marked T), 24-Hr (full 24-hour pack,

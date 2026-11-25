@@ -8,7 +8,7 @@ import {
 import { generatePackPDF } from './utils/pdfGenerator';
 
 // Bump on every release; shown top right so a printout can be traced to a build.
-const APP_VERSION = '2026.11.25v';
+const APP_VERSION = '2026.11.25w';
 
 const RATINGS: { r: Rating; key: string; label: string; aria: string }[] = [
   { r: 'Pass', key: 's', label: 'P', aria: 'Pass' },
@@ -135,8 +135,7 @@ export default function App() {
       <header className="bar">
         <div className="wrap head">
           <div>
-            <h1>Event Pack Inspection</h1>
-            <p className="byline">Civil Air Patrol &middot; Pack inspection and refit</p>
+            <h1>Pack Inspection</h1>
           </div>
           <span className="ver">v{APP_VERSION}</span>
         </div>

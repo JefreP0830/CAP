@@ -22,7 +22,7 @@ export const generatePackPDF = (s: PackSubmission, level: InspectionLevel) => {
   doc.setFont('helvetica', 'bold'); doc.setTextColor(CAP_COLORS.blue); doc.setFontSize(16);
   doc.text(`PACK INSPECTION: ${levelTitle(level).toUpperCase()}`, 20, 20);
   doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(...BODY);
-  doc.text(`Civil Air Patrol  |  ${levelSource(level)}`, 20, 27);
+  doc.text(levelSource(level), 20, 27);
   doc.setDrawColor(CAP_COLORS.blue); doc.setLineWidth(0.8); doc.line(20, 31, 190, 31);
 
   const kv = (k: string, v: string, x: number, y: number) => {
@@ -88,7 +88,7 @@ export const generatePackPDF = (s: PackSubmission, level: InspectionLevel) => {
   const pages = doc.getNumberOfPages();
   for (let pg = 1; pg <= pages; pg++) {
     doc.setPage(pg); doc.setFontSize(9); doc.setTextColor(...BODY);
-    doc.text(`Civil Air Patrol | Event Pack Inspection | page ${pg} of ${pages}`, 105, 288, { align: 'center' });
+    doc.text(`Pack Inspection | page ${pg} of ${pages}`, 105, 288, { align: 'center' });
   }
   return doc;
 };

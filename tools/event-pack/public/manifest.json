@@ -1,7 +1,7 @@
 {
-  "name": "Event Pack Inspection",
-  "short_name": "Event Pack",
-  "description": "Civil Air Patrol 24-hour pack inspection and refit.",
+  "name": "Pack Inspection",
+  "short_name": "Pack Inspection",
+  "description": "Event, 24-hour and multi-day pack inspection and refit.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

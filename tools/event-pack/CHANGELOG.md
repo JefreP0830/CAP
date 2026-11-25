@@ -1,5 +1,9 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25w
+
+- App renamed "Pack Inspection" (title, home-screen name, CAP Tools card, PDF footer). Byline and "Civil Air Patrol" removed from the header and the PDF.
+
 ## 2026.11.25v
 
 - One standard per pack type; the Member / Leader / Trainee row is gone. 24 HR 21 items, Multi-Day 40.
