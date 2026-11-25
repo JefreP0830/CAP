@@ -1,5 +1,14 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25b
+
+- Pack selector at the top of the Inspection tab: Event, 24-Hr, Multi-Day.
+  - Event: Event minimum (the 24-hour pack items marked T, 22 items).
+  - 24-Hr: Ground Team Member (50), Ground Team Leader (57).
+  - Multi-Day: Trainee (34), Ground Team Member (69), Ground Team Leader (76); adds the O-0001 extended duration pack ("typically 48 to 72 hours"): backpack, tent (if not shared), 5 meals, sleeping bag and pad, waterproof clothing bag, toilet kit, spares; optional items shown as recommended, not graded; measure 5 (extended pack secure when worn) graded.
+- Titles, share text, PDF title and file name carry the pack type (e.g. "Multi-Day pack: Ground Team Member").
+- Packing list marks extended-pack items "Multi-Day".
+
 ## 2026.11.25
 
 First build, from the Drill Evaluator's layout, tally bar, hotwash and PDF share flow.

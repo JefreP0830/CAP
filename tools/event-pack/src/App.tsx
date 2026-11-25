@@ -1,14 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { clsx } from 'clsx';
 import {
-  LEVELS, PACK, GROUPS, REQ_LABEL, SOURCE, REFIT_STEPS, MIN_FEEDBACK_WORDS,
-  isRequired, tally, refitList, wordCount,
-  type InspectionLevel, type Rating,
+  LEVELS, MODES, PACK, GROUPS, REQ_LABEL, SOURCE, REFIT_STEPS, MIN_FEEDBACK_WORDS,
+  isRequired, inPacks, levelTitle, tally, refitList, wordCount,
+  type InspectionLevel, type Mode, type Rating,
 } from './pack';
 import { generatePackPDF } from './utils/pdfGenerator';
 
 // Bump on every release; shown top right so a printout can be traced to a build.
-const APP_VERSION = '2026.11.25';
+const APP_VERSION = '2026.11.25b';
 
 const RATINGS: { r: Rating; key: string; label: string }[] = [
   { r: 'Ready', key: 's', label: 'Ready' },
@@ -19,6 +19,7 @@ const RATINGS: { r: Rating; key: string; label: string }[] = [
 export default function App() {
   const [step, setStep] = useState<'select' | 'form' | 'success'>('select');
   const [tab, setTab] = useState<'Inspect' | 'Refit' | 'List'>('Inspect');
+  const [mode, setMode] = useState<Mode>('Event');
   const [level, setLevel] = useState<InspectionLevel | null>(null);
   const [memberCAPID, setMemberCAPID] = useState('');
   const [inspectorCAPID, setInspectorCAPID] = useState('');
@@ -55,10 +56,10 @@ export default function App() {
     setFormError(''); setBusy(true);
     const sub = { memberCAPID, inspectorCAPID, activity: activity.trim(), date: new Date().toLocaleDateString(), ratings, sustain: sustain.trim(), improve: improve.trim() };
     const doc = generatePackPDF(sub, level);
-    const name = `24hr_Pack_${level.id}_${memberCAPID}.pdf`;
+    const name = `Pack_${level.mode}_${level.id}_${memberCAPID}.pdf`;
     const blob = doc.output('blob');
-    const title = `24-hour pack inspection: ${level.name} - ${memberCAPID}`;
-    const text = `24-hour pack inspection (${level.name}) for ${memberCAPID}: ${passing ? 'Ready' : 'Not ready'}. Inspected by ${inspectorCAPID}.`;
+    const title = `Pack inspection, ${levelTitle(level)} - ${memberCAPID}`;
+    const text = `Pack inspection (${levelTitle(level)}) for ${memberCAPID}: ${passing ? 'Ready' : 'Not ready'}. Inspected by ${inspectorCAPID}.`;
     lastPdf.current = { blob, name, title, text };
     try {
       const file = new File([blob], name, { type: 'application/pdf' });
@@ -113,7 +114,7 @@ export default function App() {
         <div className="wrap head">
           <div>
             <h1>Event Pack Inspection</h1>
-            <p className="byline">Civil Air Patrol &middot; 24-hour pack inspection and refit</p>
+            <p className="byline">Civil Air Patrol &middot; Pack inspection and refit</p>
           </div>
           <span className="ver">v{APP_VERSION}</span>
         </div>
@@ -129,9 +130,14 @@ export default function App() {
 
           {tab === 'Inspect' && (
             <>
-              <p className="hint">Choose the standard to inspect against. Lay the pack out, then rate each item.</p>
+              <div className="modes" role="radiogroup" aria-label="Pack">
+                {MODES.map((m) => (
+                  <button key={m.id} role="radio" aria-checked={mode === m.id} onClick={() => setMode(m.id)}>{m.label}</button>
+                ))}
+              </div>
+              <p className="hint">{MODES.find(m => m.id === mode)!.hint} Lay the pack out, choose the standard, then rate each item.</p>
               <ol className="tests">
-                {LEVELS.map((l) => {
+                {LEVELS.filter(l => l.mode === mode).map((l) => {
                   const n = PACK.filter(p => isRequired(p, l)).length;
                   return (
                     <li key={l.id}>
@@ -170,7 +176,7 @@ export default function App() {
 
           {tab === 'List' && (
             <section className="plist">
-              <h2>24-hour pack packing list</h2>
+              <h2>Packing list</h2>
               <p className="sub">{SOURCE}</p>
               <p className="hint noprint">Pack to your level before the event. Prints on letter paper.</p>
               <button className="btn-secondary wide noprint" onClick={() => window.print()}>Print packing list</button>
@@ -184,14 +190,14 @@ export default function App() {
                         <tr key={i}>
                           <td className="bx"><span className="box" aria-hidden="true" /></td>
                           <td><span className="it">{p.item}</span>{p.spec && <span className="std">{p.spec}</span>}{p.now && <span className="now">{p.now}</span>}</td>
-                          <td className="lv">{REQ_LABEL[p.req]}{p.conditional ? ', if needed' : ''}</td>
+                          <td className="lv">{p.pack === 'ext' && p.req !== 'rec' ? 'Multi-Day ' : ''}{REQ_LABEL[p.req]}{p.conditional ? ', if needed' : ''}</td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </section>
               ))}
-              <p className="hint">Trainee items are required at every level; GTM items at GTM and Leader. O-0001 lets a wing supplement this list.</p>
+              <p className="hint">Event packs need the Trainee items of the 24-hour pack. 24-Hr adds the GTM items (and Leader items for leaders). Multi-Day adds the extended pack at the same levels. O-0001 lets a wing supplement this list.</p>
             </section>
           )}
 
@@ -215,7 +221,7 @@ export default function App() {
           </div>
           <main className="wrap">
             <button className="link" onClick={() => setStep('select')}>Back to standards</button>
-            <h2>24-hour pack: {level.name}</h2>
+            <h2>{levelTitle(level)}</h2>
             <p className="sub">Pass: every required item present and ready. No substitutions.</p>
 
             <h3 className="sec">Who is inspected</h3>
@@ -237,7 +243,8 @@ export default function App() {
 
             <p className="hint">Ready: present and serviceable. Needs refit: present but used, expired, wet or broken. Missing: not in the pack.</p>
             {GROUPS.map((g) => {
-              const rows = PACK.map((p, i) => ({ p, i })).filter(({ p }) => p.group === g);
+              const rows = PACK.map((p, i) => ({ p, i })).filter(({ p }) => p.group === g && inPacks(p, level));
+              if (!rows.length) return null;
               if (!rows.some(({ p }) => isRequired(p, level)) && !rows.some(({ p }) => p.req === 'rec')) {
                 return (
                   <section key={g}>
@@ -314,7 +321,7 @@ export default function App() {
       {step === 'success' && level && (
         <main className="wrap">
           <div className="result">
-            <p className="small">24-hour pack: {level.name} &middot; Member CAPID {memberCAPID}</p>
+            <p className="small">{levelTitle(level)} &middot; Member CAPID {memberCAPID}</p>
             <p className={clsx('big', passing ? 'pass' : 'fail')}>{passing ? 'Ready' : 'Not ready'}</p>
             <p>{t.ready} of {t.need} required items ready.{!passing ? ` Refit ${refit.replenish.length + refit.repair.length} and inspect again.` : ''}</p>
           </div>

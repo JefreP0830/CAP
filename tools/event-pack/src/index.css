@@ -177,3 +177,9 @@ li.panelfig figcaption { text-align: center; }
   .plist tr { break-inside: avoid; }
   h3.sec { margin: 10px 0 4px; break-after: avoid; }
 }
+
+/* Pack selector: Event / 24-Hr / Multi-Day */
+.modes { display: flex; margin: 4px 0 10px; border: 1px solid var(--cap-ultramarine); border-radius: 4px; overflow: hidden; }
+.modes button { flex: 1; min-height: 44px; border: 0; border-radius: 0; background: #FFFFFF; color: var(--cap-ultramarine); font-size: 11pt; }
+.modes button + button { border-left: 1px solid var(--cap-ultramarine); }
+.modes button[aria-checked="true"] { background: var(--cap-ultramarine); color: #FFFFFF; }

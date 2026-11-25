@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { CAP_COLORS, SOURCE, requiredItems, tally, refitList, type InspectionLevel, type Rating } from '../pack';
+import { CAP_COLORS, SOURCE, requiredItems, tally, refitList, levelTitle, type InspectionLevel, type Rating } from '../pack';
 
 export interface PackSubmission {
   memberCAPID: string;
@@ -20,7 +20,7 @@ export const generatePackPDF = (s: PackSubmission, level: InspectionLevel) => {
   const BODY: [number, number, number] = [77, 77, 77];
 
   doc.setFont('helvetica', 'bold'); doc.setTextColor(CAP_COLORS.blue); doc.setFontSize(16);
-  doc.text(`24-HOUR PACK INSPECTION: ${level.name.toUpperCase()}`, 20, 20);
+  doc.text(`PACK INSPECTION: ${levelTitle(level).toUpperCase()}`, 20, 20);
   doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(...BODY);
   doc.text(`Civil Air Patrol  |  ${SOURCE}`, 20, 27);
   doc.setDrawColor(CAP_COLORS.blue); doc.setLineWidth(0.8); doc.line(20, 31, 190, 31);

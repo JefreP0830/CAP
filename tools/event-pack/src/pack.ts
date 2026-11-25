@@ -7,6 +7,8 @@
 // what is required. O-0001 lets a wing supplement the national list, so check yours.
 
 export type Level = 'T' | 'GTM' | 'GTL';
+export type Mode = 'Event' | '24' | 'Multi';
+export type PackKind = '24' | 'ext';
 export type Rating = 'Ready' | 'Refit' | 'Missing' | 'NA';
 
 export interface PackItem {
@@ -16,19 +18,32 @@ export interface PackItem {
   now?: string;
   req: Level | 'rec';      // lowest level that must carry it; 'rec' = recommended, never graded
   conditional?: boolean;   // "if needed" items may be rated Not needed
+  pack?: PackKind;         // default '24'; 'ext' = extended duration (multi-day) pack
 }
 
 export interface InspectionLevel {
-  id: Level;
+  id: string;
+  mode: Mode;
   name: string;
   who: string;
   includes: Level[];
+  packs: PackKind[];
 }
 
+export const MODES: { id: Mode; label: string; hint: string }[] = [
+  { id: 'Event', label: 'Event', hint: 'A one-day activity. The 24-hour pack items the task guide marks (T).' },
+  { id: '24', label: '24-Hr', hint: 'A field sortie or search exercise. The full 24-hour pack.' },
+  { id: 'Multi', label: 'Multi-Day', hint: 'Two or more days in the field (48 to 72 hours). The 24-hour pack plus the extended duration pack.' },
+];
+export const modeLabel = (m: Mode) => MODES.find(x => x.id === m)!.label;
+
 export const LEVELS: InspectionLevel[] = [
-  { id: 'T', name: 'Trainee minimum', who: 'Items the task guide marks (T). The floor for any field activity or day event, and for GTM3 trainees.', includes: ['T'] },
-  { id: 'GTM', name: 'Ground Team Member', who: 'Every 24-hour pack item. Qualified GTMs and anyone signing off Task O-0001.', includes: ['T', 'GTM'] },
-  { id: 'GTL', name: 'Ground Team Leader', who: 'Every 24-hour pack item plus the leader’s equipment.', includes: ['T', 'GTM', 'GTL'] },
+  { id: 'EV', mode: 'Event', name: 'Event minimum', who: 'Items marked (T) in the 24-hour pack. The floor for any day activity, and the GTM3 trainee standard.', includes: ['T'], packs: ['24'] },
+  { id: 'GTM', mode: '24', name: 'Ground Team Member', who: 'Every 24-hour pack item. Qualified GTMs and anyone signing off Task O-0001.', includes: ['T', 'GTM'], packs: ['24'] },
+  { id: 'GTL', mode: '24', name: 'Ground Team Leader', who: 'Every 24-hour pack item plus the leader’s equipment.', includes: ['T', 'GTM', 'GTL'], packs: ['24'] },
+  { id: 'MT', mode: 'Multi', name: 'Trainee', who: 'Items marked (T) in both the 24-hour and the extended duration pack.', includes: ['T'], packs: ['24', 'ext'] },
+  { id: 'MGTM', mode: 'Multi', name: 'Ground Team Member', who: 'Every item in both packs. O-0001 requires the extended pack of GTM-2 and GTM-1.', includes: ['T', 'GTM'], packs: ['24', 'ext'] },
+  { id: 'MGTL', mode: 'Multi', name: 'Ground Team Leader', who: 'Every item in both packs plus the leader’s equipment.', includes: ['T', 'GTM', 'GTL'], packs: ['24', 'ext'] },
 ];
 
 export const REQ_LABEL: Record<PackItem['req'], string> = { T: 'Trainee', GTM: 'GTM', GTL: 'Leader', rec: 'Recommended' };
@@ -121,11 +136,41 @@ export const PACK: PackItem[] = [
     spec: 'No undue shifting, snagging or movement. Nothing flapping loose to snag in brush or bang against the body (O-0001 measure 3).' },
   { group: 'Worn checks', item: 'Knives approved and worn correctly', req: 'T',
     spec: 'Sheath knife only if the team leader authorizes it: blade 6 in or less, 11 in overall, on the pistol belt or in the pack. Not allowed: boot, butterfly, switchblade, double-edged, "Rambo" survival knives, or retracting sheaths (O-0001 measure 4).' },
+
+  // Extended duration pack (O-0001): "to help you live in the field for more than one day, typically 48 to 72 hours."
+  { pack: 'ext', group: 'Extended pack', item: 'Backpack, preferably with frame', req: 'T', spec: 'Holds everything below. You must be able to carry all your gear at once.' },
+  { pack: 'ext', group: 'Extended pack', item: 'Tent', req: 'T', conditional: true, spec: 'Optional if you share a tent with someone who carries it.' },
+  { pack: 'ext', group: 'Extended pack', item: 'Spare rank and CAP cutouts', req: 'GTM', conditional: true, spec: 'For cadets.' },
+  { pack: 'ext', group: 'Extended pack', item: 'Five meals', req: 'T' },
+  { pack: 'ext', group: 'Extended pack', item: 'Leaf bags, large (2)', req: 'GTM' },
+  { pack: 'ext', group: 'Extended pack', item: 'Sleeping bag or bedroll for the climate', req: 'T' },
+  { pack: 'ext', group: 'Extended pack', item: 'Sleeping pad, foam or inflatable', req: 'GTM' },
+  { pack: 'ext', group: 'Extended pack', item: 'Spare boot laces', req: 'GTM' },
+  { pack: 'ext', group: 'Extended pack', item: 'Sewing kit with spare buttons', req: 'GTM' },
+  { pack: 'ext', group: 'Extended pack', item: 'Shoe shine kit', req: 'GTM' },
+  { pack: 'ext', group: 'Waterproof clothing bag', item: 'Waterproof bag', req: 'T' },
+  { pack: 'ext', group: 'Waterproof clothing bag', item: 'Spare uniform', req: 'GTM' },
+  { pack: 'ext', group: 'Waterproof clothing bag', item: 'Underwear and socks, 3 changes', req: 'T' },
+  { pack: 'ext', group: 'Toilet kit', item: 'Toothbrush and paste', req: 'T' },
+  { pack: 'ext', group: 'Toilet kit', item: 'Shaving kit', req: 'T', conditional: true, spec: 'If you shave.' },
+  { pack: 'ext', group: 'Toilet kit', item: 'Deodorant', req: 'T' },
+  { pack: 'ext', group: 'Toilet kit', item: 'Washcloth and soap', req: 'T' },
+  { pack: 'ext', group: 'Toilet kit', item: 'Towel', req: 'T' },
+  { pack: 'ext', group: 'Extended pack optional items', item: 'Rainwear, durable', req: 'rec' },
+  { pack: 'ext', group: 'Extended pack optional items', item: 'Nylon webbing, 1 in wide, 20 ft', req: 'rec' },
+  { pack: 'ext', group: 'Extended pack optional items', item: 'Handheld FM transceiver', req: 'rec', now: 'Highly recommended for Ground Team Leaders.' },
+  { pack: 'ext', group: 'Extended pack optional items', item: 'Water purification tablets', req: 'rec' },
+  { pack: 'ext', group: 'Extended pack optional items', item: 'Eye protection', req: 'rec', now: 'Highly recommended.' },
+  { pack: 'ext', group: 'Extended pack optional items', item: 'Entrenching tool', req: 'rec', now: 'Highly recommended for base gear.' },
+  { pack: 'ext', group: 'Worn checks, extended pack', item: 'Extended pack secure when worn', req: 'T',
+    spec: 'With the 24-hour pack stowed, worn or secured, items are secure from undue shifting or movement (O-0001 measure 5).' },
 ];
 
 export const GROUPS = Array.from(new Set(PACK.map(p => p.group)));
 
-export const isRequired = (p: PackItem, lvl: InspectionLevel) => p.req !== 'rec' && lvl.includes.includes(p.req);
+export const inPacks = (p: PackItem, lvl: InspectionLevel) => lvl.packs.includes(p.pack || '24');
+export const isRequired = (p: PackItem, lvl: InspectionLevel) => p.req !== 'rec' && inPacks(p, lvl) && lvl.includes.includes(p.req);
+export const levelTitle = (l: InspectionLevel) => `${modeLabel(l.mode)} pack: ${l.name}`;
 export const requiredItems = (lvl: InspectionLevel) => PACK.map((p, i) => ({ p, i })).filter(({ p }) => isRequired(p, lvl));
 
 // O-0001: "All required items must be present... No exceptions or substitutions."
