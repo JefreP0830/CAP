@@ -1,5 +1,9 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25p
+
+- EVENT pack adds "Compass with signal mirror". Event is now 9 items.
+
 ## 2026.11.25o
 
 - EVENT pack adds "Notepad with pen / pencil". Event is now 8 items.
