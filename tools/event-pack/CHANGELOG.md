@@ -1,5 +1,9 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25u
+
+- 24 HR: spare batteries folded into the flashlight / headlamp line; Poncho is the item (or emergency shelter, tarp or bivy); pack-secure and knife checks removed. Member 18, Leader 21.
+
 ## 2026.11.25t
 
 - 24 HR rebuilt as a field safety list for one day plus an unplanned night (Member 21, Leader 24), using the Event pack rules: no uniform, no cell phone, personal medication as a safety check, weather and condition items added per event, only substitutes or kit contents under items.
