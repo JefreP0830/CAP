@@ -1,5 +1,9 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25l
+
+- EVENT item 5 reads "Flashlight / headlamp" (either is the item, not a substitute).
+
 ## 2026.11.25k
 
 - EVENT hydration pack item reads "Hydration pack, 2-quart capacity" (or a day pack with bottles holding 2 quarts).
