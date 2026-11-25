@@ -171,8 +171,7 @@ export const PACK: PackItem[] = [
   // (rain gear, warm layer, sun and bugs, reflective vest) are added per event, not part of the base.
   { pack: 'event', group: 'On your person', item: 'CAP ID and CAPF 101 card', req: 'T' },
   { pack: 'event', group: 'On your person', item: 'Whistle', req: 'T' },
-  { pack: 'event', group: 'Pack', item: 'Day pack', req: 'T' },
-  { pack: 'event', group: 'Pack', item: 'Water, 2 quarts', req: 'T' },
+  { pack: 'event', group: 'Pack', item: 'Hydration pack, 2 quarts of water', req: 'T', sub: 'day pack with 2 quarts in bottles' },
   { pack: 'event', group: 'Pack', item: 'Meal and snacks for the day', req: 'T' },
   { pack: 'event', group: 'Pack', item: 'Flashlight', req: 'T', sub: 'headlamp' },
   { pack: 'event', group: 'First aid kit', item: 'Personal first aid kit', req: 'T', sub: 'bandages, moleskin and gloves in a zip-lock bag' },
