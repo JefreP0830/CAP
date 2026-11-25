@@ -1,5 +1,9 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25y
+
+- MULTI-DAY: "Large trash bags (x2)", 30 gallon or larger (replaces leaf bags and the waterproof clothing bag); shoe shine kit removed; "Personal hygiene kit" (soap, plus shaving and feminine hygiene supplies as needed) replaces shaving kit; "Washcloth + towel"; "Laundry soap"; extended-pack worn check removed; clothing section renamed "Clothing". Multi-Day is now 37 items.
+
 ## 2026.11.25x
 
 - Item numbers follow the on-screen order (Safety check before GTL only), on screen and in the PDF.
