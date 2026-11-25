@@ -1,5 +1,9 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25q
+
+- EVENT: compass and signal mirror are separate items. Event is now 10 items.
+
 ## 2026.11.25p
 
 - EVENT pack adds "Compass with signal mirror". Event is now 9 items.

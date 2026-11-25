@@ -175,7 +175,8 @@ export const PACK: PackItem[] = [
   { pack: 'event', group: 'Pack', item: 'Meal and snacks for the day', req: 'T' },
   { pack: 'event', group: 'Pack', item: 'Flashlight / headlamp', req: 'T' },
   { pack: 'event', group: 'Pack', item: 'Notepad with pen / pencil', req: 'T' },
-  { pack: 'event', group: 'Pack', item: 'Compass with signal mirror', req: 'T' },
+  { pack: 'event', group: 'Pack', item: 'Compass', req: 'T' },
+  { pack: 'event', group: 'Pack', item: 'Signal mirror', req: 'T' },
   { pack: 'event', group: 'First aid kit', item: 'PFAK (Personal First Aid Kit)', req: 'T' },
   { pack: 'event', group: 'Safety check', item: 'Personal medications on hand; leader knows what and where', req: 'T', conditional: true },
 ];
