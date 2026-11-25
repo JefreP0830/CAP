@@ -1,5 +1,10 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25v
+
+- One standard per pack type; the Member / Leader / Trainee row is gone. 24 HR 21 items, Multi-Day 40.
+- Leader items moved to a "GTL only" section at the end of the list, each with N/A for anyone who is not a Ground Team Leader. N/A does not count against the score.
+
 ## 2026.11.25u
 
 - 24 HR: spare batteries folded into the flashlight / headlamp line; Poncho is the item (or emergency shelter, tarp or bivy); pack-secure and knife checks removed. Member 18, Leader 21.

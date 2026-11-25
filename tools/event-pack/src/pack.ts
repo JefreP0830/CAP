@@ -40,14 +40,12 @@ export const MODES: { id: Mode; label: string; hint: string }[] = [
 ];
 export const modeLabel = (m: Mode) => MODES.find(x => x.id === m)!.label;
 
+// One standard per pack type. Ground Team Leader items sit at the end ("GTL only") and are rated N/A for everyone else.
 export const LEVELS: InspectionLevel[] = [
   { id: 'EV', mode: 'Event', name: 'Event', who: 'Base safety standard for a day activity of 8 to 10 hours. Add items for weather or event conditions.', includes: ['T'], packs: ['event'],
     source: 'Day-activity safety list, drawn from O-0001; not a CAP-published standard' },
-  { id: 'GTM', mode: '24', name: 'Ground Team Member', who: 'Every 24-hour pack item.', includes: ['T', 'GTM'], packs: ['24'] },
-  { id: 'GTL', mode: '24', name: 'Ground Team Leader', who: 'Every 24-hour pack item plus the leader’s equipment.', includes: ['T', 'GTM', 'GTL'], packs: ['24'] },
-  { id: 'MT', mode: 'Multi', name: 'Trainee', who: 'Trainee items in both packs.', includes: ['T'], packs: ['24', 'ext'] },
-  { id: 'MGTM', mode: 'Multi', name: 'Ground Team Member', who: 'Every item in both packs.', includes: ['T', 'GTM'], packs: ['24', 'ext'] },
-  { id: 'MGTL', mode: 'Multi', name: 'Ground Team Leader', who: 'Every item in both packs plus the leader’s equipment.', includes: ['T', 'GTM', 'GTL'], packs: ['24', 'ext'] },
+  { id: '24', mode: '24', name: '24 Hr', who: 'Field safety for one day plus an unplanned night.', includes: ['T', 'GTM', 'GTL'], packs: ['24'] },
+  { id: 'MD', mode: 'Multi', name: 'Multi-Day', who: 'The 24 Hr pack plus the extended duration pack.', includes: ['T', 'GTM', 'GTL'], packs: ['24', 'ext'] },
 ];
 
 export const REQ_LABEL: Record<PackItem['req'], string> = { T: 'Trainee', GTM: 'GTM', GTL: 'Leader', rec: 'Recommended' };
@@ -75,9 +73,9 @@ export const PACK: PackItem[] = [
   { group: 'Pack', item: 'Work gloves', req: 'T' },
   { group: 'Pack', item: 'Change of socks', req: 'T' },
   { group: 'Pack', item: 'Flagging tape, 1 roll', req: 'GTM' },
-  { group: 'Leader\u2019s equipment', item: 'Map case', req: 'GTL', sub: 'large zip-lock bag' },
-  { group: 'Leader\u2019s equipment', item: 'Protractor with ruler', req: 'GTL' },
-  { group: 'Leader\u2019s equipment', item: 'Alcohol pens, 2 colors, with eraser', req: 'GTL', sub: 'alcohol swabs to erase' },
+  { group: 'GTL only', item: 'Map case', req: 'GTL', conditional: true, sub: 'large zip-lock bag' },
+  { group: 'GTL only', item: 'Protractor with ruler', req: 'GTL', conditional: true },
+  { group: 'GTL only', item: 'Alcohol pens, 2 colors, with eraser', req: 'GTL', conditional: true, sub: 'alcohol swabs to erase' },
   { group: 'Safety check', item: 'Personal medications on hand; leader knows what and where', req: 'T', conditional: true },
 
   // Extended duration pack (O-0001): "to help you live in the field for more than one day, typically 48 to 72 hours."
@@ -123,12 +121,14 @@ export const PACK: PackItem[] = [
   { pack: 'event', group: 'Safety check', item: 'Personal medications on hand; leader knows what and where', req: 'T', conditional: true },
 ];
 
-export const GROUPS = Array.from(new Set(PACK.map(p => p.group)));
+// Safety check, then GTL only, always come last.
+const LAST: Record<string, number> = { 'Safety check': 1, 'GTL only': 2 };
+export const GROUPS = Array.from(new Set(PACK.map(p => p.group))).sort((a, b) => (LAST[a] || 0) - (LAST[b] || 0));
 
 export const inPacks = (p: PackItem, lvl: InspectionLevel) => lvl.packs.includes(p.pack || '24');
 export const isRequired = (p: PackItem, lvl: InspectionLevel) => p.req !== 'rec' && inPacks(p, lvl) && lvl.includes.includes(p.req);
 export const levelSource = (l: InspectionLevel) => l.source || SOURCE;
-export const levelTitle = (l: InspectionLevel) => l.mode === 'Event' ? 'Event pack' : `${modeLabel(l.mode)} pack: ${l.name}`;
+export const levelTitle = (l: InspectionLevel) => `${modeLabel(l.mode)} pack`;
 export const requiredItems = (lvl: InspectionLevel) => PACK.map((p, i) => ({ p, i })).filter(({ p }) => isRequired(p, lvl));
 
 // O-0001: "All required items must be present... No exceptions or substitutions."

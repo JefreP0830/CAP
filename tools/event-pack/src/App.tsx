@@ -8,25 +8,21 @@ import {
 import { generatePackPDF } from './utils/pdfGenerator';
 
 // Bump on every release; shown top right so a printout can be traced to a build.
-const APP_VERSION = '2026.11.25u';
+const APP_VERSION = '2026.11.25v';
 
 const RATINGS: { r: Rating; key: string; label: string; aria: string }[] = [
   { r: 'Pass', key: 's', label: 'P', aria: 'Pass' },
   { r: 'Fail', key: 'u', label: 'F', aria: 'Fail' },
 ];
-const SHORT: Record<string, string> = { MT: 'Trainee', GTM: 'Member', MGTM: 'Member', GTL: 'Leader', MGTL: 'Leader' };
 const today = () => { const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); };
 const showDate = (iso: string) => { const [y, m, d] = iso.split('-'); return `${Number(m)}/${Number(d)}/${y}`; };
-const levelsOf = (m: Mode) => LEVELS.filter(l => l.mode === m);
 const countFor = (l: InspectionLevel) => PACK.filter(p => isRequired(p, l)).length;
 
 export default function App() {
   const [step, setStep] = useState<'form' | 'success'>('form');
   const [tab, setTab] = useState<'Inspect' | 'Refit' | 'List'>('Inspect');
   const [mode, setMode] = useState<Mode>('Event');
-  // Remember the chosen standard within each pack type (24-Hr: Member/Leader; Multi-Day: Trainee/Member/Leader).
-  const [pick, setPick] = useState<Record<Mode, string>>({ Event: 'EV', '24': 'GTM', Multi: 'MT' });
-  const level = LEVELS.find(l => l.id === pick[mode])!;
+  const level = LEVELS.find(l => l.mode === mode)!;
   const [memberCAPID, setMemberCAPID] = useState('');
   const [inspectorCAPID, setInspectorCAPID] = useState('');
   const [activity, setActivity] = useState('');
@@ -121,7 +117,7 @@ export default function App() {
     <div className="picker">
       <div className="modes" role="radiogroup" aria-label="Pack type">
         {MODES.map((m) => {
-          const n = countFor(LEVELS.find(l => l.id === pick[m.id])!);
+          const n = countFor(LEVELS.find(l => l.mode === m.id)!);
           return (
             <button key={m.id} role="radio" aria-checked={mode === m.id} onClick={() => setMode(m.id)}>
               <span className="ml">{m.label}</span>
@@ -130,13 +126,6 @@ export default function App() {
           );
         })}
       </div>
-      {levelsOf(mode).length > 1 && (
-        <div className="levels" role="radiogroup" aria-label="Standard">
-          {levelsOf(mode).map((l) => (
-            <button key={l.id} role="radio" aria-checked={level.id === l.id} onClick={() => setPick(p => ({ ...p, [mode]: l.id }))}>{SHORT[l.id]}</button>
-          ))}
-        </div>
-      )}
       {mode === 'Event' && <p className="aug">Base standard. Augment for weather and event conditions.</p>}
     </div>
   );
