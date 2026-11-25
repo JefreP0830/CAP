@@ -8,7 +8,7 @@ import {
 import { generatePackPDF } from './utils/pdfGenerator';
 
 // Bump on every release; shown top right so a printout can be traced to a build.
-const APP_VERSION = '2026.11.25r';
+const APP_VERSION = '2026.11.25s';
 
 const RATINGS: { r: Rating; key: string; label: string; aria: string }[] = [
   { r: 'Pass', key: 's', label: 'P', aria: 'Pass' },
@@ -201,7 +201,7 @@ export default function App() {
                 {rows.map(({ p, i }) => (
                   <li key={i} className={clsx('row', showErrors && !ratings[i] && 'missing')}>
                     <span className="n">{numberOf(i)}</span>
-                    <span className="nm">{p.item}{p.sub && <span className="subst">or {p.sub}</span>}</span>
+                    <span className="nm">{p.item}{p.contents && <span className="subst">{p.contents}</span>}{p.sub && <span className="subst">or {p.sub}</span>}</span>
                     <span className="pf">
                       {p.conditional && (
                         <button className={clsx('pfb na', ratings[i] === 'NA' && 'on')} aria-label={`Not needed: ${p.item}`} aria-pressed={ratings[i] === 'NA'} onClick={() => rate(i, 'NA')}>N/A</button>
@@ -281,7 +281,7 @@ export default function App() {
                   {rows.map(({ p, i }) => (
                     <tr key={i}>
                       <td className="bx"><span className="box" aria-hidden="true" /></td>
-                      <td><span className="it">{p.item}{p.conditional ? ' (if needed)' : ''}</span>{p.sub && <span className="std">or {p.sub}</span>}</td>
+                      <td><span className="it">{p.item}{p.conditional ? ' (if needed)' : ''}</span>{p.contents && <span className="std">{p.contents}</span>}{p.sub && <span className="std">or {p.sub}</span>}</td>
                     </tr>
                   ))}
                 </tbody>

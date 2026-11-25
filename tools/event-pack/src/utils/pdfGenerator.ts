@@ -45,7 +45,7 @@ export const generatePackPDF = (s: PackSubmission, level: InspectionLevel) => {
   const rows = requiredItems(level).map(({ p, i }, n) => [
     String(n + 1),
     p.group,
-    { content: p.sub ? `${p.item} (or ${p.sub})` : p.item, styles: { fontSize: 8 } },
+    { content: p.item + (p.contents ? `: ${p.contents}` : '') + (p.sub ? ` (or ${p.sub})` : ''), styles: { fontSize: 8 } },
     LABEL[s.ratings[i]] || '-',
   ]);
   autoTable(doc, {

@@ -1,5 +1,9 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25s
+
+- EVENT PFAK shows its contents under the item: Band-Aids, moleskin and gloves in a zip-lock bag (also in the pack list and PDF).
+
 ## 2026.11.25r
 
 - EVENT: whistle moved from On your person into Pack; PFAK moved into Pack; First aid kit section dropped for Event.

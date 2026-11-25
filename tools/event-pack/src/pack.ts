@@ -17,7 +17,8 @@ export interface PackItem {
   spec?: string;
   now?: string;
   req: Level | 'rec';      // lowest level that must carry it; 'rec' = recommended, never graded
-  sub?: string;           // permitted substitute, the only text shown under an item while inspecting
+  sub?: string;
+  contents?: string;       // what a kit must hold; shown under the item without "or"           // permitted substitute, the only text shown under an item while inspecting
   conditional?: boolean;   // "if needed" items may be rated Not needed
   pack?: PackKind;         // default '24'; 'ext' = extended duration (multi-day) pack
 }
@@ -177,7 +178,7 @@ export const PACK: PackItem[] = [
   { pack: 'event', group: 'Pack', item: 'Compass', req: 'T' },
   { pack: 'event', group: 'Pack', item: 'Signal mirror', req: 'T' },
   { pack: 'event', group: 'Pack', item: 'Whistle', req: 'T' },
-  { pack: 'event', group: 'Pack', item: 'PFAK (Personal First Aid Kit)', req: 'T' },
+  { pack: 'event', group: 'Pack', item: 'PFAK (Personal First Aid Kit)', req: 'T', contents: 'Band-Aids, moleskin and gloves in a zip-lock bag' },
   { pack: 'event', group: 'Safety check', item: 'Personal medications on hand; leader knows what and where', req: 'T', conditional: true },
 ];
 
