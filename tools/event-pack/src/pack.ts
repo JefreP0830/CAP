@@ -170,7 +170,6 @@ export const PACK: PackItem[] = [
   // No clothing spares (members change at home after a day event). Weather or event conditions
   // (rain gear, warm layer, sun and bugs, reflective vest) are added per event, not part of the base.
   { pack: 'event', group: 'On your person', item: 'CAP ID and CAPF 101 card', req: 'T' },
-  { pack: 'event', group: 'On your person', item: 'Cell phone, charged', req: 'T' },
   { pack: 'event', group: 'On your person', item: 'Whistle', req: 'T' },
   { pack: 'event', group: 'Pack', item: 'Day pack', req: 'T' },
   { pack: 'event', group: 'Pack', item: 'Water, 2 quarts', req: 'T' },

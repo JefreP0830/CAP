@@ -8,7 +8,7 @@ import {
 import { generatePackPDF } from './utils/pdfGenerator';
 
 // Bump on every release; shown top right so a printout can be traced to a build.
-const APP_VERSION = '2026.11.25g';
+const APP_VERSION = '2026.11.25h';
 
 const RATINGS: { r: Rating; key: string; label: string; aria: string }[] = [
   { r: 'Pass', key: 's', label: 'P', aria: 'Pass' },

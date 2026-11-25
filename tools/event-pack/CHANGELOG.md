@@ -1,5 +1,9 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25h
+
+- Cell phone removed from EVENT (not a day pack item). Event is now 8 items.
+
 ## 2026.11.25g
 
 - EVENT is the base standard only (9 items): CAP ID and 101 card, charged cell phone, whistle, day pack, 2 quarts of water, meal and snacks, flashlight, personal first aid kit, personal medication (if needed).
