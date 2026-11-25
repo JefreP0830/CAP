@@ -1,5 +1,14 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25d
+
+- Opens straight to the inspection (Event pack); no standards screen, no "Back to standards".
+- Page tabs Inspection, Refit Guide, Pack List moved into the tally bar between the two blue lines; "In progress" status removed.
+- Pack type selector below the lower blue line, all caps, black when selected: EVENT ( 8-10 Hrs ) | n ITEMS, 24 HR n ITEMS, MULTI-DAY ( 24-72 Hrs ) | n ITEMS. Item count follows the chosen standard.
+- Standard row (gray when selected) under 24 HR (Member, Leader) and MULTI-DAY (Trainee, Member, Leader).
+- Items, counts and tally change with the selection; ratings already made carry over.
+- Pack List tab uses the same selector and shows only the items required for it; recommended items in one line; prints on letter paper.
+
 ## 2026.11.25c
 
 - Pack selector tiles smaller, with durations: Event (8-10 Hrs), 24-Hr, Multi-Day (24-72 Hrs). Explanation line under the selector removed.

@@ -33,7 +33,7 @@ export interface InspectionLevel {
 
 export const MODES: { id: Mode; label: string; hint: string }[] = [
   { id: 'Event', label: 'Event', hint: '8-10 Hrs' },
-  { id: '24', label: '24-Hr', hint: '' },
+  { id: '24', label: '24 Hr', hint: '' },
   { id: 'Multi', label: 'Multi-Day', hint: '24-72 Hrs' },
 ];
 export const modeLabel = (m: Mode) => MODES.find(x => x.id === m)!.label;
