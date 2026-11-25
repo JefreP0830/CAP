@@ -2,13 +2,13 @@ import React, { useState, useRef } from 'react';
 import { clsx } from 'clsx';
 import {
   LEVELS, MODES, PACK, GROUPS, SOURCE, REFIT_STEPS, MIN_FEEDBACK_WORDS,
-  isRequired, inPacks, levelTitle, tally, refitList, wordCount,
+  isRequired, inPacks, levelTitle, levelSource, tally, refitList, wordCount,
   type InspectionLevel, type Mode, type Rating,
 } from './pack';
 import { generatePackPDF } from './utils/pdfGenerator';
 
 // Bump on every release; shown top right so a printout can be traced to a build.
-const APP_VERSION = '2026.11.25e';
+const APP_VERSION = '2026.11.25f';
 
 const RATINGS: { r: Rating; key: string; label: string; aria: string }[] = [
   { r: 'Pass', key: 's', label: 'P', aria: 'Pass' },
@@ -225,7 +225,7 @@ export default function App() {
 
           {formError && <p className="err">{formError}</p>}
           <button className="btn-primary" onClick={handleSubmit} disabled={busy}>{busy ? 'Preparing PDF' : 'Submit and share PDF'}</button>
-          <p className="foot">Reference: {SOURCE}.</p>
+          <p className="foot">Reference: {levelSource(level)}.</p>
         </main>
       )}
 
@@ -270,7 +270,7 @@ export default function App() {
         <main className="wrap plist">
           <div className="noprint">{selector}</div>
           <h2>{levelTitle(level)}</h2>
-          <p className="sub">{SOURCE}</p>
+          <p className="sub">{levelSource(level)}</p>
           <button className="btn-secondary wide noprint" onClick={() => window.print()}>Print pack list</button>
           {groups.map(({ g, rows }) => (
             <section key={g}>

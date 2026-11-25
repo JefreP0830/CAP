@@ -8,7 +8,7 @@
 
 export type Level = 'T' | 'GTM' | 'GTL';
 export type Mode = 'Event' | '24' | 'Multi';
-export type PackKind = '24' | 'ext';
+export type PackKind = '24' | 'ext' | 'event';
 export type Rating = 'Pass' | 'Fail' | 'NA';
 
 export interface PackItem {
@@ -29,6 +29,7 @@ export interface InspectionLevel {
   who: string;
   includes: Level[];
   packs: PackKind[];
+  source?: string;
 }
 
 export const MODES: { id: Mode; label: string; hint: string }[] = [
@@ -39,7 +40,8 @@ export const MODES: { id: Mode; label: string; hint: string }[] = [
 export const modeLabel = (m: Mode) => MODES.find(x => x.id === m)!.label;
 
 export const LEVELS: InspectionLevel[] = [
-  { id: 'EV', mode: 'Event', name: 'Event minimum', who: 'Items marked (T) in the 24-hour pack. The floor for any day activity, and the GTM3 trainee standard.', includes: ['T'], packs: ['24'] },
+  { id: 'EV', mode: 'Event', name: 'Event', who: 'Safety items for a day activity of 8 to 10 hours.', includes: ['T'], packs: ['event'],
+    source: 'Day-activity safety list, drawn from O-0001; not a CAP-published standard' },
   { id: 'GTM', mode: '24', name: 'Ground Team Member', who: 'Every 24-hour pack item. Qualified GTMs and anyone signing off Task O-0001.', includes: ['T', 'GTM'], packs: ['24'] },
   { id: 'GTL', mode: '24', name: 'Ground Team Leader', who: 'Every 24-hour pack item plus the leader’s equipment.', includes: ['T', 'GTM', 'GTL'], packs: ['24'] },
   { id: 'MT', mode: 'Multi', name: 'Trainee', who: 'Items marked (T) in both the 24-hour and the extended duration pack.', includes: ['T'], packs: ['24', 'ext'] },
@@ -163,12 +165,31 @@ export const PACK: PackItem[] = [
   { pack: 'ext', group: 'Extended pack optional items', item: 'Entrenching tool', req: 'rec', now: 'Highly recommended for base gear.' },
   { pack: 'ext', group: 'Worn checks, extended pack', item: 'Extended pack secure when worn', req: 'T',
     spec: 'With the 24-hour pack stowed, worn or secured, items are secure from undue shifting or movement (O-0001 measure 5).' },
+
+  // Event pack (8-10 hours): safety items only. A pragmatic cut drawn from O-0001, not a CAP-published list.
+  // Leaves out what a day activity does not need for safety: fire starting, light stick, knife, work gloves,
+  // notepad, watch (phone covers it), comb, tissues.
+  { pack: 'event', group: 'On your person', item: 'CAP ID and CAPF 101 card', req: 'T' },
+  { pack: 'event', group: 'On your person', item: 'Cell phone, charged', req: 'T' },
+  { pack: 'event', group: 'On your person', item: 'Whistle', req: 'T' },
+  { pack: 'event', group: 'On your person', item: 'Reflective vest, near roads or after dark', req: 'T', conditional: true },
+  { pack: 'event', group: 'Pack', item: 'Day pack', req: 'T' },
+  { pack: 'event', group: 'Pack', item: 'Water, 2 quarts', req: 'T' },
+  { pack: 'event', group: 'Pack', item: 'Meal and snacks for the day', req: 'T' },
+  { pack: 'event', group: 'Pack', item: 'Rain gear', req: 'T', sub: 'poncho' },
+  { pack: 'event', group: 'Pack', item: 'Warm layer for the weather', req: 'T', conditional: true },
+  { pack: 'event', group: 'Pack', item: 'Change of socks', req: 'T' },
+  { pack: 'event', group: 'Pack', item: 'Flashlight', req: 'T', sub: 'headlamp' },
+  { pack: 'event', group: 'First aid kit', item: 'Personal first aid kit', req: 'T', sub: 'bandages, moleskin and gloves in a zip-lock bag' },
+  { pack: 'event', group: 'First aid kit', item: 'Personal medication', req: 'T', conditional: true },
+  { pack: 'event', group: 'First aid kit', item: 'Sunscreen and insect repellent', req: 'T', conditional: true },
 ];
 
 export const GROUPS = Array.from(new Set(PACK.map(p => p.group)));
 
 export const inPacks = (p: PackItem, lvl: InspectionLevel) => lvl.packs.includes(p.pack || '24');
 export const isRequired = (p: PackItem, lvl: InspectionLevel) => p.req !== 'rec' && inPacks(p, lvl) && lvl.includes.includes(p.req);
+export const levelSource = (l: InspectionLevel) => l.source || SOURCE;
 export const levelTitle = (l: InspectionLevel) => l.mode === 'Event' ? 'Event pack' : `${modeLabel(l.mode)} pack: ${l.name}`;
 export const requiredItems = (lvl: InspectionLevel) => PACK.map((p, i) => ({ p, i })).filter(({ p }) => isRequired(p, lvl));
 

@@ -1,5 +1,11 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25f
+
+- EVENT ( 8-10 Hrs ) is now a 14-item day-activity safety list, separate from the 24-hour pack: CAP ID and 101 card, charged cell phone, whistle, reflective vest near roads or after dark (N/A otherwise), day pack, 2 quarts of water, meal and snacks, rain gear, warm layer (if needed), change of socks, flashlight, personal first aid kit, personal medication (if needed), sunscreen and insect repellent (if needed).
+- Drawn from O-0001 with judgment; labelled on screen and PDF as not a CAP-published standard. 24 HR and MULTI-DAY unchanged (O-0001).
+- Left out of Event: matches, light stick, knife and knife check, work gloves, notepad, watch, comb, tissues, pack-secure check.
+
 ## 2026.11.25e
 
 - Removed "Field uniform with cap": it is uniform, not pack equipment. O-0001 lists it, so check the uniform in a uniform inspection. Counts now Event 21, 24 HR 49 / 56, Multi-Day 33 / 68 / 75.

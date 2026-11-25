@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { CAP_COLORS, SOURCE, requiredItems, tally, refitList, levelTitle, type InspectionLevel, type Rating } from '../pack';
+import { CAP_COLORS, SOURCE, requiredItems, tally, refitList, levelTitle, levelSource, type InspectionLevel, type Rating } from '../pack';
 
 export interface PackSubmission {
   memberCAPID: string;
@@ -22,7 +22,7 @@ export const generatePackPDF = (s: PackSubmission, level: InspectionLevel) => {
   doc.setFont('helvetica', 'bold'); doc.setTextColor(CAP_COLORS.blue); doc.setFontSize(16);
   doc.text(`PACK INSPECTION: ${levelTitle(level).toUpperCase()}`, 20, 20);
   doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(...BODY);
-  doc.text(`Civil Air Patrol  |  ${SOURCE}`, 20, 27);
+  doc.text(`Civil Air Patrol  |  ${levelSource(level)}`, 20, 27);
   doc.setDrawColor(CAP_COLORS.blue); doc.setLineWidth(0.8); doc.line(20, 31, 190, 31);
 
   const kv = (k: string, v: string, x: number, y: number) => {
@@ -40,7 +40,7 @@ export const generatePackPDF = (s: PackSubmission, level: InspectionLevel) => {
   doc.setTextColor(ok ? CAP_COLORS.blue : CAP_COLORS.red);
   doc.text(`RESULT: ${ok ? 'PASS' : 'FAIL'} (${t.ready} of ${t.need} required items passed)`, 105, 60, { align: 'center' });
   doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(...BODY);
-  doc.text('Pass: every required item present and serviceable. Only listed substitutes allowed (O-0001).', 105, 65, { align: 'center' });
+  doc.text('Pass: every required item present and serviceable. Only listed substitutes allowed.', 105, 65, { align: 'center' });
 
   const rows = requiredItems(level).map(({ p, i }, n) => [
     String(n + 1),
