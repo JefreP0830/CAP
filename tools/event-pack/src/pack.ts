@@ -174,7 +174,7 @@ export const PACK: PackItem[] = [
   { pack: 'event', group: 'Pack', item: 'Hydration pack, 2-quart capacity', req: 'T', sub: 'day pack with bottles holding 2 quarts' },
   { pack: 'event', group: 'Pack', item: 'Meal and snacks for the day', req: 'T' },
   { pack: 'event', group: 'Pack', item: 'Flashlight / headlamp', req: 'T' },
-  { pack: 'event', group: 'First aid kit', item: 'Personal first aid kit', req: 'T', sub: 'bandages, moleskin and gloves in a zip-lock bag' },
+  { pack: 'event', group: 'First aid kit', item: 'PFAK (Personal First Aid Kit)', req: 'T' },
   { pack: 'event', group: 'First aid kit', item: 'Personal medication', req: 'T', conditional: true },
 ];
 

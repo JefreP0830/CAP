@@ -1,5 +1,9 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25m
+
+- EVENT item 6 reads "PFAK (Personal First Aid Kit)"; contents line removed (only substitutes appear under items).
+
 ## 2026.11.25l
 
 - EVENT item 5 reads "Flashlight / headlamp" (either is the item, not a substitute).
