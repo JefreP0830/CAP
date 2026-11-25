@@ -1,5 +1,9 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25k
+
+- EVENT hydration pack item reads "Hydration pack, 2-quart capacity" (or a day pack with bottles holding 2 quarts).
+
 ## 2026.11.25j
 
 - EVENT shows one line under the selector: "Base standard. Augment for weather and event conditions."
