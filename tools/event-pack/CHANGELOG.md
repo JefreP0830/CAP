@@ -1,5 +1,9 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25j
+
+- EVENT shows one line under the selector: "Base standard. Augment for weather and event conditions."
+
 ## 2026.11.25i
 
 - EVENT: Day pack and Water merged into one item, "Hydration pack, 2 quarts of water" (or a day pack with 2 quarts in bottles). Event is now 7 items.

@@ -218,3 +218,5 @@ ol.card .row { display: grid; grid-template-columns: 26px 1fr auto; gap: 8px; al
 .pfb.s.on { background: var(--cap-ultramarine); border-color: var(--cap-ultramarine); color: #FFFFFF; }
 .pfb.u.on { background: var(--cap-body); border-color: var(--cap-body); color: #FFFFFF; }
 .pfb.na.on { background: var(--off); border-color: var(--off); color: #FFFFFF; }
+
+.picker .aug { margin-top: 6px; font-size: 9.5pt; color: var(--cap-section); }
