@@ -1,5 +1,9 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.26b
+
+- EXTENDED PACK: removed spare rank and CAP cutouts, sleeping pad, deodorant (now in the hygiene kit line); "Sewing kit"; "Underwear (x3) + Socks (x3)"; hygiene kit reads "soap, razors, deodorant, and feminine hygiene as needed". Now 14 items (0-13).
+
 ## 2026.11.26a
 
 - MULTI-DAY tile renamed EXTENDED PACK ( 24-72 Hrs ); titles and PDF read "Extended Pack".
