@@ -31,12 +31,13 @@ export interface InspectionLevel {
   includes: Level[];
   packs: PackKind[];
   source?: string;
+  startAt?: number;        // first item number on screen and PDF (default 1)
 }
 
 export const MODES: { id: Mode; label: string; hint: string }[] = [
   { id: 'Event', label: 'Event', hint: '8-10 Hrs' },
   { id: '24', label: '24 Hr', hint: '' },
-  { id: 'Multi', label: 'Multi-Day', hint: '24-72 Hrs' },
+  { id: 'Multi', label: 'Extended Pack', hint: '24-72 Hrs' },
 ];
 export const modeLabel = (m: Mode) => MODES.find(x => x.id === m)!.label;
 
@@ -45,7 +46,7 @@ export const LEVELS: InspectionLevel[] = [
   { id: 'EV', mode: 'Event', name: 'Event', who: 'Base safety standard for a day activity of 8 to 10 hours. Add items for weather or event conditions.', includes: ['T'], packs: ['event'],
     source: 'Day-activity safety list, drawn from O-0001; not a CAP-published standard' },
   { id: '24', mode: '24', name: '24 Hr', who: 'Field safety for one day plus an unplanned night.', includes: ['T', 'GTM', 'GTL'], packs: ['24'] },
-  { id: 'MD', mode: 'Multi', name: 'Multi-Day', who: 'The 24 Hr pack plus the extended duration pack.', includes: ['T', 'GTM', 'GTL'], packs: ['24', 'ext'] },
+  { id: 'MD', mode: 'Multi', name: 'Extended Pack', who: 'A passing 24 Hr pack (item 0) plus the extended pack.', includes: ['T', 'GTM', 'GTL'], packs: ['ext'], startAt: 0 },
 ];
 
 export const REQ_LABEL: Record<PackItem['req'], string> = { T: 'Trainee', GTM: 'GTM', GTL: 'Leader', rec: 'Recommended' };
@@ -78,6 +79,8 @@ export const PACK: PackItem[] = [
   { group: 'GTL only', item: 'Alcohol pens, 2 colors, with eraser', req: 'GTL', conditional: true, sub: 'alcohol swabs to erase' },
   { group: 'Safety check', item: 'Personal medications on hand; leader knows what and where', req: 'T', conditional: true },
 
+  // Multi-Day item 0: the 24 Hr pack passed its own inspection (covers the 24 Hr items, medication check and GTL items).
+  { pack: 'ext', group: '24 Hr pack', item: 'Passing 24 Hr pack', req: 'T' },
   // Extended duration pack (O-0001): "to help you live in the field for more than one day, typically 48 to 72 hours."
   { pack: 'ext', group: 'Extended pack', item: 'Backpack, preferably with frame', req: 'T', spec: 'Holds everything below. You must be able to carry all your gear at once.' },
   { pack: 'ext', group: 'Extended pack', item: 'Tent', req: 'T', conditional: true, spec: 'Optional if you share a tent with someone who carries it.' },
@@ -118,13 +121,13 @@ export const PACK: PackItem[] = [
 ];
 
 // Safety check, then GTL only, always come last.
-const LAST: Record<string, number> = { 'Safety check': 1, 'GTL only': 2 };
+const LAST: Record<string, number> = { '24 Hr pack': -1, 'Safety check': 1, 'GTL only': 2 };
 export const GROUPS = Array.from(new Set(PACK.map(p => p.group))).sort((a, b) => (LAST[a] || 0) - (LAST[b] || 0));
 
 export const inPacks = (p: PackItem, lvl: InspectionLevel) => lvl.packs.includes(p.pack || '24');
 export const isRequired = (p: PackItem, lvl: InspectionLevel) => p.req !== 'rec' && inPacks(p, lvl) && lvl.includes.includes(p.req);
 export const levelSource = (l: InspectionLevel) => l.source || SOURCE;
-export const levelTitle = (l: InspectionLevel) => `${modeLabel(l.mode)} pack`;
+export const levelTitle = (l: InspectionLevel) => /pack$/i.test(modeLabel(l.mode)) ? modeLabel(l.mode) : `${modeLabel(l.mode)} pack`;
 // In screen order: by section (GROUPS order), then list order within a section.
 export const requiredItems = (lvl: InspectionLevel) => PACK.map((p, i) => ({ p, i })).filter(({ p }) => isRequired(p, lvl))
   .sort((x, y) => GROUPS.indexOf(x.p.group) - GROUPS.indexOf(y.p.group) || x.i - y.i);

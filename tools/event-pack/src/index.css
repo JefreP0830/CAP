@@ -193,7 +193,7 @@ li.panelfig figcaption { text-align: center; }
 .modes button[aria-checked="true"] { background: #000; color: #FFFFFF; }
 .modes .ml { display: block; font-size: 10.5pt; text-transform: uppercase; letter-spacing: .5px; }
 .modes .mh { display: block; font-size: 8pt; font-weight: 400; letter-spacing: .3px; white-space: nowrap; }
-@media (max-width: 420px) { .modes .mh { font-size: 7.5pt; } }
+@media (max-width: 420px) { .modes .mh { font-size: 7.5pt; } .modes .ml { font-size: 9.5pt; letter-spacing: .2px; white-space: nowrap; } .modes button { padding: 5px 3px; } }
 /* Standard within a pack type: gray when selected */
 .levels { display: flex; gap: 6px; margin-top: 6px; }
 .levels button { flex: 1; min-height: 36px; padding: 4px; font-size: 9.5pt; background: #FFFFFF; color: var(--cap-body); border: 1px solid var(--cap-silver); text-transform: uppercase; letter-spacing: .4px; }

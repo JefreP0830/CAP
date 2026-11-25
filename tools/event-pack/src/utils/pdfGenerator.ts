@@ -43,7 +43,7 @@ export const generatePackPDF = (s: PackSubmission, level: InspectionLevel) => {
   doc.text('Pass: every required item present and serviceable. Only listed substitutes allowed.', 105, 65, { align: 'center' });
 
   const rows = requiredItems(level).map(({ p, i }, n) => [
-    String(n + 1),
+    String(n + (level.startAt ?? 1)),
     p.group,
     { content: p.item + (p.contents ? `: ${p.contents}` : '') + (p.sub ? ` (or ${p.sub})` : ''), styles: { fontSize: 8 } },
     LABEL[s.ratings[i]] || '-',

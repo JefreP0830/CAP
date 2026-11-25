@@ -1,5 +1,13 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.26a
+
+- MULTI-DAY tile renamed EXTENDED PACK ( 24-72 Hrs ); titles and PDF read "Extended Pack".
+
+## 2026.11.25z
+
+- MULTI-DAY: item 0 is "Passing 24 Hr pack" (inspect the 24 HR pack first); extended pack items follow from 1. The 24 HR items, medication check and GTL items are no longer repeated. Multi-Day is now 17 items (0-16).
+
 ## 2026.11.25y
 
 - MULTI-DAY: "Large trash bags (x2)", 30 gallon or larger (replaces leaf bags and the waterproof clothing bag); shoe shine kit removed; "Personal hygiene kit" (soap, plus shaving and feminine hygiene supplies as needed) replaces shaving kit; "Washcloth + towel"; "Laundry soap"; extended-pack worn check removed; clothing section renamed "Clothing". Multi-Day is now 37 items.
