@@ -8,7 +8,7 @@ import {
 import { generatePackPDF } from './utils/pdfGenerator';
 
 // Bump on every release; shown top right so a printout can be traced to a build.
-const APP_VERSION = '2026.11.25w';
+const APP_VERSION = '2026.11.25x';
 
 const RATINGS: { r: Rating; key: string; label: string; aria: string }[] = [
   { r: 'Pass', key: 's', label: 'P', aria: 'Pass' },
@@ -111,7 +111,8 @@ export default function App() {
   const groups = GROUPS
     .map(g => ({ g, rows: PACK.map((p, i) => ({ p, i })).filter(({ p }) => p.group === g && isRequired(p, level)) }))
     .filter(x => x.rows.length);
-  const numberOf = (i: number) => PACK.slice(0, i + 1).filter(q => isRequired(q, level)).length;
+  const order = groups.flatMap(x => x.rows.map(r => r.i));
+  const numberOf = (i: number) => order.indexOf(i) + 1;
 
   const selector = (
     <div className="picker">

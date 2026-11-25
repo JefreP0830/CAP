@@ -129,7 +129,9 @@ export const inPacks = (p: PackItem, lvl: InspectionLevel) => lvl.packs.includes
 export const isRequired = (p: PackItem, lvl: InspectionLevel) => p.req !== 'rec' && inPacks(p, lvl) && lvl.includes.includes(p.req);
 export const levelSource = (l: InspectionLevel) => l.source || SOURCE;
 export const levelTitle = (l: InspectionLevel) => `${modeLabel(l.mode)} pack`;
-export const requiredItems = (lvl: InspectionLevel) => PACK.map((p, i) => ({ p, i })).filter(({ p }) => isRequired(p, lvl));
+// In screen order: by section (GROUPS order), then list order within a section.
+export const requiredItems = (lvl: InspectionLevel) => PACK.map((p, i) => ({ p, i })).filter(({ p }) => isRequired(p, lvl))
+  .sort((x, y) => GROUPS.indexOf(x.p.group) - GROUPS.indexOf(y.p.group) || x.i - y.i);
 
 // O-0001: "All required items must be present... No exceptions or substitutions."
 // The tool also requires each present item to be serviceable; worn-out or used-up items are rated Fail.

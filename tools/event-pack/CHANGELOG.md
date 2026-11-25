@@ -1,5 +1,9 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25x
+
+- Item numbers follow the on-screen order (Safety check before GTL only), on screen and in the PDF.
+
 ## 2026.11.25w
 
 - App renamed "Pack Inspection" (title, home-screen name, CAP Tools card, PDF footer). Byline and "Civil Air Patrol" removed from the header and the PDF.
