@@ -43,101 +43,45 @@ export const modeLabel = (m: Mode) => MODES.find(x => x.id === m)!.label;
 export const LEVELS: InspectionLevel[] = [
   { id: 'EV', mode: 'Event', name: 'Event', who: 'Base safety standard for a day activity of 8 to 10 hours. Add items for weather or event conditions.', includes: ['T'], packs: ['event'],
     source: 'Day-activity safety list, drawn from O-0001; not a CAP-published standard' },
-  { id: 'GTM', mode: '24', name: 'Ground Team Member', who: 'Every 24-hour pack item. Qualified GTMs and anyone signing off Task O-0001.', includes: ['T', 'GTM'], packs: ['24'] },
+  { id: 'GTM', mode: '24', name: 'Ground Team Member', who: 'Every 24-hour pack item.', includes: ['T', 'GTM'], packs: ['24'] },
   { id: 'GTL', mode: '24', name: 'Ground Team Leader', who: 'Every 24-hour pack item plus the leader’s equipment.', includes: ['T', 'GTM', 'GTL'], packs: ['24'] },
-  { id: 'MT', mode: 'Multi', name: 'Trainee', who: 'Items marked (T) in both the 24-hour and the extended duration pack.', includes: ['T'], packs: ['24', 'ext'] },
-  { id: 'MGTM', mode: 'Multi', name: 'Ground Team Member', who: 'Every item in both packs. O-0001 requires the extended pack of GTM-2 and GTM-1.', includes: ['T', 'GTM'], packs: ['24', 'ext'] },
+  { id: 'MT', mode: 'Multi', name: 'Trainee', who: 'Trainee items in both packs.', includes: ['T'], packs: ['24', 'ext'] },
+  { id: 'MGTM', mode: 'Multi', name: 'Ground Team Member', who: 'Every item in both packs.', includes: ['T', 'GTM'], packs: ['24', 'ext'] },
   { id: 'MGTL', mode: 'Multi', name: 'Ground Team Leader', who: 'Every item in both packs plus the leader’s equipment.', includes: ['T', 'GTM', 'GTL'], packs: ['24', 'ext'] },
 ];
 
 export const REQ_LABEL: Record<PackItem['req'], string> = { T: 'Trainee', GTM: 'GTM', GTL: 'Leader', rec: 'Recommended' };
 
-export const SOURCE = 'Ground & UDF Team Tasks (24 May 2004), Task O-0001';
+export const SOURCE = 'Field safety list drawn from Ground & UDF Team Tasks (2004) O-0001; not a CAP-published standard';
 
 export const PACK: PackItem[] = [
-  // On your person
-  // The uniform (O-0001 "complete uniform with cap") is not inspected here: it is uniform, not pack equipment.
-  { group: 'On your person', item: 'Notepad and pencil', req: 'T' },
-  { group: 'On your person', item: 'CAP ID and CAPF 101 card', req: 'T',
-    spec: 'Including 101 card, 76 card, First Aid card, etc.',
-    now: 'Today: CAP ID card and a current CAPF 101 card, plus any first aid card. The CAPF 76 radio card is no longer issued.' },
-  { group: 'On your person', item: 'Watch', req: 'T' },
-  { group: 'On your person', item: 'Handkerchief or tissues', req: 'GTM' },
-  { group: 'On your person', item: 'Vest, reflective, orange', req: 'T' },
-  { group: 'On your person', item: 'Comb or brush', req: 'T', conditional: true, spec: 'Optional, carry if needed.' },
-  { group: 'On your person', item: 'Ground Team Member’s Handbook', req: 'GTM', now: 'The Ground & UDF Team Task Guide itself.' },
-  { group: 'On your person', item: 'Signal mirror', req: 'GTM' },
-  { group: 'On your person', item: 'Pocket or utility knife with can opener', req: 'T',
-    spec: 'Multipurpose with can opener. Swiss Army, Leatherman or Gerber tools are recommended.' },
-  { group: 'On your person', item: 'Whistle', req: 'rec',
-    now: 'Not in the national O-0001 list, but used in Task O-0406 (whistle signals) and added by many wing lists.' },
-
-  // Container
-  { group: 'Pack', item: 'Day pack, webbed gear or SAR/survival vest', req: 'T',
-    spec: 'Preferably red or orange. Holds every item below.' },
-  { group: 'Pack', item: 'Two meals', req: 'T' },
-  { group: 'Pack', item: 'Shelter material', sub: 'spare military poncho', req: 'GTM', spec: 'Preferably 8 ft by 10 ft. A spare military poncho meets the need.' },
-  { group: 'Pack', item: 'Coat for the climate', req: 'T', conditional: true, spec: 'If necessary. In the pack when not worn.' },
-  { group: 'Pack', item: 'Poncho', req: 'T' },
-  { group: 'Pack', item: 'Canteens for 2 quarts of water', req: 'T',
-    spec: 'At least one quart of water must be carried by all personnel. Some wings require one quart on the belt.' },
-  { group: 'Pack', item: 'Compass in pouch, glow-in-the-dark dial', req: 'GTM',
-    spec: 'Lensatic or orienteering (orienteering preferred), glow-in-the-dark dial.' },
-
-  // First aid kit
-  { group: 'First aid kit', item: 'Waterproof first aid kit', sub: 'zip-lock bag', req: 'GTM', spec: 'In a zip-lock bag or other waterproof container.' },
-  { group: 'First aid kit', item: 'Antiseptic cleansing pads (2)', req: 'GTM' },
-  { group: 'First aid kit', item: 'Antiseptic ointment', req: 'GTM' },
-  { group: 'First aid kit', item: 'Band-Aids, various sizes (6)', req: 'GTM' },
-  { group: 'First aid kit', item: 'Moleskin, 2 in by 4 in', req: 'GTM' },
-  { group: 'First aid kit', item: 'Roller bandage', req: 'GTM' },
-  { group: 'First aid kit', item: 'Safety pins, large (2)', req: 'GTM' },
-  { group: 'First aid kit', item: 'Gauze pads (4)', req: 'GTM' },
-  { group: 'First aid kit', item: 'Triangular bandage (1)', req: 'GTM' },
-  { group: 'First aid kit', item: 'First aid tape', req: 'GTM' },
-  { group: 'First aid kit', item: 'Personal medication', req: 'T', conditional: true,
-    spec: 'Any personal medication. Your team leader should know what you have and where you carry it.' },
-  { group: 'First aid kit', item: 'Rubber surgical gloves (2 pair minimum)', req: 'GTM' },
-
-  // Survival kit
-  { group: 'Survival kit', item: 'Waterproof survival kit bag', sub: 'zip-lock bag', req: 'GTM', spec: 'In a zip-lock bag or other waterproof container.' },
-  { group: 'Survival kit', item: 'Duct tape, 5 to 10 ft', sub: 'a partial roll wrapped around a stick', req: 'GTM', spec: 'Need not be a whole roll; may be wrapped around a stick.' },
-  { group: 'Survival kit', item: 'Leaf bag, large', req: 'GTM' },
-  { group: 'Survival kit', item: 'Wooden waterproofed matches (12)', req: 'T',
-    now: 'Check the activity’s rules first; some cadet activities do not allow matches.' },
-  { group: 'Survival kit', item: 'Waterproof match container with striker', req: 'GTM' },
-  { group: 'Survival kit', item: 'Chemical light stick, green (1)', req: 'T' },
-  { group: 'Survival kit', item: 'Nylon line, 50 ft', sub: 'paracord or similar line', req: 'GTM', spec: 'Paracord or similar.' },
-
-  // SAR equipment
-  { group: 'SAR equipment', item: 'Change of socks', req: 'T', spec: 'SAR items stored in zip-lock bags.' },
-  { group: 'SAR equipment', item: 'Flagging tape (1 roll)', req: 'GTM' },
-  { group: 'SAR equipment', item: 'Flashlight, red or blue lens', req: 'GTM', spec: 'With spare bulb and batteries.' },
-  { group: 'SAR equipment', item: 'Spare flashlight', sub: 'penlight', req: 'T', spec: 'A penlight will do.' },
-  { group: 'SAR equipment', item: 'Insect repellent', req: 'GTM' },
-  { group: 'SAR equipment', item: 'Lip balm with sunscreen', req: 'GTM' },
-  { group: 'SAR equipment', item: 'Sunscreen lotion', req: 'GTM' },
-  { group: 'SAR equipment', item: 'Tissue paper', req: 'T' },
-  { group: 'SAR equipment', item: 'Work gloves, leather', req: 'T' },
-  { group: 'SAR equipment', item: 'Interviewing forms, blank', req: 'GTM', now: 'CAPF 106.' },
-  { group: 'SAR equipment', item: 'Moist towelettes in foil (4)', req: 'GTM' },
-  { group: 'SAR equipment', item: 'Cell phone to call mission base', sub: 'change for phone calls or a calling card', req: 'T',
-    spec: 'The guide also allows change for phone calls or a calling card.', now: 'Charged, with mission base number saved.' },
-
-  // Leader's equipment
-  { group: 'Leader’s equipment', item: 'Protractor for map work', req: 'GTL' },
-  { group: 'Leader’s equipment', item: 'Map case', sub: 'large zip-lock bags', req: 'GTL', spec: 'Large zip-lock bags can be used if necessary.' },
-  { group: 'Leader’s equipment', item: 'Pencil with eraser', req: 'GTL', spec: 'Plus a sharpener if not a mechanical pencil.' },
-  { group: 'Leader’s equipment', item: 'Alcohol pens, fine tip, 2 colors', req: 'GTL', spec: 'Neither the color of your flashlight lens.' },
-  { group: 'Leader’s equipment', item: 'Alcohol pen eraser or swabs', req: 'GTL', spec: 'Alcohol swabs or an alcohol pen eraser.' },
-  { group: 'Leader’s equipment', item: 'Straightedge ruler, 6 in or longer', sub: 'protractor with a ruler edge', req: 'GTL', spec: 'Some protractors have one.' },
-  { group: 'Leader’s equipment', item: 'Ground Team Leader Handbook', req: 'GTL' },
-
-  // O-0001 performance measures 3 and 4 (checked with the pack worn)
-  { group: 'Worn checks', item: 'Pack secure when worn', req: 'T',
-    spec: 'No undue shifting, snagging or movement. Nothing flapping loose to snag in brush or bang against the body (O-0001 measure 3).' },
-  { group: 'Worn checks', item: 'Knives approved type, worn correctly', req: 'T',
-    spec: 'Sheath knife only if the team leader authorizes it: blade 6 in or less, 11 in overall, on the pistol belt or in the pack. Not allowed: boot, butterfly, switchblade, double-edged, "Rambo" survival knives, or retracting sheaths (O-0001 measure 4).' },
+  // 24-hour pack: field safety for one day plus an unplanned night. Drawn from O-0001 (2004) with judgment,
+  // and the same rules as the Event pack: no uniform items, no cell phone, personal medication is a safety
+  // check, weather and condition items (warm layer, sun, bugs) are added per event, only substitutes shown.
+  { group: 'On your person', item: 'CAP ID and CAPF 101 card', req: 'T' },
+  { group: 'Pack', item: 'Hydration pack, 2-quart capacity', req: 'T', sub: 'day pack with bottles holding 2 quarts' },
+  { group: 'Pack', item: 'Two meals and snacks', req: 'T' },
+  { group: 'Pack', item: 'Flashlight / headlamp', req: 'T' },
+  { group: 'Pack', item: 'Spare batteries', req: 'T', sub: 'a second light' },
+  { group: 'Pack', item: 'Notepad with pen / pencil', req: 'T' },
+  { group: 'Pack', item: 'Compass', req: 'T' },
+  { group: 'Pack', item: 'Signal mirror', req: 'T' },
+  { group: 'Pack', item: 'Whistle', req: 'T' },
+  { group: 'Pack', item: 'Reflective vest', req: 'T' },
+  { group: 'Pack', item: 'PFAK (Personal First Aid Kit)', req: 'T', contents: 'Band-Aids, moleskin, gauze, tape, antiseptic wipes and gloves in a zip-lock bag' },
+  { group: 'Pack', item: 'Emergency shelter: tarp or bivy', req: 'T', sub: 'poncho' },
+  { group: 'Pack', item: 'Fire starter, waterproof', req: 'T', sub: 'waterproof matches' },
+  { group: 'Pack', item: 'Paracord, 50 ft', req: 'T' },
+  { group: 'Pack', item: 'Multi-tool or pocket knife', req: 'T' },
+  { group: 'Pack', item: 'Work gloves', req: 'T' },
+  { group: 'Pack', item: 'Change of socks', req: 'T' },
+  { group: 'Pack', item: 'Flagging tape, 1 roll', req: 'GTM' },
+  { group: 'Leader\u2019s equipment', item: 'Map case', req: 'GTL', sub: 'large zip-lock bag' },
+  { group: 'Leader\u2019s equipment', item: 'Protractor with ruler', req: 'GTL' },
+  { group: 'Leader\u2019s equipment', item: 'Alcohol pens, 2 colors, with eraser', req: 'GTL', sub: 'alcohol swabs to erase' },
+  { group: 'Worn checks', item: 'Pack secure when worn', req: 'T' },
+  { group: 'Worn checks', item: 'Knife approved type, worn correctly', req: 'T' },
+  { group: 'Safety check', item: 'Personal medications on hand; leader knows what and where', req: 'T', conditional: true },
 
   // Extended duration pack (O-0001): "to help you live in the field for more than one day, typically 48 to 72 hours."
   { pack: 'ext', group: 'Extended pack', item: 'Backpack, preferably with frame', req: 'T', spec: 'Holds everything below. You must be able to carry all your gear at once.' },

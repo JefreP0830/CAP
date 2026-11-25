@@ -1,5 +1,14 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25t
+
+- 24 HR rebuilt as a field safety list for one day plus an unplanned night (Member 21, Leader 24), using the Event pack rules: no uniform, no cell phone, personal medication as a safety check, weather and condition items added per event, only substitutes or kit contents under items.
+  - Member: CAP ID and 101 card; hydration pack (2-quart capacity); two meals and snacks; flashlight / headlamp; spare batteries; notepad with pen / pencil; compass; signal mirror; whistle; reflective vest; PFAK (Band-Aids, moleskin, gauze, tape, antiseptic wipes, gloves); emergency shelter (tarp, bivy or poncho); waterproof fire starter; paracord 50 ft; multi-tool or pocket knife; work gloves; change of socks; flagging tape; pack secure and knife checks; personal medication check.
+  - Leader adds: map case, protractor with ruler, alcohol pens with eraser.
+  - Dropped: 2004 first aid and survival kit item-by-item lists, light stick, duct tape, leaf bag, lip balm, sunscreen, insect repellent, moist towelettes, tissues, comb, handkerchief, watch, interview forms, GTM and GTL handbooks, phone change, coat.
+- Multi-Day uses the new 24 HR list plus the unchanged O-0001 extended pack.
+- Source line on screen and PDF: "Field safety list drawn from Ground & UDF Team Tasks (2004) O-0001; not a CAP-published standard."
+
 ## 2026.11.25s
 
 - EVENT PFAK shows its contents under the item: Band-Aids, moleskin and gloves in a zip-lock bag (also in the pack list and PDF).
