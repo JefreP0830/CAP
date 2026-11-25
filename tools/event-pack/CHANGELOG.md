@@ -1,5 +1,9 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25r
+
+- EVENT: whistle moved from On your person into Pack; PFAK moved into Pack; First aid kit section dropped for Event.
+
 ## 2026.11.25q
 
 - EVENT: compass and signal mirror are separate items. Event is now 10 items.
