@@ -1,5 +1,9 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25n
+
+- EVENT: personal medication moved from equipment to a Safety check: "Personal medications on hand; leader knows what and where" (O-0001), N/A when none.
+
 ## 2026.11.25m
 
 - EVENT item 6 reads "PFAK (Personal First Aid Kit)"; contents line removed (only substitutes appear under items).

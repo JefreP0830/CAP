@@ -175,7 +175,7 @@ export const PACK: PackItem[] = [
   { pack: 'event', group: 'Pack', item: 'Meal and snacks for the day', req: 'T' },
   { pack: 'event', group: 'Pack', item: 'Flashlight / headlamp', req: 'T' },
   { pack: 'event', group: 'First aid kit', item: 'PFAK (Personal First Aid Kit)', req: 'T' },
-  { pack: 'event', group: 'First aid kit', item: 'Personal medication', req: 'T', conditional: true },
+  { pack: 'event', group: 'Safety check', item: 'Personal medications on hand; leader knows what and where', req: 'T', conditional: true },
 ];
 
 export const GROUPS = Array.from(new Set(PACK.map(p => p.group)));
