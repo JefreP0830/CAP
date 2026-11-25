@@ -178,8 +178,28 @@ li.panelfig figcaption { text-align: center; }
   h3.sec { margin: 10px 0 4px; break-after: avoid; }
 }
 
-/* Pack selector: Event / 24-Hr / Multi-Day */
-.modes { display: flex; margin: 4px 0 10px; border: 1px solid var(--cap-ultramarine); border-radius: 4px; overflow: hidden; }
-.modes button { flex: 1; min-height: 44px; border: 0; border-radius: 0; background: #FFFFFF; color: var(--cap-ultramarine); font-size: 11pt; }
+/* Pack selector: Event / 24-Hr / Multi-Day (compact) */
+.modes { display: flex; margin: 2px 0 10px; border: 1px solid var(--cap-ultramarine); border-radius: 4px; overflow: hidden; }
+.modes button { flex: 1; min-height: 40px; padding: 4px 6px; border: 0; border-radius: 0; background: #FFFFFF; color: var(--cap-ultramarine); font-size: 10pt; line-height: 1.15; }
 .modes button + button { border-left: 1px solid var(--cap-ultramarine); }
 .modes button[aria-checked="true"] { background: var(--cap-ultramarine); color: #FFFFFF; }
+.modes .ml { display: block; }
+.modes .mh { display: block; font-size: 8.5pt; font-weight: 400; }
+
+/* Who / when: CAPIDs and date on one row */
+.fields.three { grid-template-columns: 1fr 1fr 1fr; }
+@media (max-width: 520px) { .fields.three { gap: 6px; grid-template-columns: 1fr 1fr 1.25fr; } .fields.three label { font-size: 8pt; } .fields.three input { padding: 8px 5px; font-size: 11pt; } }
+.fields.three input { min-height: 44px; height: 44px; }
+
+/* Item row: number | item (and permitted substitute) | P F on the right */
+ol.card .row { display: grid; grid-template-columns: 26px 1fr auto; gap: 8px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--rule); }
+.row .n { font-family: var(--cap-font-title); font-size: 13pt; font-weight: 700; color: var(--cap-black); }
+.row .nm { color: var(--cap-black); line-height: 1.25; }
+.row .subst { display: block; font-size: 9pt; color: var(--cap-body); }
+.row.missing .n { color: var(--cap-scarlet); }
+.pf { display: flex; gap: 6px; }
+.pfb { width: 44px; min-height: 44px; padding: 0; background: #FFFFFF; color: var(--cap-body); border: 1px solid var(--cap-silver); font-size: 12pt; }
+.pfb.na { width: 48px; font-size: 9pt; }
+.pfb.s.on { background: var(--cap-ultramarine); border-color: var(--cap-ultramarine); color: #FFFFFF; }
+.pfb.u.on { background: var(--cap-body); border-color: var(--cap-body); color: #FFFFFF; }
+.pfb.na.on { background: var(--off); border-color: var(--off); color: #FFFFFF; }

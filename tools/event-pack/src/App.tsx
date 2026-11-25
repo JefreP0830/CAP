@@ -8,13 +8,14 @@ import {
 import { generatePackPDF } from './utils/pdfGenerator';
 
 // Bump on every release; shown top right so a printout can be traced to a build.
-const APP_VERSION = '2026.11.25b';
+const APP_VERSION = '2026.11.25c';
 
-const RATINGS: { r: Rating; key: string; label: string }[] = [
-  { r: 'Ready', key: 's', label: 'Ready' },
-  { r: 'Refit', key: 'p', label: 'Needs refit' },
-  { r: 'Missing', key: 'u', label: 'Missing' },
+const RATINGS: { r: Rating; key: string; label: string; aria: string }[] = [
+  { r: 'Pass', key: 's', label: 'P', aria: 'Pass' },
+  { r: 'Fail', key: 'u', label: 'F', aria: 'Fail' },
 ];
+const today = () => { const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); };
+const showDate = (iso: string) => { const [y, m, d] = iso.split('-'); return `${Number(m)}/${Number(d)}/${y}`; };
 
 export default function App() {
   const [step, setStep] = useState<'select' | 'form' | 'success'>('select');
@@ -24,6 +25,7 @@ export default function App() {
   const [memberCAPID, setMemberCAPID] = useState('');
   const [inspectorCAPID, setInspectorCAPID] = useState('');
   const [activity, setActivity] = useState('');
+  const [inspDate, setInspDate] = useState(today());
   const [ratings, setRatings] = useState<Record<number, Rating>>({});
   const [sustain, setSustain] = useState('');
   const [improve, setImprove] = useState('');
@@ -43,23 +45,23 @@ export default function App() {
   const t = level ? tally(level, ratings) : { need: 0, ready: 0, rated: 0, total: 0 };
   const allRated = t.rated === t.total;
   const passing = allRated && t.ready === t.need;
-  const refit = level ? refitList(level, ratings) : { replenish: [], repair: [] };
+  const refit = level ? refitList(level, ratings) : [];
 
   const handleSubmit = async () => {
     setShowErrors(true);
     if (!level) return;
-    if (!memberCAPID.trim() || !inspectorCAPID.trim()) { setFormError('Enter the member CAPID and the inspector CAPID.'); return; }
+    if (!memberCAPID.trim() || !inspectorCAPID.trim() || !inspDate) { setFormError('Enter the member CAPID, the inspector CAPID and the inspection date.'); return; }
     if (!allRated) { setFormError('Rate every required item before submitting.'); return; }
     if (wordCount(sustain) < MIN_FEEDBACK_WORDS || wordCount(improve) < MIN_FEEDBACK_WORDS) {
       setFormError(`Write at least ${MIN_FEEDBACK_WORDS} words for Sustain and for Improve. Name the specific item.`); return;
     }
     setFormError(''); setBusy(true);
-    const sub = { memberCAPID, inspectorCAPID, activity: activity.trim(), date: new Date().toLocaleDateString(), ratings, sustain: sustain.trim(), improve: improve.trim() };
+    const sub = { memberCAPID, inspectorCAPID, activity: activity.trim(), date: showDate(inspDate), ratings, sustain: sustain.trim(), improve: improve.trim() };
     const doc = generatePackPDF(sub, level);
     const name = `Pack_${level.mode}_${level.id}_${memberCAPID}.pdf`;
     const blob = doc.output('blob');
     const title = `Pack inspection, ${levelTitle(level)} - ${memberCAPID}`;
-    const text = `Pack inspection (${levelTitle(level)}) for ${memberCAPID}: ${passing ? 'Ready' : 'Not ready'}. Inspected by ${inspectorCAPID}.`;
+    const text = `Pack inspection (${levelTitle(level)}) for ${memberCAPID}: ${passing ? 'Pass' : 'Fail'}. Inspected by ${inspectorCAPID}.`;
     lastPdf.current = { blob, name, title, text };
     try {
       const file = new File([blob], name, { type: 'application/pdf' });
@@ -81,6 +83,7 @@ export default function App() {
   const reset = () => {
     setStep('select'); setLevel(null); setMemberCAPID(''); setInspectorCAPID(''); setActivity('');
     setRatings({}); setSustain(''); setImprove(''); setShowErrors(false); setFormError(''); setShareNote('');
+    setInspDate(today());
     lastPdf.current = null;
   };
 
@@ -132,10 +135,11 @@ export default function App() {
             <>
               <div className="modes" role="radiogroup" aria-label="Pack">
                 {MODES.map((m) => (
-                  <button key={m.id} role="radio" aria-checked={mode === m.id} onClick={() => setMode(m.id)}>{m.label}</button>
+                  <button key={m.id} role="radio" aria-checked={mode === m.id} onClick={() => setMode(m.id)}>
+                    <span className="ml">{m.label}</span>{m.hint && <span className="mh">({m.hint})</span>}
+                  </button>
                 ))}
               </div>
-              <p className="hint">{MODES.find(m => m.id === mode)!.hint} Lay the pack out, choose the standard, then rate each item.</p>
               <ol className="tests">
                 {LEVELS.filter(l => l.mode === mode).map((l) => {
                   const n = PACK.filter(p => isRequired(p, l)).length;
@@ -144,7 +148,7 @@ export default function App() {
                       <button className="test" onClick={() => start(l)}>
                         <span className="code">{l.name}</span>
                         <span className="topic">{l.who}</span>
-                        <span className="pass">{n} items &middot; all must be ready</span>
+                        <span className="pass">{n} items &middot; all must pass</span>
                       </button>
                     </li>
                   );
@@ -189,7 +193,7 @@ export default function App() {
                       {PACK.filter(p => p.group === g).map((p, i) => (
                         <tr key={i}>
                           <td className="bx"><span className="box" aria-hidden="true" /></td>
-                          <td><span className="it">{p.item}</span>{p.spec && <span className="std">{p.spec}</span>}{p.now && <span className="now">{p.now}</span>}</td>
+                          <td><span className="it">{p.item}</span>{p.sub && <span className="std">or {p.sub}</span>}</td>
                           <td className="lv">{p.pack === 'ext' && p.req !== 'rec' ? 'Multi-Day ' : ''}{REQ_LABEL[p.req]}{p.conditional ? ', if needed' : ''}</td>
                         </tr>
                       ))}
@@ -211,21 +215,21 @@ export default function App() {
         <>
           <div className="tally">
             <div className="wrap tally-in">
-              <div className="kpi"><span className="num s">{t.ready}</span><span className="lbl">Ready</span></div>
+              <div className="kpi"><span className="num s">{t.ready}</span><span className="lbl">Pass</span></div>
               <div className="kpi"><span className="num">{t.need}</span><span className="lbl">Need</span></div>
               <div className="kpi"><span className="num">{t.rated}/{t.total}</span><span className="lbl">Rated</span></div>
               <span className={clsx('status', passing ? 'pass' : allRated ? 'fail' : '')}>
-                {passing ? 'Ready' : allRated ? 'Not ready' : 'In progress'}
+                {passing ? 'Pass' : allRated ? 'Fail' : 'In progress'}
               </span>
             </div>
           </div>
           <main className="wrap">
             <button className="link" onClick={() => setStep('select')}>Back to standards</button>
             <h2>{levelTitle(level)}</h2>
-            <p className="sub">Pass: every required item present and ready. No substitutions.</p>
+            <p className="sub">Pass: every required item present and serviceable. Only the substitutes shown are allowed.</p>
 
             <h3 className="sec">Who is inspected</h3>
-            <div className="fields">
+            <div className="fields three">
               <label>Member CAPID
                 <input inputMode="numeric" autoComplete="off" value={memberCAPID}
                   onChange={(e) => setMemberCAPID(e.target.value.replace(/\D/g, ''))}
@@ -236,12 +240,16 @@ export default function App() {
                   onChange={(e) => setInspectorCAPID(e.target.value.replace(/\D/g, ''))}
                   className={showErrors && !inspectorCAPID.trim() ? 'bad' : ''} />
               </label>
+              <label>Inspection date
+                <input type="date" value={inspDate} max={today()} onChange={(e) => setInspDate(e.target.value)}
+                  className={showErrors && !inspDate ? 'bad' : ''} />
+              </label>
             </div>
             <label className="full fb">Activity (optional)
               <input autoComplete="off" value={activity} maxLength={60} placeholder="e.g. SAREX, field day, bivouac" onChange={(e) => setActivity(e.target.value)} />
             </label>
 
-            <p className="hint">Ready: present and serviceable. Needs refit: present but used, expired, wet or broken. Missing: not in the pack.</p>
+            <p className="hint">P: present and serviceable. F: missing, used up or broken.</p>
             {GROUPS.map((g) => {
               const rows = PACK.map((p, i) => ({ p, i })).filter(({ p }) => p.group === g && inPacks(p, level));
               if (!rows.length) return null;
@@ -260,39 +268,20 @@ export default function App() {
                     {rows.filter(({ p }) => isRequired(p, level)).map(({ p, i }) => {
                       const missing = showErrors && !ratings[i];
                       return (
-                        <li key={i} className={clsx('item', missing && 'missing')}>
+                        <li key={i} className={clsx('row', missing && 'missing')}>
                           <span className="n">{PACK.slice(0, i + 1).filter(q => isRequired(q, level)).length}</span>
-                          <div>
-                            <span className="cmd">{p.item}</span>
-                            {p.spec && <p className="std">{p.spec}</p>}
-                            {p.now && <p className="now">{p.now}</p>}
-                            <div className="ctl">
-                              {RATINGS.map(({ r, key, label }) => (
-                                <button key={r} className={clsx('seg', key, ratings[i] === r && 'on')} aria-pressed={ratings[i] === r} onClick={() => rate(i, r)}>{label}</button>
-                              ))}
-                              {p.conditional && (
-                                <button className={clsx('seg na', ratings[i] === 'NA' && 'on')} aria-pressed={ratings[i] === 'NA'} onClick={() => rate(i, 'NA')}>Not needed</button>
-                              )}
-                            </div>
-                          </div>
+                          <span className="nm">{p.item}{p.sub && <span className="subst">or {p.sub}</span>}</span>
+                          <span className="pf">
+                            {p.conditional && (
+                              <button className={clsx('pfb na', ratings[i] === 'NA' && 'on')} aria-label={`Not needed: ${p.item}`} aria-pressed={ratings[i] === 'NA'} onClick={() => rate(i, 'NA')}>N/A</button>
+                            )}
+                            {RATINGS.map(({ r, key, label, aria }) => (
+                              <button key={r} className={clsx('pfb', key, ratings[i] === r && 'on')} aria-label={`${aria}: ${p.item}`} aria-pressed={ratings[i] === r} onClick={() => rate(i, r)}>{label}</button>
+                            ))}
+                          </span>
                         </li>
                       );
                     })}
-                    {(() => {
-                      const ng = rows.filter(({ p }) => !isRequired(p, level)).map(({ p }) => p);
-                      if (!ng.length) return null;
-                      const higher = ng.filter(p => p.req !== 'rec').map(p => p.item);
-                      const rec = ng.filter(p => p.req === 'rec').map(p => p.item);
-                      return (
-                        <li className="item ng">
-                          <span className="n">--</span>
-                          <div>
-                            {higher.length > 0 && <span className="ngtxt">Not graded at this level: {higher.join(', ')}.</span>}
-                            {rec.length > 0 && <span className="ngtxt">Recommended, not graded: {rec.join(', ')}.</span>}
-                          </div>
-                        </li>
-                      );
-                    })()}
                   </ol>
                 </section>
               );
@@ -300,14 +289,9 @@ export default function App() {
 
             <h3 className="sec">Hotwash (AAR)</h3>
             <p className="label">Refit list</p>
-            {refit.replenish.length + refit.repair.length === 0
-              ? <p className="hint">None yet. Items rated Missing or Needs refit appear here and in the PDF.</p>
-              : (
-                <>
-                  {refit.replenish.length > 0 && <><p className="hint">Replenish (missing)</p><ul className="retrain">{refit.replenish.map((p, i) => <li key={i}>{p.item}</li>)}</ul></>}
-                  {refit.repair.length > 0 && <><p className="hint">Repair or restock (needs refit)</p><ul className="retrain">{refit.repair.map((p, i) => <li key={i}>{p.item}</li>)}</ul></>}
-                </>
-              )}
+            {refit.length === 0
+              ? <p className="hint">None yet. Items rated F appear here and in the PDF.</p>
+              : <ul className="retrain">{refit.map((p, i) => <li key={i}>{p.item}</li>)}</ul>}
             {fb('Sustain: what went well', sustain, setSustain, 'Name something packed well and why.')}
             {fb('Improve: one coaching point', improve, setImprove, 'Name one item to fix and how.')}
             <p className="hint">All three go in the PDF.</p>
@@ -322,8 +306,8 @@ export default function App() {
         <main className="wrap">
           <div className="result">
             <p className="small">{levelTitle(level)} &middot; Member CAPID {memberCAPID}</p>
-            <p className={clsx('big', passing ? 'pass' : 'fail')}>{passing ? 'Ready' : 'Not ready'}</p>
-            <p>{t.ready} of {t.need} required items ready.{!passing ? ` Refit ${refit.replenish.length + refit.repair.length} and inspect again.` : ''}</p>
+            <p className={clsx('big', passing ? 'pass' : 'fail')}>{passing ? 'Pass' : 'Fail'}</p>
+            <p>{t.ready} of {t.need} required items passed.{!passing ? ` Refit ${refit.length} and inspect again.` : ''}</p>
           </div>
           <p className="hint">{shareNote}</p>
           <div className="btnrow two">

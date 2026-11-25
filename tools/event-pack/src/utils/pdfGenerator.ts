@@ -12,7 +12,7 @@ export interface PackSubmission {
   improve: string;
 }
 
-const LABEL: Record<Rating, string> = { Ready: 'Ready', Refit: 'Refit', Missing: 'Missing', NA: 'Not needed' };
+const LABEL: Record<Rating, string> = { Pass: 'P', Fail: 'F', NA: 'N/A' };
 
 // Same layout as the Drill Evaluator PDF: title, CAP subtitle, Ultramarine rule, result, table, hotwash.
 export const generatePackPDF = (s: PackSubmission, level: InspectionLevel) => {
@@ -38,14 +38,14 @@ export const generatePackPDF = (s: PackSubmission, level: InspectionLevel) => {
   const ok = t.ready === t.need;
   doc.setFontSize(14); doc.setFont('helvetica', 'bold');
   doc.setTextColor(ok ? CAP_COLORS.blue : CAP_COLORS.red);
-  doc.text(`RESULT: ${ok ? 'READY' : 'NOT READY'} (${t.ready} of ${t.need} required items ready)`, 105, 60, { align: 'center' });
+  doc.text(`RESULT: ${ok ? 'PASS' : 'FAIL'} (${t.ready} of ${t.need} required items passed)`, 105, 60, { align: 'center' });
   doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(...BODY);
-  doc.text('Pass: every required item present and serviceable. No substitutions (O-0001).', 105, 65, { align: 'center' });
+  doc.text('Pass: every required item present and serviceable. Only listed substitutes allowed (O-0001).', 105, 65, { align: 'center' });
 
   const rows = requiredItems(level).map(({ p, i }, n) => [
     String(n + 1),
     p.group,
-    { content: p.spec ? `${p.item}\n${p.spec}` : p.item, styles: { fontSize: 7.5 } },
+    { content: p.sub ? `${p.item} (or ${p.sub})` : p.item, styles: { fontSize: 8 } },
     LABEL[s.ratings[i]] || '-',
   ]);
   autoTable(doc, {
@@ -59,7 +59,7 @@ export const generatePackPDF = (s: PackSubmission, level: InspectionLevel) => {
     margin: { left: 20, right: 20 },
     styles: { overflow: 'linebreak', cellPadding: 1.6 },
     didParseCell: (d) => {
-      if (d.section === 'body' && d.column.index === 3 && (d.cell.raw === 'Missing' || d.cell.raw === 'Refit')) {
+      if (d.section === 'body' && d.column.index === 3 && d.cell.raw === 'F') {
         d.cell.styles.fontStyle = 'bold';
       }
     },
@@ -75,9 +75,8 @@ export const generatePackPDF = (s: PackSubmission, level: InspectionLevel) => {
 
   const r = refitList(level, s.ratings);
   para('Refit list (Task O-0002, 4 R’s)'); doc.setFont('helvetica', 'normal');
-  if (!r.replenish.length && !r.repair.length) para('None. Every required item was ready.', 25, 165);
-  if (r.replenish.length) para(`Replenish: ${r.replenish.map(p => p.item).join('; ')}.`, 25, 165);
-  if (r.repair.length) para(`Repair or restock: ${r.repair.map(p => p.item).join('; ')}.`, 25, 165);
+  if (!r.length) para('None. Every required item passed.', 25, 165);
+  else para(`Replenish or repair: ${r.map(p => p.item).join('; ')}.`, 25, 165);
   y += 2;
   doc.setFont('helvetica', 'bold'); para('Sustain (what went well)'); doc.setFont('helvetica', 'normal'); para(s.sustain, 25, 165);
   doc.setFont('helvetica', 'bold'); para('Improve (coaching point)'); doc.setFont('helvetica', 'normal'); para(s.improve, 25, 165);

@@ -1,5 +1,13 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25c
+
+- Pack selector tiles smaller, with durations: Event (8-10 Hrs), 24-Hr, Multi-Day (24-72 Hrs). Explanation line under the selector removed.
+- Inspection date picker beside Member and Inspector CAPID (defaults to today; goes on the PDF).
+- Rating is now P (pass) or F (fail), on the right of each item's line; "Needs refit" removed (worn-out or used-up items fail). N/A shown only on if-needed items (comb, coat, medication, tent, spare rank, shaving kit).
+- Item notes removed. Under an item, only a permitted substitute is shown (e.g. "or penlight"); same in the packing list and PDF. Not-graded summary lines removed from the inspection page.
+- Result wording Pass / Fail on screen and PDF; refit list is the F items.
+
 ## 2026.11.25b
 
 - Pack selector at the top of the Inspection tab: Event, 24-Hr, Multi-Day.

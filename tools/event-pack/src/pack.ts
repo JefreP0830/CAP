@@ -9,7 +9,7 @@
 export type Level = 'T' | 'GTM' | 'GTL';
 export type Mode = 'Event' | '24' | 'Multi';
 export type PackKind = '24' | 'ext';
-export type Rating = 'Ready' | 'Refit' | 'Missing' | 'NA';
+export type Rating = 'Pass' | 'Fail' | 'NA';
 
 export interface PackItem {
   group: string;
@@ -17,6 +17,7 @@ export interface PackItem {
   spec?: string;
   now?: string;
   req: Level | 'rec';      // lowest level that must carry it; 'rec' = recommended, never graded
+  sub?: string;           // permitted substitute, the only text shown under an item while inspecting
   conditional?: boolean;   // "if needed" items may be rated Not needed
   pack?: PackKind;         // default '24'; 'ext' = extended duration (multi-day) pack
 }
@@ -31,9 +32,9 @@ export interface InspectionLevel {
 }
 
 export const MODES: { id: Mode; label: string; hint: string }[] = [
-  { id: 'Event', label: 'Event', hint: 'A one-day activity. The 24-hour pack items the task guide marks (T).' },
-  { id: '24', label: '24-Hr', hint: 'A field sortie or search exercise. The full 24-hour pack.' },
-  { id: 'Multi', label: 'Multi-Day', hint: 'Two or more days in the field (48 to 72 hours). The 24-hour pack plus the extended duration pack.' },
+  { id: 'Event', label: 'Event', hint: '8-10 Hrs' },
+  { id: '24', label: '24-Hr', hint: '' },
+  { id: 'Multi', label: 'Multi-Day', hint: '24-72 Hrs' },
 ];
 export const modeLabel = (m: Mode) => MODES.find(x => x.id === m)!.label;
 
@@ -52,11 +53,11 @@ export const SOURCE = 'Ground & UDF Team Tasks (24 May 2004), Task O-0001';
 
 export const PACK: PackItem[] = [
   // On your person
-  { group: 'On your person', item: 'Field uniform with cap', req: 'T',
+  { group: 'On your person', item: 'Field uniform with cap', sub: 'hard hat or bright colored cap', req: 'T',
     spec: 'Complete uniform with cap. The cap may be replaced by a hard hat or bright colored cap based on mission needs.',
     now: 'The guide says BDU. Wear the current CAP field uniform (CAPR 39-1).' },
   { group: 'On your person', item: 'Notepad and pencil', req: 'T' },
-  { group: 'On your person', item: 'All CAP identification', req: 'T',
+  { group: 'On your person', item: 'CAP ID and CAPF 101 card', req: 'T',
     spec: 'Including 101 card, 76 card, First Aid card, etc.',
     now: 'Today: CAP ID card and a current CAPF 101 card, plus any first aid card. The CAPF 76 radio card is no longer issued.' },
   { group: 'On your person', item: 'Watch', req: 'T' },
@@ -65,7 +66,7 @@ export const PACK: PackItem[] = [
   { group: 'On your person', item: 'Comb or brush', req: 'T', conditional: true, spec: 'Optional, carry if needed.' },
   { group: 'On your person', item: 'Ground Team Member’s Handbook', req: 'GTM', now: 'The Ground & UDF Team Task Guide itself.' },
   { group: 'On your person', item: 'Signal mirror', req: 'GTM' },
-  { group: 'On your person', item: 'Pocket or utility knife', req: 'T',
+  { group: 'On your person', item: 'Pocket or utility knife with can opener', req: 'T',
     spec: 'Multipurpose with can opener. Swiss Army, Leatherman or Gerber tools are recommended.' },
   { group: 'On your person', item: 'Whistle', req: 'rec',
     now: 'Not in the national O-0001 list, but used in Task O-0406 (whistle signals) and added by many wing lists.' },
@@ -74,16 +75,16 @@ export const PACK: PackItem[] = [
   { group: 'Pack', item: 'Day pack, webbed gear or SAR/survival vest', req: 'T',
     spec: 'Preferably red or orange. Holds every item below.' },
   { group: 'Pack', item: 'Two meals', req: 'T' },
-  { group: 'Pack', item: 'Shelter material', req: 'GTM', spec: 'Preferably 8 ft by 10 ft. A spare military poncho meets the need.' },
+  { group: 'Pack', item: 'Shelter material', sub: 'spare military poncho', req: 'GTM', spec: 'Preferably 8 ft by 10 ft. A spare military poncho meets the need.' },
   { group: 'Pack', item: 'Coat for the climate', req: 'T', conditional: true, spec: 'If necessary. In the pack when not worn.' },
   { group: 'Pack', item: 'Poncho', req: 'T' },
   { group: 'Pack', item: 'Canteens for 2 quarts of water', req: 'T',
     spec: 'At least one quart of water must be carried by all personnel. Some wings require one quart on the belt.' },
-  { group: 'Pack', item: 'Compass in a pouch', req: 'GTM',
+  { group: 'Pack', item: 'Compass in pouch, glow-in-the-dark dial', req: 'GTM',
     spec: 'Lensatic or orienteering (orienteering preferred), glow-in-the-dark dial.' },
 
   // First aid kit
-  { group: 'First aid kit', item: 'Waterproof first aid kit', req: 'GTM', spec: 'In a zip-lock bag or other waterproof container.' },
+  { group: 'First aid kit', item: 'Waterproof first aid kit', sub: 'zip-lock bag', req: 'GTM', spec: 'In a zip-lock bag or other waterproof container.' },
   { group: 'First aid kit', item: 'Antiseptic cleansing pads (2)', req: 'GTM' },
   { group: 'First aid kit', item: 'Antiseptic ointment', req: 'GTM' },
   { group: 'First aid kit', item: 'Band-Aids, various sizes (6)', req: 'GTM' },
@@ -98,20 +99,20 @@ export const PACK: PackItem[] = [
   { group: 'First aid kit', item: 'Rubber surgical gloves (2 pair minimum)', req: 'GTM' },
 
   // Survival kit
-  { group: 'Survival kit', item: 'Waterproof survival kit bag', req: 'GTM', spec: 'In a zip-lock bag or other waterproof container.' },
-  { group: 'Survival kit', item: 'Duct tape, 5 to 10 ft', req: 'GTM', spec: 'Need not be a whole roll; may be wrapped around a stick.' },
+  { group: 'Survival kit', item: 'Waterproof survival kit bag', sub: 'zip-lock bag', req: 'GTM', spec: 'In a zip-lock bag or other waterproof container.' },
+  { group: 'Survival kit', item: 'Duct tape, 5 to 10 ft', sub: 'a partial roll wrapped around a stick', req: 'GTM', spec: 'Need not be a whole roll; may be wrapped around a stick.' },
   { group: 'Survival kit', item: 'Leaf bag, large', req: 'GTM' },
   { group: 'Survival kit', item: 'Wooden waterproofed matches (12)', req: 'T',
     now: 'Check the activity’s rules first; some cadet activities do not allow matches.' },
   { group: 'Survival kit', item: 'Waterproof match container with striker', req: 'GTM' },
   { group: 'Survival kit', item: 'Chemical light stick, green (1)', req: 'T' },
-  { group: 'Survival kit', item: 'Nylon line, 50 ft', req: 'GTM', spec: 'Paracord or similar.' },
+  { group: 'Survival kit', item: 'Nylon line, 50 ft', sub: 'paracord or similar line', req: 'GTM', spec: 'Paracord or similar.' },
 
   // SAR equipment
   { group: 'SAR equipment', item: 'Change of socks', req: 'T', spec: 'SAR items stored in zip-lock bags.' },
   { group: 'SAR equipment', item: 'Flagging tape (1 roll)', req: 'GTM' },
   { group: 'SAR equipment', item: 'Flashlight, red or blue lens', req: 'GTM', spec: 'With spare bulb and batteries.' },
-  { group: 'SAR equipment', item: 'Spare flashlight', req: 'T', spec: 'A penlight will do.' },
+  { group: 'SAR equipment', item: 'Spare flashlight', sub: 'penlight', req: 'T', spec: 'A penlight will do.' },
   { group: 'SAR equipment', item: 'Insect repellent', req: 'GTM' },
   { group: 'SAR equipment', item: 'Lip balm with sunscreen', req: 'GTM' },
   { group: 'SAR equipment', item: 'Sunscreen lotion', req: 'GTM' },
@@ -119,22 +120,22 @@ export const PACK: PackItem[] = [
   { group: 'SAR equipment', item: 'Work gloves, leather', req: 'T' },
   { group: 'SAR equipment', item: 'Interviewing forms, blank', req: 'GTM', now: 'CAPF 106.' },
   { group: 'SAR equipment', item: 'Moist towelettes in foil (4)', req: 'GTM' },
-  { group: 'SAR equipment', item: 'Cell phone to call mission base', req: 'T',
+  { group: 'SAR equipment', item: 'Cell phone to call mission base', sub: 'change for phone calls or a calling card', req: 'T',
     spec: 'The guide also allows change for phone calls or a calling card.', now: 'Charged, with mission base number saved.' },
 
   // Leader's equipment
   { group: 'Leader’s equipment', item: 'Protractor for map work', req: 'GTL' },
-  { group: 'Leader’s equipment', item: 'Map case', req: 'GTL', spec: 'Large zip-lock bags can be used if necessary.' },
+  { group: 'Leader’s equipment', item: 'Map case', sub: 'large zip-lock bags', req: 'GTL', spec: 'Large zip-lock bags can be used if necessary.' },
   { group: 'Leader’s equipment', item: 'Pencil with eraser', req: 'GTL', spec: 'Plus a sharpener if not a mechanical pencil.' },
   { group: 'Leader’s equipment', item: 'Alcohol pens, fine tip, 2 colors', req: 'GTL', spec: 'Neither the color of your flashlight lens.' },
-  { group: 'Leader’s equipment', item: 'Way to erase alcohol pen marks', req: 'GTL', spec: 'Alcohol swabs or an alcohol pen eraser.' },
-  { group: 'Leader’s equipment', item: 'Straightedge ruler, 6 in or longer', req: 'GTL', spec: 'Some protractors have one.' },
+  { group: 'Leader’s equipment', item: 'Alcohol pen eraser or swabs', req: 'GTL', spec: 'Alcohol swabs or an alcohol pen eraser.' },
+  { group: 'Leader’s equipment', item: 'Straightedge ruler, 6 in or longer', sub: 'protractor with a ruler edge', req: 'GTL', spec: 'Some protractors have one.' },
   { group: 'Leader’s equipment', item: 'Ground Team Leader Handbook', req: 'GTL' },
 
   // O-0001 performance measures 3 and 4 (checked with the pack worn)
   { group: 'Worn checks', item: 'Pack secure when worn', req: 'T',
     spec: 'No undue shifting, snagging or movement. Nothing flapping loose to snag in brush or bang against the body (O-0001 measure 3).' },
-  { group: 'Worn checks', item: 'Knives approved and worn correctly', req: 'T',
+  { group: 'Worn checks', item: 'Knives approved type, worn correctly', req: 'T',
     spec: 'Sheath knife only if the team leader authorizes it: blade 6 in or less, 11 in overall, on the pistol belt or in the pack. Not allowed: boot, butterfly, switchblade, double-edged, "Rambo" survival knives, or retracting sheaths (O-0001 measure 4).' },
 
   // Extended duration pack (O-0001): "to help you live in the field for more than one day, typically 48 to 72 hours."
@@ -170,30 +171,25 @@ export const GROUPS = Array.from(new Set(PACK.map(p => p.group)));
 
 export const inPacks = (p: PackItem, lvl: InspectionLevel) => lvl.packs.includes(p.pack || '24');
 export const isRequired = (p: PackItem, lvl: InspectionLevel) => p.req !== 'rec' && inPacks(p, lvl) && lvl.includes.includes(p.req);
-export const levelTitle = (l: InspectionLevel) => `${modeLabel(l.mode)} pack: ${l.name}`;
+export const levelTitle = (l: InspectionLevel) => l.mode === 'Event' ? 'Event pack' : `${modeLabel(l.mode)} pack: ${l.name}`;
 export const requiredItems = (lvl: InspectionLevel) => PACK.map((p, i) => ({ p, i })).filter(({ p }) => isRequired(p, lvl));
 
 // O-0001: "All required items must be present... No exceptions or substitutions."
-// The tool also requires each present item to be serviceable (Ready); Refit does not pass.
+// The tool also requires each present item to be serviceable; worn-out or used-up items are rated Fail.
 export const tally = (lvl: InspectionLevel, r: Record<number, Rating>) => {
   const req = requiredItems(lvl);
   const counted = req.filter(({ i }) => r[i] !== 'NA');
   return {
     need: counted.length,
-    ready: counted.filter(({ i }) => r[i] === 'Ready').length,
+    ready: counted.filter(({ i }) => r[i] === 'Pass').length,
     rated: req.filter(({ i }) => r[i]).length,
     total: req.length,
   };
 };
 
-// The 4 R's (Task O-0002): Missing items are replenished, Refit items repaired or restocked.
-export const refitList = (lvl: InspectionLevel, r: Record<number, Rating>) => {
-  const req = requiredItems(lvl);
-  return {
-    replenish: req.filter(({ i }) => r[i] === 'Missing').map(({ p }) => p),
-    repair: req.filter(({ i }) => r[i] === 'Refit').map(({ p }) => p),
-  };
-};
+// Items rated Fail go on the refit list (Task O-0002, 4 R's).
+export const refitList = (lvl: InspectionLevel, r: Record<number, Rating>) =>
+  requiredItems(lvl).filter(({ i }) => r[i] === 'Fail').map(({ p }) => p);
 
 export const MIN_FEEDBACK_WORDS = 5;
 export const wordCount = (t: string) => (t.trim().match(/\S+/g) || []).length;
