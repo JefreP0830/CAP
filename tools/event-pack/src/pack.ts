@@ -1,0 +1,164 @@
+// 24-hour pack contents, from the national Ground & Urban Direction Finding Team Tasks
+// guide (24 May 2004), Task O-0001 "Prepare Ground Team Individual Equipment" (1-MAR-01).
+// Source: gocivilairpatrol.com/media/cms/Ground_Team__UDF_Task_Guide__24_May_CD5DA29E1340B.pdf
+//
+// `item` and `spec` keep the task guide's wording. `now` is a current-practice note added by
+// this tool where the 2004 wording names something CAP no longer uses; it never changes
+// what is required. O-0001 lets a wing supplement the national list, so check yours.
+
+export type Level = 'T' | 'GTM' | 'GTL';
+export type Rating = 'Ready' | 'Refit' | 'Missing' | 'NA';
+
+export interface PackItem {
+  group: string;
+  item: string;
+  spec?: string;
+  now?: string;
+  req: Level | 'rec';      // lowest level that must carry it; 'rec' = recommended, never graded
+  conditional?: boolean;   // "if needed" items may be rated Not needed
+}
+
+export interface InspectionLevel {
+  id: Level;
+  name: string;
+  who: string;
+  includes: Level[];
+}
+
+export const LEVELS: InspectionLevel[] = [
+  { id: 'T', name: 'Trainee minimum', who: 'Items the task guide marks (T). The floor for any field activity or day event, and for GTM3 trainees.', includes: ['T'] },
+  { id: 'GTM', name: 'Ground Team Member', who: 'Every 24-hour pack item. Qualified GTMs and anyone signing off Task O-0001.', includes: ['T', 'GTM'] },
+  { id: 'GTL', name: 'Ground Team Leader', who: 'Every 24-hour pack item plus the leader’s equipment.', includes: ['T', 'GTM', 'GTL'] },
+];
+
+export const REQ_LABEL: Record<PackItem['req'], string> = { T: 'Trainee', GTM: 'GTM', GTL: 'Leader', rec: 'Recommended' };
+
+export const SOURCE = 'Ground & UDF Team Tasks (24 May 2004), Task O-0001';
+
+export const PACK: PackItem[] = [
+  // On your person
+  { group: 'On your person', item: 'Field uniform with cap', req: 'T',
+    spec: 'Complete uniform with cap. The cap may be replaced by a hard hat or bright colored cap based on mission needs.',
+    now: 'The guide says BDU. Wear the current CAP field uniform (CAPR 39-1).' },
+  { group: 'On your person', item: 'Notepad and pencil', req: 'T' },
+  { group: 'On your person', item: 'All CAP identification', req: 'T',
+    spec: 'Including 101 card, 76 card, First Aid card, etc.',
+    now: 'Today: CAP ID card and a current CAPF 101 card, plus any first aid card. The CAPF 76 radio card is no longer issued.' },
+  { group: 'On your person', item: 'Watch', req: 'T' },
+  { group: 'On your person', item: 'Handkerchief or tissues', req: 'GTM' },
+  { group: 'On your person', item: 'Vest, reflective, orange', req: 'T' },
+  { group: 'On your person', item: 'Comb or brush', req: 'T', conditional: true, spec: 'Optional, carry if needed.' },
+  { group: 'On your person', item: 'Ground Team Member’s Handbook', req: 'GTM', now: 'The Ground & UDF Team Task Guide itself.' },
+  { group: 'On your person', item: 'Signal mirror', req: 'GTM' },
+  { group: 'On your person', item: 'Pocket or utility knife', req: 'T',
+    spec: 'Multipurpose with can opener. Swiss Army, Leatherman or Gerber tools are recommended.' },
+  { group: 'On your person', item: 'Whistle', req: 'rec',
+    now: 'Not in the national O-0001 list, but used in Task O-0406 (whistle signals) and added by many wing lists.' },
+
+  // Container
+  { group: 'Pack', item: 'Day pack, webbed gear or SAR/survival vest', req: 'T',
+    spec: 'Preferably red or orange. Holds every item below.' },
+  { group: 'Pack', item: 'Two meals', req: 'T' },
+  { group: 'Pack', item: 'Shelter material', req: 'GTM', spec: 'Preferably 8 ft by 10 ft. A spare military poncho meets the need.' },
+  { group: 'Pack', item: 'Coat for the climate', req: 'T', conditional: true, spec: 'If necessary. In the pack when not worn.' },
+  { group: 'Pack', item: 'Poncho', req: 'T' },
+  { group: 'Pack', item: 'Canteens for 2 quarts of water', req: 'T',
+    spec: 'At least one quart of water must be carried by all personnel. Some wings require one quart on the belt.' },
+  { group: 'Pack', item: 'Compass in a pouch', req: 'GTM',
+    spec: 'Lensatic or orienteering (orienteering preferred), glow-in-the-dark dial.' },
+
+  // First aid kit
+  { group: 'First aid kit', item: 'Waterproof first aid kit', req: 'GTM', spec: 'In a zip-lock bag or other waterproof container.' },
+  { group: 'First aid kit', item: 'Antiseptic cleansing pads (2)', req: 'GTM' },
+  { group: 'First aid kit', item: 'Antiseptic ointment', req: 'GTM' },
+  { group: 'First aid kit', item: 'Band-Aids, various sizes (6)', req: 'GTM' },
+  { group: 'First aid kit', item: 'Moleskin, 2 in by 4 in', req: 'GTM' },
+  { group: 'First aid kit', item: 'Roller bandage', req: 'GTM' },
+  { group: 'First aid kit', item: 'Safety pins, large (2)', req: 'GTM' },
+  { group: 'First aid kit', item: 'Gauze pads (4)', req: 'GTM' },
+  { group: 'First aid kit', item: 'Triangular bandage (1)', req: 'GTM' },
+  { group: 'First aid kit', item: 'First aid tape', req: 'GTM' },
+  { group: 'First aid kit', item: 'Personal medication', req: 'T', conditional: true,
+    spec: 'Any personal medication. Your team leader should know what you have and where you carry it.' },
+  { group: 'First aid kit', item: 'Rubber surgical gloves (2 pair minimum)', req: 'GTM' },
+
+  // Survival kit
+  { group: 'Survival kit', item: 'Waterproof survival kit bag', req: 'GTM', spec: 'In a zip-lock bag or other waterproof container.' },
+  { group: 'Survival kit', item: 'Duct tape, 5 to 10 ft', req: 'GTM', spec: 'Need not be a whole roll; may be wrapped around a stick.' },
+  { group: 'Survival kit', item: 'Leaf bag, large', req: 'GTM' },
+  { group: 'Survival kit', item: 'Wooden waterproofed matches (12)', req: 'T',
+    now: 'Check the activity’s rules first; some cadet activities do not allow matches.' },
+  { group: 'Survival kit', item: 'Waterproof match container with striker', req: 'GTM' },
+  { group: 'Survival kit', item: 'Chemical light stick, green (1)', req: 'T' },
+  { group: 'Survival kit', item: 'Nylon line, 50 ft', req: 'GTM', spec: 'Paracord or similar.' },
+
+  // SAR equipment
+  { group: 'SAR equipment', item: 'Change of socks', req: 'T', spec: 'SAR items stored in zip-lock bags.' },
+  { group: 'SAR equipment', item: 'Flagging tape (1 roll)', req: 'GTM' },
+  { group: 'SAR equipment', item: 'Flashlight, red or blue lens', req: 'GTM', spec: 'With spare bulb and batteries.' },
+  { group: 'SAR equipment', item: 'Spare flashlight', req: 'T', spec: 'A penlight will do.' },
+  { group: 'SAR equipment', item: 'Insect repellent', req: 'GTM' },
+  { group: 'SAR equipment', item: 'Lip balm with sunscreen', req: 'GTM' },
+  { group: 'SAR equipment', item: 'Sunscreen lotion', req: 'GTM' },
+  { group: 'SAR equipment', item: 'Tissue paper', req: 'T' },
+  { group: 'SAR equipment', item: 'Work gloves, leather', req: 'T' },
+  { group: 'SAR equipment', item: 'Interviewing forms, blank', req: 'GTM', now: 'CAPF 106.' },
+  { group: 'SAR equipment', item: 'Moist towelettes in foil (4)', req: 'GTM' },
+  { group: 'SAR equipment', item: 'Cell phone to call mission base', req: 'T',
+    spec: 'The guide also allows change for phone calls or a calling card.', now: 'Charged, with mission base number saved.' },
+
+  // Leader's equipment
+  { group: 'Leader’s equipment', item: 'Protractor for map work', req: 'GTL' },
+  { group: 'Leader’s equipment', item: 'Map case', req: 'GTL', spec: 'Large zip-lock bags can be used if necessary.' },
+  { group: 'Leader’s equipment', item: 'Pencil with eraser', req: 'GTL', spec: 'Plus a sharpener if not a mechanical pencil.' },
+  { group: 'Leader’s equipment', item: 'Alcohol pens, fine tip, 2 colors', req: 'GTL', spec: 'Neither the color of your flashlight lens.' },
+  { group: 'Leader’s equipment', item: 'Way to erase alcohol pen marks', req: 'GTL', spec: 'Alcohol swabs or an alcohol pen eraser.' },
+  { group: 'Leader’s equipment', item: 'Straightedge ruler, 6 in or longer', req: 'GTL', spec: 'Some protractors have one.' },
+  { group: 'Leader’s equipment', item: 'Ground Team Leader Handbook', req: 'GTL' },
+
+  // O-0001 performance measures 3 and 4 (checked with the pack worn)
+  { group: 'Worn checks', item: 'Pack secure when worn', req: 'T',
+    spec: 'No undue shifting, snagging or movement. Nothing flapping loose to snag in brush or bang against the body (O-0001 measure 3).' },
+  { group: 'Worn checks', item: 'Knives approved and worn correctly', req: 'T',
+    spec: 'Sheath knife only if the team leader authorizes it: blade 6 in or less, 11 in overall, on the pistol belt or in the pack. Not allowed: boot, butterfly, switchblade, double-edged, "Rambo" survival knives, or retracting sheaths (O-0001 measure 4).' },
+];
+
+export const GROUPS = Array.from(new Set(PACK.map(p => p.group)));
+
+export const isRequired = (p: PackItem, lvl: InspectionLevel) => p.req !== 'rec' && lvl.includes.includes(p.req);
+export const requiredItems = (lvl: InspectionLevel) => PACK.map((p, i) => ({ p, i })).filter(({ p }) => isRequired(p, lvl));
+
+// O-0001: "All required items must be present... No exceptions or substitutions."
+// The tool also requires each present item to be serviceable (Ready); Refit does not pass.
+export const tally = (lvl: InspectionLevel, r: Record<number, Rating>) => {
+  const req = requiredItems(lvl);
+  const counted = req.filter(({ i }) => r[i] !== 'NA');
+  return {
+    need: counted.length,
+    ready: counted.filter(({ i }) => r[i] === 'Ready').length,
+    rated: req.filter(({ i }) => r[i]).length,
+    total: req.length,
+  };
+};
+
+// The 4 R's (Task O-0002): Missing items are replenished, Refit items repaired or restocked.
+export const refitList = (lvl: InspectionLevel, r: Record<number, Rating>) => {
+  const req = requiredItems(lvl);
+  return {
+    replenish: req.filter(({ i }) => r[i] === 'Missing').map(({ p }) => p),
+    repair: req.filter(({ i }) => r[i] === 'Refit').map(({ p }) => p),
+  };
+};
+
+export const MIN_FEEDBACK_WORDS = 5;
+export const wordCount = (t: string) => (t.trim().match(/\S+/g) || []).length;
+
+export const CAP_COLORS = { blue: '#001489', red: '#BA0C2F', body: '#4D4D4D' };
+
+// Task O-0002 "Conduct Individual Refit" (31-JAN-01): the 4 R's, in order.
+export const REFIT_STEPS = [
+  { r: 'Replenish', text: 'Restock anything missing or used: food, water, batteries and medical supplies first. After a mission, buy replacements before the next alert.' },
+  { r: 'Repair', text: 'Inspect every item and fix what you can in the field. After a mission, also clean the uniform and gear, dry tents and air out sleeping bags.' },
+  { r: 'Repack', text: 'Pack so you can leave at a moment’s notice.' },
+  { r: 'Rest', text: 'Rest only after the gear is ready. Alerts can come within hours.' },
+];

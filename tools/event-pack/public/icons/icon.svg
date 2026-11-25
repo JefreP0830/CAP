@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Event Pack Inspection app icon: a day pack with a gold top strap, on CAP Ultramarine.
+       Generic mark; not a CAP official emblem. Same style as the other CAP Tools icons. -->
+  <rect width="512" height="512" rx="96" fill="#001489"/>
+  <path d="M206 132 Q206 100 256 100 Q306 100 306 132" fill="none" stroke="#FFCD00" stroke-width="22" stroke-linecap="round"/>
+  <rect x="146" y="132" width="220" height="282" rx="56" fill="#FFFFFF"/>
+  <rect x="186" y="286" width="140" height="92" rx="18" fill="#001489"/>
+  <rect x="186" y="286" width="140" height="22" rx="8" fill="#001489"/>
+  <rect x="200" y="300" width="112" height="64" rx="10" fill="#FFFFFF"/>
+</svg>
