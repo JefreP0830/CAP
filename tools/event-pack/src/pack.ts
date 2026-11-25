@@ -40,7 +40,7 @@ export const MODES: { id: Mode; label: string; hint: string }[] = [
 export const modeLabel = (m: Mode) => MODES.find(x => x.id === m)!.label;
 
 export const LEVELS: InspectionLevel[] = [
-  { id: 'EV', mode: 'Event', name: 'Event', who: 'Safety items for a day activity of 8 to 10 hours.', includes: ['T'], packs: ['event'],
+  { id: 'EV', mode: 'Event', name: 'Event', who: 'Base safety standard for a day activity of 8 to 10 hours. Add items for weather or event conditions.', includes: ['T'], packs: ['event'],
     source: 'Day-activity safety list, drawn from O-0001; not a CAP-published standard' },
   { id: 'GTM', mode: '24', name: 'Ground Team Member', who: 'Every 24-hour pack item. Qualified GTMs and anyone signing off Task O-0001.', includes: ['T', 'GTM'], packs: ['24'] },
   { id: 'GTL', mode: '24', name: 'Ground Team Leader', who: 'Every 24-hour pack item plus the leader’s equipment.', includes: ['T', 'GTM', 'GTL'], packs: ['24'] },
@@ -166,23 +166,18 @@ export const PACK: PackItem[] = [
   { pack: 'ext', group: 'Worn checks, extended pack', item: 'Extended pack secure when worn', req: 'T',
     spec: 'With the 24-hour pack stowed, worn or secured, items are secure from undue shifting or movement (O-0001 measure 5).' },
 
-  // Event pack (8-10 hours): safety items only. A pragmatic cut drawn from O-0001, not a CAP-published list.
-  // Leaves out what a day activity does not need for safety: fire starting, light stick, knife, work gloves,
-  // notepad, watch (phone covers it), comb, tissues.
+  // Event pack (8-10 hours): base safety standard only. A pragmatic cut drawn from O-0001, not a CAP-published list.
+  // No clothing spares (members change at home after a day event). Weather or event conditions
+  // (rain gear, warm layer, sun and bugs, reflective vest) are added per event, not part of the base.
   { pack: 'event', group: 'On your person', item: 'CAP ID and CAPF 101 card', req: 'T' },
   { pack: 'event', group: 'On your person', item: 'Cell phone, charged', req: 'T' },
   { pack: 'event', group: 'On your person', item: 'Whistle', req: 'T' },
-  { pack: 'event', group: 'On your person', item: 'Reflective vest, near roads or after dark', req: 'T', conditional: true },
   { pack: 'event', group: 'Pack', item: 'Day pack', req: 'T' },
   { pack: 'event', group: 'Pack', item: 'Water, 2 quarts', req: 'T' },
   { pack: 'event', group: 'Pack', item: 'Meal and snacks for the day', req: 'T' },
-  { pack: 'event', group: 'Pack', item: 'Rain gear', req: 'T', sub: 'poncho' },
-  { pack: 'event', group: 'Pack', item: 'Warm layer for the weather', req: 'T', conditional: true },
-  { pack: 'event', group: 'Pack', item: 'Change of socks', req: 'T' },
   { pack: 'event', group: 'Pack', item: 'Flashlight', req: 'T', sub: 'headlamp' },
   { pack: 'event', group: 'First aid kit', item: 'Personal first aid kit', req: 'T', sub: 'bandages, moleskin and gloves in a zip-lock bag' },
   { pack: 'event', group: 'First aid kit', item: 'Personal medication', req: 'T', conditional: true },
-  { pack: 'event', group: 'First aid kit', item: 'Sunscreen and insect repellent', req: 'T', conditional: true },
 ];
 
 export const GROUPS = Array.from(new Set(PACK.map(p => p.group)));

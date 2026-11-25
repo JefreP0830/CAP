@@ -1,5 +1,11 @@
 # Event Pack Inspection changelog (tools/event-pack)
 
+## 2026.11.25g
+
+- EVENT is the base standard only (9 items): CAP ID and 101 card, charged cell phone, whistle, day pack, 2 quarts of water, meal and snacks, flashlight, personal first aid kit, personal medication (if needed).
+- Removed from Event: change of socks (no clothing spares for a day event; members change at home), rain gear, warm layer, sunscreen and insect repellent, reflective vest (added per event for weather or conditions).
+- Spare clothing stays in MULTI-DAY.
+
 ## 2026.11.25f
 
 - EVENT ( 8-10 Hrs ) is now a 14-item day-activity safety list, separate from the 24-hour pack: CAP ID and 101 card, charged cell phone, whistle, reflective vest near roads or after dark (N/A otherwise), day pack, 2 quarts of water, meal and snacks, rain gear, warm layer (if needed), change of socks, flashlight, personal first aid kit, personal medication (if needed), sunscreen and insect repellent (if needed).
